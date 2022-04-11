@@ -1,0 +1,63 @@
+.customer-reviews {
+  background: color(bg-color-F5F5F5);
+  padding: 80px 0;
+  h1 {
+    font-weight: bold;
+    font-size: $default-font-size-large-38;
+    color: color(affina-blue);
+  }
+  span.brief {
+    font-size: $default-font-size-large-18;
+    color: color(affina-color);
+  }
+  .slick-slider {
+    margin-top: $space-largest;
+    .slick-slide img {
+      margin: auto;
+    }
+    .slick-list {
+      .slider-item {
+        margin: 0 42px;
+        background: $white;
+        border-radius: $button-border-radius;
+        padding: $button-border-radius;
+        nav{
+            div.navbar-collapse{
+                font-size: $default-font-size-12;
+            }
+        }
+        span.title {
+          color: color(affina-blue);
+          font-weight: bold;
+          font-size: $btn-font-size;
+        }
+        span.description {
+          color: color(affina-color);
+        }
+        span.author {
+          color: color(color_262626);
+          font-size: $default-font-size-12;
+        }
+      }
+    }
+  }
+  .slick-dots {
+    bottom: -65px;
+    li {
+      button:before {
+        font-size: 0.5rem !important;
+      }
+    }
+    li.slick-active {
+      button:before {
+        color: $secondary !important;
+      }
+    }
+  }
+  a.review-all {
+    font-weight: 500;
+    font-size: $default-font-size-medium;
+    color: color(color_262626);
+    margin-top: 100px;
+  }
+}

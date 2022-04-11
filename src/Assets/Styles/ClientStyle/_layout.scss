@@ -1,0 +1,166 @@
+body {
+  font-size: $default-font-size;
+  font-family: $fontMain;
+  color: color(affina-color);
+  .loading-page {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url("https://upload.wikimedia.org/wikipedia/commons/5/54/Ajux_loader.gif");
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: color(white);
+  }
+  .text-left {
+    text-align: left;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .cursor-pointer{
+    cursor: pointer;
+  }
+}
+.line-default {
+  border-bottom: 1px solid RGBA(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 4rem 0px;
+}
+.line-solid {
+  border-bottom: 1px solid;
+}
+.line-dotted {
+  border-bottom: 1px dotted color(color-e6e6e6);
+}
+.line-dashed {
+  border-bottom: 1px dashed;
+}
+.line-e6e6e6 {
+  border-bottom-color: color(color-e6e6e6);
+}
+.line-white {
+  border-bottom-color: color(color-white);
+}
+.reset-padding-horizontal {
+  padding-left: 0;
+  padding-right: 0;
+}
+.reset-padding-right {
+  padding-right: 0;
+}
+.reset-padding-left {
+  padding-left: 0;
+}
+
+.privacy-policy,
+.term-conditions {
+  margin: 2rem auto;
+  h4 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    letter-spacing: 1px;
+    font-weight: normal;
+  }
+}
+.btn-lg {
+  padding: 1rem 6rem !important;
+}
+.btn-md {
+  padding: 1rem 3rem !important;
+  @media (max-width: 360px) {
+    padding: 0.5rem 1rem !important;
+  }
+}
+.btn-sm {
+  padding: 0.75rem 2rem !important;
+  @media (max-width: 360px) {
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+.btn-outline-blue {
+  background: color(white);
+  color: color(affina-blue);
+  font-size: $default-font-size-large-18;
+  border-radius: $button-border-radius-large;
+  border: 1px solid color(affina-blue);
+  @media (max-width: 360px) {
+    font-size: 0.75rem;
+  }
+  &.outline-blue-active,
+  &:hover {
+    background: color(affina-blue);
+    color: color(white);
+    border: 1px solid color(white);
+  }
+}
+.btn-blue {
+  background: color(affina-blue);
+  color: color(white);
+  font-size: $default-font-size-large-18;
+  border-radius: $button-border-radius-large;
+  border: 1px solid color(white);
+  @media (max-width: 360px) {
+    font-size: 0.75rem;
+  }
+  &:hover {
+    background: color(white);
+    color: color(affina-blue);
+    border: 1px solid color(affina-blue);
+  }
+}
+.btn-pink {
+  background: color(white);
+  color: color(color-ff52db);
+  font-size: $default-font-size-large-18;
+  border-radius: $button-border-radius-large;
+  border: 1px solid color(color-ff52db);
+  @media (max-width: 360px) {
+    font-size: 0.75rem;
+  }
+  &.outline-pink-active,
+  &:hover {
+    background: color(color-ff52db);
+    color: color(white);
+    border: 1px solid color(white);
+
+    img{
+      filter: brightness(0) invert(1);
+    }
+  }
+}
+
+.btn-grey {
+  background: color(color-dddddd);
+  color: color(white);
+  font-size: $default-font-size-large-18;
+  border-radius: $button-border-radius-large;
+  border: 1px solid color(color-dddddd);
+  @media (max-width: 360px) {
+    font-size: 0.75rem;
+  }
+  // &:hover {
+  //   background: color(color-ff52db);
+  //   color: color(white);
+  //   border: 1px solid color(white);
+  // }
+}
+.background-gradient-to-bottom {
+  background: linear-gradient(to bottom, #ff52db, #095efb);
+  background-clip: padding-box;
+}
+.img-white{
+  filter: brightness(0) invert(1);
+}
+

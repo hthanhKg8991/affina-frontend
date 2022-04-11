@@ -1,0 +1,12 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^(.*) /index.html [NC,L]	
+<IfModule mod_headers.c>
+<FilesMatch ".(js|css|xml)$">
+	Header set Cache-Control "max-age=604800, public"
+	Header append Vary: Accept-Encoding
+</FilesMatch>
+</IfModule>

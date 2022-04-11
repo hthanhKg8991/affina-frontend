@@ -7,14 +7,18 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Sản phẩm mà Affina thiết kế sẽ là sản phẩm bảo hiểm đơn giản, dễ hiểu nhất. Affina cam kết đem đến cho khách hàng sự tư vấn rõ ràng nhất về quyền lợi, phí và dịch vụ của các nhà bảo hiểm. Affina cam kết đem đến cho khách hàng sự tư vấn rõ ràng nhất về quyền lợi, phí và dịch vụ của các nhà bảo hiểm. "
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <meta property="og:image" content="http://affina.vn/static/media/background-home@2x.a0913463af80a0df2725.webp" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720"; />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"/> -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -24,11 +28,45 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <!-- <script src="../src/Assets/js/odometer.min.js"></script> -->
+    <title>Affina - Giải pháp bảo hiểm sức khỏe đơn giản nhất</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "109947848319760");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+    <!-- Your SDK code -->
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "109947848319760");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+    <!-- Your SDK code -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v13.0'
+        });
+      };
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

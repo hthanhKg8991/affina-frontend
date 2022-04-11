@@ -1,0 +1,60 @@
+.main-footer {
+  .logo-footer {
+    margin-bottom: $space-vertical-large;
+  }
+  .footer-info {
+    .navbar-text {
+      color: color(affina-color);
+      font-weight: normal;
+      .line-vertical{
+        color: color(color-666666);
+        margin: 0 0.3rem;
+      }
+    }
+  }
+  .nav {
+    .nav-item {
+      padding: 8px 0;
+      a {
+        color: color(color_262626);
+        font-weight: normal;
+      }
+    }
+    .social-media {
+      margin-left: -$space-vertical-medium;
+      .nav-item {
+        margin: 0 8px;
+        .mdi {
+          font-size: $navbar-icon-font-size;
+        }
+        &:hover {
+          .mdi {
+            color: color(affina-blue);
+          }
+        }
+      }
+    }
+  }
+  .footer {
+    h5 {
+      color: color(color_262626);
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+    }
+  }
+  .end-of-page {
+    p {
+      color: color(affina-555555);
+      font-size: 0.813rem;
+      font-weight: normal;
+    }
+  }
+  .privacy-policy-term-conditions {
+    a {
+      color: color(affina-blue) !important;
+      text-decoration: underline;
+      margin: 0 0.5rem;
+    }
+  }
+}

@@ -1,0 +1,343 @@
+import moment from 'moment';
+import React from 'react';
+import { Container, Image, Row, Stack } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import accessStyle from '../../../Assets';
+import { formatPrepaidAmount, genderByText, isBillingByText } from '../../../Common/Helper';
+import Line from '../../../Common/Line';
+import { createOrder } from '../../../Reducers/Insurance/PackagesRedux';
+import { handleCurrentStep } from '../../../Reducers/Insurance/StepRedux';
+import CommonButtonInsurance from './CommonButtonInsurance';
+
+const BuyInsurancePersonalStep3PreviewComponent = (props) => {
+    const dispatch = useDispatch();
+    // 
+    const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
+    const { step1, step2, step3 } = dataStep;
+    console.log('BuyInsurancePersonalStep3PreviewComponent:', step3);
+    const handleEditStep = (object) => {
+        dispatch(
+            handleCurrentStep(object)
+        )
+        props.handleButtonGoBack && props.handleButtonGoBack(2)
+    }
+    const handleContinue = () => {
+        dispatch(createOrder({
+            "sale": {
+                "partner": "",
+                "region": "",
+                "area": "",
+                "employee_unit": "",
+                "employee_code": "",
+                "staff_name": ""
+            },
+            "contract_cate": {
+                "contract_num": "",
+                "group_code": "",
+                "partner_code": "",
+                "cus_source": ""
+            },
+            "product_package": {
+                "cus_type": "Individual",
+                "package": "B.One B3",
+                "quantily": "",
+                "fee_primary_package": "",
+                "fee_additional_package_5": "",
+                "fee_additional_package_6": "",
+                "fee_additional_package_7": "",
+                "fee_additional_package_8": "",
+                "total_insurance_fee": "",
+                "total_group_insurance_fee": ""
+            },
+            "contract_detail": {
+                "effective_date": "",
+                "end_date": "",
+                "duration": "",
+                "create_date": "",
+                "update_date": "",
+                "first_date_confirm": ""
+            },
+            "insured_info": {
+                "fullname": step3.name,
+                "dob": "",
+                "gender": step1.gender,
+                "id_card": "",
+                "phone": step3.phone,
+                "email": step3.email,
+                "address": step3.address,
+                "city": step3.province.name,
+                "district": step3.district.name,
+                "note": ""
+            },
+            "insurance_buyer": {
+                "fullname": "",
+                "relationship": "",
+                "id_card": "",
+                "phone": "",
+                "email": step3.email,
+                "phone_consultant": "",
+                "note": ""
+            },
+            "insurance_fee": {
+                "pecent_discount_original": "",
+                "price_discount_original": "",
+                "pecent_discount_camp1": "",
+                "price_discount_camp1": "",
+                "id_camp1": "",
+                "code_discount_camp2": "",
+                "price_discount_camp2": "",
+                "id_camp2": "",
+                "total_fee_after_discount": ""
+            },
+            "commission": {
+                "commission": "",
+                "fee_after_commission": "",
+                "fee_after_commission_discount": ""
+            },
+            "contract_status": "GD đang chờ"
+        }))
+        props.handleButtonContinue && props.handleButtonContinue();
+    }
+    return (
+        <div className='insurance-content-step3-preview'>
+            <h5>Kiểm tra lại thông tin </h5>
+            <div className='group-info'>
+                <div className='header'>
+                    <Container>
+                        <Container>
+                            <Stack direction='horizontal'>
+                                <div className='icon-header'>
+                                    <Image
+                                        src={accessStyle.images.icons.user}
+                                        srcSet={`
+                                            ${accessStyle.images.icons.user2x} 2x, 
+                                            ${accessStyle.images.icons.user3x} 3x
+                                        `}
+                                        alt="Logo Affina"
+                                        width={19}
+                                        height={22}
+                                    />
+                                </div>
+                                <div className='title-header'>
+                                    <h3>THÔNG TIN NGƯỜI ĐƯỢC BẢO HIỂM</h3>
+                                </div>
+                                <div className='ms-auto'>
+                                    <Image
+                                        src={accessStyle.images.icons.edit}
+                                        srcSet={`
+                                            ${accessStyle.images.icons.edit2x} 2x, 
+                                            ${accessStyle.images.icons.edit3x} 3x
+                                        `}
+                                        alt="Logo Affina"
+                                        width={19}
+                                        height={22}
+                                    />
+                                </div>
+                            </Stack>
+                        </Container>
+                    </Container>
+                </div>
+                <Container className='insurance-info text-left'>
+                    <Container>
+                        <section className='list-info'>
+                            <Row>
+                                <div className="col">
+                                    <p className='title-info'>Họ và tên</p>
+                                    <strong>{step3.name}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Giới tính</p>
+                                    <strong>{genderByText(step1.gender)}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Ngày sinh</p>
+                                    <strong>{moment(step1.birthday).format('DD/MM/YYYY')}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Số CMND / CCCD / Passport</p>
+                                    <strong>{step3.identity}</strong>
+                                </div>
+                            </Row>
+                            <Line type="solid" />
+                            <Row>
+                                <div className="col">
+                                    <p className='title-info'>Địa chỉ</p>
+                                    <strong>{step3.address}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Phường</p>
+                                    <strong>{step3.ward.name}</strong>
+                                </div>
+                                <div className="col">
+                                    <p>Quận/Huyện</p>
+                                    <strong>{step3.district.name}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Thành phố</p>
+                                    <strong>{step3.province.name}</strong>
+                                </div>
+                            </Row>
+                            <Line type="solid" />
+                            <Row>
+                                <div className="col">
+                                    <p className='title-info'>Số điện thoại</p>
+                                    <strong>{step3.phone}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Email</p>
+                                    <strong>{step3.email}</strong>
+                                </div>
+                                <div className="col">
+                                </div>
+                                <div className="col">
+                                </div>
+                            </Row>
+                            <Line type="solid" />
+                            <div className='table-footer'>Yêu cầu xuất hoá đơn đỏ: <strong>{isBillingByText(step3.requireBilling)}</strong></div>
+                        </section>
+                    </Container>
+                </Container>
+            </div>
+            <div className='group-info'>
+                <div className='header'>
+                    <Container>
+                        <Container>
+                            <Stack direction='horizontal'>
+                                <div className='icon-header'>
+                                    <Image
+                                        src={accessStyle.images.icons.security}
+                                        srcSet={`
+                                            ${accessStyle.images.icons.security2x} 2x, 
+                                            ${accessStyle.images.icons.security3x} 3x
+                                        `}
+                                        alt="Logo Affina"
+                                        width={19}
+                                        height={22}
+                                    />
+                                </div>
+                                <div className='title-header'>
+                                    <h3>THÔNG TIN GÓI BẢO HIỂM</h3>
+                                </div>
+                                <div className='ms-auto'>
+                                    <Image
+                                        src={accessStyle.images.icons.edit}
+                                        srcSet={`
+                                            ${accessStyle.images.icons.edit2x} 2x, 
+                                            ${accessStyle.images.icons.edit3x} 3x
+                                        `}
+                                        onClick={() => handleEditStep({ currentStep: 2, holdStep: 2 })}
+                                        alt="Icon edit"
+                                        width={19}
+                                        height={22}
+                                    />
+                                </div>
+                            </Stack>
+                        </Container>
+                    </Container>
+                </div>
+                <Container className='insurance-info text-left'>
+                    <Container>
+                        <section className='list-info'>
+                            <Row>
+                                <div className="col">
+                                    <p className='title-info'>Nhà bảo hiểm</p>
+                                    <strong>{step2.packageName}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Tên gói</p>
+                                    <strong>B4</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Giá trị gói</p>
+                                    <strong>{formatPrepaidAmount(step2.price)}VNĐ</strong>
+                                </div>
+                                <div className="col"></div>
+                            </Row>
+                            <Line type="solid" />
+                            <Row>
+                                <div className="col">
+                                    <p className='title-info'>Ngày bắt đầu bảo hiểm</p>
+                                    <strong>{moment(step3.startDay).format('DD/MM/YYYY')}</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Thời gian hiệu lực</p>
+                                    <strong>{step3.timeExpire.value}</strong>
+                                </div>
+                                <div className="col">
+                                </div>
+                                <div className="col"></div>
+                            </Row>
+                            <Line type="solid" />
+                            <Row>
+                                <div className="col">
+                                    <p className='title-info'>Quyền lợi chính</p>
+                                    <div className='sub-info-insure'>
+                                        <strong className='benefits-title'>1. Tử vong, thương tật toàn bộ Vĩnh viễn
+                                            do tai nạn</strong>
+                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
+                                    </div>
+                                    <div className='sub-info-insure'>
+                                        <strong className='benefits-title'>2. chi phí y tế do tai nạn</strong>
+                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
+                                    </div>
+                                    <div className='sub-info-insure'>
+                                        <strong className='benefits-title'>3. Tử vong, thương tật toàn bộ Vĩnh viễn
+                                            do bệnh</strong>
+                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
+                                    </div>
+                                    <div className='sub-info-insure'>
+                                        <strong className='benefits-title'>4. Điều trị nội trú phẫu thuật do bệnh</strong>
+                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
+                                    </div>
+
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Quyền lợi bổ sung </p>
+                                    <div className='sub-info-insure'>
+                                        <strong className='benefits-title'>1. NGoại trú</strong>
+                                        <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>6.000.000VNĐ</p>
+                                    </div>
+                                    <div className='sub-info-insure'>
+                                        <strong className='benefits-title'>2. nha khoa</strong>
+                                        <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>6.000.000VNĐ</p>
+                                    </div>
+                                    <div className='sub-info-insure'>
+                                        <strong className='benefits-title'>4. bệnh hiểm nghèo</strong>
+                                        <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>6.000.000VNĐ</p>
+                                    </div>
+                                </div>
+                            </Row>
+                            <Line type="solid" />
+                            <Row>
+                                <div className="col">
+                                    <p className='title-info'>Phí gói chính</p>
+                                    <strong>{formatPrepaidAmount(step2.fee)}VNĐ</strong>
+                                </div>
+                                <div className="col">
+                                    <p className='title-info'>Tổng phí gói phụ</p>
+                                    <strong>{0}VNĐ</strong>
+                                </div>
+                                <div className="col"></div>
+                                <div className="col">
+                                    <div className='total'>TỔNG: <strong>{formatPrepaidAmount(step2.price)}VNĐ</strong></div>
+
+                                </div>
+                            </Row>
+                            <Line type="solid" />
+                        </section>
+                    </Container>
+                </Container>
+            </div>
+            <CommonButtonInsurance
+                textButtonGoBack='QUAY LẠI'
+                textButtonContinue='TIẾP TỤC'
+                // validate={validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward])}
+                validate={false}
+                handleButtonGoBack={props.handleButtonGoBack}
+                handleButtonContinue={handleContinue}
+            />
+        </div>
+    )
+}
+
+export default BuyInsurancePersonalStep3PreviewComponent

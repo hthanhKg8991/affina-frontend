@@ -1,0 +1,50 @@
+@import '~react-datepicker/dist/react-datepicker.css';
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+@import  "../Styles/variables";
+@import "~compass-mixins/lib/compass";
+@import "~bootstrap/scss/bootstrap";
+@import "../Styles/fonts";
+@import "../Styles/functions";
+
+/* === Icon fonts === */
+@import "~@mdi/font/scss/materialdesignicons";
+
+/* === Template mixins === */
+@import "../Styles/mixins/cards";
+@import "../Styles/mixins/color-functions";
+
+
+/* === Components === */
+@import "../Styles/components/forms";
+@import "../Styles/components/checkbox-radio";
+@import "../Styles/components/cards";
+@import "../Styles/components/tables";
+@import "../Styles/components/buttons";
+@import "../Styles/components/bootstrap-progress";
+@import "../Styles/components/dropdowns";
+@import "../Styles/components/auth";
+
+
+/* === Plugin Overrides === */
+@import "../Styles/components/plugin-overrides/date-picker";
+
+
+
+
+
+/* === Core Styles === */
+@import "../Styles/typography";
+@import  "../Styles/reset";
+@import  "../Styles/responsive";
+@import  "../Styles/misc";
+@import "../Styles/utilities";
+
+/* === Core Styles === */
+
+@import  "../Styles/navbar";
+@import  "../Styles/sidebar";
+@import  "../Styles/layout";
+@import  "../Styles/footer";

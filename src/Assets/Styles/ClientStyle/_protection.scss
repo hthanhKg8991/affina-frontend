@@ -1,0 +1,424 @@
+.protection {
+  margin-top: $space-max-largest;
+  margin-bottom: $space-max-72;
+  background: url("../../../Assets/Images/public/pattern-bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @media screen and (max-width: 991px) {
+    margin-top: 2.5rem;
+  }
+  h1 {
+    padding-top: $space-max-137;
+    font-size: $font-size-max;
+    font-weight: bold;
+    // line-height: $line-height-max;
+    margin-bottom: $space-max-47;
+    background: linear-gradient(to right, #095efb 0%, #ff52db 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    @media (max-width: 1199.98px) {
+      font-size: 4rem;
+    }
+    @media screen and (max-width: 991px) {
+      font-size: 2.5rem;
+    }
+    @media screen and (max-width: 767px) {
+      font-size: 2rem;
+      padding-top: 6.563rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 575.98px) {
+      font-size: 1.8rem;
+      padding-top: 4.563rem;
+    }
+  }
+  .navbar-text {
+    font-size: $navbar-icon-font-size;
+    @media screen and (max-width: 991px) {
+      font-size: 1rem;
+    }
+    @media (max-width: 575.98px) {
+      font-size: 0.8rem;
+    }
+  }
+  .check-our-price {
+    margin-top: $space-largest;
+    padding-bottom: $space-max-129;
+    .btn {
+      background: color(affina-blue);
+      color: color(white);
+      font-size: $default-font-size-large-18;
+      border-radius: $button-border-radius-large;
+      padding: 1rem 6rem !important;
+    }
+    @media screen and (max-width: 991px) {
+      padding-bottom: 5.7rem;
+    }
+    @media screen and (max-width: 767px) {
+      padding-bottom: 3.7rem;
+      margin-top: 3rem;
+    }
+  }
+}
+
+.trusted-by-top-leading {
+  margin: 2.5rem 0;
+  .header-text {
+    color: color(color-a3a3a3);
+    margin-bottom: 2.18rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: $default-font-size;
+  }
+  .slick-slider {
+    .slick-list {
+      .slick-track {
+        .slick-slide {
+          .slider-item {
+            padding-bottom: 1rem;
+            img {
+              filter: grayscale(100%);
+              opacity: 40%;
+              margin: 0 auto;
+              cursor: pointer;
+              &:hover {
+                filter: none;
+                opacity: 1;
+              }
+            }
+          }
+        }
+        .slick-current {
+          .slider-item {
+            img {
+              filter: none;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.our-protect-solution {
+  .header-text {
+    color: color(color-a3a3a3);
+    margin-top: $space-largest;
+    margin-bottom: 1.25rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: $default-font-size;
+  }
+  h2 {
+    font-size: 2.375rem; //38
+    color: color(affina-blue);
+    margin-bottom: 6.25rem; //100
+  }
+  .our-protect-item {
+    align-items: center;
+    //width: 50vw;
+    margin: auto;
+
+    position: relative;
+    box-sizing: border-box;
+
+    $border: 1px;
+    color: #fff;
+    background: color(white);
+    background-clip: padding-box; /* !importanté */
+    border: solid $border transparent; /* !importanté */
+    border-radius: 1em;
+    padding: 1.75rem;
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      margin: -$border; /* !importanté */
+      border-radius: inherit; /* !importanté */
+      // background: linear-gradient(to right, #095efb, #ff52db);
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1)
+      );
+    }
+    .image-show-hover {
+      opacity: 0;
+      position: absolute;
+      top: 1.75rem;
+      left: 1.75rem;
+    }
+    &:hover {
+      background: color(white);
+      background-clip: padding-box;
+      &:before {
+        background: linear-gradient(to right, #095efb, #ff52db);
+      }
+      .image-show-hover {
+        opacity: 1 !important;
+      }
+    }
+    .our-protect-head {
+      text-align: left;
+    }
+    .our-protect-body {
+      margin-top: 3.75rem;
+      text-align: left;
+      .text-muted {
+        letter-spacing: 1px;
+        color: color(color-a3a3a3) !important;
+        text-transform: uppercase;
+        font-weight: 500;
+        padding-bottom: 0 !important;
+      }
+      .end-of-page {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      .navbar-text,
+      i {
+        font-size: 1.5rem;
+        color: color(affina-blue);
+        font-weight: 600;
+        padding-bottom: 0 !important;
+      }
+    }
+  }
+  .col-md-4 {
+    margin-bottom: 3.75rem;
+    img {
+    }
+  }
+}
+
+.not-sure-choose {
+  > .header-text {
+    color: color(color-a3a3a3);
+    margin-top: $space-largest;
+    margin-bottom: 1.25rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: $default-font-size-medium;
+  }
+  .meet-your-insurance-assistant {
+    .btn {
+      background: color(affina-blue);
+      color: color(white);
+      font-size: $default-font-size-large-18;
+      border-radius: $button-border-radius-large;
+      padding: 1rem 6rem !important;
+    }
+  }
+}
+
+// need insurance
+.really-need-insurance {
+  .header-text {
+    font-size: 1.75rem;
+    color: color(white);
+    font-weight: bold;
+    padding-top: 5rem;
+    padding-bottom: 1.25rem;
+    @media screen and (max-width: 767px) {
+      font-size: 1.5rem;
+    }
+    @media (max-width: 575.98px) {
+      font-size: 1.2rem;
+    }
+  }
+  .text-brief {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3.75rem;
+    display: inline-block;
+    @media screen and (max-width: 767px) {
+      font-size: 1rem;
+    }
+    @media (max-width: 575.98px) {
+      font-size: 0.8rem;
+    }
+  }
+  .btn-outline-really-need-insurance {
+    border: 1px solid color(white);
+    color: color(white);
+    font-size: $default-font-size-large-18;
+    border-radius: $button-border-radius-large;
+    padding: 1rem 6rem !important;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 3.75rem 0;
+    @media screen and (max-width: 767px) {
+      font-size: 1.5rem;
+    }
+    @media (max-width: 575.98px) {
+      font-size: 0.8rem;
+    }
+    @media (max-width: 360px) {
+      font-size: 0.75rem;
+    }
+  }
+  .content-really-need-insurance {
+    .odometer,
+    .odometer-auto-theme,
+    .odometer.odometer-theme-default {
+      line-height: normal !important;
+      font-family: $fontMain !important;
+    }
+    .row {
+      > .col {
+        border-right: solid 1px rgba(255, 255, 255, 0.5);
+      }
+    }
+    .text-muted {
+      color: color(color-a3a3a3) !important;
+      letter-spacing: 1px;
+      font-weight: 500;
+      text-transform: uppercase;
+      @media (max-width: 360px) {
+        font-size: 0.75rem;
+      }
+    }
+    .price {
+      font-size: 2.5rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: initial !important;
+      @media screen and (max-width: 991px) {
+        // font-size: 4rem;
+      }
+      @media screen and (max-width: 767px) {
+        font-size: 1.5rem;
+      }
+      @media (max-width: 575.98px) {
+        font-size: 1.8rem;
+      }
+      @media (max-width: 360px) {
+        font-size: 0.75rem;
+      }
+    }
+    .text-muted-white {
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-top: 12.063rem;
+      @media screen and (max-width: 767px) {
+        margin-top: 7.063rem;
+      }
+    }
+    .text-muted-white-price {
+      font-size: 2.5rem;
+      color: color(white);
+      font-weight: 600;
+      text-transform: initial !important;
+      @media screen and (max-width: 991px) {
+        // font-size: 4rem;
+      }
+      @media screen and (max-width: 767px) {
+        font-size: 1.5rem;
+      }
+      @media (max-width: 575.98px) {
+        font-size: 1rem;
+      }
+      @media (max-width: 360px) {
+        font-size: 0.75rem;
+      }
+    }
+    .position-absolute {
+      left: 0;
+      right: inherit;
+      top: calc(100% - 220px);
+      h1 {
+        font-size: 4.5rem;
+        font-weight: 800;
+        color: color(white);
+        @media screen and (max-width: 991px) {
+          font-size: 4rem;
+        }
+        @media screen and (max-width: 767px) {
+          font-size: 2.5rem;
+          top: calc(100% - 145px);
+        }
+        @media (max-width: 575.98px) {
+          font-size: 1.5rem;
+        }
+        @media (max-width: 360px) {
+          top: calc(100% - 130px);
+        }
+      }
+      @media screen and (max-width: 767px) {
+        top: calc(100% - 145px);
+      }
+    }
+  }
+}
+.background-gradient {
+  border-radius: 1.5em;
+  background-clip: padding-box;
+  background: linear-gradient(to right, #095efb, #ff52db);
+  margin: 6.25rem 0;
+}
+
+.introduce-container {
+  .introduce-content {
+    text-align: left;
+    h5 {
+      font-weight: bold;
+      font-size: 2.375rem;
+      line-height: 3.375rem;
+      color: color(affina-color);
+      > span {
+        color: color(affina-blue);
+      }
+    }
+    .introduce-describe {
+      margin: 2.5rem 0;
+      font-size: 1rem;
+      color: color(affina-color);
+      strong {
+        margin-bottom: 0.5rem;
+        margin-top: 2rem;
+        display: block;
+      }
+    }
+    .end-of-page {
+      direction: ltr;
+      a {
+        color: color(affina-555555);
+        font-size: 1.125rem;
+        font-weight: bold;
+        i {
+          margin-left: 0.625rem;
+          font-size: 1.125rem;
+        }
+      }
+    }
+  }
+  .row {
+    margin-bottom: 9.375rem;
+    &:nth-child(2n + 2) {
+      direction: rtl;
+    }
+  }
+  .meet-your-insurance-assistant {
+    margin-bottom: 7.5rem;
+    .btn {
+      background: color(affina-blue);
+      color: color(white);
+      font-size: $default-font-size-large-18;
+      border-radius: $button-border-radius-large;
+      padding: 1rem 6rem !important;
+    }
+  }
+}
+
+// .row:nth-child(2n+2)

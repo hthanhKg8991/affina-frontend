@@ -1,0 +1,71 @@
+.frequently-asked-question {
+  h1 {
+    font-size: 2.25rem;
+    color: color(affina-color);
+    font-weight: bold;
+    margin-bottom: 4.5rem;
+  }
+  .accordion-item {
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: inherit;
+    .accordion-button {
+      font-size: 1.25rem;
+      color: color(affina-color);
+      font-weight: 600;
+      &:after {
+        font: normal normal normal 24px/1 "Material Design Icons";
+        content: "\F0415";
+        background-image: none !important;
+        color: color(color-a3a3a3);
+      }
+    }
+    .accordion-button:not(.collapsed) {
+      font-size: 1.25rem;
+      color: color(affina-color) !important;
+      background: transparent !important;
+      font-weight: 600;
+      &:after {
+        background-image: none !important;
+        font: normal normal normal 24px/1 "Material Design Icons";
+        content: "\F0374";
+        color: color(color-a3a3a3);
+      }
+    }
+    .accordion-body {
+      font-size: 1rem;
+      color: color(affina-color);
+    }
+  }
+  .question-btn {
+    margin-top: 6.5rem;
+    margin-bottom: 5rem;
+    @media (max-width: 575.98px) {
+      margin-top: 3.5rem;
+    }
+    .btn {
+      font-size: $default-font-size-large-18;
+      border-radius: $button-border-radius-large;
+      padding: 1rem 6rem !important;
+      color: color(white);
+      margin-top: 1.5rem;
+      @media (max-width: 575.98px) {
+        width: 100%;
+      }
+      @media (max-width: 360px) {
+        font-size: .75rem;
+      }
+    }
+    .question-btn-primary {
+      background: color(affina-blue);
+      margin-right: 1.5rem;
+      @media (max-width: 360px) {
+        margin-right: 0;
+      }
+    }
+    .question-btn-outline-primary {
+      border: 1px solid color(affina-blue);
+      color: color(affina-blue);
+    }
+  }
+}

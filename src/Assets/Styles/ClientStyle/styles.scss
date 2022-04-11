@@ -1,0 +1,29 @@
+@import '~react-datepicker/dist/react-datepicker.css';
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+@import  "../../Styles/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "../../Styles/functions";
+@import "../../Styles/ClientStyle/animation";
+
+/* === Icon fonts === */
+@import "~@mdi/font/scss/materialdesignicons";
+
+/* === Core Styles === */
+@import  "../../Styles/reset";
+@import  "../../Styles/ClientStyle/common";
+@import  "../../Styles/ClientStyle/fonts";
+@import  "../../Styles/ClientStyle/header";
+@import  "../../Styles/ClientStyle/layout";
+@import  "../../Styles/ClientStyle/downloadApp";
+@import  "../../Styles/ClientStyle/customerReviews";
+@import  "../../Styles/ClientStyle/frequentlyAskedQuestion";
+@import  "../../Styles/ClientStyle/protection";
+@import  "../../Styles/ClientStyle/insurance";
+@import  "../../Styles/ClientStyle/categories";
+@import  "../../Styles/ClientStyle/home";
+@import  "../../Styles/ClientStyle/footer";
+// @import  "../Styles/responsive";
+/* === Core Styles === */

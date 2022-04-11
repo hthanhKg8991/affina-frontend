@@ -1,0 +1,956 @@
+.insurance-container {
+  width: 100%;
+  height: 100%;
+  background: url("../../Images/public/background-insurance.webp") no-repeat
+      center bottom,
+    linear-gradient(to bottom, rgba(255, 82, 219, 0.1), rgba(9, 94, 251, 0.1));
+  padding-top: 5.6rem;
+  padding-bottom: 7.25rem;
+  .insurance-content {
+    .nav-tabs {
+      border-bottom: none;
+      .nav-item {
+        position: relative;
+        background: linear-gradient(
+          to bottom,
+          rgb(250 220 250),
+          rgb(227 220 252)
+        );
+        border-radius: 100px 100px 0 0;
+        margin: 0px 1.875rem;
+        border-top: 1px solid rgb(250 220 250);
+        z-index: 1;
+        @media (max-width: 360px) {
+          margin: 0px 0.5rem;
+          border-radius: 50px 50px 0 0;
+        }
+        &.nav-item:has(button).active {
+          background: red !important;
+        }
+        &:hover {
+          background: color(white);
+          // background: linear-gradient(
+          //   to bottom,
+          //   rgb(250 220 250),
+          //   rgb(227 220 252)
+          // ) !important;
+          background-clip: padding-box;
+          border-top: 1px solid color(white);
+          z-index: 3;
+          &:after,
+          &:before {
+            background: color(white);
+            // background: linear-gradient(
+            //   to bottom,
+            //   rgb(250 220 250),
+            //   rgb(227 220 252)
+            // ) !important;
+          }
+        }
+        &:before {
+          right: -1.2rem;
+          transform: skew(-310deg, 0deg);
+          border-radius: 0px 2.125rem 0 0;
+          @media (max-width: 360px) {
+            right: -0.7rem;
+            transform: skew(-325deg, 0deg);
+          }
+        }
+        &:after {
+          left: -1.2rem;
+          transform: skew(310deg, 0deg);
+          border-radius: 2.125rem 0px 0 0;
+          @media (max-width: 360px) {
+            left: -0.7rem;
+            transform: skew(325deg, 0deg);
+          }
+        }
+        &:after,
+        &:before {
+          content: " ";
+          position: absolute;
+          top: -1px;
+          transition: all 250ms ease;
+          width: 20%;
+          height: 100%;
+          background-clip: padding-box;
+          background: linear-gradient(
+            to bottom,
+            rgb(250 220 250),
+            rgb(227 220 252)
+          );
+          @media (max-width: 360px) {
+            top: 0px;
+          }
+        }
+        &.active {
+          background: color(white);
+          border-top: 1px solid color(white);
+          z-index: 3;
+          &:after,
+          &:before {
+            background: color(white);
+          }
+        }
+        .nav-link {
+          font-size: 1.37rem;
+          font-weight: bold;
+          background: linear-gradient(to bottom, #ff52db 0%, #095efb 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          padding: 16px 70px 17px;
+          border-color: transparent !important;
+          @media (max-width: 360px) {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+          }
+        }
+      }
+    }
+    .tab-content {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: $button-border-radius-large;
+      padding: 3.5rem 0;
+      text-align: center;
+      box-shadow: 0.25rem 0.5rem 1.5rem 0 color(color-f2f2f5);
+    }
+    .progress-bar-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 3.25rem;
+      .progress-bar-step {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        counter-reset: step;
+        li {
+          display: flex;
+          justify-content: center;
+          position: relative;
+          box-sizing: border-box;
+          flex-direction: column;
+          flex: 1;
+          z-index: 1;
+          align-items: center;
+          color: color(affina-555555);
+          font-size: 1rem;
+          font-weight: 500;
+          &.complete,
+          &.active {
+            color: color(affina-blue);
+            font-weight: 600;
+          }
+          &.complete,
+          &.active {
+            &:before {
+              background: color(affina-blue);
+              color: color(white);
+              border-radius: 50%;
+              height: 2.625rem;
+              width: 2.625rem;
+              border: 1.5px solid color(affina-blue);
+            }
+            &:after {
+              background: color(affina-blue);
+              content: "";
+              height: 1.5px;
+              left: -50%;
+              position: absolute;
+              top: 1.5rem;
+              width: 100%;
+              z-index: -1;
+              transform: translate(1.3rem, -50%);
+            }
+          }
+          &:first-child {
+            &:after {
+              content: none;
+            }
+          }
+          &:before {
+            font-size: 1.375rem;
+            font-family: $fontMain;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            content: counter(step);
+            counter-increment: step;
+            color: color(affina-blue);
+            border: 1.5px solid color(affina-555555);
+            background: color(white);
+            border-radius: 50%;
+            font-weight: bold;
+            height: 2.625rem;
+            width: 2.625rem;
+            margin-bottom: 0.5rem;
+          }
+          &:after {
+            background: color(affina-555555);
+            content: "";
+            height: 1.5px;
+            left: -50%;
+            position: absolute;
+            top: 1.5rem;
+            width: 100%;
+            z-index: -1;
+            transform: translate(1.3rem, -50%);
+          }
+        }
+      }
+    }
+    h4 {
+      background: linear-gradient(to bottom, #ff52db 0%, #095efb 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.75rem;
+      font-weight: normal;
+    }
+    .describe {
+      margin-top: 0.5rem;
+      font-weight: normal;
+      font-size: 1rem;
+      color: color(color-333333) !important;
+    }
+    .choose-gender {
+      margin-top: 2.75rem;
+      margin-bottom: 1.81rem;
+      .choose-gender-label {
+        font-size: 1rem;
+        color: color(color_262626) !important;
+        font-weight: 500;
+        padding: 0;
+        @media (max-width: 360px) {
+          font-size: 0.75rem;
+          top: 0px;
+          padding: 0 20px !important;
+          justify-content: start !important;
+        }
+      }
+      .line-or {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 0.75rem;
+        .sort-line {
+          min-width: 1rem;
+          width: 1rem;
+          height: 1px;
+          margin: 0 0.3rem;
+          background-color: color(affina-555555);
+        }
+      }
+    }
+    .choose-birthday {
+      .choose-birthday-label {
+        font-size: 1rem;
+        color: color(color_262626) !important;
+        font-weight: 500;
+        padding: 0;
+        @media (max-width: 360px) {
+          font-size: 0.75rem;
+          top: 0px;
+          padding: 0 20px !important;
+          justify-content: start !important;
+        }
+      }
+      .react-datepicker-wrapper {
+        border-radius: 3.125rem;
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+        height: 3.125rem;
+        flex-grow: 0;
+        padding: 0.875rem 2.063rem;
+        background-color: color(white);
+        width: 276px;
+        @media (max-width: 360px) {
+          padding: 0.5rem 2.063rem;
+          height: 2.5rem;
+          width: 100%;
+        }
+        input {
+          border: 0;
+          padding: 0;
+          @media (max-width: 360px) {
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+    .sm-space-horizontal {
+      margin: 0 0.5rem;
+    }
+    .wrap-button {
+      margin-top: 2.75rem;
+      margin-bottom: 1.81rem;
+    }
+    // step 2
+    .insurance-content-step2 {
+      .insurance-sidebar {
+        position: relative;
+        margin-bottom: 2.813rem;
+        .label-range {
+          font-size: 12px;
+          color: #555;
+          font-weight: 500;
+          margin-bottom: 1px;
+        }
+        .form-label {
+          display: block;
+          text-align: left;
+          font-size: 1.125rem;
+          color: #095efb;
+          font-weight: bold;
+          margin-bottom: 0.688rem;
+          margin-top: 0.5rem;
+        }
+        .form-check {
+          margin-bottom: 1.25rem;
+          .form-check-input {
+            border: 1px solid color(affina-blue);
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.625rem;
+            &:focus {
+              border-color: color(affina-blue);
+              box-shadow: none;
+            }
+          }
+          .form-check-label {
+            display: block;
+            text-align: left;
+            font-weight: 500;
+            font-size: 1rem;
+            color: color(affina-555555);
+          }
+        }
+      }
+      .insurance-search-center {
+        margin-bottom: 1rem;
+        .group-search {
+          input {
+            border-top-left-radius: 3.125rem;
+            border-bottom-left-radius: 3.125rem;
+            background: color(white);
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            font-size: 1rem;
+            font-weight: normal;
+            color: color(affina-555555);
+            border: 1px solid color(white);
+          }
+          .btn-search {
+            border-top-right-radius: 3.125rem;
+            border-bottom-right-radius: 3.125rem;
+            background: color(color-ff52db);
+            border: 1px solid color(color-ff52db);
+            padding: 0.875rem 1.625rem;
+          }
+          .swap-vertical {
+            padding: 0.237rem 0.823rem;
+            background: color(white);
+            border-radius: 0.625rem;
+            border-top-left-radius: 0.625rem !important;
+            border-bottom-left-radius: 0.625rem !important;
+            margin-left: 0.625rem !important;
+          }
+        }
+      }
+      .insurance-center {
+        .group-item-active {
+          background: color(color-d7e4ff) !important;
+        }
+        .group-item {
+          background: white;
+          border-radius: 20px;
+          padding: 1.125rem 0;
+          margin-bottom: 1.125rem;
+          .box-left {
+            background-color: color(color-f9f9f9);
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.15);
+            border-radius: 0.75rem;
+            padding: 0;
+            .wrap-image {
+              background: color(white);
+              padding: 0.983rem;
+            }
+            .insure-package-name {
+              margin-top: 0.75rem;
+              margin-bottom: 0.5rem;
+              font-size: 1.25rem;
+              font-weight: bold;
+              color: color(color_262626);
+              text-align: center;
+              display: inline-block;
+              cursor: pointer;
+            }
+            .wrap-star {
+              padding-bottom: 0.25rem;
+              .icons-star {
+                margin: 0 0.01rem;
+              }
+              .star-active {
+                color: color(color-ffc416);
+                font-size: 1.2rem;
+              }
+              .star-inactive {
+                color: color(color-b2b2b2);
+                font-size: 1.2rem;
+              }
+            }
+          }
+          .box-right {
+            padding-left: 0.938rem;
+            h6.insure-package {
+              font-size: 1.25rem;
+              font-weight: 600;
+              color: color(color_262626);
+              margin-bottom: 0.5rem;
+              cursor: pointer;
+            }
+            .discount-price {
+              border-radius: 3.125rem;
+              border: solid 0.5px rgba(224, 32, 32, 0.9);
+              background-color: rgba(224, 32, 32, 0.15);
+              color: color(color-e02020);
+              font-size: 0.875rem;
+              font-weight: 500;
+              padding: 0 0.625rem;
+            }
+
+            .package-detail {
+              font-size: 1rem;
+              font-weight: 500;
+              color: color(color-924399);
+              cursor: pointer;
+            }
+            .package-price {
+              background: color(affina-blue);
+              color: color(white);
+              font-size: 1.125rem;
+              font-weight: bold;
+              padding: 0.428rem 1.688rem;
+              border-radius: 3.125rem;
+              margin-bottom: 0;
+            }
+            .package-fee {
+              font-size: 1rem;
+              font-weight: 600;
+              color: color(color-ff52db);
+              margin: 0.625rem 0;
+            }
+            .procedure-text {
+              font-size: 1rem;
+              font-weight: normal;
+              color: color(affina-555555);
+              padding: 0.625rem 0;
+            }
+            .additional-benefits {
+              color: color(affina-blue);
+              font-size: 1rem;
+              font-weight: 500;
+              margin: 0.625rem 0;
+              cursor: pointer;
+              i {
+                font-size: 1.2rem;
+                vertical-align: middle;
+              }
+            }
+            .preview-package {
+              color: color(affina-blue);
+              font-size: 1rem;
+              font-weight: 500;
+              margin: 0.625rem 0;
+              cursor: pointer;
+              i {
+                font-size: 1.2rem;
+                vertical-align: middle;
+              }
+            }
+          }
+          .package-additional-preview {
+            margin-top: 2rem;
+            .wrap-check {
+              display: block;
+              position: relative;
+              margin-right: 2.18rem;
+              top: -1.875rem;
+              cursor: pointer;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              .check-mark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 1.375rem;
+                height: 1.375rem;
+                background: color(color-f8fafe);
+                border-radius: 50%;
+                &:after {
+                  content: "\F012C";
+                  font-size: 1rem !important;
+                  color: color(affina-blue);
+                  font: normal normal normal 24px/1 "Material Design Icons";
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 1.375rem;
+                  height: 1.375rem;
+                  border-radius: 50%;
+                  background: color(color-f8fafe);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+              }
+              input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                &:checked ~ .check-mark {
+                  background: color(affina-blue);
+                  &:after {
+                    background: color(affina-blue);
+                    // content: "\F0E1E";
+                    content: "\F012C";
+                    font-size: 1rem !important;
+                    color: color(white);
+                    font: normal normal normal 24px/1 "Material Design Icons";
+                  }
+                }
+              }
+            }
+            label.insure-package {
+              font-size: 1rem;
+              font-weight: 600;
+              color: color(color_262626);
+              // margin-bottom: 0.5rem;
+            }
+            .selling {
+              border-radius: 3.125rem;
+              border: solid 0.5px color(color-27ae60);
+              background-color: rgba(39, 174, 96, 0.15);
+              font-size: 0.875rem;
+              color: color(color-27ae60);
+              font-weight: 500;
+              padding: 0 0.625rem;
+            }
+            .package-price {
+              background: color(white);
+              border: 1px solid color(affina-blue);
+              color: color(affina-blue);
+              font-size: 1.125rem;
+              font-weight: bold;
+              padding: 0.428rem 1.688rem;
+              border-radius: 3.125rem;
+              margin-bottom: 0;
+            }
+            .package-detail {
+              font-size: 1rem;
+              font-weight: 500;
+              color: color(color-924399);
+              cursor: pointer;
+            }
+            .package-fee {
+              font-size: 1rem;
+              font-weight: 600;
+              color: color(color-ff52db);
+              margin: 0.625rem 0;
+            }
+            .procedure-text {
+              font-size: 1rem;
+              font-weight: normal;
+              color: color(affina-555555);
+              padding: 0.625rem 0;
+            }
+          }
+        }
+      }
+    }
+    .sidebar-right-content {
+      padding: 1rem 0.75rem;
+      border-radius: 1.25rem;
+      text-align: left;
+      margin-bottom: 1.25rem !important;
+      .form-label {
+        display: block;
+        text-align: left;
+        font-size: 1.125rem;
+        color: #095efb;
+        font-weight: bold;
+        margin-bottom: 0.688rem;
+        margin-top: 0.5rem;
+      }
+      .unit {
+        color: color(color-924399);
+        font-size: 0, 875rem;
+        font-weight: 500;
+        font-style: italic;
+        margin-bottom: 0.438rem;
+      }
+      .brief-info {
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+        .nav {
+          margin-bottom: 0.375rem;
+          .nav-item {
+            font-size: 0.875rem;
+            color: color(black);
+            font-weight: normal;
+          }
+        }
+      }
+      .main-package-fee {
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .package-additional {
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+        .nav-item {
+          color: color(affina-blue);
+        }
+      }
+      .into-money {
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .promotion {
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+        input {
+          border-radius: 50px;
+          border: 1px solid color(color-e6e6e6);
+          background: color(white);
+          padding: 0.5rem 0.75rem;
+          color: color(affina-555555);
+          font-size: 0.875rem;
+          font-weight: normal;
+          width: 100%;
+        }
+      }
+      .total-money {
+        margin-top: 1.188rem;
+        label {
+          font-size: 1.125rem;
+          color: color(color-ff52db);
+          font-weight: 800;
+        }
+      }
+      .list-benefit-main {
+        padding: 0;
+        li {
+          list-style: none;
+          position: relative;
+          padding-left: 1.875rem;
+          border-bottom: 1px dashed color(color-e6e6e6);
+          padding-bottom: 0.625rem;
+          &:before {
+            content: "\F012C";
+            font-family: "Material Design Icons";
+            margin-right: 0.625rem;
+            color: color(color-27ae60);
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+          }
+          .topic-benefit {
+            color: color(color-333333);
+            font-size: 1rem;
+            font-weight: normal;
+            margin: 0.5rem 0;
+          }
+          b {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: color(color_262626);
+          }
+        }
+      }
+    }
+    // step 3
+    .insurance-content-step3 {
+      h5 {
+        font-size: 1.75rem;
+        font-weight: normal;
+        background-image: linear-gradient(to bottom, #ff52db, #095efb);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 2.625rem;
+      }
+      .group-info {
+        border-radius: 1.25rem;
+        background: color(white);
+        .header {
+          background: color(bg-color-F5F5F5);
+          border-top-left-radius: 1.25rem;
+          border-top-right-radius: 1.25rem;
+          .title-header {
+            h3 {
+              font-size: 1.25rem;
+              font-weight: bold;
+              color: color(affina-blue);
+              letter-spacing: 0.06px;
+              margin-left: 1.25rem;
+              margin-bottom: 0;
+              padding: 1.375rem 0;
+            }
+          }
+        }
+        .insurance-info {
+          margin: 1.375rem 0;
+          .list-info {
+            display: grid;
+            .title-info {
+              font-size: 0.875rem;
+              font-weight: 600;
+              color: color(affina-555555);
+              letter-spacing: 0.06px;
+              margin-bottom: 0.5rem;
+            }
+            .sub-info-insure {
+              margin-bottom: 1rem;
+              .benefits-title {
+                font-size: 1rem;
+                letter-spacing: 0.06px;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: color(color_262626);
+              }
+              .benefits-price {
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: color(affina-blue);
+                margin-left: 1rem;
+              }
+            }
+            .row {
+              margin-top: 1rem;
+              margin-bottom: 1rem;
+            }
+            p {
+              margin-bottom: 0;
+            }
+            .table-footer {
+              display: inline-block;
+              margin: 1rem 0;
+            }
+            .total {
+              display: flex;
+              font-size: 1.75rem;
+              font-weight: 800;
+              color: color(color-ff52db);
+              letter-spacing: 0.06px;
+              strong {
+                margin-left: 1.125rem;
+              }
+            }
+          }
+        }
+      }
+      .insurance-content-step3-input {
+        .income-info {
+          .group-vertical {
+            display: flex;
+            align-items: center;
+            margin: 1rem 1.5rem 1.5rem 0;
+          }
+          input.form-check-input {
+            width: 1.75rem;
+            height: 1.75rem;
+            &:focus {
+              box-shadow: none;
+            }
+          }
+          label.form-check-label {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-left: 1rem;
+            flex: 1;
+          }
+          .check-commit {
+            label.form-check-label {
+              font-weight: normal;
+            }
+          }
+        }
+      }
+    }
+    // Step 4
+    .insurance-content-step4 {
+      .insurance-pay {
+        h2 {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: color(color_262626Œ);
+          padding-top: 1rem;
+          padding-bottom: 0.5rem;
+        }
+        .payment-group {
+          border: 1px solid color(color-e6e6e6);
+          padding: 0 2rem;
+          border-radius: 1.25rem;
+          margin-top: 1rem;
+          .payment-header {
+            margin: 0.938rem 0;
+            .payment-title {
+              font-size: 1.125rem;
+              font-weight: 500;
+              color: color(color-151515);
+              margin-left: 1.5rem;
+            }
+            .wrap-check {
+              display: block;
+              position: relative;
+              margin-right: 2.18rem;
+              top: -1.875rem;
+              cursor: pointer;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              .check-mark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 2rem;
+                height: 2rem;
+                background: color(color-f8fafe);
+                border: 1px solid color(affina-blue);
+                border-radius: 50%;
+                transform: translate(0, 50%);
+                &:after {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 2rem;
+                  height: 2rem;
+                  border-radius: 50%;
+                  background: color(color-f8fafe);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+              }
+              input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                &:checked ~ .check-mark {
+                  background: color(affina-blue);
+                  &:after {
+                    background: color(affina-blue);
+                    // content: "\F0E1E";
+                    content: "\F012C";
+                    font-size: 1.3rem !important;
+                    color: color(white);
+                    font: normal normal normal 24px/1 "Material Design Icons";
+                  }
+                }
+              }
+            }
+          }
+          .payment-content {
+            margin: 1.75rem 0;
+            h5 {
+              font-size: 1.125rem;
+              font-weight: bold;
+              color: color(color_262626);
+              margin-bottom: 1.75rem;
+            }
+            .payment-info {
+              .info-transfer {
+                border: 1px solid color(color-e6e6e6);
+                padding: 1rem;
+                border-radius: 1.25rem;
+                p {
+                  font-size: 1.125rem;
+                  font-weight: 500;
+                  color: color(color-333333);
+                  strong {
+                    font-weight: 600;
+                    color: color(black);
+                  }
+                }
+              }
+            }
+            .wrapper-line {
+              margin: 0 3.375rem;
+              .vertical-line {
+                border-left: 1px dashed color(color-e6e6e6);
+                height: 100%;
+                position: absolute;
+                top: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .word {
+                  transform: translate(-50%, 0);
+                  top: 0;
+                  background: #fff;
+                  bottom: 0;
+                }
+              }
+            }
+            .cut-border {
+              position: relative;
+              display: inline-block;
+              border: 2px solid color(affina-blue);
+              width: 10.75rem;
+              height: 10.75rem;
+              border-radius: 1.25rem;
+              padding: 0.625rem;
+            }
+            .cut-border::before {
+              content: "";
+              position: absolute;
+              height: calc(100% + 0.625rem);
+              width: 50%;
+              background-color: color(white);
+              top: -5px;
+              left: 25%;
+            }
+            .cut-border::after {
+              content: "";
+              position: absolute;
+              height: 50%;
+              width: calc(100% + 0.625rem);
+              background-color: color(white);
+              top: 25%;
+              left: -5px;
+            }
+            .content-conner {
+              position: absolute;
+              z-index: 111;
+            }
+          }
+        }
+      }
+    }
+    // response
+    .response-success{
+      width: 80%;
+      margin: 0 auto;
+      border-radius: 1.25rem;
+      padding: 4rem 0;
+      h5{
+        font-size: 1.875rem;
+        font-weight: 800;
+        color: color(color-219653);
+        margin: 2.25rem 0;
+      }
+      p{
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: 0.27px;
+        color: color(black);
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+import { all, takeLatest } from 'redux-saga/effects';
+import * as categories from '../Reducers/Categories/CategoriesRedux';
+import { categoriesGetAll, categoriesGetDetail, categoriesGetType } from '../Saga/Admin/CategoriesSaga';
+
+import * as packageRedux from '../Reducers/Insurance/PackagesRedux';
+import { getAllSuppliers, packageGetAll, packageGetBySupplier, packageGetDetail, createOrder, createPayment } from '../Saga/Client/PackageSaga';
+export default function* rootSaga() {
+    yield all([
+        // admin
+        takeLatest(categories.categoriesGetAll.type, categoriesGetAll),
+        takeLatest(categories.categoriesGetType.type, categoriesGetType),
+        takeLatest(categories.categoriesGetDetail.type, categoriesGetDetail),
+        // Client
+        takeLatest(packageRedux.getAllSuppliers.type, getAllSuppliers),
+        takeLatest(packageRedux.packagesGetAll.type, packageGetAll),
+        takeLatest(packageRedux.packagesGetBySupplier.type, packageGetBySupplier),
+        takeLatest(packageRedux.packagesGetDetail.type, packageGetDetail),
+        takeLatest(packageRedux.createOrder.type, createOrder),
+        takeLatest(packageRedux.createPayment.type, createPayment),
+    ])
+}
