@@ -2,6 +2,7 @@
 import React from 'react'
 import { Col, Container, Image, Navbar, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import accessStyle from '../../Assets'
 import { BUY_NOW } from '../../Routers/RoutePath'
 import NeedInsurance from '../../Templates/Client/NeedInsurance'
 import CustomerReviewsComponent from './CustomerReviewsComponent'
@@ -53,10 +54,10 @@ const HomeComponent = () => {
     <div className='benefits-container'>
       <Container fluid className="benefits position-relative">
         <Image
-          src={require("../../Assets/Images/public/background-home.webp")}
+          src={accessStyle.images.static.backgroundHome}
           srcSet={`
-                    ${require('../../Assets/Images/public/background-home@2x.webp')} 2x, 
-                    ${require('../../Assets/Images/public/background-home@3x.webp')} 3x
+                    ${accessStyle.images.static.backgroundHome2x} 2x, 
+                    ${accessStyle.images.static.backgroundHome3x} 3x
                 `}
           alt="Background home page"
           width={'100%'}
@@ -67,10 +68,10 @@ const HomeComponent = () => {
             <div className='merchant-benefit'>
               {/* &nbsp; */}
               <Image
-                src={require("../../Assets/Images/public/mercer-marsh-benefits.webp")}
+                src={accessStyle.images.static.merchantBenefit}
                 srcSet={`
-                    ${require('../../Assets/Images/public/mercer-marsh-benefits@2x.webp')} 2x, 
-                    ${require('../../Assets/Images/public/mercer-marsh-benefits@3x.webp')} 3x
+                    ${accessStyle.images.static.merchantBenefit2x} 2x, 
+                    ${accessStyle.images.static.merchantBenefit3x} 3x
                 `}
                 alt="Merchant marsh benefit"
                 width={'auto'}
@@ -83,8 +84,9 @@ const HomeComponent = () => {
               Giải pháp công nghệ từ Affina - 1 chạm cho tất cả, 1 phút xử lý bồi thường.<br />
               Được thiết kế bởi Mercer Marsh Benefits – chuyên gia hàng đầu <br /> về giải pháp bảo hiểm.
             </h4>
-            <Link to={BUY_NOW} className="btn btn-lg">
-              THAM GIA NGAY</Link>
+            <a href={BUY_NOW} className="btn btn-lg">THAM GIA NGAY</a>
+            {/* <Link to={BUY_NOW} className="btn btn-lg">
+              THAM GIA NGAY</Link> */}
           </div>
         </Container>
       </Container>
@@ -102,10 +104,10 @@ const HomeComponent = () => {
             <Row>
               <Col md={6} sm={6} xs={12} className='col'>
                 <Image
-                  src={require("../../Assets/Images/public/icons/live-online.webp")}
+                  src={accessStyle.images.icons.liveOnline}
                   srcSet={`
-                    ${require('../../Assets/Images/public/icons/live-online@2x.webp')} 2x, 
-                    ${require('../../Assets/Images/public/icons/live-online@3x.webp')} 3x
+                    ${accessStyle.images.icons.liveOnline2x} 2x, 
+                    ${accessStyle.images.icons.liveOnline3x} 3x
                 `}
                   alt="live online"
                   width={58}
@@ -120,10 +122,10 @@ const HomeComponent = () => {
               </Col>
               <Col md={6} sm={6} xs={12} className='col'>
                 <Image
-                  src={require("../../Assets/Images/public/icons/procedure-basic.webp")}
+                  src={accessStyle.images.icons.procedureBasic}
                   srcSet={`
-                    ${require('../../Assets/Images/public/icons/procedure-basic@2x.webp')} 2x, 
-                    ${require('../../Assets/Images/public/icons/procedure-basic@3x.webp')} 3x
+                    ${accessStyle.images.icons.procedureBasic2x} 2x, 
+                    ${accessStyle.images.icons.procedureBasic3x} 3x
                 `}
                   alt="live online"
                   width={58}
@@ -138,10 +140,10 @@ const HomeComponent = () => {
               </Col>
               <Col md={6} sm={6} xs={12} className='col'>
                 <Image
-                  src={require("../../Assets/Images/public/icons/medicine.webp")}
+                  src={accessStyle.images.icons.medicine}
                   srcSet={`
-                    ${require('../../Assets/Images/public/icons/medicine@2x.webp')} 2x, 
-                    ${require('../../Assets/Images/public/icons/medicine@3x.webp')} 3x
+                    ${accessStyle.images.icons.medicine2x} 2x, 
+                    ${accessStyle.images.icons.medicine3x} 3x
                 `}
                   alt="live online"
                   width={58}
@@ -156,10 +158,10 @@ const HomeComponent = () => {
               </Col>
               <Col md={6} sm={6} xs={12} className='col'>
                 <Image
-                  src={require("../../Assets/Images/public/icons/renewals.webp")}
+                  src={accessStyle.images.icons.medicine}
                   srcSet={`
-                    ${require('../../Assets/Images/public/icons/renewals@2x.webp')} 2x, 
-                    ${require('../../Assets/Images/public/icons/renewals@3x.webp')} 3x
+                    ${accessStyle.images.icons.medicine2x} 2x, 
+                    ${accessStyle.images.icons.medicine3x} 3x
                 `}
                   alt="live online"
                   width={58}
@@ -219,10 +221,10 @@ const HomeComponent = () => {
             </Col>
             <Col md={6} sm={12} xs={12} data-aos="fade-left">
               <Image
-                src={require("../../Assets/Images/public/card.webp")}
+                src={accessStyle.images.static.card}
                 srcSet={`
-                    ${require('../../Assets/Images/public/card@2x.webp')} 2x, 
-                    ${require('../../Assets/Images/public/card@3x.webp')} 3x
+                    ${accessStyle.images.static.card2x} 2x, 
+                    ${accessStyle.images.static.card3x} 3x
                 `}
                 alt="Insurance card"
                 width={'100%'}

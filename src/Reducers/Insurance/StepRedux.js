@@ -10,9 +10,13 @@ const initialState = {
         step2: {
             packageCode: '',
             packageName: '',
+            discount: 0,
             price: '',
             fee: '',
             supplier: {},
+            additional: [],
+            packageMain: [],
+            totalAmount: 0
         },
         step3: {
             name: '',
@@ -42,15 +46,39 @@ const InsuranceSlice = createSlice({
             state.dataStep.step1 = action.payload
         },
         handleStep2(state, action) {
-            state.dataStep.step2 = action.payload
+            let amount = 0;
+            state.dataStep.step2 = action.payload;
+            state.dataStep.step2.additional.forEach(item => {
+                return amount += parseInt(item.amount);
+            })
+            state.dataStep.step2.totalAmount = (amount + state.dataStep.step2.fee - state.dataStep.step2.discount) / 100;
         },
         handleStep3(state, action) {
             state.dataStep.step3 = action.payload
+        },
+        handleSelectAdditional(state, action) {
+            // const removeId = state.dataStep.step2.additional.filter(item => item._id === action.payload._id).indexOf(action.payload._id);
+            const removeId = state.dataStep.step2.additional.findIndex(item => item._id === action.payload._id);
+            console.log('removeId::', removeId, action.payload);
+            if (removeId >= 0) {
+                state.dataStep.step2.additional.splice(removeId, 1);
+            } else {
+
+                state.dataStep.step2.additional.push(action.payload);
+
+            }
+        },
+        handleRemoveAdditional(state, action) {
+            const removeId = state.dataStep.step2.additional.findIndex(item => item._id === action.payload);
+            state.dataStep.step2.additional.splice(removeId, 1);
         },
         handleCurrentStep(state, action) {
             console.log('handleCurrentStep::', action);
             state.currentStep = action.payload.currentStep
             state.holdStep = action.payload.holdStep
+        },
+        resetAdditionalState: (state) => {
+            state.dataStep.step2.additional = []
         },
         resetState: () => initialState
     }
@@ -58,5 +86,9 @@ const InsuranceSlice = createSlice({
 export const {
     resetState,
     handleStep1, handleStep2, handleStep3,
-    handleCurrentStep } = InsuranceSlice.actions;
+    handleSelectAdditional,
+    handleCurrentStep,
+    handleRemoveAdditional,
+    resetAdditionalState
+} = InsuranceSlice.actions;
 export default InsuranceSlice.reducer

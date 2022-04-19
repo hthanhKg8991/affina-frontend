@@ -120,11 +120,11 @@ const MultiRangeSlider = ({ step, min, max, onChange }) => {
             </div>
             <div className="form-input">
                 <div className="wrap-input-range">
-                    <input type="text" min={min} value={formatPrepaidAmount(minVal)}
+                    <input type="text" min={min} value={formatPrepaidAmount(minVal)} readOnly
                         // onChange={(event) => handleSetMinValue(event)}
                     />
                     <span className="hyphen">-</span>
-                    <input type="text" max={max} value={formatPrepaidAmount(maxVal)}
+                    <input type="text" max={max} value={formatPrepaidAmount(maxVal)} readOnly
                         // onChange={(event) => handleSetMaxValue(event)}
                     />
                 </div>

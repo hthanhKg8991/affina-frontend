@@ -8,7 +8,8 @@ const PackagesApi = {
         }
     },
     getAll() {
-        const url = 'packages/get-all';
+        // const url = 'packages/get-all';
+        const url = 'packages/get-all-detail';
         // const url = 'packages/get-group-package-by-supplier';
         return {
             // send: () => axiosClient.post(url)
@@ -27,6 +28,20 @@ const PackagesApi = {
         const url = 'products/get-by-package/' + id;
         return {
             send: () => axiosClient.get(url)
+        }
+    },
+    postProductGetByPackage(params) {
+        console.log('postProductGetByPackage::', params);
+        const url = 'products/get-by-package';
+        return {
+            send: () => axiosClient.post(url, params)
+        }
+    },
+    postPackageBySupplier(params) {
+        console.log('postPackageBySupplier::', params);
+        const url = 'packages/get-group-package-by-supplier';
+        return {
+            send: () => axiosClient.post(url, params)
         }
     },
     createOrder(params) {

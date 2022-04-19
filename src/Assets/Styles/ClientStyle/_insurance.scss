@@ -20,7 +20,7 @@
         margin: 0px 1.875rem;
         border-top: 1px solid rgb(250 220 250);
         z-index: 1;
-        @media (max-width: 360px) {
+        @media only screen and (max-width: 768px) {
           margin: 0px 0.5rem;
           border-radius: 50px 50px 0 0;
         }
@@ -51,7 +51,7 @@
           right: -1.2rem;
           transform: skew(-310deg, 0deg);
           border-radius: 0px 2.125rem 0 0;
-          @media (max-width: 360px) {
+          @media only screen and (max-width: 768px) {
             right: -0.7rem;
             transform: skew(-325deg, 0deg);
           }
@@ -60,7 +60,7 @@
           left: -1.2rem;
           transform: skew(310deg, 0deg);
           border-radius: 2.125rem 0px 0 0;
-          @media (max-width: 360px) {
+          @media only screen and (max-width: 768px) {
             left: -0.7rem;
             transform: skew(325deg, 0deg);
           }
@@ -79,7 +79,7 @@
             rgb(250 220 250),
             rgb(227 220 252)
           );
-          @media (max-width: 360px) {
+          @media only screen and (max-width: 768px) {
             top: 0px;
           }
         }
@@ -101,8 +101,12 @@
           -webkit-text-fill-color: transparent;
           padding: 16px 70px 17px;
           border-color: transparent !important;
+          @media only screen and (max-width: 768px) {
+            font-size: 0.5325rem;
+            padding: 4px 12px;
+          }
           @media (max-width: 360px) {
-            font-size: 0.75rem;
+            font-size: 0.5325rem;
             padding: 4px 12px;
           }
         }
@@ -114,11 +118,17 @@
       padding: 3.5rem 0;
       text-align: center;
       box-shadow: 0.25rem 0.5rem 1.5rem 0 color(color-f2f2f5);
+      @media only screen and (max-width: 768px) {
+        padding: 1rem 0;
+      }
     }
     .progress-bar-container {
       display: flex;
       justify-content: center;
       margin-bottom: 3.25rem;
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 1rem;
+      }
       .progress-bar-step {
         display: flex;
         flex-direction: row;
@@ -138,6 +148,11 @@
           color: color(affina-555555);
           font-size: 1rem;
           font-weight: 500;
+          &.complete {
+            @media only screen and (max-width: 768px) {
+              display: none !important;
+            }
+          }
           &.complete,
           &.active {
             color: color(affina-blue);
@@ -152,6 +167,9 @@
               height: 2.625rem;
               width: 2.625rem;
               border: 1.5px solid color(affina-blue);
+              @media only screen and (max-width: 768px) {
+                display: none !important;
+              }
             }
             &:after {
               background: color(affina-blue);
@@ -163,7 +181,25 @@
               width: 100%;
               z-index: -1;
               transform: translate(1.3rem, -50%);
+              @media only screen and (max-width: 768px) {
+                display: none;
+              }
             }
+            // @media (max-width: 360px) {
+            //   flex-direction: row;
+            //   font-size: 0.75rem;
+            //   justify-content: start;
+            // }
+            @media only screen and (max-width: 768px) {
+              flex-direction: row;
+              font-size: 0.75rem;
+              justify-content: start;
+            }
+            // @media (min-width: 576px) {
+            //   flex-direction: row;
+            //   font-size: 0.75rem;
+            //   justify-content: start;
+            // }
           }
           &:first-child {
             &:after {
@@ -208,26 +244,36 @@
       -webkit-text-fill-color: transparent;
       font-size: 1.75rem;
       font-weight: normal;
+      @media only screen and (max-width: 768px) {
+        font-size: 0.875rem;
+      }
     }
     .describe {
       margin-top: 0.5rem;
       font-weight: normal;
       font-size: 1rem;
       color: color(color-333333) !important;
+      @media only screen and (max-width: 768px) {
+        font-size: 0.625rem;
+      }
     }
     .choose-gender {
       margin-top: 2.75rem;
       margin-bottom: 1.81rem;
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 0.75rem;
+      }
       .choose-gender-label {
         font-size: 1rem;
         color: color(color_262626) !important;
         font-weight: 500;
         padding: 0;
-        @media (max-width: 360px) {
+        @media only screen and (max-width: 768px) {
           font-size: 0.75rem;
           top: 0px;
           padding: 0 20px !important;
           justify-content: start !important;
+          margin-bottom: 0.75rem;
         }
       }
       .line-or {
@@ -246,17 +292,26 @@
       }
     }
     .choose-birthday {
+      @media only screen and (max-width: 768px) {
+        display: inline-block;
+        padding: 0 1.5rem;
+        width: 100%;
+      }
       .choose-birthday-label {
         font-size: 1rem;
         color: color(color_262626) !important;
         font-weight: 500;
         padding: 0;
-        @media (max-width: 360px) {
+        @media only screen and (max-width: 768px) {
           font-size: 0.75rem;
           top: 0px;
           padding: 0 20px !important;
           justify-content: start !important;
+          margin-bottom: 0.75rem;
         }
+      }
+      .width-auto.nav-item {
+        width: 100%;
       }
       .react-datepicker-wrapper {
         border-radius: 3.125rem;
@@ -266,7 +321,7 @@
         padding: 0.875rem 2.063rem;
         background-color: color(white);
         width: 276px;
-        @media (max-width: 360px) {
+        @media only screen and (max-width: 768px) {
           padding: 0.5rem 2.063rem;
           height: 2.5rem;
           width: 100%;
@@ -274,7 +329,7 @@
         input {
           border: 0;
           padding: 0;
-          @media (max-width: 360px) {
+          @media only screen and (max-width: 768px) {
             font-size: 0.75rem;
           }
         }
@@ -289,6 +344,40 @@
     }
     // step 2
     .insurance-content-step2 {
+      .wrap-sidebar {
+        &.open {
+          display: block;
+          animation-name: fadeInLeft;
+          animation-duration: 1s;
+          box-shadow: 1px 2px 2px 2px color(gray-light);
+          overflow: auto;
+          height: 100%;
+        }
+        @media only screen and (max-width: 768px) {
+          position: fixed;
+          top: 0;
+          background: color(white);
+          display: none;
+          z-index: 10;
+
+          .wrap-mobile-filter {
+            color: color(white);
+            margin: 0 !important;
+            padding: 1rem;
+            .close {
+              position: absolute;
+              right: 0.5rem;
+              top: 0.5rem;
+              font-weight: bold;
+            }
+          }
+        }
+        .wrap-sidebar-content {
+          @media only screen and (max-width: 768px) {
+            padding: 1rem;
+          }
+        }
+      }
       .insurance-sidebar {
         position: relative;
         margin-bottom: 2.813rem;
@@ -349,6 +438,7 @@
             border: 1px solid color(color-ff52db);
             padding: 0.875rem 1.625rem;
           }
+          .filter-vertical,
           .swap-vertical {
             padding: 0.237rem 0.823rem;
             background: color(white);
@@ -356,6 +446,27 @@
             border-top-left-radius: 0.625rem !important;
             border-bottom-left-radius: 0.625rem !important;
             margin-left: 0.625rem !important;
+            @media only screen and (max-width: 768px) {
+              position: fixed;
+              right: 0;
+              top: 0;
+              z-index: 10;
+              box-shadow: 1px 2px 2px 2px color(gray-light);
+              transform: translate(0, calc(50vh - 50%));
+            }
+          }
+          .filter-vertical {
+            @media only screen and (max-width: 768px) {
+              font-size: 2rem;
+              position: fixed;
+              right: 0;
+              top: 0;
+              z-index: 10;
+              box-shadow: 1px 2px 2px 2px color(gray-light);
+              transform: translate(0, calc(50vh - 50%));
+              color: color(color-ff52db);
+              margin-top: 3.5rem;
+            }
           }
         }
       }
@@ -448,6 +559,13 @@
               color: color(affina-555555);
               padding: 0.625rem 0;
             }
+            .select-buy {
+              display: flex;
+              text-align: center;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 1rem;
+            }
             .additional-benefits {
               color: color(affina-blue);
               font-size: 1rem;
@@ -529,6 +647,8 @@
               font-size: 1rem;
               font-weight: 600;
               color: color(color_262626);
+              flex: 1;
+              text-align: left;
               // margin-bottom: 0.5rem;
             }
             .selling {
@@ -596,6 +716,21 @@
       .brief-info {
         margin-top: 0.75rem;
         margin-bottom: 0.75rem;
+        .ms3 {
+          margin-top: 0.75rem;
+          margin-bottom: 0.75rem;
+        }
+        .wrap-box-delete {
+          width: 1.313rem;
+          height: 1.313rem;
+          background: color(white);
+          box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.2);
+          border-radius: 50%;
+          margin-left: 0.2rem;
+          text-align: center;
+          color: color(affina-555555);
+          cursor: pointer;
+        }
         .nav {
           margin-bottom: 0.375rem;
           .nav-item {
@@ -613,7 +748,9 @@
         margin-top: 0.75rem;
         margin-bottom: 0.75rem;
         .nav-item {
-          color: color(affina-blue);
+          &.topic {
+            color: color(affina-blue);
+          }
         }
       }
       .into-money {
@@ -934,18 +1071,29 @@
       }
     }
     // response
-    .response-success{
+    .response-fail {
+      h5 {
+        color: red;
+      }
+    }
+    .response-success {
+      h5 {
+        color: color(color-219653);
+      }
+    }
+
+    .response-data {
       width: 80%;
       margin: 0 auto;
       border-radius: 1.25rem;
       padding: 4rem 0;
-      h5{
+      h5 {
         font-size: 1.875rem;
         font-weight: 800;
-        color: color(color-219653);
         margin: 2.25rem 0;
+        text-transform: uppercase;
       }
-      p{
+      p {
         font-size: 1.5rem;
         font-weight: 500;
         letter-spacing: 0.27px;

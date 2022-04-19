@@ -1,5 +1,19 @@
 const accessStyle = {
     images: {
+        static: {
+            backgroundHome: require('./Images/public/background-home.webp'),
+            backgroundHome2x: require('./Images/public/background-home@2x.webp'),
+            backgroundHome3x: require('./Images/public/background-home@3x.webp'),
+            // 
+            merchantBenefit: require('./Images/public/mercer-marsh-benefits.webp'),
+            merchantBenefit2x: require('./Images/public/mercer-marsh-benefits@2x.webp'),
+            merchantBenefit3x: require('./Images/public/mercer-marsh-benefits@3x.webp'),
+            // 
+            card: require('./Images/public/card.webp'),
+            card2x: require('./Images/public/card@2x.webp'),
+            card3x: require('./Images/public/card@3x.webp'),
+            // 
+        },
         icons: {
             user: require('./Images/public/icons/user.webp'),
             user2x: require('./Images/public/icons/user@2x.webp'),
@@ -100,8 +114,21 @@ const accessStyle = {
             installment: require('./Images/public/icons/installment.webp'),
             installment2x: require('./Images/public/icons/installment@2x.webp'),
             installment3x: require('./Images/public/icons/installment@3x.webp'),
+            // 
+            liveOnline: require('./Images/public/icons/live-online.webp'),
+            liveOnline2x: require('./Images/public/icons/live-online@2x.webp'),
+            liveOnline3x: require('./Images/public/icons/live-online@3x.webp'),
+            // 
+            procedureBasic: require('./Images/public/icons/procedure-basic.webp'),
+            procedureBasic2x: require('./Images/public/icons/procedure-basic@2x.webp'),
+            procedureBasic3x: require('./Images/public/icons/procedure-basic@3x.webp'),
+            // 
+            medicine: require('./Images/public/icons/medicine.webp'),
+            medicine2x: require('./Images/public/icons/medicine@2x.webp'),
+            medicine3x: require('./Images/public/icons/medicine@3x.webp'),
+            // 
         },
-        response:{
+        response: {
             success: require('./Images/public/bg-success.webp'),
             success2x: require('./Images/public/bg-success@2x.webp'),
             success3x: require('./Images/public/bg-success@3x.webp'),

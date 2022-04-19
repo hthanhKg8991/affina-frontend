@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import PackagesApi from '../../Services/Apis/PackagesApi';
-import { createOrderResponse, createPaymentResponse, getAllSuppliersResponse, packagesGetAllResponse, packagesGetBySupplierResponse, packagesGetDetailResponse } from '../../Reducers/Insurance/PackagesRedux';
+import { createOrderResponse, createPaymentResponse, getAllSuppliersResponse, packagesGetAllResponse, packagesGetBySupplierResponse, packagesGetDetailResponse, postPackageBySupplierResponse, productGetByPackageResponse } from '../../Reducers/Insurance/PackagesRedux';
 
 export function* getAllSuppliers() {
     try {
@@ -36,6 +36,24 @@ export function* packageGetDetail(action) {
         yield put(packagesGetDetailResponse(response));
     } catch (error) {
         yield put(packagesGetDetailResponse(error));
+    }
+}
+export function* postProductGetByPackage(action) {
+    console.log('postProductGetByPackage:type', action);
+    try {
+        const response = yield call(PackagesApi.postProductGetByPackage(action.payload).send);
+        yield put(productGetByPackageResponse(response));
+    } catch (error) {
+        yield put(productGetByPackageResponse(error));
+    }
+}
+export function* postPackageBySupplier(action) {
+    console.log('postPackageBySupplier:type', action);
+    try {
+        const response = yield call(PackagesApi.postPackageBySupplier(action.payload).send);
+        yield put(postPackageBySupplierResponse(response));
+    } catch (error) {
+        yield put(postPackageBySupplierResponse(error));
     }
 }
 export function* createOrder(action) {

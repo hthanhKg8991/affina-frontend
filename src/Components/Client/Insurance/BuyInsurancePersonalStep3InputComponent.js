@@ -1,18 +1,15 @@
+import moment from 'moment';
 import React, { useState } from 'react';
-import { Col, Container, FormLabel, Row, Stack } from 'react-bootstrap';
+import { Col, Container, FormLabel, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatIOSToDate, genderByText, isValidateEmail, isValidatePhone, validate } from '../../../Common/Helper';
-import Line from '../../../Common/Line';
+import District from '../../../Config/districts';
+import ProvinceData from '../../../Config/provinces';
+import Ward from '../../../Config/wards';
+import { handleStep3 } from '../../../Reducers/Insurance/StepRedux';
 import CommonComboBox from '../../Common/CommonComboBox';
 import CommonInput from '../../Common/CommonInput';
 import CommonButtonInsurance from './CommonButtonInsurance';
-import ProvinceData from '../../../Config/provinces';
-import District from '../../../Config/districts';
-import Ward from '../../../Config/wards';
-import moment from 'moment';
-import DatePicker from "react-datepicker";
-import MaskedInput from 'react-input-mask';
-import { handleCurrentStep, handleStep3 } from '../../../Reducers/Insurance/StepRedux';
 
 const BuyInsurancePersonalStep3InputComponent = (props) => {
     const dispatch = useDispatch();
@@ -87,6 +84,10 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     }
     const handleTimeExp = (e) => {
         setTimeExp(e);
+    }
+
+    const handleGoBackButton = () => {
+        props.handleButtonGoBack && props.handleButtonGoBack()
     }
     const handleValidateButton = () => {
         if (isBilling === false) {
@@ -189,14 +190,14 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                                 key: '1',
                                                 value: '1 năm',
                                             },
-                                            {
-                                                key: '2',
-                                                value: '2 năm',
-                                            },
-                                            {
-                                                key: '3',
-                                                value: '3 năm',
-                                            },
+                                            // {
+                                            //     key: '2',
+                                            //     value: '2 năm',
+                                            // },
+                                            // {
+                                            //     key: '3',
+                                            //     value: '3 năm',
+                                            // },
                                         ]}
                                         value={timeExp.value}
                                         defaultValue={timeExp.value}
@@ -260,6 +261,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                         <Col md={6}>
                             <CommonInput
                                 require={true}
+                                type='email '
                                 label='Email '
                                 hint='Nhập địa chỉ email '
                                 defaultValue={email}
@@ -335,7 +337,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 textButtonContinue='TIẾP TỤC'
                 validate={handleValidateButton()}
                 // validate={false}
-                handleButtonGoBack={props.handleButtonGoBack}
+                handleButtonGoBack={handleGoBackButton}
                 handleButtonContinue={handleContinue}
             />
         </div>

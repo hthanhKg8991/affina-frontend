@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MaskedInput from 'react-input-mask';
 
 const CommonMaskInput = (props) => {
-
+    const[value, setValue] = useState('')
     const handleChange = (ev) => {
-        this.setState({
-            value: ev.target.value,
-        });
+        setValue(ev.target.value)
+        // this.setState({
+        //     value: ev.target.value,
+        // });
     }
 
     const handleClear = () => {
-        this.setState({
-            value: '',
-        });
+        setValue('')
+        // this.setState({
+        //     value: '',
+        // });
     }
     return (
         <div>

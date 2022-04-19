@@ -1,16 +1,25 @@
 import moment from 'moment';
 import React, { useState } from 'react';
-import { Col, Container, Form, Image, Modal, Nav, Row, Stack } from 'react-bootstrap';
+import { Col, Container, Image, Modal, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { formatPrepaidAmount, isStringNullOrEmpty, validate } from '../../../Common/Helper';
+import { isStringNullOrEmpty, validate, vnConvert } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createPayment } from '../../../Reducers/Insurance/PackagesRedux';
+import { resetState } from '../../../Reducers/Insurance/StepRedux';
+import BriefComponent from './BriefComponent';
 import CommonButtonInsurance from './CommonButtonInsurance';
-import InstagramEmbed from 'react-instagram-embed';
-import { useNavigate } from 'react-router-dom';
-import { handleStep1, handleStep2, handleStep3, resetState } from '../../../Reducers/Insurance/StepRedux';
+import configDefault from '../../../Config/app';
 
+const paymentMethod = {
+    bank_account: 'bank_account',
+    payoo_account: 'payoo_account',
+    QRCode: 'QRCode',
+    pay_later: 'pay_later',
+    installment: 'installment',
+    cc: 'cc',
+}
 const BuyInsurancePersonalStep4Component = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -30,7 +39,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
         dispatch(createPayment({
             // "order_no": "ORDER4" + moment().format('HH:mm:ss'),
             "order_no": orderData.data && orderData.data.order_code,
-            "order_cash_amount": step2.price,
+            "order_cash_amount": step2.totalAmount,
             "order_ship_date": moment().format('DD/MM/YYYY'),
             "order_ship_days": 1,
             "validity_time": moment().add(2, 'days').format('YYYYMMDDhhmmss'),
@@ -40,16 +49,26 @@ const BuyInsurancePersonalStep4Component = (props) => {
             "email": step3.email,
             "payment_method": paymentPort,
         }))
-        if (!isStringNullOrEmpty(paymentData.data && paymentData.data.payment_url)) {
-            // setIsShowPopup(true)
-            dispatch(
-                resetState()
-            )
-            navigate('/')
-            window.open(paymentData.data && paymentData.data.payment_url)
+        if (paymentData.status === false) {
+            // window.location.reload();
+            props.handleButtonGoBack && props.handleButtonGoBack(configDefault.FAILED)
+            // props.handleButtonGoBack && props.handleButtonGoBack(configDefault.BANK_TRANSFER_SUCCESS)
+        } else {
+            if (!isStringNullOrEmpty(paymentData.data && paymentData.data.payment_url)) {
+                // setIsShowPopup(true)
+                dispatch(
+                    resetState()
+                )
+                navigate('/')
+                window.open(paymentData.data && paymentData.data.payment_url)
 
+            }
         }
         // props.handleButtonContinue && props.handleButtonContinue()
+    }
+
+    const handleGoBack = () => {
+        props.handleButtonGoBack && props.handleButtonGoBack();
     }
 
     const handleCopyClipBoard = (valueCopy) => {
@@ -81,12 +100,12 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             height={44}
                                         />
                                         <div className='payment-title'>
-                                            <label htmlFor="transfer">Chuyển khoản trực tiếp cho Affina</label>
+                                            <label htmlFor={paymentMethod.QRCode}>Chuyển khoản trực tiếp cho Affina</label>
                                         </div>
                                         <div className='ms-auto'>
-                                            <div className='wrap-check position-relative' onClick={() => handleSelectPaymentPort('transfer')}>
-                                                <input type="radio" name="radio" id="transfer" checked={paymentPort === 'transfer'} onChange={() => handleSelectPaymentPort('transfer')} />
-                                                <span className='check-mark' onClick={() => handleSelectPaymentPort('transfer')}></span>
+                                            <div className='wrap-check position-relative' onClick={() => handleSelectPaymentPort(paymentMethod.QRCode)}>
+                                                <input type="radio" name="radio" id={paymentMethod.QRCode} checked={paymentPort === paymentMethod.QRCode} onChange={() => handleSelectPaymentPort(paymentMethod.QRCode)} />
+                                                <span className='check-mark' onClick={() => handleSelectPaymentPort(paymentMethod.QRCode)}></span>
                                             </div>
                                         </div>
                                     </Stack>
@@ -116,8 +135,8 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                                 <p>Chi nhánh: <strong>Bình Tây</strong>
                                                     <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Bình Tây')}></i>
                                                 </p>
-                                                <p>Nội dung chuyển Khoản:: <strong>{step3.name}_{step3.phone}_{orderData.data && orderData.data.order_code} Affina</strong>
-                                                    <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard(step3.name + '_' + step3.phone + '_' + (orderData.data && orderData.data.order_code + ' Affina'))}></i>
+                                                <p>Nội dung chuyển Khoản:: <strong>{vnConvert(step3.name).split(' ').join('')} {step3.phone} {orderData.data && orderData.data.order_code}</strong>
+                                                    <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard(vnConvert(step3.name).split(' ').join('') + ' ' + step3.phone + ' ' + (orderData.data && orderData.data.order_code))}></i>
                                                 </p>
                                             </div>
                                         </div>
@@ -136,12 +155,12 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             height={44}
                                         />
                                         <div className='payment-title'>
-                                            <label htmlFor="atm">Thanh toán bằng thẻ ATM</label>
+                                            <label htmlFor={paymentMethod.bank_account}>Thanh toán bằng thẻ ATM</label>
                                         </div>
                                         <div className='ms-auto'>
                                             <div className='wrap-check position-relative'>
-                                                <input type="radio" name="radio" id="atm" checked={paymentPort === 'atm'} onChange={() => handleSelectPaymentPort('atm')} />
-                                                <span className='check-mark' onClick={() => handleSelectPaymentPort('atm')}></span>
+                                                <input type="radio" name="radio" id={paymentMethod.bank_account} checked={paymentPort === paymentMethod.bank_account} onChange={() => handleSelectPaymentPort(paymentMethod.bank_account)} />
+                                                <span className='check-mark' onClick={() => handleSelectPaymentPort(paymentMethod.bank_account)}></span>
                                             </div>
                                         </div>
                                     </Stack>
@@ -159,12 +178,12 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             height={44}
                                         />
                                         <div className='payment-title'>
-                                            <label htmlFor="visa/master/jcb">Visa/Master/JCB</label>
+                                            <label htmlFor={paymentMethod.cc}>Visa/Master/JCB</label>
                                         </div>
                                         <div className='ms-auto'>
                                             <div className='wrap-check position-relative'>
-                                                <input type="radio" name="radio" id="visa/master/jcb" checked={paymentPort === 'visa/master/jcb'} onChange={() => handleSelectPaymentPort('visa/master/jcb')} />
-                                                <span className='check-mark' onClick={() => handleSelectPaymentPort('visa/master/jcb')}></span>
+                                                <input type="radio" name="radio" id={paymentMethod.cc} checked={paymentPort === paymentMethod.cc} onChange={() => handleSelectPaymentPort(paymentMethod.cc)} />
+                                                <span className='check-mark' onClick={() => handleSelectPaymentPort(paymentMethod.cc)}></span>
                                             </div>
                                         </div>
                                     </Stack>
@@ -182,12 +201,12 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             height={44}
                                         />
                                         <div className='payment-title'>
-                                            <label htmlFor="installment">Thanh toán bằng hình thức trả góp </label>
+                                            <label htmlFor={paymentMethod.installment}>Thanh toán bằng hình thức trả góp </label>
                                         </div>
                                         <div className='ms-auto'>
                                             <div className='wrap-check position-relative'>
-                                                <input type="radio" name="radio" id="installment" checked={paymentPort === 'installment'} onChange={() => handleSelectPaymentPort('installment')} />
-                                                <span className='check-mark' onClick={() => handleSelectPaymentPort('installment')}></span>
+                                                <input type="radio" name="radio" id={paymentMethod.installment} checked={paymentPort === paymentMethod.installment} onChange={() => handleSelectPaymentPort(paymentMethod.installment)} />
+                                                <span className='check-mark' onClick={() => handleSelectPaymentPort(paymentMethod.installment)}></span>
                                             </div>
                                         </div>
                                     </Stack>
@@ -205,12 +224,12 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             height={44}
                                         />
                                         <div className='payment-title'>
-                                            <label htmlFor="momo">Thanh toán bằng ví Momo</label>
+                                            <label htmlFor={paymentMethod.payoo_account}>Thanh toán bằng ví điện tử</label>
                                         </div>
                                         <div className='ms-auto'>
                                             <div className='wrap-check position-relative'>
-                                                <input type="radio" name="radio" id="momo" checked={paymentPort === 'momo'} onChange={() => handleSelectPaymentPort('momo')} />
-                                                <span className='check-mark' onClick={() => handleSelectPaymentPort('momo')}></span>
+                                                <input type="radio" name="radio" id={paymentMethod.payoo_account} checked={paymentPort === paymentMethod.payoo_account} onChange={() => handleSelectPaymentPort(paymentMethod.payoo_account)} />
+                                                <span className='check-mark' onClick={() => handleSelectPaymentPort(paymentMethod.payoo_account)}></span>
                                             </div>
                                         </div>
                                     </Stack>
@@ -220,68 +239,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
                         </div>
                     </Col>
                     <Col md={3}>
-                        <div className='insurance-sidebar bg-white sidebar-right-content'>
-                            <Form.Label className='justify-content-start'>Tóm tắt đơn bảo hiểm</Form.Label>
-                            <label className='unit'> *Đơn vị: VNĐ</label>
-                            <Line type='dotted' />
-                            <div className='brief-info'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Đối tượng bảo hiểm:</Nav.Item>
-                                    <Nav.Item>Cá nhân</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Ngày sinh:</Nav.Item>
-                                    <Nav.Item>12/04/1992</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Nhà bảo hiểm:</Nav.Item>
-                                    <Nav.Item>{step2.supplier && step2.supplier.name}</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Tên gói: </Nav.Item>
-                                    <Nav.Item>{step2.packageName}</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Tổng số tiền được bảo hiểm:</Nav.Item>
-                                    <Nav.Item></Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Thời hạn bảo hiểm:</Nav.Item>
-                                    <Nav.Item>{step3.timeExpire.value}</Nav.Item>
-                                </Nav>
-                            </div>
-                            <Line type='dotted' />
-                            <div className='main-package-fee'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item><strong>Phí gói chính:</strong></Nav.Item>
-                                    <Nav.Item>{formatPrepaidAmount(step2.price)}</Nav.Item>
-                                </Nav>
-                            </div>
-                            <Line type='dotted' />
-                            <div className='package-additional'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item><strong>Gói bổ sung:</strong></Nav.Item>
-                                    <Nav.Item></Nav.Item>
-                                </Nav>
-                            </div>
-                            <Line type='dotted' />
-                            <div className='into-money'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Thành tiền:</Nav.Item>
-                                    <Nav.Item>{formatPrepaidAmount(step2.price)}</Nav.Item>
-                                </Nav>
-                            </div>
-                            <div className='promotion'>
-                                <input defaultValue="" placeholder='Nhập mã khuyến mãi' />
-                            </div>
-                            <Line type='dotted' />
-                            <div className='total-money'>
-                                <Stack direction='horizontal'>
-                                    <label>TỔNG TIỀN: </label>
-                                    <label className='ms-auto'>{formatPrepaidAmount(step2.fee)}</label>
-                                </Stack>
-                            </div>
-                        </div>
+                        <BriefComponent />
                     </Col>
                 </Row>
             </Container>
@@ -289,7 +247,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
                 validate={validate([paymentPort])}
-                handleButtonGoBack={props.handleButtonGoBack}
+                handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
             />
             <Modal

@@ -20,7 +20,7 @@ body {
   .text-right {
     text-align: right;
   }
-  .cursor-pointer{
+  .cursor-pointer {
     cursor: pointer;
   }
 }
@@ -78,13 +78,13 @@ body {
 }
 .btn-md {
   padding: 1rem 3rem !important;
-  @media (max-width: 360px) {
+  @media only screen and (max-width: 768px) {
     padding: 0.5rem 1rem !important;
   }
 }
 .btn-sm {
   padding: 0.75rem 2rem !important;
-  @media (max-width: 360px) {
+  @media only screen and (max-width: 768px) {
     padding: 0.5rem 1rem !important;
   }
 }
@@ -95,7 +95,7 @@ body {
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(affina-blue);
-  @media (max-width: 360px) {
+  @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
   &.outline-blue-active,
@@ -111,7 +111,7 @@ body {
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(white);
-  @media (max-width: 360px) {
+  @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
   &:hover {
@@ -121,12 +121,31 @@ body {
   }
 }
 .btn-pink {
+  background: color(color-ff52db);
+  color: color(white);
+  font-size: $default-font-size-large-18;
+  border-radius: $button-border-radius-large;
+  border: 1px solid color(white);
+  @media only screen and (max-width: 768px) {
+    font-size: 0.75rem;
+  }
+  &.outline-pink-active,
+  &:hover {
+    background: color(white);
+    color: color(color-ff52db);
+    border: 1px solid color(color-ff52db);
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+}
+.btn-outline-pink {
   background: color(white);
   color: color(color-ff52db);
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(color-ff52db);
-  @media (max-width: 360px) {
+  @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
   &.outline-pink-active,
@@ -135,7 +154,7 @@ body {
     color: color(white);
     border: 1px solid color(white);
 
-    img{
+    img {
       filter: brightness(0) invert(1);
     }
   }
@@ -147,7 +166,7 @@ body {
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(color-dddddd);
-  @media (max-width: 360px) {
+  @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
   // &:hover {
@@ -160,7 +179,36 @@ body {
   background: linear-gradient(to bottom, #ff52db, #095efb);
   background-clip: padding-box;
 }
-.img-white{
+.img-white {
   filter: brightness(0) invert(1);
 }
 
+.my-sticky-top {
+  position: sticky !important;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1;
+}
+.xs-visibility {
+  display: none;
+}
+
+@media (max-width: 360px) {
+  .width-auto {
+    width: 100%;
+  }
+  .xs-hidden {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .width-auto {
+    width: 100%;
+  }
+  .xs-hidden {
+    display: none !important;
+  }
+  .xs-visibility{
+    display: block !important;
+  }
+}

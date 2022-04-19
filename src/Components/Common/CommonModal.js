@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import React from 'react'
 import { Accordion, Button, Col, Container, Image, Modal, Row, Stack, Tab, Tabs } from 'react-bootstrap'
 import accessStyle from "../../Assets";
-import { formatPrepaidAmount } from "../../Common/Helper";
+import { formatPrepaidAmount, isEmptyArray } from "../../Common/Helper";
 import Line from "../../Common/Line";
 import configDefault from "../../Config/app";
 
 const CommonModal = (props) => {
-    const { step2 = {}, step3 } = props.data;
+    const { step2 = {}, step3, package_main, additional } = props.data;
     console.log('packageDetail::', props.data);
     return (
         <Modal
@@ -64,16 +64,27 @@ const CommonModal = (props) => {
                     <div className="modal-sidebar-insurance sidebar-insurance-benefit-additional">
                         <h5>QUYỀN LỢI BỔ SUNG</h5>
                         <div className="group-child">
-                            <Stack direction="horizontal">
+                            {
+                                (!isEmptyArray(additional)) &&
+                                additional.map((itemAdditional, index) => {
+                                    return (
+                                        <Stack className="benefit-item" key={itemAdditional._id}>
+                                            <span className="benefit-topic">{itemAdditional.name}</span>
+                                            <span className="text-uppercase">{formatPrepaidAmount(itemAdditional.amount)}</span>
+                                        </Stack>
+                                    )
+                                })
+                            }
+                            {/* <Stack direction="horizontal">
                                 <span>Điều trị ngoại trú</span>
                                 <span className="ms-auto">Nha khoa</span>
                             </Stack>
                             <Stack direction="horizontal">
                                 <span>không hỗ trợ</span>
                                 <span className="ms-auto">không hỗ trợ</span>
-                            </Stack>
+                            </Stack> */}
                         </div>
-                        <div className="group-child">
+                        {/* <div className="group-child">
                             <Stack direction="horizontal">
                                 <span>Thai sản</span>
                                 <span className="ms-auto">Bệnh hiểm nghèo</span>
@@ -82,7 +93,7 @@ const CommonModal = (props) => {
                                 <span>không hỗ trợ</span>
                                 <span className="ms-auto">không hỗ trợ</span>
                             </Stack>
-                        </div>
+                        </div> */}
                     </div>
                     <Line type="dashed" color='e6e6e6' />
                     <div className="modal-sidebar-insurance sidebar-insurance-highlights">
@@ -138,7 +149,29 @@ const CommonModal = (props) => {
                             <Tab eventKey="product-info" title="Thông tin sản phẩm">
                                 <Container className="container-participation">
                                     <Accordion defaultActiveKey="0">
-                                        <Accordion.Item eventKey="0">
+                                        {
+                                            (!isEmptyArray(package_main)) &&
+                                            package_main.map((itemMain, index) => {
+                                                if (itemMain.is_view !== 0) {
+                                                    return (
+                                                        <Accordion.Item eventKey={itemMain._id} key={itemMain._id}>
+                                                            <Accordion.Header>
+                                                                <div className="topic">
+                                                                    {itemMain.description}
+                                                                </div>
+                                                                <div className="topic-price btn-outline-blue">
+                                                                    {formatPrepaidAmount(itemMain.amount)}VNĐ
+                                                                </div>
+                                                            </Accordion.Header>
+                                                            <Accordion.Body>{itemMain.content}</Accordion.Body>
+                                                        </Accordion.Item>
+                                                    )
+                                                } else {
+                                                    return null;
+                                                }
+                                            })
+                                        }
+                                        {/* <Accordion.Item eventKey="0">
                                             <Accordion.Header>
                                                 <div className="topic">
                                                     Tử vong hoặc thương tật toàn bộ/bộ phận vĩnh viễn do tai nạn
@@ -192,7 +225,7 @@ const CommonModal = (props) => {
                                                     <li>Trợ cấp mai táng</li>
                                                 </ul>
                                             </Accordion.Body>
-                                        </Accordion.Item>
+                                        </Accordion.Item> */}
                                     </Accordion>
                                 </Container>
                             </Tab>

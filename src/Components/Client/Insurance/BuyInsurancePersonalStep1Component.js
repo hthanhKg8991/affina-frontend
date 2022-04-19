@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { Button, Col, Nav, Navbar, Row } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
-import { formatIOSToDate, validate } from '../../../Common/Helper';
-import CommonButtonInsurance from './CommonButtonInsurance';
-import { handleStep1 } from '../../../Reducers/Insurance/StepRedux';
 import { useDispatch, useSelector } from 'react-redux';
+import { formatIOSToDate, validate } from '../../../Common/Helper';
+import { handleStep1 } from '../../../Reducers/Insurance/StepRedux';
+import CommonButtonInsurance from './CommonButtonInsurance';
 
 const BuyInsurancePersonalStep1Component = (props) => {
 
@@ -38,20 +38,20 @@ const BuyInsurancePersonalStep1Component = (props) => {
             <h4>Cho Affina biết chút thông tin về người được bảo hiểm bạn nhé!</h4>
             <div className='describe'>Thông tin Bạn cung cấp sẽ giúp việc chọn gói bảo hiểm được nhanh chóng và phù hợp nhất.</div>
             <Navbar className='choose-gender justify-content-center'>
-                <Row>
+                <Row className='width-auto'>
                     <Col md={3} className="d-flex justify-content-end align-items-center choose-gender-label">Giới tính:</Col>
                     <Col md={9}>
                         <Navbar.Collapse className='justify-content-center'>
-                            <Nav.Item>
-                                <Button variant={gender === 1 ? 'outline-blue btn-sm outline-blue-active' : 'outline-blue btn-sm '} onClick={() => handleChangeGender(1)}>
+                            <Nav.Item className='width-auto'>
+                                <Button className='width-auto' variant={gender === 1 ? 'outline-blue btn-sm outline-blue-active' : 'outline-blue btn-sm '} onClick={() => handleChangeGender(1)}>
                                     Nam
                                 </Button>
                             </Nav.Item>
                             <Nav.Item className='line-or'>
                                 <span className='sort-line'></span>hoặc <span className='sort-line'></span>
                             </Nav.Item>
-                            <Nav.Item>
-                                <Button variant={gender === 0 ? 'pink btn-sm outline-pink-active' : "pink btn-sm"} onClick={() => handleChangeGender(0)}>
+                            <Nav.Item className='width-auto'>
+                                <Button className='width-auto' variant={gender === 0 ? 'pink btn-sm outline-pink-active' : "pink btn-sm"} onClick={() => handleChangeGender(0)}>
                                     Nữ
                                 </Button>
                             </Nav.Item>
@@ -64,7 +64,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
                     <Col md={3} className="d-flex justify-content-end align-items-center choose-birthday-label">Năm sinh:</Col>
                     <Col md={9}>
                         <Navbar.Collapse className='justify-content-center'>
-                            <Nav.Item>
+                            <Nav.Item className='width-auto'>
                                 <DatePicker className="form-control"
                                     selected={birthday}
                                     onChange={(date) => onChangeBirthday(date)}

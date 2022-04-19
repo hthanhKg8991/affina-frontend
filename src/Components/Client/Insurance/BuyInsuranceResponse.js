@@ -7,7 +7,7 @@ const BuyInsuranceResponse = (props) => {
         case 1:
         case '1':
             return (
-                <div className='response-success bg-white'>
+                <div className='response-data response-success bg-white'>
                     <Image
                         src={accessStyle.images.response.success}
                         srcSet={`
@@ -23,7 +23,7 @@ const BuyInsuranceResponse = (props) => {
                     </h5>
                     <p>Giao dịch {props.transaction}  đã được thanh toán thành công.</p>
                     <p>Mã số hợp đồng của bạn là {props.orderNo}</p>
-                    <Button className='btn-pink'>
+                    <Button className='btn-outline-pink '>
                         <Image
                             src={accessStyle.images.icons.download}
                             srcSet={`

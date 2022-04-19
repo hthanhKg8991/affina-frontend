@@ -5,6 +5,7 @@ import CustomerReviewsComponent from "./CustomerReviewsComponent";
 import DownloadAppComponent from "./DownloadAppComponent";
 import QuestionOftenComponent from "./QuestionOftenComponent";
 import Slider from "react-slick";
+import TrustedByLeadingPartner from './TrustedByLeadingPartner';
 
 function AboutComponent() {
     const settings = {
@@ -50,123 +51,15 @@ function AboutComponent() {
     return (
         <div>
             <Container className="protection text-center">
-                <h1>Make your protection simple</h1>
-                <Navbar.Text>Instant everything. Incredible prices. Big heart.</Navbar.Text>
+                <h1>Bảo vệ gia đình của bạn vô cùng đơn giản</h1>
+                <Navbar.Text>Quy Trình 1 phút - Giá cực ưu đãi - An tâm, vững tin</Navbar.Text>
                 <Nav.Item className='check-our-price'>
                     <Link to="/check-our-price" className="btn btn-lg">
-                        Check our prices</Link>
+                        Tham gia ngay cùng chúng tôi</Link>
                 </Nav.Item>
             </Container>
-            <Container className='trusted-by-top-leading text-center'>
-                <h6 className='header-text'>Trusted by top leading</h6>
-                <Slider {...settings} >
-                    <Col>
-                        <div className="slider-item">
-                            <Image
-                                src={require("../../Assets/Images/public/partner/pti.png")}
-                                srcSet={`
-                                    ${require('../../Assets/Images/public/partner/pti@2x.png')} 2x, 
-                                    ${require('../../Assets/Images/public/partner/pti@3x.png')} 3x
-                                `}
-                                alt="Picture of the author"
-                                width={'auto'}
-                                height={30}
-                                className="logo-footer"
-                            />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className="slider-item">
-                            <Image
-                                src={require("../../Assets/Images/public/partner/pti.png")}
-                                srcSet={`
-                                    ${require('../../Assets/Images/public/partner/pti@2x.png')} 2x, 
-                                    ${require('../../Assets/Images/public/partner/pti@3x.png')} 3x
-                                `}
-                                alt="Picture of the author"
-                                width={'auto'}
-                                height={30}
-                                className="logo-footer"
-                            />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className="slider-item">
-                            <Image
-                                src={require("../../Assets/Images/public/partner/pti.png")}
-                                srcSet={`
-                                    ${require('../../Assets/Images/public/partner/pti@2x.png')} 2x, 
-                                    ${require('../../Assets/Images/public/partner/pti@3x.png')} 3x
-                                `}
-                                alt="Picture of the author"
-                                width={'auto'}
-                                height={30}
-                                className="logo-footer"
-                            />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className="slider-item">
-                            <Image
-                                src={require("../../Assets/Images/public/partner/pti.png")}
-                                srcSet={`
-                                    ${require('../../Assets/Images/public/partner/pti@2x.png')} 2x, 
-                                    ${require('../../Assets/Images/public/partner/pti@3x.png')} 3x
-                                `}
-                                alt="Picture of the author"
-                                width={'auto'}
-                                height={30}
-                                className="logo-footer"
-                            />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className="slider-item">
-                            <Image
-                                src={require("../../Assets/Images/public/partner/pti.png")}
-                                srcSet={`
-                                    ${require('../../Assets/Images/public/partner/pti@2x.png')} 2x, 
-                                    ${require('../../Assets/Images/public/partner/pti@3x.png')} 3x
-                                `}
-                                alt="Picture of the author"
-                                width={'auto'}
-                                height={30}
-                                className="logo-footer"
-                            />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className="slider-item">
-                            <Image
-                                src={require("../../Assets/Images/public/partner/pti.png")}
-                                srcSet={`
-                                    ${require('../../Assets/Images/public/partner/pti@2x.png')} 2x, 
-                                    ${require('../../Assets/Images/public/partner/pti@3x.png')} 3x
-                                `}
-                                alt="Picture of the author"
-                                width={'auto'}
-                                height={30}
-                                className="logo-footer"
-                            />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className="slider-item">
-                            <Image
-                                src={require("../../Assets/Images/public/partner/pjico.png")}
-                                srcSet={`
-                                    ${require('../../Assets/Images/public/partner/pjico@2x.png')} 2x, 
-                                    ${require('../../Assets/Images/public/partner/pjico@3x.png')} 3x
-                                `}
-                                alt="Picture of the author"
-                                width={'auto'}
-                                height={30}
-                                className="logo-footer"
-                            />
-                        </div>
-                    </Col>
-                </Slider>
-            </Container>
+            <TrustedByLeadingPartner />
+            
 
             {/* <Container className='our-protect-solution text-center'>
                 <h6 className='header-text'>Our protection solutions</h6>
@@ -437,10 +330,10 @@ function AboutComponent() {
                                 <p>Năng động, trẻ trung, thích khai phá tiềm năng & dám tiên phong trong ngành công nghệ bảo hiểm (Insurtech), Affina nỗ lực hết mình để hoàn thành mục tiêu, đó là phục vụ ngày càng tốt hơn nhu cầu của bạn, gia đình, doanh nghiệp Việt Nam.
                                 </p>
                             </div>
-                            <Navbar className="end-of-page">
+                            {/* <Navbar className="end-of-page">
                                 <Link to="/how-to-it-work">See how it work
                                     <i className="mdi mdi-arrow-right"></i></Link>
-                            </Navbar>
+                            </Navbar> */}
                         </div>
                     </Col>
                     <Col md={6}>
@@ -478,10 +371,10 @@ function AboutComponent() {
                                 </p>
 
                             </div>
-                            <Navbar className="end-of-page">
+                            {/* <Navbar className="end-of-page">
                                 <Link to="/how-to-it-work">See how it work
                                     <i className="mdi mdi-arrow-right"></i></Link>
-                            </Navbar>
+                            </Navbar> */}
                         </div>
                     </Col>
                     <Col md={6}>
@@ -520,10 +413,10 @@ function AboutComponent() {
                                 </p>
 
                             </div>
-                            <Navbar className="end-of-page">
+                            {/* <Navbar className="end-of-page">
                                 <Link to="/how-to-it-work">See how it work
                                     <i className="mdi mdi-arrow-right"></i></Link>
-                            </Navbar>
+                            </Navbar> */}
                         </div>
                     </Col>
                     <Col md={6}>
@@ -543,13 +436,13 @@ function AboutComponent() {
                 </Row>
                 <Nav.Item className='meet-your-insurance-assistant justify-content-center text-center'>
                     <Link to="/meet-your-insurance-assistant" className="btn btn-lg">
-                        Meet your insurance assistant</Link>
+                        Bảo vệ gia đình của bạn ngay hôm nay</Link>
                 </Nav.Item>
             </Container >
 
             <QuestionOftenComponent />
             <CustomerReviewsComponent />
-            <DownloadAppComponent />
+            {/* <DownloadAppComponent /> */}
         </div >
     )
 }

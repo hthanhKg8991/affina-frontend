@@ -27,11 +27,19 @@ const PackagesSlice = createSlice({
             state.isLoading = true;
         },
         packagesGetAllResponse(state, action) {
-            console.log('packagesGetAllResponse:::', action);
-            state.data = action.payload.data;
-            // state.supplier.forEach(item => {
+            
+            state.data = action.payload;
+            state.data.map(item=>{
+                item.package_main.map(itemChild => {
+                    if (itemChild.is_view === 0){
+                        item.package_main.push(...itemChild.product_details)
+                    }
+                    return itemChild;
+                })
+                return item;
+            })
+            // console.log('itemChild.product_details>>', item); 
 
-            // })
             state.isLoading = false;
         },
         // 
@@ -44,11 +52,27 @@ const PackagesSlice = createSlice({
             state.isLoading = false;
         },
         // 
+        productGetByPackage(state, action) {
+            state.isLoading = true;
+        },
+        productGetByPackageResponse(state, action) {
+            state.dataAdditional = action.payload;
+            state.isLoading = false;
+        },
+        // 
         packagesGetDetail(state, action) {
             state.isLoading = true;
         },
         packagesGetDetailResponse(state, action) {
             state.dataAdditional = action.payload;
+            state.isLoading = false;
+        },
+        // 
+        postPackageBySupplier(state, action) {
+            state.isLoading = true;
+        },
+        postPackageBySupplierResponse(state, action) {
+            state.data = action.payload.data;
             state.isLoading = false;
         },
         // 
@@ -77,5 +101,7 @@ export const {
     packagesGetDetail, packagesGetDetailResponse,
     createOrder, createOrderResponse,
     createPayment, createPaymentResponse,
+    productGetByPackage, productGetByPackageResponse,
+    postPackageBySupplier, postPackageBySupplierResponse,
 } = PackagesSlice.actions;
 export default PackagesSlice.reducer

@@ -1,43 +1,77 @@
 import moment from 'moment';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { Col, Container, Form, FormControl, Image, InputGroup, Nav, Navbar, Row, Stack, Modal } from 'react-bootstrap';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Col, Container, Form, Image, Nav, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import accessStyle from '../../../Assets';
-import { dynamicSort, formatPrepaidAmount, isEmptyArray, validate } from '../../../Common/Helper';
+import { dynamicSort, formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, numFormatter, validate } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
-import { getAllSuppliers, packagesGetAll, packagesGetDetail, packagesGetBySupplier } from '../../../Reducers/Insurance/PackagesRedux';
+import configDefault from '../../../Config/app';
+import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../Reducers/Insurance/PackagesRedux';
+import { handleSelectAdditional, handleStep2, resetAdditionalState } from '../../../Reducers/Insurance/StepRedux';
 import CommonModal from '../../Common/CommonModal';
 import MultiRangeSlider from '../../Common/MultiRangeSlider';
+import BriefComponent from './BriefComponent';
 import CommonButtonInsurance from './CommonButtonInsurance';
-import { handleCurrentStep, handleStep2 } from '../../../Reducers/Insurance/StepRedux';
-import configDefault from '../../../Config/app';
 const STEP = 500000;
 const MIN = 0;
-const MAX = 1500000;
+const MAX = 75000000;
 
+var amountSecondary = 0;
 const BuyInsurancePersonalStep2Component = (props) => {
     const dispatch = useDispatch();
     const { data = [], dataAdditional = [], supplier = [], dataBySupplier = [], isLoading, countDataSupplier } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2 } = dataStep;
-    console.log('dataDetail::', dataStep);
+    const { additional = [] } = step2;
+    console.log('dataAdditional::', step2);
     const [isSwap, setIsSwap] = useState(false);
 
     // handle api
-    const [values, setValues] = useState([50])
-    const [additional, setAdditional] = useState(dataAdditional);
+    // const [amountSecondary, setAmountSecondary] = useState(0)
     const [isAdditional, setIsAdditional] = useState(false);
+    const [isSelectAdditional, setIsSelectAdditional] = useState('');
+    const [selectAdditional, setSelectAdditional] = useState(additional);
     const [packageRemain, SetPackageRemain] = useState([]);
     const [isPackageRemain, setIsPackageRemain] = useState(false);
     const [isShowDetail, setIsShowDetail] = useState(false);
     const [isPackage, setIsPackage] = useState({});
     const [packageDetail, setPackageDetail] = useState({});
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(0);
+    const [selectSupplier, setSelectSupplier] = useState([]);
+    const [selectSort, setSelectSort] = useState([]);
+    const [isFilterMobile, setFilterMobile] = useState(false);
     const handleSwap = () => {
         setIsSwap(!isSwap)
     }
+    const handleSearch = (keywords) => {
+
+        console.log('keywords:::', keywords);
+        if (keywords === '') {
+            return data;
+        }
+        const regex = new RegExp(`${keywords.trim()}`, 'i');
+        // const data =  arrayData.filter(item => vnConvert(item.name).search(regex) >= 0);
+        return data.filter(item => (item.name.search(regex) >= 0));
+
+    }
+
+    const handleFilter = () => {
+        let params = {
+            age: moment().format('YYYY') - moment(step1.birthday).format('YYYY'),
+            gender: step1.gender,
+            fee_min: min,
+            fee_max: max,
+            supplier: selectSupplier,
+            sort: selectSort,
+        }
+        dispatch(postPackageBySupplier(params))
+    }
+    useMemo(() => {
+        handleFilter()
+    }, [min, max, selectSupplier, selectSort])
     const callAPI = () => {
         dispatch(getAllSuppliers());
+        dispatch(packagesGetAll());
         dispatch(packagesGetAll());
     }
     useEffect(() => {
@@ -47,7 +81,6 @@ const BuyInsurancePersonalStep2Component = (props) => {
         if (id === isAdditional) {
             setIsAdditional(false)
         } else {
-            dispatch(packagesGetDetail(id))
             setIsAdditional(id)
         }
         setIsPackageRemain(false)
@@ -94,17 +127,65 @@ const BuyInsurancePersonalStep2Component = (props) => {
             packageCode: item.package_code,
             price: item.price,
             fee: item.price_fee,
+            discount: item.discount,
             supplier: item.supplier,
+            additional: additional,
+            packageMain: item.package_main,
         }))
+        setPackageDetail(item)
         setIsPackage(item)
+        dispatch(resetAdditionalState({}))
+        // setSelectAdditional([])
+    }
+
+    const onSelectAdditional = (item, packageSelect) => {
+        if (step2.packageCode === packageSelect) {
+            dispatch(handleSelectAdditional(item))
+            setIsSelectAdditional(item)
+        }
+    }
+
+    const handleSetMinMax = (min, max) => {
+        setMin(min)
+        setMax(max)
+    }
+    const handleSetSupplier = (value) => {
+        const removeId = selectSupplier.findIndex(item => item === value);
+        if (removeId >= 0) {
+            selectSupplier.splice(removeId, 1);
+            console.log('removeId>>', selectSupplier);
+            setSelectSupplier(selectSupplier)
+        } else {
+            setSelectSupplier([...selectSupplier, value])
+        }
+    }
+
+    const handleCheckSort = (id) => {
+        setSelectSort([id])
+    }
+
+    const handleCheckAdditional = (id) => {
+        if (!isEmptyArray(step2.additional)) {
+            return step2.additional.some(el => el._id === id);
+        } else {
+            return false;
+        }
+    }
+    const handleGoBack = () => {
+        props.handleButtonGoBack && props.handleButtonGoBack()
     }
 
     const handleContinue = () => {
-        dispatch(handleCurrentStep({
-            currentStep: 3,
-            holdStep: 3,
+        dispatch(handleStep2({
+            ...step2,
+            // totalAmount: amountSecondary + step2.price
         }))
         props.handleButtonContinue && props.handleButtonContinue()
+    }
+    let dataSearch = handleSearch('');
+
+    const handleViewFilterMobile = () => {
+        setFilterMobile(!isFilterMobile)
     }
     return (
         <Container>
@@ -116,7 +197,8 @@ const BuyInsurancePersonalStep2Component = (props) => {
                             <Row>
                                 <Col className='group-search'>
                                     <div className="input-group">
-                                        <input className="form-control py-2" type="search" defaultValue="" id="example-search-input" placeholder='Nhập từ khoá cần tìm' />
+                                        <input className="form-control py-2" type="search" id="example-search-input"
+                                            placeholder='Nhập từ khoá cần tìm' onChange={(e) => handleSearch(e.target.value)} />
                                         <span className="input-group-append">
                                             <button className="btn btn-search" type="button">
                                                 <Image
@@ -143,6 +225,9 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                 height={39}
                                             />
                                         </button>
+                                        <button className="btn filter-vertical xs-visibility" type="button" onClick={handleViewFilterMobile}>
+                                            <i className='mdi mdi-filter-outline toggle-filter'></i>
+                                        </button>
                                     </div>
                                 </Col>
                             </Row>
@@ -152,303 +237,253 @@ const BuyInsurancePersonalStep2Component = (props) => {
                 </Row>
                 <Row>
                     <Col md={3}>
-                        <div className='insurance-sidebar'>
-                            <Form.Label className='justify-content-start'>Chọn giá</Form.Label>
-                            <MultiRangeSlider
-                                step={STEP}
-                                min={MIN}
-                                max={MAX}
-                                onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
-                            />
-                        </div>
-                        <div className='insurance-sidebar'>
-                            <Form.Label className='justify-content-start'>Sắp xếp theo</Form.Label>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" defaultValue="" id="selling" />
-                                <label className="form-check-label" htmlFor="selling">
-                                    Bán chạy
-                                </label>
+                        <div className={isFilterMobile ? 'wrap-sidebar open' : 'wrap-sidebar'}>
+                            <div className='wrap-mobile-filter background-gradient-to-bottom position-relative xs-visibility'>
+                                <h5>Bộ lọc tìm kiếm</h5>
+                                <span className='close' onClick={handleViewFilterMobile}>X</span>
                             </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" defaultValue="" id="popular" />
-                                <label className="form-check-label" htmlFor="popular">
-                                    Phổ biến
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" defaultValue="" id="onSale" />
-                                <label className="form-check-label" htmlFor="onSale">
-                                    Đang giảm giá
-                                </label>
-                            </div>
-                        </div>
-                        <div className='insurance-sidebar'>
-                            <Form.Label className='justify-content-start'>Nhà Bảo Hiểm</Form.Label>
-                            {
+                            <div className='wrap-sidebar-content'>
+                                <div className='insurance-sidebar'>
+                                    <Form.Label className='justify-content-start'>Chọn giá</Form.Label>
+                                    <MultiRangeSlider
+                                        step={STEP}
+                                        min={MIN}
+                                        max={MAX}
+                                        defaultMinValue={MIN}
+                                        defaultMaxValue={MAX}
+                                        onChange={({ min, max }) => handleSetMinMax(min, max)}
+                                    />
+                                </div>
+                                <div className='insurance-sidebar'>
+                                    <Form.Label className='justify-content-start'>Sắp xếp theo</Form.Label>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" name="radio" id="selling" onChange={() => handleCheckSort('selling')} />
+                                        <label className="form-check-label" htmlFor="selling">
+                                            Bán chạy
+                                        </label>
+                                    </div>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" name="radio" id="popular" onChange={() => handleCheckSort('popular')} />
+                                        <label className="form-check-label" htmlFor="popular">
+                                            Phổ biến
+                                        </label>
+                                    </div>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" name="radio" id="discount" onChange={() => handleCheckSort('discount')} />
+                                        <label className="form-check-label" htmlFor="discount">
+                                            Đang giảm giá
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className='insurance-sidebar'>
+                                    <Form.Label className='justify-content-start'>Nhà Bảo Hiểm</Form.Label>
+                                    {
 
-                                (!isEmptyArray(supplier)) &&
-                                supplier.map((item, index) => {
-                                    return (
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" defaultValue="" id={item.code} />
-                                            <label className="form-check-label" htmlFor={item.code}>
-                                                {item.name}
-                                            </label>
-                                        </div>
-                                    )
-                                })
-                            }
+                                        (!isEmptyArray(supplier)) &&
+                                        supplier.map((item, index) => {
+                                            return (
+                                                <div className="form-check" key={item._id}>
+                                                    <input className="form-check-input" type="checkbox" id={item.code} onChange={() => handleSetSupplier(item._id)} />
+                                                    <label className="form-check-label" htmlFor={item.code}>
+                                                        {item.name}
+                                                    </label>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </Col>
 
                     <Col md={6} className='insurance-center'>
                         {
-                            (!isEmptyArray(data)) &&
-                            [].concat(data)
-                                .sort(dynamicSort('name', isSwap))
-                                .map((item, index) => {
-                                    return (
-                                        <Row className={(item.package_code === isPackage.package_code) ? 'group-item group-item-active' : 'group-item'} key={item._id}>
-                                            {/* <Stack direction='horizontal' className='align-items-start'> */}
-                                            <Col md={3} className='reset-padding-right '>
-                                                <div className="box-left text-center">
-                                                    <div className='wrap-image'>
-                                                        <Image
-                                                            src={item.supplier && configDefault.URL_IMG + item.supplier.image}
-                                                            srcSet={`
+                            (!isEmptyArray(dataSearch)) ?
+                                [].concat(dataSearch)
+                                    .sort(dynamicSort('price_fee', isSwap))
+                                    .map((item, index) => {
+                                        return (
+                                            <Row className={(item.package_code === isPackage.package_code || item.package_code === step2.packageCode) ? 'group-item group-item-active' : 'group-item'} key={item._id + '' + item.name}>
+                                                {/* <Stack direction='horizontal' className='align-items-start'> */}
+                                                <Col md={3} xs={3} sm={3} className='reset-padding-right '>
+                                                    <div className="box-left text-center">
+                                                        <div className='wrap-image'>
+                                                            <Image
+                                                                src={item.supplier && configDefault.URL_IMG + item.supplier.image}
+                                                                srcSet={`
                                                                 ${item.supplier && configDefault.URL_IMG + item.supplier.image} 2x, 
                                                                 ${item.supplier && configDefault.URL_IMG + item.supplier.image} 3x
                                                             `}
-                                                            className="cursor-pointer"
-                                                            onClick={() => handleSelectPackage(item)}
-                                                            alt="logo gic"
-                                                            width={'100%'}
-                                                            height={'auto'}
-                                                        />
+                                                                className="cursor-pointer"
+                                                                onClick={() => handleSelectPackage(item)}
+                                                                alt="logo gic"
+                                                                width={'100%'}
+                                                                height={'auto'}
+                                                            />
+                                                        </div>
+                                                        <strong className='insure-package-name' onClick={() => handleSelectPackage(item)}>{item.supplier && item.supplier.name}</strong>
+                                                        <Nav className='justify-content-center wrap-star'>
+                                                            {rateStart(item.rate)}
+                                                        </Nav>
                                                     </div>
-                                                    <strong className='insure-package-name' onClick={() => handleSelectPackage(item)}>{item.supplier && item.supplier.name}</strong>
-                                                    <Nav className='justify-content-center wrap-star'>
-                                                        {rateStart(item.rate)}
-                                                        {/* <Nav.Item className='icons-star star-active'>
-                                                            <i className="mdi mdi-star"></i>
-                                                        </Nav.Item>
-                                                        <Nav.Item className='icons-star star-active'>
-                                                            <i className="mdi mdi-star"></i>
-                                                        </Nav.Item>
-                                                        <Nav.Item className='icons-star star-active'>
-                                                            <i className="mdi mdi-star"></i>
-                                                        </Nav.Item>
-                                                        <Nav.Item className='icons-star star-active'>
-                                                            <i className="mdi mdi-star"></i>
-                                                        </Nav.Item>
-                                                        <Nav.Item className='icons-star star-inactive'>
-                                                            <i className="mdi mdi-star"></i>
-                                                        </Nav.Item> */}
-                                                    </Nav>
-                                                </div>
-                                            </Col>
-                                            <Col md={9} className="box-right">
-                                                <Stack direction="horizontal" className="align-items-start">
-                                                    <Stack className='align-items-start'>
-                                                        <Stack direction="horizontal" gap={3} className="align-items-start">
-                                                            <h6 className='insure-package' onClick={() => handleSelectPackage(item)}>{item.name}</h6>
-                                                            <span className='discount-price'>-{item.discount}%</span>
+                                                </Col>
+                                                <Col md={9} xs={9} sm={9} className="box-right">
+                                                    <Stack direction="horizontal" className="align-items-start">
+                                                        <Stack className='align-items-start'>
+                                                            <Stack direction="horizontal" gap={3} className="align-items-start">
+                                                                <h6 className='insure-package' onClick={() => handleSelectPackage(item)}>{item.name}</h6>
+                                                                <span className='discount-price'>-{item.discount}%</span>
+                                                            </Stack>
+                                                            <i className="package-detail" onClick={() => handleViewDetail(item)}>Chi tiết gói &raquo;</i>
                                                         </Stack>
-                                                        <i className="package-detail" onClick={() => handleViewDetail(item)}>Chi tiết gói &raquo;</i>
+                                                        <div className="text-right ms-auto">
+                                                            <p className='package-price'>{formatPrepaidAmount(item.price)}VNĐ</p>
+                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p>
+                                                        </div>
                                                     </Stack>
-                                                    <div className="text-right ms-auto">
-                                                        <p className='package-price'>{formatPrepaidAmount(item.price)}VNĐ</p>
-                                                        <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p>
+                                                    <Line type="dashed" color='e6e6e6' />
+                                                    <div className='procedure-text text-left'>
+                                                        <i>{item.description}</i>
                                                     </div>
-                                                </Stack>
-                                                <Line type="dashed" color='e6e6e6' />
-                                                <div className='procedure-text text-left'>
-                                                    <i>{item.description}</i>
-                                                </div>
-                                                <Line type="dashed" />
-                                                <Stack direction="horizontal" gap={3} className="align-items-start">
-                                                    {
-                                                        (!isEmptyArray(additional)) &&
-                                                        <p className='additional-benefits' onClick={() => handleAdditional(item._id)}>
-                                                            Quyền lợi bổ sung
-                                                            {
-                                                                (isAdditional === item._id) ?
-                                                                    <i className='mdi mdi-chevron-up'></i>
-                                                                    :
-                                                                    <i className='mdi mdi-chevron-down'></i>
-                                                            }
-                                                        </p>
-                                                    }
-                                                    <div className="text-right ms-auto">
+                                                    <div className='select-buy btn btn-pink' onClick={() => handleSelectPackage(item)}
+                                                    >
+                                                        Mua
+                                                    </div>
+                                                    <Line type="dashed" />
+                                                    <Stack direction="horizontal" gap={3} className="align-items-start">
                                                         {
-                                                            (!isEmptyArray(packageRemain)) &&
-                                                            <p className='preview-package' onClick={(code, supplier) => handlePackageRemain(item.package_code, item.supplier)}>
-                                                                Xem 7 gói bảo hiểm còn lại
+                                                            (!isEmptyArray(item.additional)) &&
+                                                            <p className='additional-benefits'
+                                                                onClick={() => handleAdditional(item._id)}
+                                                            >
+                                                                Quyền lợi bổ sung
                                                                 {
-                                                                    (isPackageRemain === item.package_code) ?
+                                                                    (isAdditional === item._id) ?
                                                                         <i className='mdi mdi-chevron-up'></i>
                                                                         :
                                                                         <i className='mdi mdi-chevron-down'></i>
                                                                 }
                                                             </p>
                                                         }
-                                                    </div>
-                                                </Stack>
-                                            </Col>
-                                            {
-                                                (isAdditional === item._id) && (
-                                                    additional.map((item, index) =>
-                                                        <div className='sub-item' key={index}>
-                                                            <div className='package-additional-preview '>
-                                                                <Stack direction='horizontal'>
-                                                                    <div className='wrap-check position-relative'>
-                                                                        <input type="radio" name="radio" id={index} checked={true} onChange={() => { }} />
-                                                                        <span className='check-mark'></span>
-                                                                    </div>
-                                                                    <Stack className='align-items-start'>
-                                                                        <Stack direction="horizontal" gap={3} className="align-items-start">
-                                                                            <label htmlFor={index} className='insure-package'>Gói bảo hiểm B1</label>
-                                                                            <span className='selling'>Bán chạy</span>
+                                                        <div className="text-right ms-auto">
+                                                            {
+                                                                (!isEmptyArray(packageRemain)) &&
+                                                                <p className='preview-package' onClick={(code, supplier) => handlePackageRemain(item.package_code, item.supplier)}>
+                                                                    Xem 7 gói bảo hiểm còn lại
+                                                                    {
+                                                                        (isPackageRemain === item.package_code) ?
+                                                                            <i className='mdi mdi-chevron-up'></i>
+                                                                            :
+                                                                            <i className='mdi mdi-chevron-down'></i>
+                                                                    }
+                                                                </p>
+                                                            }
+                                                        </div>
+                                                    </Stack>
+                                                </Col>
+                                                {
+                                                    (isPackageRemain === item.package_code) && (
+                                                        packageRemain.map((packageRemainItem, indexPackageMain) =>
+                                                            <div className='sub-item' key={packageRemainItem._id}>
+                                                                <div className='package-additional-preview '>
+                                                                    <Stack direction='horizontal'>
+                                                                        <div className='wrap-check position-relative'>
+                                                                            <input type="radio" name="radio" id={indexPackageMain} checked={true} />
+                                                                            <span className='check-mark'></span>
+                                                                        </div>
+                                                                        <Stack className='align-items-start'>
+                                                                            <Stack direction="horizontal" gap={3} className="align-items-start">
+                                                                                <label htmlFor={indexPackageMain} className='insure-package'>{packageRemainItem.name}</label>
+                                                                                <span className='selling'>Bán chạy</span>
+                                                                            </Stack>
+                                                                            {/* <i className="package-detail">Chi tiết gói &raquo;</i> */}
                                                                         </Stack>
-                                                                        <i className="package-detail">Chi tiết gói &raquo;</i>
+                                                                        <div className="text-right ms-auto">
+                                                                            <p className='package-price'>{formatPrepaidAmount(packageRemainItem.price)}VNĐ</p>
+                                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(packageRemainItem.price_fee)}VNĐ/năm</p>
+                                                                        </div>
                                                                     </Stack>
-                                                                    <div className="text-right ms-auto">
-                                                                        <p className='package-price'>{formatPrepaidAmount(item.price)}VNĐ</p>
-                                                                        <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p>
+                                                                    <Line type="dashed" color='e6e6e6' />
+                                                                    <div className='procedure-text text-left'>
+                                                                        <i>Bao gồm 1 quyền lợi bổ sung</i>
                                                                     </div>
-                                                                </Stack>
-                                                                <Line type="dashed" color='e6e6e6' />
-                                                                <div className='procedure-text text-left'>
-                                                                    <i>Bao gồm 1 quyền lợi bổ sung</i>
+                                                                </div>
+                                                                <div className='row'>
+                                                                    <Line type="solid" color='e6e6e6' />
                                                                 </div>
                                                             </div>
-                                                            <div className='row'>
-                                                                <Line type="solid" color='e6e6e6' />
-                                                            </div>
-                                                        </div>
+                                                        )
                                                     )
-                                                )
-                                            }
-                                            {
-                                                (isPackageRemain === item.package_code) &&
-                                                packageRemain.map((item, index) =>
-                                                    <div className='sub-item' key={item._id}>
-                                                        <div className='package-additional-preview '>
-                                                            <Stack direction='horizontal'>
-                                                                <Stack className='justify-content-center'>
-                                                                    <Stack direction="horizontal" gap={3}>
-                                                                        <input className="form-check-input" type="checkbox" defaultValue="" id={'packageRemain' + index} />
-                                                                        <label htmlFor={index} className='insure-package'>{item.name}</label>
-                                                                    </Stack>
-                                                                </Stack>
-                                                                <div className="text-right ms-auto">
-                                                                    <p className='package-price'>45.000.000VNĐ</p>
-                                                                    <p className='package-fee'>Phí: 405.000VNĐ/năm</p>
+                                                }
+                                                {
+
+                                                    (isAdditional === item._id) && (
+                                                        (!isEmptyArray(item.additional)) &&
+                                                        item.additional.map((additionalItem, index) => {
+                                                            return (
+                                                                <div className='sub-item' key={additionalItem._id}>
+                                                                    <div className='package-additional-preview '>
+                                                                        <Stack direction='horizontal'>
+                                                                            <Stack className='justify-content-center'>
+                                                                                <Stack direction="horizontal" gap={3} className="align-items-start">
+                                                                                    <input className="form-check-input" type="checkbox" id={additionalItem._id}
+                                                                                        checked={handleCheckAdditional(additionalItem._id)}
+                                                                                        onChange={() => onSelectAdditional(additionalItem, item.package_code)} />
+                                                                                    <label htmlFor={additionalItem._id} className='insure-package' >{additionalItem.name}</label>
+                                                                                </Stack>
+                                                                            </Stack>
+                                                                            <div className="text-right ms-auto">
+                                                                                {
+                                                                                    (additionalItem.amount === "Không áp dụng") ?
+                                                                                        <>
+                                                                                            <p className='package-price'>{formatPrepaidAmount(additionalItem.amount)}</p>
+                                                                                            <p className='package-fee'>Phí: {additionalItem.amount}</p>
+                                                                                        </>
+                                                                                        :
+                                                                                        <>
+                                                                                            <p className='package-price'>{formatPrepaidAmount(additionalItem.amount)}VNĐ</p>
+                                                                                            <p className='package-fee'>Phí: {formatPrepaidAmount((additionalItem.amount * additionalItem.rate) / 100)}/năm</p>
+                                                                                        </>
+                                                                                }
+                                                                            </div>
+                                                                        </Stack>
+                                                                    </div>
+                                                                    <div className='row'>
+                                                                        <Line type="solid" color='e6e6e6' />
+                                                                    </div>
                                                                 </div>
-                                                            </Stack>
-                                                        </div>
-                                                        <div className='row'>
-                                                            <Line type="solid" color='e6e6e6' />
-                                                        </div>
-                                                    </div>
-                                                )
-                                            }
-                                        </Row>
-                                    )
-                                })
+                                                            )
+                                                        })
+                                                    )
+                                                }
+                                            </Row>
+                                        )
+                                    })
+                                :
+                                <div>
+                                    Empty data
+                                </div>
                         }
                     </Col>
 
                     <Col md={3}>
-                        <div className='insurance-sidebar bg-white sidebar-right-content'>
-                            <Form.Label className='justify-content-start'>Tóm tắt đơn bảo hiểm</Form.Label>
-                            <label className='unit'> *Đơn vị: VNĐ</label>
-                            <Line type='dotted' />
-                            <div className='brief-info'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Đối tượng bảo hiểm:</Nav.Item>
-                                    <Nav.Item>Cá nhân</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Ngày sinh:</Nav.Item>
-                                    <Nav.Item>{moment(step1.birthday).format('DD/MM/YYYY')}</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Nhà bảo hiểm:</Nav.Item>
-                                    <Nav.Item>{step2.supplier && step2.supplier.name}</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Tên gói: </Nav.Item>
-                                    <Nav.Item>{step2.packageName}</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Tổng số tiền được bảo hiểm:</Nav.Item>
-                                    <Nav.Item>{formatPrepaidAmount(step2.price)}</Nav.Item>
-                                </Nav>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Thời hạn bảo hiểm:</Nav.Item>
-                                    <Nav.Item></Nav.Item>
-                                </Nav>
-                            </div>
-                            <Line type='dotted' />
-                            <div className='main-package-fee'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item><strong>Phí gói chính:</strong></Nav.Item>
-                                    <Nav.Item>{formatPrepaidAmount(step2.fee)}</Nav.Item>
-                                </Nav>
-                            </div>
-                            <Line type='dotted' />
-                            <div className='package-additional'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item><strong>Gói bổ sung:</strong></Nav.Item>
-                                    <Nav.Item></Nav.Item>
-                                </Nav>
-                            </div>
-                            <Line type='dotted' />
-                            <div className='into-money'>
-                                <Nav className='justify-content-between'>
-                                    <Nav.Item>Thành tiền:</Nav.Item>
-                                    <Nav.Item>{formatPrepaidAmount(step2.fee)}</Nav.Item>
-                                </Nav>
-                            </div>
-                            <div className='promotion'>
-                                <input defaultValue="" placeholder='Nhập mã khuyến mãi' />
-                            </div>
-                            <Line type='dotted' />
-                            <div className='total-money'>
-                                <Stack direction='horizontal'>
-                                    <label>TỔNG TIỀN: </label>
-                                    <label className='ms-auto'>{formatPrepaidAmount(step2.fee)}</label>
-                                </Stack>
-                            </div>
-                        </div>
-                        <div className='insurance-sidebar bg-white sidebar-right-content'>
+                        <BriefComponent selectAdditional={selectAdditional} />
+                        <div className='insurance-sidebar bg-white sidebar-right-content my-sticky-top'>
                             <Form.Label className='justify-content-start'>Những quyền lợi chính</Form.Label>
                             <ul className='list-benefit-main position-relative'>
-                                <li>
-                                    <div className='topic-benefit'>
-                                        <span>Tử vong, thương tật toàn bộ vĩnh viễn do tại nạn</span>
-                                    </div>
-                                    <b>Số tiền được bảo hiểm: 20 triệu</b>
-                                </li>
-                                <li>
-                                    <div className='topic-benefit'>
-                                        <span>Chi phí y tế do tai nạn</span>
-                                    </div>
-                                    <b>Số tiền được bảo hiểm: 5 triệu</b>
-                                </li>
-                                <li>
-                                    <div className='topic-benefit'>
-                                        <span>Tử vong, thương tật toàn bộ vĩnh viễn do bệnh</span>
-                                    </div>
-                                    <b>Số tiền được bảo hiểm: 10 triệu</b>
-                                </li>
-                                <li>
-                                    <div className='topic-benefit'>
-                                        <span>Điều trị nội trú, phẫu thuật do bệnh</span>
-                                    </div>
-                                    <b>Số tiền được bảo hiểm: 10 triệu</b>
-                                </li>
+                                {
+                                    (!isEmptyArray(step2.packageMain)) &&
+                                    step2.packageMain.map((itemMain, index) => {
+                                        return (
+                                            <li key={itemMain._id}>
+                                                <div className='topic-benefit'>
+                                                    <span>{itemMain.name}</span>
+                                                </div>
+                                                <b>Số tiền được bảo hiểm: {numFormatter(itemMain.amount)}</b>
+                                            </li>
+                                        )
+                                    })
+                                }
                             </ul>
                         </div>
                     </Col>
@@ -457,17 +492,15 @@ const BuyInsurancePersonalStep2Component = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([isPackage.package_code])}
-                handleButtonGoBack={props.handleButtonGoBack}
+                validate={validate([isPackage.package_code || step2.packageCode])}
+                handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
             />
             <CommonModal
                 isShow={isShowDetail}
                 onHidden={handleViewDetail}
                 data={packageDetail}
-            >
-
-            </CommonModal>
+            />
         </Container >
     )
 }

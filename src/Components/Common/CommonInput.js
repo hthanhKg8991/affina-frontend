@@ -26,10 +26,10 @@ const CommonInput = (props) => {
             default:
                 return (
                     <FormControl
-                        {...props}
+                        type={props.type}
                         placeholder={props.hint}
                         value={props.value}
-                        defaultValue={props.defaultValue}
+                        // defaultValue={props.defaultValue}
                         onChange={props.onChange}
                         readOnly={props.readOnly}
                         className={(props.error) && 'error'}
@@ -75,12 +75,13 @@ CommonInput.propTypes = {
     readOnly: PropTypes.bool,
     label: PropTypes.string,
     hint: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.any,
     inputType: PropTypes.string,
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.any,
     onChange: PropTypes.func,
     error: PropTypes.bool,
     errorMessage: PropTypes.string,
+    type: PropTypes.string,
 };
 CommonInput.defaultProps = {
     label: '',
@@ -90,6 +91,7 @@ CommonInput.defaultProps = {
     require: false,
     readOnly: false,
     inputType: 'text',
+    type: 'text',
     onChange: () => { },
     error: false,
     errorMessage: '',

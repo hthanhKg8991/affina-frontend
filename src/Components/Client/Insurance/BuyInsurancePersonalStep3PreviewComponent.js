@@ -3,24 +3,33 @@ import React from 'react';
 import { Container, Image, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import accessStyle from '../../../Assets';
-import { formatPrepaidAmount, genderByText, isBillingByText } from '../../../Common/Helper';
+import { formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createOrder } from '../../../Reducers/Insurance/PackagesRedux';
-import { handleCurrentStep } from '../../../Reducers/Insurance/StepRedux';
 import CommonButtonInsurance from './CommonButtonInsurance';
+
 
 const BuyInsurancePersonalStep3PreviewComponent = (props) => {
     const dispatch = useDispatch();
     // 
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
-    console.log('BuyInsurancePersonalStep3PreviewComponent:', step3);
-    const handleEditStep = (object) => {
-        dispatch(
-            handleCurrentStep(object)
-        )
-        props.handleButtonGoBack && props.handleButtonGoBack(2)
+    console.log('BuyInsurancePersonalStep3PreviewComponent:', step2);
+    // const [amountSecondary, setAmountSecondary] = useState(0);
+    var amountSecondary = 0;
+    var amountMain = 0;
+
+    const handleEditStep = (value) => {
+        // dispatch(
+        //     handleCurrentStep(object)
+        // )
+        props.handleButtonGoBack && props.handleButtonGoBack(value)
     }
+
+    const handleGoBackButton = () => {
+        props.handleButtonGoBack && props.handleButtonGoBack()
+    }
+
     const handleContinue = () => {
         dispatch(createOrder({
             "sale": {
@@ -67,7 +76,12 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 "address": step3.address,
                 "city": step3.province.name,
                 "district": step3.district.name,
-                "note": ""
+                "note": "",
+                // Require billing
+                "is_billing": step3.isBilling,
+                "company_name": step3.companyName,
+                "tax_number": step3.taxNumber,
+                "company_address": step3.companyAddress,
             },
             "insurance_buyer": {
                 "fullname": "",
@@ -113,7 +127,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                             ${accessStyle.images.icons.user2x} 2x, 
                                             ${accessStyle.images.icons.user3x} 3x
                                         `}
-                                        alt="Logo Affina"
+                                        alt="icon user"
                                         width={19}
                                         height={22}
                                     />
@@ -128,7 +142,9 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                             ${accessStyle.images.icons.edit2x} 2x, 
                                             ${accessStyle.images.icons.edit3x} 3x
                                         `}
-                                        alt="Logo Affina"
+                                        className="cursor-pointer"
+                                        onClick={() => handleEditStep()}
+                                        alt="icon edit"
                                         width={19}
                                         height={22}
                                     />
@@ -225,8 +241,10 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                             ${accessStyle.images.icons.edit2x} 2x, 
                                             ${accessStyle.images.icons.edit3x} 3x
                                         `}
-                                        onClick={() => handleEditStep({ currentStep: 2, holdStep: 2 })}
-                                        alt="Icon edit"
+                                        onClick={() => handleEditStep(2)}
+                                        // onClick={() => props.handleButtonGoBack(2)}
+                                        alt="icon edit"
+                                        className="cursor-pointer"
                                         width={19}
                                         height={22}
                                     />
@@ -241,15 +259,15 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <div className="col">
                                     <p className='title-info'>Nhà bảo hiểm</p>
-                                    <strong>{step2.packageName}</strong>
+                                    <strong>{step2.supplier && step2.supplier.name}</strong>
                                 </div>
                                 <div className="col">
                                     <p className='title-info'>Tên gói</p>
-                                    <strong>B4</strong>
+                                    <strong>{step2.packageName}</strong>
                                 </div>
                                 <div className="col">
-                                    <p className='title-info'>Giá trị gói</p>
-                                    <strong>{formatPrepaidAmount(step2.price)}VNĐ</strong>
+                                    <p className='title-info'>Số tiền được bảo hiểm</p>
+                                    <strong>{formatPrepaidAmount(step2.totalAmount)}VNĐ</strong>
                                 </div>
                                 <div className="col"></div>
                             </Row>
@@ -271,40 +289,33 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <div className="col">
                                     <p className='title-info'>Quyền lợi chính</p>
-                                    <div className='sub-info-insure'>
-                                        <strong className='benefits-title'>1. Tử vong, thương tật toàn bộ Vĩnh viễn
-                                            do tai nạn</strong>
-                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
-                                    </div>
-                                    <div className='sub-info-insure'>
-                                        <strong className='benefits-title'>2. chi phí y tế do tai nạn</strong>
-                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
-                                    </div>
-                                    <div className='sub-info-insure'>
-                                        <strong className='benefits-title'>3. Tử vong, thương tật toàn bộ Vĩnh viễn
-                                            do bệnh</strong>
-                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
-                                    </div>
-                                    <div className='sub-info-insure'>
-                                        <strong className='benefits-title'>4. Điều trị nội trú phẫu thuật do bệnh</strong>
-                                        <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>6.000.000VNĐ</p>
-                                    </div>
+                                    {
+                                        (!isEmptyArray(step2.packageMain)) &&
+                                        step2.packageMain.map((itemMain, index) => {
+                                            return (
+                                                <div className='sub-info-insure' key={itemMain._id}>
+                                                    <strong className='benefits-title'>{itemMain.name}</strong>
+                                                    <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>{formatPrepaidAmount(itemMain.amount)}VNĐ</p>
+                                                </div>
+                                            )
+                                        })
+                                    }
 
                                 </div>
                                 <div className="col">
                                     <p className='title-info'>Quyền lợi bổ sung </p>
-                                    <div className='sub-info-insure'>
-                                        <strong className='benefits-title'>1. NGoại trú</strong>
-                                        <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>6.000.000VNĐ</p>
-                                    </div>
-                                    <div className='sub-info-insure'>
-                                        <strong className='benefits-title'>2. nha khoa</strong>
-                                        <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>6.000.000VNĐ</p>
-                                    </div>
-                                    <div className='sub-info-insure'>
-                                        <strong className='benefits-title'>4. bệnh hiểm nghèo</strong>
-                                        <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>6.000.000VNĐ</p>
-                                    </div>
+                                    {
+                                        (!isEmptyArray(step2.additional)) &&
+                                        step2.additional.map((itemSecondary, index) => {
+                                            amountSecondary += !isStringNullOrEmpty(itemSecondary.amount) ? parseInt((itemSecondary.amount * itemSecondary.rate) / 100) : 0
+                                            return (
+                                                <div className='sub-info-insure' key={itemSecondary._id}>
+                                                    <strong className='benefits-title'>{index + 1}. {itemSecondary.name}</strong>
+                                                    <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>{formatPrepaidAmount(itemSecondary.amount)}VNĐ</p>
+                                                </div>
+                                            )
+                                        })
+                                    }
                                 </div>
                             </Row>
                             <Line type="solid" />
@@ -315,11 +326,11 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                 </div>
                                 <div className="col">
                                     <p className='title-info'>Tổng phí gói phụ</p>
-                                    <strong>{0}VNĐ</strong>
+                                    <strong>{formatPrepaidAmount(amountSecondary)}VNĐ</strong>
                                 </div>
                                 <div className="col"></div>
                                 <div className="col">
-                                    <div className='total'>TỔNG: <strong>{formatPrepaidAmount(step2.price)}VNĐ</strong></div>
+                                    <div className='total'>TỔNG: <strong>{formatPrepaidAmount(step2.fee + amountSecondary)}VNĐ</strong></div>
 
                                 </div>
                             </Row>
@@ -333,7 +344,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 textButtonContinue='TIẾP TỤC'
                 // validate={validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward])}
                 validate={false}
-                handleButtonGoBack={props.handleButtonGoBack}
+                handleButtonGoBack={handleGoBackButton}
                 handleButtonContinue={handleContinue}
             />
         </div>
