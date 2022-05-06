@@ -1,9 +1,9 @@
 import moment from 'moment';
 import React from 'react';
-import { Container, Image, Row, Stack } from 'react-bootstrap';
+import { Col, Container, Image, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import accessStyle from '../../../Assets';
-import { formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty } from '../../../Common/Helper';
+import { formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty, matchRound } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createOrder } from '../../../Reducers/Insurance/PackagesRedux';
 import CommonButtonInsurance from './CommonButtonInsurance';
@@ -157,56 +157,63 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                     <Container>
                         <section className='list-info'>
                             <Row>
-                                <div className="col">
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Họ và tên</p>
                                     <strong>{step3.name}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Giới tính</p>
                                     <strong>{genderByText(step1.gender)}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Ngày sinh</p>
                                     <strong>{moment(step1.birthday).format('DD/MM/YYYY')}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Số CMND / CCCD / Passport</p>
                                     <strong>{step3.identity}</strong>
-                                </div>
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2' />
                             </Row>
-                            <Line type="solid" />
+                            <Line type="solid" className='xs-hidden' />
                             <Row>
-                                <div className="col">
+                                <Col md={3} xs={12}>
                                     <p className='title-info'>Địa chỉ</p>
                                     <strong>{step3.address}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={12}>
                                     <p className='title-info'>Phường</p>
                                     <strong>{step3.ward.name}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={12}>
                                     <p>Quận/Huyện</p>
                                     <strong>{step3.district.name}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={12}>
                                     <p className='title-info'>Thành phố</p>
                                     <strong>{step3.province.name}</strong>
-                                </div>
+                                </Col>
+                                <Line type="solid" className='xs-visibility mb-2 mb-2' />
                             </Row>
-                            <Line type="solid" />
+                            <Line type="solid" className='xs-hidden' />
                             <Row>
-                                <div className="col">
+                                <Col md={3} xs={12}>
                                     <p className='title-info'>Số điện thoại</p>
                                     <strong>{step3.phone}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={12}>
                                     <p className='title-info'>Email</p>
                                     <strong>{step3.email}</strong>
-                                </div>
-                                <div className="col">
-                                </div>
-                                <div className="col">
-                                </div>
+                                </Col>
+                                <Col md={3} xs={6}>
+                                </Col>
+                                <Col md={3} xs={6}>
+                                </Col>
                             </Row>
                             <Line type="solid" />
                             <div className='table-footer'>Yêu cầu xuất hoá đơn đỏ: <strong>{isBillingByText(step3.requireBilling)}</strong></div>
@@ -257,37 +264,40 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                     <Container>
                         <section className='list-info'>
                             <Row>
-                                <div className="col">
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Nhà bảo hiểm</p>
                                     <strong>{step2.supplier && step2.supplier.name}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Tên gói</p>
                                     <strong>{step2.packageName}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={12}>
                                     <p className='title-info'>Số tiền được bảo hiểm</p>
-                                    <strong>{formatPrepaidAmount(step2.totalAmount)}VNĐ</strong>
-                                </div>
-                                <div className="col"></div>
+                                    <strong>{formatPrepaidAmount(matchRound(step2.totalAmount))}VNĐ</strong>
+                                </Col>
+                                <Col className="col"></Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
                             </Row>
-                            <Line type="solid" />
+                            <Line type="solid" className='xs-hidden' />
                             <Row>
-                                <div className="col">
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Ngày bắt đầu bảo hiểm</p>
                                     <strong>{moment(step3.startDay).format('DD/MM/YYYY')}</strong>
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Thời gian hiệu lực</p>
                                     <strong>{step3.timeExpire.value}</strong>
-                                </div>
-                                <div className="col">
-                                </div>
-                                <div className="col"></div>
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={6}>
+                                </Col>
+                                <Col md={3} xs={6}></Col>
                             </Row>
-                            <Line type="solid" />
+                            <Line type="solid" className='xs-hidden' />
                             <Row>
-                                <div className="col">
+                                <Col md={6} xs={12}>
                                     <p className='title-info'>Quyền lợi chính</p>
                                     {
                                         (!isEmptyArray(step2.packageMain)) &&
@@ -295,14 +305,17 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                             return (
                                                 <div className='sub-info-insure' key={itemMain._id}>
                                                     <strong className='benefits-title'>{itemMain.name}</strong>
-                                                    <p className='benefits-price'><span>Số tiền được bảo hiểm:</span>{formatPrepaidAmount(itemMain.amount)}VNĐ</p>
+                                                    <p className='benefits-price d-flex justify-content-md-start justify-content-between'>
+                                                        <span>Số tiền được bảo hiểm:</span>
+                                                        <span>{formatPrepaidAmount(matchRound(itemMain.amount))}VNĐ</span>
+                                                    </p>
                                                 </div>
                                             )
                                         })
                                     }
 
-                                </div>
-                                <div className="col">
+                                </Col>
+                                <Col md={6} xs={12}>
                                     <p className='title-info'>Quyền lợi bổ sung </p>
                                     {
                                         (!isEmptyArray(step2.additional)) &&
@@ -311,30 +324,32 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                             return (
                                                 <div className='sub-info-insure' key={itemSecondary._id}>
                                                     <strong className='benefits-title'>{index + 1}. {itemSecondary.name}</strong>
-                                                    <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>{formatPrepaidAmount(itemSecondary.amount)}VNĐ</p>
+                                                    <p className='benefits-price'><span>Số tiền được bảo hiểm: </span>{formatPrepaidAmount(matchRound(itemSecondary.amount))}VNĐ</p>
                                                 </div>
                                             )
                                         })
                                     }
-                                </div>
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2' />
                             </Row>
-                            <Line type="solid" />
+                            <Line type="solid" className='xs-hidden' />
                             <Row>
-                                <div className="col">
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Phí gói chính</p>
-                                    <strong>{formatPrepaidAmount(step2.fee)}VNĐ</strong>
-                                </div>
-                                <div className="col">
+                                    <strong>{formatPrepaidAmount(matchRound(step2.fee))}VNĐ</strong>
+                                </Col>
+                                <Col md={3} xs={6}>
                                     <p className='title-info'>Tổng phí gói phụ</p>
-                                    <strong>{formatPrepaidAmount(amountSecondary)}VNĐ</strong>
-                                </div>
-                                <div className="col"></div>
-                                <div className="col">
-                                    <div className='total'>TỔNG: <strong>{formatPrepaidAmount(step2.fee + amountSecondary)}VNĐ</strong></div>
+                                    <strong>{formatPrepaidAmount(matchRound(amountSecondary))}VNĐ</strong>
+                                </Col>
+                                <Line type="solid" className='xs-visibility mt-2 mb-2' />
+                                <Col md={3} xs={6}></Col>
+                                <Col md={3} xs={12} className="d-flex justify-content-end">
+                                    <div className='total'>TỔNG: <strong>{formatPrepaidAmount(matchRound(step2.paidAmount))}VNĐ</strong></div>
 
-                                </div>
+                                </Col>
                             </Row>
-                            <Line type="solid" />
+                            <Line type="solid" className='xs-hidden' />
                         </section>
                     </Container>
                 </Container>

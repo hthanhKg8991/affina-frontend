@@ -14,7 +14,7 @@
     font-weight: bold;
     // line-height: $line-height-max;
     margin-bottom: $space-max-47;
-    background: linear-gradient(to right, #095efb 0%, #ff52db 100%);
+    background: linear-gradient(to right,#ff52db 0%,  #095efb 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -229,10 +229,9 @@
     padding-top: 5rem;
     padding-bottom: 1.25rem;
     @media screen and (max-width: 767px) {
-      font-size: 1.5rem;
-    }
-    @media (max-width: 575.98px) {
-      font-size: 1.2rem;
+      font-size: 1rem;
+      padding-top: 3rem;
+      padding-bottom: 1rem;
     }
   }
   .text-brief {
@@ -241,15 +240,14 @@
     margin-bottom: 3.75rem;
     display: inline-block;
     @media screen and (max-width: 767px) {
-      font-size: 1rem;
-    }
-    @media (max-width: 575.98px) {
-      font-size: 0.8rem;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
     }
   }
   .btn-outline-really-need-insurance {
     border: 1px solid color(white);
-    color: color(white);
+    color: color(affina-blue);
+    background: color(white);
     font-size: $default-font-size-large-18;
     border-radius: $button-border-radius-large;
     padding: 1rem 6rem !important;
@@ -279,7 +277,7 @@
       }
     }
     .text-muted {
-      color: color(color-a3a3a3) !important;
+      color: rgba(255, 255, 255, 0.7) !important;
       letter-spacing: 1px;
       font-weight: 500;
       text-transform: uppercase;
@@ -345,12 +343,12 @@
           font-size: 4rem;
         }
         @media screen and (max-width: 767px) {
-          font-size: 2.5rem;
+          font-size: 1.25rem;
           top: calc(100% - 145px);
         }
-        @media (max-width: 575.98px) {
-          font-size: 1.5rem;
-        }
+        // @media (max-width: 575.98px) {
+        //   font-size: 1.5rem;
+        // }
         @media (max-width: 360px) {
           top: calc(100% - 130px);
         }
@@ -366,6 +364,9 @@
   background-clip: padding-box;
   background: linear-gradient(to right, #095efb, #ff52db);
   margin: 6.25rem 0;
+  @media screen and (max-width: 767px) {
+    margin: 2.25rem 0;
+  }
 }
 
 .introduce-container {

@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Container, Form, Image, Nav, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { dynamicSort, formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, numFormatter, validate } from '../../../Common/Helper';
+import { calculatorFee, dynamicSort, formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, matchRound, numFormatter, validate } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import configDefault from '../../../Config/app';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../Reducers/Insurance/PackagesRedux';
@@ -11,6 +11,8 @@ import CommonModal from '../../Common/CommonModal';
 import MultiRangeSlider from '../../Common/MultiRangeSlider';
 import BriefComponent from './BriefComponent';
 import CommonButtonInsurance from './CommonButtonInsurance';
+import htmlParserCode from 'html-react-parser';
+
 const STEP = 500000;
 const MIN = 0;
 const MAX = 75000000;
@@ -40,6 +42,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
     const [selectSupplier, setSelectSupplier] = useState([]);
     const [selectSort, setSelectSort] = useState([]);
     const [isFilterMobile, setFilterMobile] = useState(false);
+    const [isBenefitMainMobile, setIsBenefitMainMobile] = useState(false);
     const handleSwap = () => {
         setIsSwap(!isSwap)
     }
@@ -120,8 +123,10 @@ const BuyInsurancePersonalStep2Component = (props) => {
         return rateTemplate
     }
 
-    const handleSelectPackage = (item) => {
+    const handleSelectPackage = (item, packageSelect) => {
         console.log('item:::', item);
+        // handleAdditional(item._id);
+        setIsAdditional(item._id)
         dispatch(handleStep2({
             packageName: item.name,
             packageCode: item.package_code,
@@ -134,7 +139,9 @@ const BuyInsurancePersonalStep2Component = (props) => {
         }))
         setPackageDetail(item)
         setIsPackage(item)
-        dispatch(resetAdditionalState({}))
+        if (step2.packageCode !== packageSelect) {
+            dispatch(resetAdditionalState({}))
+        }
         // setSelectAdditional([])
     }
 
@@ -167,7 +174,8 @@ const BuyInsurancePersonalStep2Component = (props) => {
     const handleCheckAdditional = (id) => {
         if (!isEmptyArray(step2.additional)) {
             return step2.additional.some(el => el._id === id);
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -176,16 +184,20 @@ const BuyInsurancePersonalStep2Component = (props) => {
     }
 
     const handleContinue = () => {
-        dispatch(handleStep2({
-            ...step2,
-            // totalAmount: amountSecondary + step2.price
-        }))
+        // dispatch(handleStep2({
+        //     ...step2,
+        //     // totalAmount: amountSecondary + step2.price
+        // }))
         props.handleButtonContinue && props.handleButtonContinue()
     }
     let dataSearch = handleSearch('');
 
     const handleViewFilterMobile = () => {
         setFilterMobile(!isFilterMobile)
+    }
+
+    const handleViewBenefitMainMobile = () => {
+        setIsBenefitMainMobile(!isBenefitMainMobile)
     }
     return (
         <Container>
@@ -231,6 +243,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                     </div>
                                 </Col>
                             </Row>
+                            <div className='xs-visibility mobile-topic' onClick={handleViewBenefitMainMobile}>Những quyền lợi chính</div>
                         </div>
                     </Col>
                     <Col md={3}></Col>
@@ -298,14 +311,14 @@ const BuyInsurancePersonalStep2Component = (props) => {
 
                     <Col md={6} className='insurance-center'>
                         {
-                            (!isEmptyArray(dataSearch)) ?
-                                [].concat(dataSearch)
+                            (!isEmptyArray(data)) ?
+                                [].concat(data)
                                     .sort(dynamicSort('price_fee', isSwap))
                                     .map((item, index) => {
                                         return (
-                                            <Row className={(item.package_code === isPackage.package_code || item.package_code === step2.packageCode) ? 'group-item group-item-active' : 'group-item'} key={item._id + '' + item.name}>
+                                            <Row className={(item.package_code === isPackage.package_code || item.package_code === step2.packageCode) ? 'group-item group-item-active cursor-pointer' : 'group-item cursor-pointer'} key={item._id + '' + item.name}>
                                                 {/* <Stack direction='horizontal' className='align-items-start'> */}
-                                                <Col md={3} xs={3} sm={3} className='reset-padding-right '>
+                                                <Col md={3} xs={3} sm={3} className='reset-padding-right ' onClick={() => handleSelectPackage(item, item.package_code)}>
                                                     <div className="box-left text-center">
                                                         <div className='wrap-image'>
                                                             <Image
@@ -315,23 +328,25 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                                 ${item.supplier && configDefault.URL_IMG + item.supplier.image} 3x
                                                             `}
                                                                 className="cursor-pointer"
-                                                                onClick={() => handleSelectPackage(item)}
                                                                 alt="logo gic"
                                                                 width={'100%'}
                                                                 height={'auto'}
                                                             />
                                                         </div>
-                                                        <strong className='insure-package-name' onClick={() => handleSelectPackage(item)}>{item.supplier && item.supplier.name}</strong>
+                                                        <strong className='insure-package-name'
+                                                        >{item.supplier && item.supplier.name}</strong>
                                                         <Nav className='justify-content-center wrap-star'>
                                                             {rateStart(item.rate)}
                                                         </Nav>
                                                     </div>
                                                 </Col>
                                                 <Col md={9} xs={9} sm={9} className="box-right">
-                                                    <Stack direction="horizontal" className="align-items-start">
+                                                    <Stack direction="horizontal" className="align-items-start"
+                                                        onClick={() => handleSelectPackage(item, item.package_code)}
+                                                    >
                                                         <Stack className='align-items-start'>
                                                             <Stack direction="horizontal" gap={3} className="align-items-start">
-                                                                <h6 className='insure-package' onClick={() => handleSelectPackage(item)}>{item.name}</h6>
+                                                                <h6 className='insure-package'>{item.name}</h6>
                                                                 <span className='discount-price'>-{item.discount}%</span>
                                                             </Stack>
                                                             <i className="package-detail" onClick={() => handleViewDetail(item)}>Chi tiết gói &raquo;</i>
@@ -342,13 +357,17 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                         </div>
                                                     </Stack>
                                                     <Line type="dashed" color='e6e6e6' />
-                                                    <div className='procedure-text text-left'>
-                                                        <i>{item.description}</i>
-                                                    </div>
-                                                    <div className='select-buy btn btn-pink' onClick={() => handleSelectPackage(item)}
-                                                    >
-                                                        Mua
-                                                    </div>
+                                                    <Stack direction='horizontal'>
+                                                        <div className='procedure-text text-left'
+                                                            onClick={() => handleSelectPackage(item, item.package_code)}
+                                                        >
+                                                            <i>{item.description}</i>
+                                                        </div>
+                                                        {/* <div className='select-buy btn-md btn-outline-blue ms-auto mt-2' onClick={() => handleSelectPackage(item)}
+                                                        >
+                                                            Chọn
+                                                        </div> */}
+                                                    </Stack>
                                                     <Line type="dashed" />
                                                     <Stack direction="horizontal" gap={3} className="align-items-start">
                                                         {
@@ -427,7 +446,8 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                                             <Stack className='justify-content-center'>
                                                                                 <Stack direction="horizontal" gap={3} className="align-items-start">
                                                                                     <input className="form-check-input" type="checkbox" id={additionalItem._id}
-                                                                                        checked={handleCheckAdditional(additionalItem._id)}
+                                                                                        checked={handleCheckAdditional(additionalItem._id, item.additional)}
+                                                                                        // checked={additionalItem.isChecked}
                                                                                         onChange={() => onSelectAdditional(additionalItem, item.package_code)} />
                                                                                     <label htmlFor={additionalItem._id} className='insure-package' >{additionalItem.name}</label>
                                                                                 </Stack>
@@ -436,13 +456,13 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                                                 {
                                                                                     (additionalItem.amount === "Không áp dụng") ?
                                                                                         <>
-                                                                                            <p className='package-price'>{formatPrepaidAmount(additionalItem.amount)}</p>
-                                                                                            <p className='package-fee'>Phí: {additionalItem.amount}</p>
+                                                                                            <p className='package-price'>{formatPrepaidAmount(matchRound(additionalItem.amount))}</p>
+                                                                                            <p className='package-fee'>Phí: {matchRound(additionalItem.amount)}</p>
                                                                                         </>
                                                                                         :
                                                                                         <>
-                                                                                            <p className='package-price'>{formatPrepaidAmount(additionalItem.amount)}VNĐ</p>
-                                                                                            <p className='package-fee'>Phí: {formatPrepaidAmount((additionalItem.amount * additionalItem.rate) / 100)}/năm</p>
+                                                                                            <p className='package-price'>{formatPrepaidAmount(matchRound(additionalItem.amount))}VNĐ</p>
+                                                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(calculatorFee(additionalItem.amount, additionalItem.rate)))}/năm</p>
                                                                                         </>
                                                                                 }
                                                                             </div>
@@ -460,15 +480,19 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                         )
                                     })
                                 :
-                                <div>
-                                    Empty data
+                                <div className='empty-data'>
+                                    <span>Không có sản phẩm phù hợp, vui lòng chọn lại.</span>
                                 </div>
                         }
                     </Col>
 
                     <Col md={3}>
                         <BriefComponent selectAdditional={selectAdditional} />
-                        <div className='insurance-sidebar bg-white sidebar-right-content my-sticky-top'>
+                        {
+                            isBenefitMainMobile &&
+                            <div className='bg-overlay' onClick={handleViewBenefitMainMobile}></div>
+                        }
+                        <div className={"insurance-sidebar bg-white sidebar-right-content my-sticky-top xs-hidden " + `${isBenefitMainMobile ? 'open' : ''}` + ""}>
                             <Form.Label className='justify-content-start'>Những quyền lợi chính</Form.Label>
                             <ul className='list-benefit-main position-relative'>
                                 {
@@ -477,7 +501,9 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                         return (
                                             <li key={itemMain._id}>
                                                 <div className='topic-benefit'>
-                                                    <span>{itemMain.name}</span>
+                                                    <span>{
+                                                        htmlParserCode(itemMain.description)
+                                                    }</span>
                                                 </div>
                                                 <b>Số tiền được bảo hiểm: {numFormatter(itemMain.amount)}</b>
                                             </li>
@@ -489,12 +515,16 @@ const BuyInsurancePersonalStep2Component = (props) => {
                     </Col>
                 </Row>
             </Container >
+
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
                 validate={validate([isPackage.package_code || step2.packageCode])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
+                paidAmount={step2.paidAmount}
+                intoMoney={step2.intoMoney}
+                isViewStep={true}
             />
             <CommonModal
                 isShow={isShowDetail}

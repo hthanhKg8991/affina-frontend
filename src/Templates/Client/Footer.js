@@ -1,7 +1,7 @@
 import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Line from "../../Common/Line";
-import { PRIVACY_POLICY, SOCIAL_FACEBOOK, STORY_AFFINA, TERM_CONDITIONS } from "../../Routers/RoutePath";
+import { BUY_NOW, PRIVACY_POLICY, SEND_REQUEST, SOCIAL_FACEBOOK, STORY_AFFINA, TERM_CONDITIONS } from "../../Routers/RoutePath";
 
 function Footer() {
     const navigate = useNavigate();
@@ -9,63 +9,8 @@ function Footer() {
         <footer className="main-footer">
             <Line />
             <Container>
-                <Row className="footer">
-                    <Col md={3} sm={12} xs={12}>
-                        <h5>Affina Vietnam</h5>
-                        <Nav className="flex-column">
-                            <Nav.Item>
-                                <Link to="/about">Về Affina</Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Link to={STORY_AFFINA}>Câu chuyện thương hiệu</Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Link to="/about">Tin tức</Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Link to="/about">Tuyển dụng</Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Link to="/about">Liên hệ</Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                    <Col md={3} sm={12} xs={12}>
-                        <h5>Sản phẩm bảo hiểm</h5>
-                        <Nav className="flex-column">
-                            <Nav.Item>
-                                <Link to="/about">Bảo hiểm Benefits One</Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                    <Col md={3} sm={12} xs={12}>
-                        <h5>Hỗ trợ khách hàng</h5>
-                        <Nav className="flex-column">
-                            <Nav.Item>
-                                <Link to="/about">Trung tâm trợ giúp</Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Link to="/about">Câu hỏi thường gặp</Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                    <Col md={3} sm={12} xs={12}>
-                        <h5>Chính sách</h5>
-                        <Nav className="flex-column">
-                            <Nav.Item>
-                                <Link to={PRIVACY_POLICY}>Chính sách bảo mật thông tin</Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Link to={TERM_CONDITIONS}>Điều khoản và điều kiện</Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                </Row>
-            </Container >
-            <Line />
-            <Container className="text-center">
-                <Row>
-                    <Col>
+                <Row className="footer " >
+                    <Col lg md sm={12} xs={12}>
                         <Image
                             src={require("../../Assets/Images/public/logo.png")}
                             srcSet={`
@@ -77,7 +22,7 @@ function Footer() {
                             height={27}
                             className="logo-footer"
                         />
-                        <Nav className="flex-column justify-content-center align-items-center footer-info">
+                        <Nav className="flex-column footer-info">
                             <Navbar.Text>info@affina.com.vn</Navbar.Text>
                             <Navbar.Text>1900-2525-99 <span className="line-vertical">|</span> 02877722999</Navbar.Text>
                             <Navbar>
@@ -98,30 +43,77 @@ function Footer() {
                                     </Nav.Item>
                                 </Navbar.Collapse>
                             </Navbar>
-                            <Navbar>
-                                <Navbar.Collapse className="privacy-policy-term-conditions">
-                                    <Nav.Item>
-                                        <Link to={PRIVACY_POLICY}>
-                                            Privacy Policy
-                                        </Link>
-                                    </Nav.Item>
-                                    <Nav.Item>|
-                                    </Nav.Item>
-
-                                    <Nav.Item>
-                                        <Link to={TERM_CONDITIONS}>
-                                            Terms & Conditions.
-                                        </Link>
-                                    </Nav.Item>
-                                </Navbar.Collapse>
-                            </Navbar>
+                        </Nav>
+                    </Col>
+                    <Col lg md sm={12} xs={12}>
+                        <h5>Affina Vietnam</h5>
+                        <Nav className="flex-column">
+                            <Nav.Item>
+                                <Link to="/about">Về Affina</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to={STORY_AFFINA}>Câu chuyện thương hiệu</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to="/about">Tin tức</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to="/about">Tuyển dụng</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to="/about">Liên hệ</Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col lg md sm={12} xs={12}>
+                        <h5>Sản phẩm bảo hiểm</h5>
+                        <Nav className="flex-column">
+                            <Nav.Item>
+                                <Link to={BUY_NOW}>Bảo hiểm Benefits One</Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col lg md sm={12} xs={12}>
+                        <h5>Hỗ trợ khách hàng</h5>
+                        <Nav className="flex-column">
+                            <Nav.Item>
+                                <Link to="/about">Trung tâm trợ giúp</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to="/about">Câu hỏi thường gặp</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to="/">Hướng dẫn mua bảo hiểm</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to={SEND_REQUEST}>Yêu cầu hỗ trợ</Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col lg md sm={12} xs={12}>
+                        <h5>Chính sách</h5>
+                        <Nav className="flex-column">
+                            <Nav.Item>
+                                <Link to={PRIVACY_POLICY}>Chính sách bảo mật thông tin</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to={TERM_CONDITIONS}>Điều khoản và điều kiện</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to={'/'}>Chính sách thanh toán</Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link to={'/'}>Chính sách hoán đổi</Link>
+                            </Nav.Item>
                         </Nav>
                     </Col>
                 </Row>
-                <Container className="end-of-page text-center">
-                    <p>© 2022  Affina Việt Nam, All rights reserved. Công ty TNHH Affina Việt Nam. ĐC: B7 An Phú New City, đường Nguyễn Hoàng, P. An Phú,<br /> Tp. Thủ Đức, Tp. Hồ Chí Minh, Việt Nam. GPKD: 0317130512.</p>
+            </Container >
+            <div className="text-center background-gradient-to-bottom text-white">
+                <Container className="end-of-page text-center text-white">
+                    <p className="mb-0">© 2022  Affina Việt Nam, All rights reserved.<br /> Công ty TNHH Affina Việt Nam. ĐC: B7 An Phú New City, đường Nguyễn Hoàng, P. An Phú, Tp. Thủ Đức, Tp. Hồ Chí Minh, Việt Nam. GPKD: 0317130512.</p>
                 </Container>
-            </Container>
+            </div>
         </footer >
     )
 }

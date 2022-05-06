@@ -1,5 +1,9 @@
 import moment from "moment";
 
+export function isViewMobile() {
+    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent))
+}
+
 export function isNull(variable) {
     return (null === variable || undefined === variable);
 }
@@ -153,4 +157,30 @@ export function vnConvert(str) {
     str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
     str = str.replace(/Đ/g, "D");
     return str;
+}
+
+export function percentage(amount = 0, precision) {
+    console.log('increaseDecrease', precision);
+    if (!isStringNullOrEmpty(amount) && !isStringNullOrEmpty(precision)) {
+        let value = (100 + parseInt(precision)) / 100
+        // return Math.round(amount * value)
+        return Math.ceil(amount * value)
+    }
+}
+
+export function calculatorFee(amount, rate) {
+    if (!isStringNullOrEmpty(amount)) {
+        return ((amount * rate) / 100)
+    }
+}
+export function removeAllScript(string) {
+    if (!isStringNullOrEmpty(string)) {
+        return string.replace(new RegExp('<[^>]*>', 'g'), '')
+    }
+}
+
+export function matchRound(amount) {
+    if (!isStringNullOrEmpty(amount)) {
+        return Math.ceil(amount)
+    }
 }

@@ -1,5 +1,6 @@
 import { Accordion, Container, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { SEND_REQUEST } from "../../Routers/RoutePath";
 
 function QuestionOftenComponent() {
     return (
@@ -114,7 +115,7 @@ function QuestionOftenComponent() {
                 </Accordion>
                 <div className="text-center question-btn">
                     <Link to="/support-center" className="btn question-btn-primary">Trung tâm trợ giúp</Link>
-                    <Link to="/ask-more-question" className="btn question-btn-outline-primary">Gửi câu hỏi</Link>
+                    <Link to={SEND_REQUEST} className="btn question-btn-outline-primary">Gửi câu hỏi</Link>
                 </div>
             </Container>
         </Container>

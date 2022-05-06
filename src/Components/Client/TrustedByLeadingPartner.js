@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Container, Image } from 'react-bootstrap'
 import Slider from 'react-slick'
+import accessStyle from '../../Assets';
 
 const TrustedByLeadingPartner = () => {
     const settings = {
@@ -12,7 +13,7 @@ const TrustedByLeadingPartner = () => {
         pauseOnDotsHover: false,
         // speed: 1000,
         // autoplaySpeed: 1000,
-        slidesToShow: 6,
+        slidesToShow: 3,
         slidesToScroll: 1,
         responsive: [
             {
@@ -63,70 +64,10 @@ const TrustedByLeadingPartner = () => {
                 <Col>
                     <div className="slider-item">
                         <Image
-                            src={require("../../Assets/Images/public/partner/gic.png")}
+                            src={accessStyle.images.partner.logoMIC}
                             srcSet={`
-                                ${require('../../Assets/Images/public/partner/gic@2x.png')} 2x, 
-                                ${require('../../Assets/Images/public/partner/gic@3x.png')} 3x
-                            `}
-                            alt="Picture of the author"
-                            width={'auto'}
-                            height={30}
-                            className="logo-footer"
-                        />
-                    </div>
-                </Col>
-                <Col>
-                    <div className="slider-item">
-                        <Image
-                            src={require("../../Assets/Images/public/partner/gic.png")}
-                            srcSet={`
-                                ${require('../../Assets/Images/public/partner/gic@2x.png')} 2x, 
-                                ${require('../../Assets/Images/public/partner/gic@3x.png')} 3x
-                            `}
-                            alt="Picture of the author"
-                            width={'auto'}
-                            height={30}
-                            className="logo-footer"
-                        />
-                    </div>
-                </Col>
-                <Col>
-                    <div className="slider-item">
-                        <Image
-                            src={require("../../Assets/Images/public/partner/gic.png")}
-                            srcSet={`
-                                ${require('../../Assets/Images/public/partner/gic@2x.png')} 2x, 
-                                ${require('../../Assets/Images/public/partner/gic@3x.png')} 3x
-                            `}
-                            alt="Picture of the author"
-                            width={'auto'}
-                            height={30}
-                            className="logo-footer"
-                        />
-                    </div>
-                </Col>
-                <Col>
-                    <div className="slider-item">
-                        <Image
-                            src={require("../../Assets/Images/public/partner/gic.png")}
-                            srcSet={`
-                                ${require('../../Assets/Images/public/partner/gic@2x.png')} 2x, 
-                                ${require('../../Assets/Images/public/partner/gic@3x.png')} 3x
-                            `}
-                            alt="Picture of the author"
-                            width={'auto'}
-                            height={30}
-                            className="logo-footer"
-                        />
-                    </div>
-                </Col>
-                <Col>
-                    <div className="slider-item">
-                        <Image
-                            src={require("../../Assets/Images/public/partner/gic.png")}
-                            srcSet={`
-                                ${require('../../Assets/Images/public/partner/gic@2x.png')} 2x, 
-                                ${require('../../Assets/Images/public/partner/gic@3x.png')} 3x
+                                ${accessStyle.images.partner.logoMIC} 2x, 
+                                ${accessStyle.images.partner.logoMIC} 3x
                             `}
                             alt="Picture of the author"
                             width={'auto'}

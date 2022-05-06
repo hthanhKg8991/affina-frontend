@@ -6,7 +6,7 @@
     .navbar-text {
       color: color(affina-color);
       font-weight: normal;
-      .line-vertical{
+      .line-vertical {
         color: color(color-666666);
         margin: 0 0.3rem;
       }
@@ -44,8 +44,10 @@
     }
   }
   .end-of-page {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     p {
-      color: color(affina-555555);
+      color: color(white);
       font-size: 0.813rem;
       font-weight: normal;
     }

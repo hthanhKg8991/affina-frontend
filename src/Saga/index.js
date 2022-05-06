@@ -4,6 +4,9 @@ import { categoriesGetAll, categoriesGetDetail, categoriesGetType } from '../Sag
 
 import * as packageRedux from '../Reducers/Insurance/PackagesRedux';
 import { getAllSuppliers, packageGetAll, packageGetBySupplier, packageGetDetail, createOrder, createPayment, postProductGetByPackage, postPackageBySupplier } from '../Saga/Client/PackageSaga';
+// Send request
+import * as SendRequestRedux from '../Reducers/SentRequest/SendRequestRedux';
+import { createSendRequest, getAll, getDetail } from './Client/SendRequestSaga';
 export default function* rootSaga() {
     yield all([
         // admin
@@ -19,5 +22,9 @@ export default function* rootSaga() {
         takeLatest(packageRedux.postPackageBySupplier.type, postPackageBySupplier),
         takeLatest(packageRedux.createOrder.type, createOrder),
         takeLatest(packageRedux.createPayment.type, createPayment),
+        // Send request
+        takeLatest(SendRequestRedux.getAll.type, getAll),
+        takeLatest(SendRequestRedux.getDetail.type, getDetail),
+        takeLatest(SendRequestRedux.createSendRequest.type, createSendRequest),
     ])
 }

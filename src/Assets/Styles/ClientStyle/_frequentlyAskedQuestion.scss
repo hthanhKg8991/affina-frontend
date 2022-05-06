@@ -4,6 +4,10 @@
     color: color(affina-color);
     font-weight: bold;
     margin-bottom: 4.5rem;
+    @media screen and (max-width: 767px) {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
   }
   .accordion-item {
     border: none !important;
@@ -19,6 +23,15 @@
         background-image: none !important;
         color: color(color-a3a3a3);
       }
+      @media screen and (max-width: 767px) {
+        font-size: 0.875rem;
+      }
+      @media (max-width: 575.98px) {
+        font-size: 0.875rem;
+      }
+      @media (max-width: 360px) {
+        font-size: 0.875rem;
+      }
     }
     .accordion-button:not(.collapsed) {
       font-size: 1.25rem;
@@ -31,10 +44,26 @@
         content: "\F0374";
         color: color(color-a3a3a3);
       }
+      @media screen and (max-width: 767px) {
+        font-size: 0.875rem;
+      }
+      @media (max-width: 575.98px) {
+        font-size: 0.875rem;
+      }
+      @media (max-width: 360px) {
+        font-size: 0.875rem;
+      }
     }
     .accordion-body {
       font-size: 1rem;
       color: color(affina-color);
+      ul{
+        li{
+          @media screen and (max-width: 767px) {
+            font-size: 0.75rem;
+          }
+        }
+      }
     }
   }
   .question-btn {

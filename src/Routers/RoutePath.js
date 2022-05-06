@@ -7,9 +7,13 @@ export const SOCIAL_LINKEDIN = '';
 
 export const HOME_PAGE = '/';
 export const ABOUT = '/about';
+export const LOGIN = '/login';
+export const SEND_REQUEST = '/send-request';
 export const LANDING_PAGE = '/landing-page';
 export const BUY_NOW = '/buy-now';
 export const PRIVACY_POLICY = '/privacy-policy';
 export const TERM_CONDITIONS = '/term-conditions';
 export const STORY_AFFINA = '/cau-chuyen-thuong-hieu';
+// 
+export const LIST_SEND_REQUEST = '/danh-sach-gui-yeu-cau';
 //================= END PATH CLIENT =====================//

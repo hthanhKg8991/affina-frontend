@@ -7,54 +7,63 @@ import { useState } from "react";
 
 const listData = [
     {
+        rate:4,
         date: '5 Days ago',
         title: 'An toàn, chính xác',
         describe: 'Các dịch vụ của Affina cung cấp vô cùng hữu ích. Nhìn chung tôi đã có một trải nghiệm tốt với Affina',
         author: 'NGUYỄN DUY PHƯƠNG',
     },
     {
+        rate:5,
         date: '5 Days ago',
         title: 'Đơn gian, nhanh chóng',
         describe: 'Sử dụng được ở nhiều bệnh viện và phòng khám',
         author: 'NGUYỄN THỊ HÀ GIANG',
     },
     {
+        rate:4,
         date: '5 Days ago',
         title: 'Nhanh gọn, tiện ích,',
         describe: 'Hoàn thành hồ sơ bảo hiểm nhanh gọn ',
         author: 'NGUYỄN DOÃN MINH TUẤN',
     },
     {
+        rate:4,
         date: '5 Days ago',
         title: 'Nhanh gọn, tiện ích, rất đơn giản dễ sử dụng, trang web thân thiện',
         describe: 'Tôi đánh giá cao chất lượng dịch vụ của Affina',
         author: 'NÔNG THỊ MAI LINH',
     },
     {
+        rate:4,
         date: '5 Days ago',
         title: 'An toàn và uy tín',
         describe: 'Giao diện dễ sử dụng',
         author: 'PHẠM NHẬT MINH QUANG',
     },
     {
+        rate:4,
         date: '5 Days ago',
         title: 'Tiện lợi, hiện đại, tiết kiệm thời gian.',
         describe: 'Tôi đã nhận được một chính sách bảo hiểm tốt.',
         author: 'HỒ TẤN ĐẠT',
     },
     {
+        rate:4,
         date: '5 Days ago',
         title: 'Thủ tục giải quyết bồi thường nhanh.',
         describe: 'Cảm ơn dịch vụ yêu cầu bồi thường của Affina',
         author: 'KHA NGÔ',
     },
     {
+        rate:4,
         date: '5 Days ago',
         title: 'Nhanh ngọn, trải nghiệm tốt',
         describe: 'Mình luôn giới thiệu cho mọi người về dịch vụ của AFFINA',
         author: 'TRẦN TIẾN',
     },
     {
+        rate:4,
         date: '5 Days ago',
         title: 'Đơn giản, dễ hiểu, nhanh chóng, sản phẩm tốt.',
         describe: 'Trải nghiệm rất thú vị và an tâm tại Affina.',
@@ -100,6 +109,27 @@ function CustomerReviewsComponent() {
         ]
     };
 
+    const rateStart = (rate) => {
+        var rateTemplate = []
+        for (var i = 0; i <= 4; i++) {
+            if (i < rate) {
+                rateTemplate.push(
+                    <Nav.Item className="icons-star star-active" key={rate+i}>
+                        <i className="mdi mdi-star"></i>
+                    </Nav.Item>
+                )
+            } else {
+                rateTemplate.push(
+                    <Nav.Item className="icons-star star-inactive" key={rate+i}>
+                        <i className="mdi mdi-star-half-full"></i>
+                    </Nav.Item>
+                )
+            }
+        }
+
+        return rateTemplate
+    }
+
     return (
         <Container fluid className="customer-reviews">
             <Container>
@@ -115,13 +145,14 @@ function CustomerReviewsComponent() {
                                     <Container>
                                         <div className="slider-item">
                                             <Navbar>
-                                                <Navbar.Text>
+                                                {/* <Navbar.Text>
                                                     <i className="mdi mdi-star"></i>
                                                     <i className="mdi mdi-star"></i>
                                                     <i className="mdi mdi-star"></i>
                                                     <i className="mdi mdi-star"></i>
                                                     <i className="mdi mdi-star-half-full"></i>
-                                                </Navbar.Text>
+                                                </Navbar.Text> */}
+                                                {rateStart(item.rate)}
                                                 <Navbar.Collapse className="justify-content-end">
                                                     <Navbar.Text>{item.date}</Navbar.Text>
                                                 </Navbar.Collapse>

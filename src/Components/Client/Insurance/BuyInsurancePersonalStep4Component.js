@@ -4,21 +4,20 @@ import { Col, Container, Image, Modal, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { isStringNullOrEmpty, validate, vnConvert } from '../../../Common/Helper';
+import { isStringNullOrEmpty, isViewMobile, validate, vnConvert } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createPayment } from '../../../Reducers/Insurance/PackagesRedux';
 import { resetState } from '../../../Reducers/Insurance/StepRedux';
 import BriefComponent from './BriefComponent';
 import CommonButtonInsurance from './CommonButtonInsurance';
 import configDefault from '../../../Config/app';
-
 const paymentMethod = {
-    bank_account: 'bank_account',
-    payoo_account: 'payoo_account',
+    bank_account: 'Bank-account',
+    payoo_account: 'Payoo-account',
     QRCode: 'QRCode',
-    pay_later: 'pay_later',
-    installment: 'installment',
-    cc: 'cc',
+    pay_later: 'pay-later',
+    installment: 'Installment',
+    cc: 'CC',
 }
 const BuyInsurancePersonalStep4Component = (props) => {
     const dispatch = useDispatch();
@@ -39,7 +38,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
         dispatch(createPayment({
             // "order_no": "ORDER4" + moment().format('HH:mm:ss'),
             "order_no": orderData.data && orderData.data.order_code,
-            "order_cash_amount": step2.totalAmount,
+            "order_cash_amount": Math.ceil(step2.paidAmount),
             "order_ship_date": moment().format('DD/MM/YYYY'),
             "order_ship_days": 1,
             "validity_time": moment().add(2, 'days').format('YYYYMMDDhhmmss'),
@@ -82,67 +81,73 @@ const BuyInsurancePersonalStep4Component = (props) => {
                 <Row>
                     <Col md={9}>
                         <div className='insurance-pay bg-white text-left'>
-                            <Container>
+                            <Container className='xs-hidden'>
                                 <h2>Hình thức thanh toán</h2>
                             </Container>
-                            <Line type='solid' />
+                            <Line type='solid' className='xs-hidden' />
                             <Container>
-                                <div className='payment-group'>
-                                    <Stack direction='horizontal' className='payment-header position-relative'>
-                                        <Image
-                                            src={accessStyle.images.partner.logoCircle}
-                                            srcSet={`
+                                <Col md={12} xs={12} className='payment-group'>
+                                    <Row>
+                                        <Col md={12} xs={12}>
+                                            <Stack direction='horizontal' className='payment-header position-relative align-items-center'>
+                                                <Image
+                                                    src={accessStyle.images.partner.logoCircle}
+                                                    srcSet={`
                                     ${accessStyle.images.partner.logoCircle2x} 2x, 
                                     ${accessStyle.images.partner.logoCircle3x} 3x
                                 `}
-                                            alt="Logo Affina"
-                                            width={44}
-                                            height={44}
-                                        />
-                                        <div className='payment-title'>
-                                            <label htmlFor={paymentMethod.QRCode}>Chuyển khoản trực tiếp cho Affina</label>
-                                        </div>
-                                        <div className='ms-auto'>
-                                            <div className='wrap-check position-relative' onClick={() => handleSelectPaymentPort(paymentMethod.QRCode)}>
-                                                <input type="radio" name="radio" id={paymentMethod.QRCode} checked={paymentPort === paymentMethod.QRCode} onChange={() => handleSelectPaymentPort(paymentMethod.QRCode)} />
-                                                <span className='check-mark' onClick={() => handleSelectPaymentPort(paymentMethod.QRCode)}></span>
-                                            </div>
-                                        </div>
-                                    </Stack>
-                                    <Line type='dashed' />
-                                    <Stack direction='horizontal' className='payment-content position-relative align-items-start'>
-                                        <div className='qr-payment'>
-                                            <h5>Quẹt mã QR để thanh toán</h5>
-                                            <div className='cut-border'></div>
-                                        </div>
-                                        <div className='wrapper-line'>
-                                            <div className="vertical-line">
-                                                <span className='word'>Hoặc</span>
-                                            </div>
-                                        </div>
-                                        <div className='payment-info'>
-                                            <h5>Thông tin chuyển khoản</h5>
-                                            <div className='info-transfer'>
-                                                <p>Tên Ngân hàng: <strong>Vietcombank</strong>
-                                                    <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Vietcombank')}></i>
-                                                </p>
-                                                <p>Tên tài khoản: <strong>CONG TY TNHH AFFINA VIET NAM</strong>
-                                                    <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('CONG TY TNHH AFFINA VIET NAM')}></i>
-                                                </p>
-                                                <p>Số tài khoản: <strong>1026967259</strong>
-                                                    <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('1026967259')}></i>
-                                                </p>
-                                                <p>Chi nhánh: <strong>Bình Tây</strong>
-                                                    <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Bình Tây')}></i>
-                                                </p>
-                                                <p>Nội dung chuyển Khoản:: <strong>{vnConvert(step3.name).split(' ').join('')} {step3.phone} {orderData.data && orderData.data.order_code}</strong>
-                                                    <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard(vnConvert(step3.name).split(' ').join('') + ' ' + step3.phone + ' ' + (orderData.data && orderData.data.order_code))}></i>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Stack>
-                                </div>
-                                <div className='payment-group'>
+                                                    alt="Logo Affina"
+                                                    width={44}
+                                                    height={44}
+                                                />
+                                                <div className='payment-title'>
+                                                    <label htmlFor={paymentMethod.QRCode}>Chuyển khoản trực tiếp cho Affina</label>
+                                                </div>
+                                                <div className='ms-auto'>
+                                                    <div className='wrap-check position-relative' onClick={() => handleSelectPaymentPort(paymentMethod.QRCode)}>
+                                                        <input type="radio" name="radio" id={paymentMethod.QRCode} checked={paymentPort === paymentMethod.QRCode} onChange={() => handleSelectPaymentPort(paymentMethod.QRCode)} />
+                                                        <span className='check-mark' onClick={() => handleSelectPaymentPort(paymentMethod.QRCode)}></span>
+                                                    </div>
+                                                </div>
+                                            </Stack>
+                                        </Col>
+                                        <Line type='dashed' />
+                                        <Col md={12} xs={12}>
+                                            <Stack direction='horizontal' gap={2} className='payment-content position-relative align-items-start'>
+                                                <div className='qr-payment'>
+                                                    <h5>Quẹt mã QR để thanh toán</h5>
+                                                    <div className='cut-border'></div>
+                                                </div>
+                                                <div className='wrapper-line'>
+                                                    <div className="vertical-line">
+                                                        <span className='word'>Hoặc</span>
+                                                    </div>
+                                                </div>
+                                                <div className='payment-info'>
+                                                    <h5>Thông tin chuyển khoản</h5>
+                                                    <div className='info-transfer'>
+                                                        <p>Tên Ngân hàng: <strong>Vietcombank</strong>
+                                                            <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Vietcombank')}></i>
+                                                        </p>
+                                                        <p>Tên tài khoản: <strong>CONG TY TNHH AFFINA VIET NAM</strong>
+                                                            <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('CONG TY TNHH AFFINA VIET NAM')}></i>
+                                                        </p>
+                                                        <p>Số tài khoản: <strong>1026967259</strong>
+                                                            <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('1026967259')}></i>
+                                                        </p>
+                                                        <p>Chi nhánh: <strong>Bình Tây</strong>
+                                                            <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Bình Tây')}></i>
+                                                        </p>
+                                                        <p>Nội dung chuyển Khoản:: <strong>{vnConvert(step3.name).split(' ').join('')} {step3.phone} {orderData.data && orderData.data.order_code}</strong>
+                                                            <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard(vnConvert(step3.name).split(' ').join('') + ' ' + step3.phone + ' ' + (orderData.data && orderData.data.order_code))}></i>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </Stack>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col md={12} xs={12} className='payment-group'>
                                     <Stack direction='horizontal' className='payment-header position-relative'>
                                         <Image
                                             src={accessStyle.images.icons.iconCard}
@@ -164,8 +169,8 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             </div>
                                         </div>
                                     </Stack>
-                                </div>
-                                <div className='payment-group'>
+                                </Col>
+                                <Col md={12} xs={12} className='payment-group'>
                                     <Stack direction='horizontal' className='payment-header position-relative'>
                                         <Image
                                             src={accessStyle.images.icons.visaCard}
@@ -187,8 +192,8 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             </div>
                                         </div>
                                     </Stack>
-                                </div>
-                                <div className='payment-group'>
+                                </Col>
+                                <Col md={12} xs={12} className='payment-group'>
                                     <Stack direction='horizontal' className='payment-header position-relative'>
                                         <Image
                                             src={accessStyle.images.icons.installment}
@@ -210,8 +215,8 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             </div>
                                         </div>
                                     </Stack>
-                                </div>
-                                <div className='payment-group'>
+                                </Col>
+                                {/* <Col md={12} xs={12} className='payment-group'>
                                     <Stack direction='horizontal' className='payment-header position-relative'>
                                         <Image
                                             src={accessStyle.images.icons.logoMomo}
@@ -233,13 +238,16 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             </div>
                                         </div>
                                     </Stack>
-                                </div>
+                                </Col> */}
                             </Container>
 
                         </div>
                     </Col>
                     <Col md={3}>
-                        <BriefComponent />
+                        {
+                            !isViewMobile() &&
+                            <BriefComponent />
+                        }
                     </Col>
                 </Row>
             </Container>
@@ -249,6 +257,9 @@ const BuyInsurancePersonalStep4Component = (props) => {
                 validate={validate([paymentPort])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
+                paidAmount={step2.paidAmount}
+                intoMoney={step2.intoMoney}
+                isViewStep={true}
             />
             <Modal
                 size="lg"

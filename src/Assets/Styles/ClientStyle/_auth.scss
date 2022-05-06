@@ -1,0 +1,21 @@
+.auth-content {
+  .main-content {
+    padding: 5rem 0;
+  }
+  h5 {
+    background: linear-gradient(to bottom, #095efb 0%, #ff52db 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.75rem;
+    text-align: center;
+    padding-bottom: 4.563rem;
+  }
+  .eye-off-eye {
+    background: color(white);
+    border: none;
+    border-top-right-radius: 6.25rem;
+    border-bottom-right-radius: 6.25rem;
+    padding: 0 1rem;
+  }
+}

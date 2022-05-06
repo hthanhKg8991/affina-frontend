@@ -51,7 +51,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
                                 <span className='sort-line'></span>hoặc <span className='sort-line'></span>
                             </Nav.Item>
                             <Nav.Item className='width-auto'>
-                                <Button className='width-auto' variant={gender === 0 ? 'pink btn-sm outline-pink-active' : "pink btn-sm"} onClick={() => handleChangeGender(0)}>
+                                <Button className='width-auto' variant={gender === 0 ? 'outline-pink btn-sm outline-pink-active' : "outline-pink btn-sm"} onClick={() => handleChangeGender(0)}>
                                     Nữ
                                 </Button>
                             </Nav.Item>

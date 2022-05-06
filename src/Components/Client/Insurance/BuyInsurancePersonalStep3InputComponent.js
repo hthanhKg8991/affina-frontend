@@ -146,7 +146,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                         </Col>
                         <Col md={6}>
                             <Row>
-                                <Col md={6}>
+                                <Col md={6} sm={6} xs={12}>
                                     <CommonInput
                                         require={true}
                                         label='Giới tính '
@@ -157,7 +157,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                     />
 
                                 </Col>
-                                <Col md={6}>
+                                <Col md={6} sm={6} xs={12}>
                                     <CommonInput
                                         require={true}
                                         label='Ngày sinh'
@@ -169,7 +169,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={6}>
+                                <Col md={6} sm={6} xs={12}>
                                     <CommonInput
                                         inputType='date'
                                         require={true}
@@ -182,7 +182,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                     />
 
                                 </Col>
-                                <Col md={6}>
+                                <Col md={6} sm={6} xs={12}>
                                     <CommonComboBox
                                         require={true}
                                         data={[

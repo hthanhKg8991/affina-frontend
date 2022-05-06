@@ -13,6 +13,11 @@ const accessStyle = {
             card2x: require('./Images/public/card@2x.webp'),
             card3x: require('./Images/public/card@3x.webp'),
             // 
+            // 
+            backgroundSendRequest: require('./Images/public/background-send-request.webp'),
+            backgroundSendRequest2x: require('./Images/public/background-send-request@2x.webp'),
+            backgroundSendRequest3x: require('./Images/public/background-send-request@3x.webp'),
+            // 
         },
         icons: {
             user: require('./Images/public/icons/user.webp'),
@@ -149,6 +154,8 @@ const accessStyle = {
             logoCircle: require('./Images/public/partner/logo-circle.webp'),
             logoCircle2x: require('./Images/public/partner/logo-circle@2x.webp'),
             logoCircle3x: require('./Images/public/partner/logo-circle@3x.webp'),
+            // 
+            logoMIC: require('./Images/public/partner/MIC_logo.png'),
         }
     }
 }

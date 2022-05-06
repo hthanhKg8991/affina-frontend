@@ -53,6 +53,7 @@ const HomeComponent = () => {
   return (
     <div className='benefits-container'>
       <Container fluid className="benefits position-relative">
+        <div className='translucent-layer'></div>
         <Image
           src={accessStyle.images.static.backgroundHome}
           srcSet={`
@@ -98,7 +99,7 @@ const HomeComponent = () => {
             <p>Sản phẩm tối ưu</p>
             <p>- Mở rộng phạm vi địa lý toàn cầu để bạn tự do lựa chọn nơi điều trị phù hợp nhất  </p>
             <p>- Thời gian chờ tối ưu nhất thị trường</p>
-            <Link to="/buy-now" className="btn btn-lg">Tham gia ngay</Link>
+            <Link to={BUY_NOW} className="btn btn-lg">Tham gia ngay</Link>
           </Col>
           <Col md={8} sm={12} xs={12} data-aos="fade-left">
             <Row>
@@ -187,7 +188,7 @@ const HomeComponent = () => {
               <div className='condition-brief'>(*) Trừ người mắc bệnh tâm thần, thần kinh, phong, đã và đang bị ung thư; người bị thương tật vĩnh viễn trên 80%; người đang trong thời gian điều trị bệnh hoặc thương tật.</div>
             </Col>
             <Col md={2} xs={12}>
-              <Link to='/join-now' className='btn'>
+              <Link to={BUY_NOW} className='btn'>
                 Tham gia ngay
                 <i className="mdi mdi-arrow-right"></i>
               </Link>

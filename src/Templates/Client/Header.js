@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Dropdown, Image, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ABOUT, HOME_PAGE } from "../../Routers/RoutePath";
+import { ABOUT, HOME_PAGE, LOGIN, SEND_REQUEST } from "../../Routers/RoutePath";
 
 function Header() {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -40,7 +40,7 @@ function Header() {
                         </Nav>
                         <Nav className="d-flex header-right align-items-center">
                             <Nav.Item>
-                                <Link to="/register-login">Đăng ký/ Đăng nhập</Link>
+                                <Link to={LOGIN}>Đăng ký/ Đăng nhập</Link>
                             </Nav.Item>
                             <Nav.Item >
                                 <Dropdown
@@ -78,7 +78,7 @@ function Header() {
                                                 </Nav>
                                             </Navbar.Collapse>
                                         </Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">
+                                        <Link to={SEND_REQUEST} className="dropdown-item">
                                             <Navbar.Collapse>
                                                 <i className="mdi mdi-email-outline"></i>
                                                 <Nav className="flex-column">
@@ -88,7 +88,7 @@ function Header() {
                                                     <span className="text-link"> info@affina.com.vn</span>
                                                 </Nav>
                                             </Navbar.Collapse>
-                                        </Dropdown.Item>
+                                        </Link>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Nav.Item>

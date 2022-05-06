@@ -1,13 +1,21 @@
 import PropTypes from "prop-types";
 
-import React from 'react';
-import { FormControl, FormLabel, Stack } from 'react-bootstrap'
+import React, { useState } from 'react';
+import { Form, FormControl, FormLabel, InputGroup, Stack } from 'react-bootstrap'
 import { isStringNullOrEmpty, formatIOSToDate } from "../../Common/Helper";
 import ReactTooltip from 'react-tooltip';
 import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 
 const CommonInput = (props) => {
+
+    const [isEyeOffEye, setIsEyeOffEye] = useState(false);
+
+
+    const handleEyeOffEye = () => {
+        setIsEyeOffEye(!isEyeOffEye)
+
+    }
     const renderInputType = (inputType) => {
         switch (inputType) {
             case 'date':
@@ -23,18 +31,56 @@ const CommonInput = (props) => {
                         }
                     />
                 )
+            case 'password':
+                return (
+                    <div>
+                        <InputGroup className="mb-3">
+
+                            <FormControl
+                                type={isEyeOffEye ? 'text' : inputType}
+                                placeholder={props.hint}
+                                value={props.value}
+                                // defaultValue={props.defaultValue}
+                                onChange={props.onChange}
+                                readOnly={props.readOnly}
+                                className={(props.error) && 'error'}
+                                autocomplete={props.autocomplete}
+                                autocomplete="off"
+                            />
+                            <InputGroup.Text className="eye-off-eye cursor-pointer" onClick={handleEyeOffEye}>
+                                {
+                                    isEyeOffEye ?
+                                        <i className="mdi mdi-eye-outline" ></i>
+                                        :
+                                        <i className="mdi  mdi-eye-off-outline"></i>
+                                }
+                            </InputGroup.Text>
+                        </InputGroup>
+
+
+                        <Form.Text className="text-danger">
+                            {props.errorMessage}
+                        </Form.Text>
+                    </div>
+                )
             default:
                 return (
-                    <FormControl
-                        type={props.type}
-                        placeholder={props.hint}
-                        value={props.value}
-                        // defaultValue={props.defaultValue}
-                        onChange={props.onChange}
-                        readOnly={props.readOnly}
-                        className={(props.error) && 'error'}
+                    <div>
+                        <FormControl
+                            type={props.type}
+                            placeholder={props.hint}
+                            value={props.value}
+                            // defaultValue={props.defaultValue}
+                            onChange={props.onChange}
+                            readOnly={props.readOnly}
+                            className={(props.error) && 'error'}
+                            autocomplete={props.autocomplete}
+                        />
 
-                    />
+                        <Form.Text className="text-danger">
+                            {props.errorMessage}
+                        </Form.Text>
+                    </div>
                 )
         }
     }
@@ -82,6 +128,7 @@ CommonInput.propTypes = {
     error: PropTypes.bool,
     errorMessage: PropTypes.string,
     type: PropTypes.string,
+    autocomplete: PropTypes.string,
 };
 CommonInput.defaultProps = {
     label: '',
@@ -95,6 +142,7 @@ CommonInput.defaultProps = {
     onChange: () => { },
     error: false,
     errorMessage: '',
+    autocomplete: 'off',
 };
 
 export default CommonInput

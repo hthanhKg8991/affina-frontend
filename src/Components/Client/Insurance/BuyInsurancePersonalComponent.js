@@ -6,6 +6,7 @@ import accessStyle from '../../../Assets';
 import { isStringNullOrEmpty } from '../../../Common/Helper';
 import configDefault from '../../../Config/app';
 import ProgressBarStep from '../../Common/ProgressBarStep';
+import BuyInsuranceGroupComponent from './BuyInsuranceGroup/BuyInsuranceGroupComponent';
 import BuyInsurancePersonalStep1Component from './BuyInsurancePersonalStep1Component';
 import BuyInsurancePersonalStep2Component from './BuyInsurancePersonalStep2Component';
 import BuyInsurancePersonalStep3Component from './BuyInsurancePersonalStep3Component';
@@ -223,7 +224,7 @@ const BuyInsurancePersonalComponent = () => {
                     }
                 </Tab>
                 <Tab eventKey="group" title="Tham gia theo nhóm">
-                    tab 2
+                    <BuyInsuranceGroupComponent />
                 </Tab>
             </Tabs>
         </div>

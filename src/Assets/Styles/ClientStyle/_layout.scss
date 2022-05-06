@@ -2,6 +2,15 @@ body {
   font-size: $default-font-size;
   font-family: $fontMain;
   color: color(affina-color);
+  .bg-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgb(0 0 0 / 43%);
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
   .loading-page {
     position: fixed;
     width: 100%;
@@ -22,6 +31,71 @@ body {
   }
   .cursor-pointer {
     cursor: pointer;
+  }
+  .empty-data {
+    font-size: 1.125rem;
+    color: color(affina-555555);
+    font-weight: normal;
+    @media only screen and (max-width: 768px) {
+      font-size: 0.75rem;
+    }
+  }
+  .main-container {
+    width: 100%;
+    height: 100%;
+    background: url("../../Images/public/background-insurance.webp") no-repeat
+        center bottom,
+      linear-gradient(to bottom, rgba(255, 82, 219, 0.1), rgba(9, 94, 251, 0.1));
+    padding-top: 5.6rem;
+    padding-bottom: 7.25rem;
+    @media only screen and (max-width: 768px) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .main-content {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: $button-border-radius-large;
+      padding: 3.5rem 1rem;
+      // text-align: center;
+    }
+  }
+  .main-table {
+    table {
+      thead {
+        background: color(color-f6f9ff);
+        text-transform: uppercase;
+        color: color(affina-blue);
+        font-size: 1.25rem;
+        font-weight: 600;
+        @media only screen and (max-width: 768px) {
+          font-size: 0.75rem;
+        }
+      }
+      tbody {
+        td {
+          font-size: 1rem;
+          font-weight: 500;
+          color: color(color_262626);
+          letter-spacing: 0.06px;
+          @media only screen and (max-width: 768px) {
+            font-size: 0.75rem;
+          }
+        }
+      }
+      td,
+      th {
+        padding: 1rem;
+      }
+      > :not(:first-child) {
+        border-top: 0 !important;
+      }
+    }
+  }
+  .translucent-layer {
+    background: rgb(0 0 0 / 22%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
   }
 }
 .line-default {
@@ -95,6 +169,7 @@ body {
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(affina-blue);
+  cursor: pointer;
   @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
@@ -111,6 +186,7 @@ body {
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(white);
+  cursor: pointer;
   @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
@@ -120,40 +196,42 @@ body {
     border: 1px solid color(affina-blue);
   }
 }
-.btn-pink {
-  background: color(color-ff52db);
-  color: color(white);
-  font-size: $default-font-size-large-18;
-  border-radius: $button-border-radius-large;
-  border: 1px solid color(white);
-  @media only screen and (max-width: 768px) {
-    font-size: 0.75rem;
-  }
-  &.outline-pink-active,
-  &:hover {
-    background: color(white);
-    color: color(color-ff52db);
-    border: 1px solid color(color-ff52db);
-    img {
-      filter: brightness(0) invert(1);
-    }
-  }
-}
+
 .btn-outline-pink {
   background: color(white);
   color: color(color-ff52db);
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(color-ff52db);
+  cursor: pointer;
   @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
   &.outline-pink-active,
   &:hover {
-    background: color(color-ff52db);
+    background: color(color-ff52db) !important;
     color: color(white);
     border: 1px solid color(white);
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+}
 
+.btn-pink {
+  background: color(color-ff52db);
+  color: color(white);
+  font-size: $default-font-size-large-18;
+  border-radius: $button-border-radius-large;
+  border: 1px solid color(white);
+  cursor: pointer;
+  @media only screen and (max-width: 768px) {
+    font-size: 0.75rem;
+  }
+  &:hover {
+    background: color(white);
+    color: color(color-ff52db);
+    border: 1px solid color(color-ff52db);
     img {
       filter: brightness(0) invert(1);
     }
@@ -166,6 +244,7 @@ body {
   font-size: $default-font-size-large-18;
   border-radius: $button-border-radius-large;
   border: 1px solid color(color-dddddd);
+  cursor: pointer;
   @media only screen and (max-width: 768px) {
     font-size: 0.75rem;
   }
@@ -208,7 +287,7 @@ body {
   .xs-hidden {
     display: none !important;
   }
-  .xs-visibility{
+  .xs-visibility {
     display: block !important;
   }
 }

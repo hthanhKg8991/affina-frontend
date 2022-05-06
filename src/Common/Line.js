@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 const Line = (props) => {
 
   return (
-    <div className={'line-' + props.type +' line-'+ props.color}>
+    <div className={props.className+ ' line-' + props.type +' line-'+ props.color}>
     </div>
   )
 }
@@ -16,10 +16,12 @@ const Line = (props) => {
 Line.propTypes = {
   type: PropTypes.string,
   color: PropTypes.string,
+  className: PropTypes.string,
 }
 
 Line.defaultProps = {
   type: 'default',
   color: 'e6e6e6',
+  className: '',
 }
 export default Line

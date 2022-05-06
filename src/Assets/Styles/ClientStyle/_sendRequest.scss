@@ -1,0 +1,46 @@
+.send-request-container {
+  background: url("../../Images/public/background-send-request.webp") no-repeat
+      center bottom,
+    linear-gradient(to bottom, rgba(255, 82, 219, 1), rgba(9, 94, 251, 1));
+  padding-top: 5.25rem;
+  padding-bottom: 8.5rem;
+  .send-request-content {
+    .content-brief {
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 1rem;
+      }
+      h4 {
+        font-size: 3rem;
+        font-weight: bold;
+        color: color(white);
+        line-height: 1.37;
+        @media only screen and (max-width: 768px) {
+          font-size: 1.25rem;
+        }
+      }
+      small {
+        font-size: 1.25rem;
+        font-weight: normal;
+        color: color(white);
+        @media only screen and (max-width: 768px) {
+          font-size: 0.75rem;
+        }
+      }
+    }
+    .send-request-form {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2.875rem;
+      border-radius: 1.375rem;
+    }
+  }
+}
+.list-sent-request {
+  .wrapper-button-event {
+    margin: 1rem 0;
+  }
+  .btn-outline-info {
+    &:hover {
+      color: color(white) !important;
+    }
+  }
+}

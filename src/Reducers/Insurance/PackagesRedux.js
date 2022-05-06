@@ -27,7 +27,6 @@ const PackagesSlice = createSlice({
             state.isLoading = true;
         },
         packagesGetAllResponse(state, action) {
-            
             state.data = action.payload;
             state.data.map(item=>{
                 item.package_main.map(itemChild => {

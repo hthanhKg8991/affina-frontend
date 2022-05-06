@@ -4,6 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import Odometer from 'react-odometerjs';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
+import { BUY_NOW } from '../../Routers/RoutePath';
 
 export default function NeedInsurance() {
     const [price, setPrice] = useState(0);
@@ -113,7 +114,7 @@ export default function NeedInsurance() {
                     </Row>
                 </Container>
                 <div>
-                    <Link to="/get-your-protection-now" className='btn btn-outline-really-need-insurance'>Tham gia ngay</Link>
+                    <Link to={BUY_NOW} className='btn btn-outline-really-need-insurance'>Tham gia ngay</Link>
                 </div>
             </div>
         </Container>

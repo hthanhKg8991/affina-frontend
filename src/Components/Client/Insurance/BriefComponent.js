@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react'
 import { Form, Nav, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatPrepaidAmount, isEmptyArray } from '../../../Common/Helper';
+import { formatPrepaidAmount, isEmptyArray, matchRound, percentage } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { handleRemoveAdditional } from '../../../Reducers/Insurance/StepRedux';
 
@@ -69,10 +69,8 @@ const BriefComponent = (props) => {
                     <Nav.Item>{step2.packageName}</Nav.Item>
                 </Nav>
                 <Nav className='justify-content-between'>
-                    <Stack direction='horizontal' className='align-items-start'>
-                        <Nav.Item>Tổng số tiền được bảo hiểm:</Nav.Item>
-                        <Nav.Item className='ms-auto'>{formatPrepaidAmount(step2.price + amountTotal)}</Nav.Item>
-                    </Stack>
+                    <Nav.Item>Tổng số tiền được bảo hiểm:</Nav.Item>
+                    <Nav.Item className='ms-auto'>{formatPrepaidAmount(matchRound(step2.price + amountTotal))}</Nav.Item>
                 </Nav>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Thời hạn bảo hiểm:</Nav.Item>
@@ -83,7 +81,7 @@ const BriefComponent = (props) => {
             <div className='main-package-fee'>
                 <Nav className='justify-content-between'>
                     <Nav.Item><strong>Phí gói chính:</strong></Nav.Item>
-                    <Nav.Item>{formatPrepaidAmount(step2.fee)}</Nav.Item>
+                    <Nav.Item>{formatPrepaidAmount(matchRound(step2.fee))}</Nav.Item>
                 </Nav>
             </div>
             <Line type='dotted' />
@@ -102,7 +100,7 @@ const BriefComponent = (props) => {
             <div className='into-money'>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Thành tiền:</Nav.Item>
-                    <Nav.Item>{formatPrepaidAmount(step2.fee + amountFeeSecondary)}</Nav.Item>
+                    <Nav.Item>{formatPrepaidAmount(matchRound(step2.fee + amountFeeSecondary))}</Nav.Item>
                 </Nav>
             </div>
             <div className='promotion'>
@@ -112,7 +110,9 @@ const BriefComponent = (props) => {
             <div className='total-money my-sticky-top'>
                 <Stack direction='horizontal'>
                     <label>TỔNG TIỀN: </label>
-                    <label className='ms-auto'>{formatPrepaidAmount(step2.fee + amountFeeSecondary)}</label>
+                    {/* <label className='ms-auto'>{formatPrepaidAmount((step2.fee + amountFeeSecondary) - (100 - step2.dis) )}</label> */}
+                    <label className='ms-auto'>{formatPrepaidAmount(matchRound(percentage((step2.fee + amountFeeSecondary), -step2.discount)))}</label>
+                    {/* <label className='ms-auto'>{formatPrepaidAmount( step2.totalAmount )}</label> */}
                     {/* {amountSecondary+ step2.price} */}
                 </Stack>
             </div>

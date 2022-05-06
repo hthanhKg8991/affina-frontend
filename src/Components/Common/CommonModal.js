@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import React from 'react'
 import { Accordion, Button, Col, Container, Image, Modal, Row, Stack, Tab, Tabs } from 'react-bootstrap'
 import accessStyle from "../../Assets";
-import { formatPrepaidAmount, isEmptyArray } from "../../Common/Helper";
+import { formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, isViewMobile } from "../../Common/Helper";
 import Line from "../../Common/Line";
 import configDefault from "../../Config/app";
+import htmlParserCode from 'html-react-parser';
 
 const CommonModal = (props) => {
     const { step2 = {}, step3, package_main, additional } = props.data;
@@ -31,22 +32,45 @@ const CommonModal = (props) => {
                             width={98}
                             height={20}
                         />
-                        <Image
-                            src={props.data.supplier && configDefault.URL_IMG + props.data.supplier.image}
-                            srcSet={`
-                            ${props.data.supplier && configDefault.URL_IMG + props.data.supplier.image} 2x, 
-                            ${props.data.supplier && configDefault.URL_IMG + props.data.supplier.image} 3x
-                        `}
-                            className="ms-auto img-white"
-                            alt="Logo Affina"
-                            width={132}
-                            height={62}
-                        />
+                        {
+                            isViewMobile() ?
+                                <Modal.Header closeButton className="ms-auto close-white"></Modal.Header>
+                                :
+                                <Image
+                                    src={props.data.supplier && configDefault.URL_IMG + props.data.supplier.image}
+                                    srcSet={`
+                                    ${props.data.supplier && configDefault.URL_IMG + props.data.supplier.image} 2x, 
+                                    ${props.data.supplier && configDefault.URL_IMG + props.data.supplier.image} 3x
+                                `}
+                                    className="ms-auto img-white"
+                                    alt="Logo Affina"
+                                    width={132}
+                                    height={62}
+                                />
+                        }
                     </Stack>
                 </Container>
-                <div className="modal-sidebar-insurance-topic">
-                    <h5>Bảo hiểm bưu điện  - {props.data.supplier && props.data.supplier.name}</h5>
-                    <strong>{props.data && props.data.name}</strong>
+                <div className={isViewMobile() ? " modal-sidebar-insurance-topic " : "wrap-benefit-mobile"}>
+                    <Stack direction="horizontal">
+                        {
+                            isViewMobile() &&
+                            <Image
+                                src={props.data.supplier && configDefault.URL_IMG + props.data.supplier.image}
+                                srcSet={`
+                                    ${props.data.supplier && configDefault.URL_IMG + props.data.supplier.image} 2x, 
+                                    ${props.data.supplier && configDefault.URL_IMG + props.data.supplier.image} 3x
+                                `}
+                                className="img-white"
+                                alt="Logo Affina"
+                                width={83}
+                                height={39}
+                            />
+                        }
+                        <div className={isViewMobile() ? "ms-auto text-right " : 'modal-sidebar-insurance-topic d-block'}>
+                            <h5>Bảo hiểm bưu điện  - {props.data.supplier && props.data.supplier.name}</h5>
+                            <strong>{props.data && props.data.name}</strong>
+                        </div>
+                    </Stack>
                 </div>
                 <Container>
                     <div className="modal-sidebar-insurance sidebar-insurance-benefit">
@@ -61,7 +85,7 @@ const CommonModal = (props) => {
                         </Stack>
                     </div>
                     <Line type="dashed" color='e6e6e6' />
-                    <div className="modal-sidebar-insurance sidebar-insurance-benefit-additional">
+                    {/* <div className="modal-sidebar-insurance sidebar-insurance-benefit-additional">
                         <h5>QUYỀN LỢI BỔ SUNG</h5>
                         <div className="group-child">
                             {
@@ -75,83 +99,128 @@ const CommonModal = (props) => {
                                     )
                                 })
                             }
-                            {/* <Stack direction="horizontal">
-                                <span>Điều trị ngoại trú</span>
-                                <span className="ms-auto">Nha khoa</span>
-                            </Stack>
-                            <Stack direction="horizontal">
-                                <span>không hỗ trợ</span>
-                                <span className="ms-auto">không hỗ trợ</span>
-                            </Stack> */}
                         </div>
-                        {/* <div className="group-child">
-                            <Stack direction="horizontal">
-                                <span>Thai sản</span>
-                                <span className="ms-auto">Bệnh hiểm nghèo</span>
-                            </Stack>
-                            <Stack direction="horizontal">
-                                <span>không hỗ trợ</span>
-                                <span className="ms-auto">không hỗ trợ</span>
-                            </Stack>
-                        </div> */}
-                    </div>
+                    </div> */}
                     <Line type="dashed" color='e6e6e6' />
-                    <div className="modal-sidebar-insurance sidebar-insurance-highlights">
-                        <h5>ĐIỂM NỔI BẬT</h5>
-                        <ul className="list-highlights">
-                            <li>
-                                <span>Cam kết tái tục</span>
-                            </li>
-                            <li>
-                                <span>Đảm báo mở rộng đối với</span>
-                                <ul className="sub-list-highlights">
-                                    <li>
-                                        <span>Covid-19</span>
-                                    </li>
-                                    <li>
-                                        <span>Biến chứng vaccine</span>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span>Bệnh ung thư không bị loại trừ, bảo hiểm cho các bệnh hiểm nghèo</span>
-                            </li>
-                            <li>
-                                <span>Trẻ em được tham gia độc lập mà không cần đi kèm cha mẹ</span>
-                            </li>
-                            <li>
-                                <span>Bảo hiểm cho tất cả cơ sở y tế có giấy phép hợp pháp và cung cấp được chứng từ hợp.</span>
-                            </li>
-                            <li>
-                                <span>Bảo lãnh không cần thẻ tại 150 cơ sở y tế</span>
-                            </li>
-                            <li>
-                                <span>Ứng dụng bồi thường trực tuyến. Áp dụng đối với hồ sơ Ngoại trú và nha khoa</span>
-                            </li>
-                            <li>
-                                <span>Trực tuyến: đăng ký, thanh toán, bồi thường</span>
-                            </li>
-                            <li>
-                                <span>Không nộp form khai báo y tế</span>
-                            </li>
-                            <li>
-                                <span>Chỉ dành riêng cho khách hàng của MMB</span>
-                            </li>
-                        </ul>
-                    </div>
+                    {
+                        !isViewMobile() &&
+                        <div className="modal-sidebar-insurance sidebar-insurance-highlights">
+                            <h5>ĐIỂM NỔI BẬT</h5>
+                            <ul className="list-highlights">
+                                <li>
+                                    <span>1. Cam kết tái tục trong những năm tiếp theo.</span>
+                                </li>
+                                <li>
+                                    <span>2. Thời gian chờ tối ưu nhất thị trường </span>
+                                </li>
+                                <li>
+                                    <span>3. Quyền lợi bảo hiểm cho điều trị COVID-19 và biến chứng do tiêm vaccine </span>
+                                    {/* <ul className="sub-list-highlights">
+                                        <li>
+                                            <span>Covid-19</span>
+                                        </li>
+                                        <li>
+                                            <span>Biến chứng vaccine</span>
+                                        </li>
+                                    </ul> */}
+                                </li>
+                                <li>
+                                    <span>4. Lựa chọn phạm vi địa lý trong và ngoài phạm vi lãnh thổ Việt Nam để bạn tự do lựa chọn nơi điều trị phù hợp nhất</span>
+                                </li>
+                                <li>
+                                    <span>5. Bảo hiểm cho trẻ em từ 30 ngày tuổi có thể tham gia độc lập mà không cần bố mẹ tham gia cùng</span>
+                                </li>
+                                <li>
+                                    <span>6. Không giới hạn nơi khám chữa bệnh bao gồm bệnh viện, phòng khám tư nhân, quốc tế</span>
+                                </li>
+                                <li>
+                                    <span>7. Bảo lãnh viện phí tại hơn 120 cơ sở y tế</span>
+                                </li>
+                                <li>
+                                    <span>8. Ứng dụng bồi thường trực tuyến. Áp dụng đối với hồ sơ Ngoại trú và nha khoa (đối với chương trình từ B.5 đến B.10)</span>
+                                </li>
+                                <li>
+                                    <span>9. 100% Trực tuyến: Tham gia bảo hiểm, tra cứu quyền lợi, hạn mức còn lại và trạng thái giải quyết bồi thường.</span>
+                                </li>
+                                <li>
+                                    <span>10. Không nộp form khai báo y tế để tham gia bảo hiểm</span>
+                                </li>
+                                <li>
+                                    <span>11. Chỉ dành riêng cho khách hàng của MMB</span>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
                 </Container>
             </Col>
             <Col md={9} className="position-relative">
-                <Modal.Header closeButton></Modal.Header>
+                {!isViewMobile() &&
+                    <Modal.Header closeButton></Modal.Header>
+                }
                 <div className="container-tab">
                     <Container>
-                        <Tabs defaultActiveKey="product-info" id="uncontrolled-tab-example" className="mb-3">
+                        <Tabs defaultActiveKey={isViewMobile() ? "outstanding" : "product-info"} id="uncontrolled-tab-example" className="mb-3">
+                            {isViewMobile() &&
+                                <Tab eventKey="outstanding" title="Điểm nổi bật">
+                                    <Container className="container-participation">
+                                        <Accordion defaultActiveKey="0">
+                                            <Accordion.Item eventKey="0">
+                                                <Accordion.Body>
+                                                    <div className="modal-sidebar-insurance sidebar-insurance-highlights">
+                                                        <ul className="list-highlights">
+                                                            <li>
+                                                                <span>Cam kết tái tục</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Đảm báo mở rộng đối với</span>
+                                                                <ul className="sub-list-highlights">
+                                                                    <li>
+                                                                        <span>Covid-19</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Biến chứng vaccine</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <span>Bệnh ung thư không bị loại trừ, bảo hiểm cho các bệnh hiểm nghèo</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Trẻ em được tham gia độc lập mà không cần đi kèm cha mẹ</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Bảo hiểm cho tất cả cơ sở y tế có giấy phép hợp pháp và cung cấp được chứng từ hợp.</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Bảo lãnh không cần thẻ tại 150 cơ sở y tế</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Ứng dụng bồi thường trực tuyến. Áp dụng đối với hồ sơ Ngoại trú và nha khoa</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Trực tuyến: đăng ký, thanh toán, bồi thường</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Không nộp form khai báo y tế</span>
+                                                            </li>
+                                                            <li>
+                                                                <span>Chỉ dành riêng cho khách hàng của MMB</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </Accordion.Body>
+                                            </Accordion.Item>
+                                        </Accordion>
+                                    </Container>
+                                </Tab>
+                            }
                             <Tab eventKey="product-info" title="Thông tin sản phẩm">
                                 <Container className="container-participation">
-                                    <Accordion defaultActiveKey="0">
+                                    <Accordion defaultActiveKey={!isViewMobile() ? "0" : "00"}>
                                         {
                                             (!isEmptyArray(package_main)) &&
-                                            package_main.map((itemMain, index) => {
+                                            package_main.concat(additional).map((itemMain, index) => {
                                                 if (itemMain.is_view !== 0) {
                                                     return (
                                                         <Accordion.Item eventKey={itemMain._id} key={itemMain._id}>
@@ -163,7 +232,32 @@ const CommonModal = (props) => {
                                                                     {formatPrepaidAmount(itemMain.amount)}VNĐ
                                                                 </div>
                                                             </Accordion.Header>
-                                                            <Accordion.Body>{itemMain.content}</Accordion.Body>
+                                                            <Accordion.Body>{
+                                                                (!isEmptyArray(itemMain.product_details)) ?
+                                                                    itemMain.product_details.map((itemChild, index) => {
+                                                                        return (
+                                                                            <Accordion defaultActiveKey={itemChild} key={itemChild._id}>
+                                                                                <Accordion.Item eventKey={itemChild._id} key={itemChild._id}>
+                                                                                    <Accordion.Header disabled>
+                                                                                        <div className="topic">
+                                                                                            {itemChild.description || itemChild.name}
+                                                                                        </div>
+                                                                                        {!isStringNullOrEmpty(itemChild.amount) &&
+                                                                                            <div className="topic-price btn-outline-blue">
+                                                                                                {formatPrepaidAmount(itemChild.amount)}VNĐ
+                                                                                            </div>
+                                                                                        }
+                                                                                    </Accordion.Header>
+                                                                                    <Accordion.Body>
+                                                                                        {htmlParserCode(itemChild.content)}
+                                                                                    </Accordion.Body>
+                                                                                </Accordion.Item>
+                                                                            </Accordion>
+                                                                        )
+                                                                    })
+                                                                    :
+                                                                    htmlParserCode(itemMain.content)
+                                                            }</Accordion.Body>
                                                         </Accordion.Item>
                                                     )
                                                 } else {
@@ -171,61 +265,7 @@ const CommonModal = (props) => {
                                                 }
                                             })
                                         }
-                                        {/* <Accordion.Item eventKey="0">
-                                            <Accordion.Header>
-                                                <div className="topic">
-                                                    Tử vong hoặc thương tật toàn bộ/bộ phận vĩnh viễn do tai nạn
-                                                </div>
-                                                <div className="topic-price btn-outline-blue">
-                                                    80.000.000VNĐ
-                                                </div>
-                                            </Accordion.Header>
-                                            <Accordion.Body></Accordion.Body>
-                                        </Accordion.Item>
-                                        <Accordion.Item eventKey="1">
-                                            <Accordion.Header>
-                                                <div className="topic">
-                                                    Chi phí y tế điều trị thương tật do tai nạn/năm
-                                                </div>
-                                                <div className="topic-price btn-outline-blue">
-                                                    20.000.000VNĐ
-                                                </div>
-                                            </Accordion.Header>
-                                            <Accordion.Body></Accordion.Body>
-                                        </Accordion.Item>
-                                        <Accordion.Item eventKey="2">
-                                            <Accordion.Header>
-                                                <div className="topic">
-                                                    Tử vong/tàn tật, thương tật toàn bộ do ốm đau , bệnh tật, thai sản
-                                                </div>
-                                                <div className="topic-price btn-outline-blue">
-                                                    20.000.000VNĐ
-                                                </div>
-                                            </Accordion.Header>
-                                            <Accordion.Body></Accordion.Body>
-                                        </Accordion.Item>
-                                        <Accordion.Item eventKey="3">
-                                            <Accordion.Header>
-                                                <div className="topic">
-                                                    Quyền lợi nội trú và trong ngày do ốm bệnh
-                                                </div>
-                                                <div className="topic-price btn-outline-blue">
-                                                    40.000.000VNĐ
-                                                </div>
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <ul className="list-content list-style-numbered">
-                                                    <li>Chi phí nằm viện phát sinh trong thời gian nằm viện do bác sĩ kê đơn. Tối đa 60 ngày / năm</li>
-                                                    <li>Chi phí y tế liên quan đến phẫu thuật nội trú, trong ngày, ngoại trú</li>
-                                                    <li>Chi phí vận chuyển cấp cứu / năm (loại trừ đường hàng không/ SOS/ IPA) áp dụng cho tất cả người được bảo hiểm có tên trong danh sách</li>
-                                                    <li>Trợ cấp nằm viện tại bệnh viện tối đa 60 ngày/ năm</li>
-                                                    <li>Chi phí trước nhập viện (trong vòng 30 ngày trước khi nhập viện)</li>
-                                                    <li>Điều trị sau khi xuất viện (trong vòng 30 ngày sau khi xuất viện, không giới hạn số lần tái khám)</li>
-                                                    <li>Y tá chăm sóc tại nhà (trong vòng 15 ngày sau khi xuất viện, phải được chỉ định của bác sĩ và là dịch vụ cung cấp bởi y tá có giấy phép hành nghề)</li>
-                                                    <li>Trợ cấp mai táng</li>
-                                                </ul>
-                                            </Accordion.Body>
-                                        </Accordion.Item> */}
+
                                     </Accordion>
                                 </Container>
                             </Tab>
@@ -275,6 +315,9 @@ const CommonModal = (props) => {
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body>
+                                                <ul className="list-content">
+                                                    <li>Từ 30 ngày tuổi đến 65 tuổi</li>
+                                                </ul>
                                             </Accordion.Body>
                                         </Accordion.Item>
                                         <Accordion.Item eventKey="2">
@@ -294,6 +337,11 @@ const CommonModal = (props) => {
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body>
+                                                <ul className="list-content">
+                                                    <li>+ Trẻ em từ 30 ngày đến dưới 6 tuổi: tăng phí 30% trên phí chuẩn, chỉ được tham gia chương trình 1, 2, 3, 4, áp dụng đồng chi trả 20%.</li>
+                                                    <li>+ Người lớn từ 51 tuổi đến 65 tuổi, tăng phí 30% trên phí chuẩn</li>
+                                                    <li>+ Trẻ em có thể tham gia độc lập, không cần cha mẹ cùng tham gia</li>
+                                                </ul>
                                             </Accordion.Body>
                                         </Accordion.Item>
                                         <Accordion.Item eventKey="3">
@@ -313,6 +361,13 @@ const CommonModal = (props) => {
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body>
+                                                <ul className="list-content">
+                                                    <li>Bệnh thông thường: 30 ngày</li>
+                                                    <li>Viêm phế quản, tiểu phế quản, viêm phổi (trẻ em dưới 6 tuổi): 30 ngày </li>
+                                                    <li>Bệnh đặc biệt: 365 ngày với điều trị, tử vong & thương tật/tàn tật bộ phận hoặc toàn bộ vĩnh viễn.</li>
+                                                    <li>Bệnh có sẵn: 365 ngày với điều trị, tử vong & thương tật/tàn tật toàn bộ vĩnh viễn</li>
+                                                    <li>Thai sản: 90 ngày đối với  sảy thai nạo thai theo chỉ định bác sỹ  và 365 ngày đối với sinh con và tử vong</li>
+                                                </ul>
                                             </Accordion.Body>
                                         </Accordion.Item>
                                         <Accordion.Item eventKey="4">
@@ -332,6 +387,33 @@ const CommonModal = (props) => {
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body>
+                                                <ul className="list-content">
+                                                    <li>Trẻ em dưới 6 tuổi  :  Đồng chi trả 20% dưới 6 tuổi khi điều trị tại tại tại tất cả các cơ sở y tế, áp dụng cho toàn bộ các quyền lợi</li>
+                                                    <li>Thai sản: Đồng chi trả 20% tại bệnh viện tư nhân, quốc tế, bệnh viện công (khoa quốc tế/dịch vụ/tự nguyện)</li>
+                                                    <li>Nha Khoa: Đồng chi trả 20% tại bệnh viện tư nhân, quốc tế. Bệnh viện công (khoa quốc tế/dịch vụ/tự nguyện)</li>
+                                                </ul>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        <Accordion.Item eventKey="5">
+                                            <Accordion.Header>
+                                                <div className="wrap-icons">
+                                                    <Image
+                                                        src={accessStyle.images.icons.copay}
+                                                        srcSet={`
+                                                            ${accessStyle.images.icons.copay} 2x, 
+                                                            ${accessStyle.images.icons.copay} 3x
+                                                        `}
+                                                        alt="Icons process security"
+                                                    />
+                                                </div>
+                                                <div className="topic">
+                                                    Bảo lãnh viện phí
+                                                </div>
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <ul className="list-content">
+                                                    <li>Nội trú cho B1 đến B2. Nội trú, ngoại trú, thai sản, nha khoa cho B3 đến B10. Không bảo lãnh cho tai nạn</li>
+                                                </ul>
                                             </Accordion.Body>
                                         </Accordion.Item>
                                     </Accordion>
@@ -532,22 +614,22 @@ const CommonModal = (props) => {
                                     <h4>Bao gồm 2 quy trình chính:</h4>
                                     <div className="group-process">
                                         <Stack direction="horizontal">
-                                            <div className="process-item">
+                                            <Col md={4} xs={12} className="process-item">
                                                 <Stack direction="horizontal">
                                                     <Image
                                                         src={accessStyle.images.icons.process_security}
                                                         srcSet={`
-                                                ${accessStyle.images.icons.process_security2x} 2x, 
-                                                ${accessStyle.images.icons.process_security3x} 3x
-                                            `}
+                                                            ${accessStyle.images.icons.process_security2x} 2x, 
+                                                            ${accessStyle.images.icons.process_security3x} 3x
+                                                        `}
                                                         alt="Icons process security"
                                                         width={41}
                                                         height={41}
                                                     />
                                                     <span>Bảo lãnh viện phí</span>
                                                 </Stack>
-                                            </div>
-                                            <div className="process-item">
+                                            </Col>
+                                            <Col md={4} xs={12} className="process-item">
                                                 <Stack direction="horizontal">
                                                     <Image
                                                         src={accessStyle.images.icons.prepaid}
@@ -561,7 +643,7 @@ const CommonModal = (props) => {
                                                     />
                                                     <span>Trả trước thanh toán sau</span>
                                                 </Stack>
-                                            </div>
+                                            </Col>
                                         </Stack>
                                     </div>
                                 </Container>
@@ -586,8 +668,8 @@ const CommonModal = (props) => {
                         />
                         <span>Quy tắc bảo hiểm</span>
                     </div>
-                    <Button className="btn-outline-blue">So sánh</Button>
-                    <Button className="btn-blue ">Tiếp tục mua</Button>
+                    {/* <Button className="btn-outline-blue">So sánh</Button> */}
+                    <Button className="btn-blue " onClick={props.onHidden}>Tiếp tục mua</Button>
                 </Modal.Footer>
             </Col>
         </Modal>
