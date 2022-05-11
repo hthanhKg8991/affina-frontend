@@ -1,6 +1,10 @@
 .auth-content {
   .main-content {
     padding: 5rem 0;
+    .view-error {
+      animation-name: fadeInRight;
+      animation-duration: 1s;
+    }
   }
   h5 {
     background: linear-gradient(to bottom, #095efb 0%, #ff52db 100%);

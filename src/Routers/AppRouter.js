@@ -22,6 +22,7 @@ import TermConditionsContainer from "../Containers/Client/TermConditionsContaine
 import { ABOUT, BUY_NOW, LANDING_PAGE, LIST_SEND_REQUEST, LOGIN, PRIVACY_POLICY, SEND_REQUEST, STORY_AFFINA, TERM_CONDITIONS } from "./RoutePath";
 import SendRequestContainer from "../Containers/Client/SendRequestContainer";
 import ListSentRequestComponent from "../Components/Client/LinkExample/ListSentRequestComponent";
+import LayoutMail from "../Common/LayoutMail";
 
 const AdminRouter = (props) => {
 
@@ -41,6 +42,7 @@ const AdminRouter = (props) => {
                                 <Route path={STORY_AFFINA} element={<CategoryDetailContainer />} />
                                 <Route path={SEND_REQUEST} element={<SendRequestContainer />} />
                                 <Route path={LIST_SEND_REQUEST} element={<ListSentRequestComponent />} />
+                                <Route path='demo' element={<LayoutMail />} />
                             </>
                             :
                             <>

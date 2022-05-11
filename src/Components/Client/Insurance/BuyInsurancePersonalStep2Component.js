@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Container, Form, Image, Nav, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { calculatorFee, dynamicSort, formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, matchRound, numFormatter, validate } from '../../../Common/Helper';
+import { calculatorFee, dynamicSort, formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, matchRound, numFormatter, percentage, validate } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import configDefault from '../../../Config/app';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../Reducers/Insurance/PackagesRedux';
@@ -353,7 +353,8 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                         </Stack>
                                                         <div className="text-right ms-auto">
                                                             <p className='package-price'>{formatPrepaidAmount(item.price)}VNĐ</p>
-                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p>
+                                                            {/* <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p> */}
+                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(percentage(item.price_fee, +30))}VNĐ/năm</p>
                                                         </div>
                                                     </Stack>
                                                     <Line type="dashed" color='e6e6e6' />

@@ -22,6 +22,7 @@ const paymentMethod = {
 const BuyInsurancePersonalStep4Component = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
     const { orderData = {}, paymentData = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
@@ -37,6 +38,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
     const handleContinue = () => {
         dispatch(createPayment({
             // "order_no": "ORDER4" + moment().format('HH:mm:ss'),
+            "user": dataAuth.data && dataAuth.data._id,
             "order_no": orderData.data && orderData.data.order_code,
             "order_cash_amount": Math.ceil(step2.paidAmount),
             "order_ship_date": moment().format('DD/MM/YYYY'),
@@ -47,6 +49,14 @@ const BuyInsurancePersonalStep4Component = (props) => {
             "address": step3.address,
             "email": step3.email,
             "payment_method": paymentPort,
+            "sale": {
+                partner: dataAuth.data && dataAuth.data.partner || '',
+                region: dataAuth.data && dataAuth.data.region || '',
+                area: dataAuth.data && dataAuth.data.area || '',
+                employee_unit: dataAuth.data && dataAuth.data.employee_unit || '',
+                employee_code: dataAuth.data && dataAuth.data.employee_code || '',
+                staff_name: dataAuth.data && dataAuth.data.staff_name || '',
+            },
         }))
         if (paymentData.status === false) {
             // window.location.reload();
@@ -69,7 +79,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
     const handleGoBack = () => {
         props.handleButtonGoBack && props.handleButtonGoBack();
     }
-
+    console.log('data>>>', dataAuth.data && dataAuth.data.area);
     const handleCopyClipBoard = (valueCopy) => {
         console.log('handleCopyClipBoard:::', valueCopy);
         window.navigator.clipboard.writeText(valueCopy)
@@ -183,7 +193,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             height={44}
                                         />
                                         <div className='payment-title'>
-                                            <label htmlFor={paymentMethod.cc}>Visa/Master/JCB</label>
+                                            <label htmlFor={paymentMethod.cc}>Thanh toán bằng thẻ Visa/Master/JCB</label>
                                         </div>
                                         <div className='ms-auto'>
                                             <div className='wrap-check position-relative'>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Container, Dropdown, Image, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import accessStyle from "../../Assets";
 import { ABOUT, HOME_PAGE, LOGIN, SEND_REQUEST } from "../../Routers/RoutePath";
 
 function Header() {
@@ -12,12 +13,12 @@ function Header() {
                 <Container>
                     <Link to={HOME_PAGE}>
                         <Image
-                            src={require("../../Assets/Images/public/logo.png")}
+                            src={accessStyle.images.partner.affina}
                             srcSet={`
-                            ${require('../../Assets/Images/public/logo@2x.png')} 2x, 
-                            ${require('../../Assets/Images/public/logo@3x.png')} 3x
+                            ${accessStyle.images.partner.affina2x} 2x, 
+                            ${accessStyle.images.partner.affina3x} 3x
                         `}
-                            alt="Logo Affina"
+                            alt="Logo Affina asss"
                             width={138}
                             height={28}
                         />
@@ -40,7 +41,7 @@ function Header() {
                         </Nav>
                         <Nav className="d-flex header-right align-items-center">
                             <Nav.Item>
-                                <Link to={LOGIN}>Đăng ký/ Đăng nhập</Link>
+                                <Link to={LOGIN}>Đăng nhập</Link>
                             </Nav.Item>
                             <Nav.Item >
                                 <Dropdown

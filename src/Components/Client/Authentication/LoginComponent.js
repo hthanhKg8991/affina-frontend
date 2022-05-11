@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
-import { Button, Col, Container, Form, Row, Stack } from 'react-bootstrap'
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { validate } from '../../../Common/Helper';
-import CommonInput from '../../Common/CommonInput'
+import React, { useMemo, useState } from 'react';
+import { Button, Col, Container, Form, Row, Stack } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { isStringNullOrEmpty, removeAllScript, validate } from '../../../Common/Helper';
+// import { login } from '../../../Saga/Client/AuthenticationSaga';
+import { login } from '../../../Reducers/Auth/AuthenticationRedux';
+import { loginResponse } from '../../../Reducers/Auth/AuthRedux';
+import { BUY_NOW } from '../../../Routers/RoutePath';
+import CommonInput from '../../Common/CommonInput';
 
 const LoginComponent = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { dataError = {}, isLoading } = useSelector((state) => state.AuthenticationRedux) || [];
+
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
 
@@ -18,6 +26,21 @@ const LoginComponent = () => {
         setPassword(e.target.value);
     }
 
+    const handleLogin = () => {
+        let paramsLogin = {
+            username: removeAllScript(userName),
+            password: removeAllScript(password)
+        }
+        dispatch(login(paramsLogin));
+    }
+
+    useMemo(() => {
+        if(!isStringNullOrEmpty(dataError.access_token)){
+            dispatch(loginResponse(dataError))
+            navigate(BUY_NOW)
+        }
+    }, [dataError, dispatch])
+
     return (
         <div className='auth-content main-container'>
             <Container>
@@ -26,6 +49,13 @@ const LoginComponent = () => {
                         <Row>
                             <Col md={6} className="m-auto">
                                 <h5 className='text-uppercase login-title'>Login</h5>
+                                {
+                                    (dataError && dataError.error) &&
+                                    <Col className='text-danger view-error'>
+                                        <p>{dataError.error}</p>
+                                    </Col>
+                                }
+
                                 <Form autocomplete="off">
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <CommonInput
@@ -62,8 +92,9 @@ const LoginComponent = () => {
                                         </div>
                                     </Stack>
                                     <div className="d-grid gap-2 mt-5">
-                                        <Button variant={'btn ' + `${!validate([userName, password]) ? 'btn-blue' : 'btn-grey'}`} type="submit" size="lg" className='text-uppercase'
+                                        <Button variant={'btn ' + `${!validate([userName, password]) ? 'btn-blue' : 'btn-grey'}`} size="lg" className='text-uppercase'
                                             disabled={validate([userName, password])}
+                                            onClick={handleLogin}
                                         >
                                             Đăng nhập
                                         </Button>

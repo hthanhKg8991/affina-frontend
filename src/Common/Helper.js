@@ -159,14 +159,21 @@ export function vnConvert(str) {
     return str;
 }
 
+export function roundUp(number, digits)
+{
+    var factor = Math.pow(10,digits);
+    return Math.ceil(number*factor) / factor
+}
+
 export function percentage(amount = 0, precision) {
-    console.log('increaseDecrease', precision);
     if (!isStringNullOrEmpty(amount) && !isStringNullOrEmpty(precision)) {
         let value = (100 + parseInt(precision)) / 100
-        // return Math.round(amount * value)
-        return Math.ceil(amount * value)
+        let toFix = amount * value;
+        return roundUp(toFix, -3)
     }
 }
+
+ 
 
 export function calculatorFee(amount, rate) {
     if (!isStringNullOrEmpty(amount)) {

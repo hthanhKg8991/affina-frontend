@@ -44,6 +44,7 @@ const persistConfig = {
     key: 'root',
     storage,
     // whitelist: []
+    blacklist: ['AuthenticationRedux'],
     transforms: [SetTransform]
 }
 const persistedReducer = persistReducer(persistConfig, rootReducers)

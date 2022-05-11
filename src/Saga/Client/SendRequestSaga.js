@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { createSendRequestResponse, getAllResponse, getDetailResponse } from '../../Reducers/SentRequest/SendRequestRedux';
+import SendRequestRedux, { createSendRequestResponse, getAllResponse, getDetailResponse } from '../../Reducers/SentRequest/SendRequestRedux';
 import SendRequestApi from '../../Services/Apis/SendRequestApi';
 
 export function* getAll() {
@@ -29,3 +29,9 @@ export function* createSendRequest(action) {
         yield put(createSendRequestResponse(error));
     }
 }
+
+// export function* rootSendRequest() {
+//     yield takeLatest(SendRequestRedux.getAll.type, getAll),
+//         yield takeLatest(SendRequestRedux.getDetail.type, getDetail),
+//         yield takeLatest(SendRequestRedux.createSendRequest.type, createSendRequest)
+// }
