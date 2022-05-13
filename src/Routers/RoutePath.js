@@ -4,6 +4,7 @@ export const SOCIAL_FACEBOOK = 'http://www.facebook.com/AffinaVietnam';
 export const SOCIAL_INSTAGRAM = '';
 export const SOCIAL_YOUTUBE = '';
 export const SOCIAL_LINKEDIN = '';
+export const LINK_DOWNLOAD = 'https://affina.com.vn/Brochure_BenefitsOne_ToanBoKhachHang_0405.pdf';
 
 export const HOME_PAGE = '/';
 export const ABOUT = '/about';

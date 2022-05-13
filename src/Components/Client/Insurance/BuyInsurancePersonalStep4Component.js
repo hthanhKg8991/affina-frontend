@@ -4,7 +4,7 @@ import { Col, Container, Image, Modal, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { isStringNullOrEmpty, isViewMobile, validate, vnConvert } from '../../../Common/Helper';
+import { isStringNullOrEmpty, isViewMobile, resetStore, validate, vnConvert } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createPayment } from '../../../Reducers/Insurance/PackagesRedux';
 import { resetState } from '../../../Reducers/Insurance/StepRedux';
@@ -65,6 +65,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
         } else {
             if (!isStringNullOrEmpty(paymentData.data && paymentData.data.payment_url)) {
                 // setIsShowPopup(true)
+                resetStore();
                 dispatch(
                     resetState()
                 )
@@ -126,7 +127,10 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             <Stack direction='horizontal' gap={2} className='payment-content position-relative align-items-start'>
                                                 <div className='qr-payment'>
                                                     <h5>Quẹt mã QR để thanh toán</h5>
-                                                    <div className='cut-border'></div>
+                                                    <div className='cut-border'>
+                                                        <div className='content-conner'></div>
+                                                    </div>
+
                                                 </div>
                                                 <div className='wrapper-line'>
                                                     <div className="vertical-line">

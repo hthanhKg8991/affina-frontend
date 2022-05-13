@@ -1,7 +1,7 @@
 import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Line from "../../Common/Line";
-import { BUY_NOW, PRIVACY_POLICY, SEND_REQUEST, SOCIAL_FACEBOOK, STORY_AFFINA, TERM_CONDITIONS } from "../../Routers/RoutePath";
+import { HOME_PAGE, BUY_NOW, PRIVACY_POLICY, SEND_REQUEST, SOCIAL_FACEBOOK, STORY_AFFINA, TERM_CONDITIONS } from "../../Routers/RoutePath";
 
 function Footer() {
     const navigate = useNavigate();
@@ -11,17 +11,19 @@ function Footer() {
             <Container>
                 <Row className="footer " >
                     <Col lg md sm={12} xs={12}>
-                        <Image
-                            src={require("../../Assets/Images/public/logo.png")}
-                            srcSet={`
+                        <Link to={HOME_PAGE}>
+                            <Image
+                                src={require("../../Assets/Images/public/logo.png")}
+                                srcSet={`
                                 ${require('../../Assets/Images/public/logo@2x.png')} 2x, 
                                 ${require('../../Assets/Images/public/logo@3x.png')} 3x
                             `}
-                            alt="Logo Affina"
-                            width={133}
-                            height={27}
-                            className="logo-footer"
-                        />
+                                alt="Logo Affina"
+                                width={133}
+                                height={27}
+                                className="logo-footer"
+                            />
+                        </Link>
                         <Nav className="flex-column footer-info">
                             <Navbar.Text>info@affina.com.vn</Navbar.Text>
                             <Navbar.Text>1900-2525-99 <span className="line-vertical">|</span> 02877722999</Navbar.Text>
@@ -77,7 +79,7 @@ function Footer() {
                         <h5>Hỗ trợ khách hàng</h5>
                         <Nav className="flex-column">
                             <Nav.Item>
-                                <Link to="/about">Trung tâm trợ giúp</Link>
+                                <Link to={SEND_REQUEST}>Trung tâm trợ giúp</Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link to="/about">Câu hỏi thường gặp</Link>

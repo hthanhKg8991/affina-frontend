@@ -34,7 +34,7 @@ const BriefComponent = (props) => {
                 templateAdditional.push(
                     <Stack key={item._id} direction='horizontal' className='align-items-start justify-content-between ms3'>
                         <Nav.Item>{item.name}</Nav.Item>
-                        <Nav.Item className='ms-auto'>{formatPrepaidAmount(amountFee)}</Nav.Item>
+                        <Nav.Item className='ms-auto'>{formatPrepaidAmount(matchRound(amountFee))}</Nav.Item>
                         <div className='wrap-box-delete' onClick={() => onRemoveAdditional(item._id)}>
                             <i className='mdi mdi-trash-can-outline'></i>
                         </div>

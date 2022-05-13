@@ -6,6 +6,7 @@ import DownloadAppComponent from "./DownloadAppComponent";
 import QuestionOftenComponent from "./QuestionOftenComponent";
 import Slider from "react-slick";
 import TrustedByLeadingPartner from './TrustedByLeadingPartner';
+import { BUY_NOW } from '../../Routers/RoutePath';
 
 function AboutComponent() {
     const settings = {
@@ -54,7 +55,7 @@ function AboutComponent() {
                 <h1>Bảo vệ gia đình của bạn vô cùng đơn giản</h1>
                 <Navbar.Text>Quy Trình 1 phút - Giá cực ưu đãi - An tâm, vững tin</Navbar.Text>
                 <Nav.Item className='check-our-price'>
-                    <Link to="/check-our-price" className="btn btn-lg">
+                    <Link to={BUY_NOW} className="btn btn-lg">
                         Tham gia ngay cùng chúng tôi</Link>
                 </Nav.Item>
             </Container>

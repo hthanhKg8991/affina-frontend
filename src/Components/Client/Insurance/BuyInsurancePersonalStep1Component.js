@@ -25,6 +25,10 @@ const BuyInsurancePersonalStep1Component = (props) => {
         setBirthday(date)
     }
 
+    const handleGoBack = () => {
+        props.handleButtonGoBack && props.handleButtonGoBack();
+    }
+
     const handleContinue = () => {
         dispatch(handleStep1({
             gender: gender,
@@ -84,7 +88,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
                 textButtonGoBack='Quay về trang chủ'
                 textButtonContinue='TIẾP TỤC'
                 validate={validate([gender, birthday])}
-                handleButtonGoBack={props.handleButtonGoBack}
+                handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
             />
         </div >

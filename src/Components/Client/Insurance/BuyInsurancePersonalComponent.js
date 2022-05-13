@@ -23,8 +23,8 @@ const BuyInsurancePersonalComponent = () => {
     const [transaction, setTransaction] = useState(paramsSearch.get('session'));
     const [orderNo, setOrderNo] = useState(paramsSearch.get('order_no'));
     const [birthday, setBirthday] = useState(new Date());
-    const [buyInsuranceStep, setBuyInsuranceStep] = useState(1);
-    const [standStep, setStandStep] = useState(3);
+    const [buyInsuranceStep, setBuyInsuranceStep] = useState(parseInt(paramsSearch.get('step')) || 1);
+    const [standStep, setStandStep] = useState(parseInt(paramsSearch.get('standStep')) || 3);
     const [isShowPayment, setIsShowPayment] = useState(isShowPaymentSuccess);
     const handleButtonContinue = () => {
         if (buyInsuranceStep < 4) {
@@ -35,6 +35,7 @@ const BuyInsurancePersonalComponent = () => {
                 // setStandStep(standStep + 1)
                 setBuyInsuranceStep(buyInsuranceStep + 1)
             }
+
         } else {
             setBuyInsuranceStep(5)
         }
@@ -56,6 +57,10 @@ const BuyInsurancePersonalComponent = () => {
             }
 
         }
+    }
+
+    const goBackHome = () => {
+        navigate('/')
     }
     const paymentAgain = () => {
         setBuyInsuranceStep(1)
@@ -132,17 +137,40 @@ const BuyInsurancePersonalComponent = () => {
     }, [buyInsuranceStep, standStep]);
 
     const renderLayoutResponse = (status) => {
+        console.log('status>>', status);
         switch (status) {
             case '1':
             case 1:
                 return (
                     <BuyInsuranceResponse
-                        statusPayment={statusPayment}
+                        statusPayment={status || statusPayment}
                         transaction={transaction}
                         orderNo={orderNo}
                         downloadFile={orderNo}
                     />
                 );
+            case '0':
+            case 0:
+                return (
+                    <div className='response-data response-success bg-white'>
+                        <Image
+                            src={accessStyle.images.response.success}
+                            srcSet={`
+                            ${accessStyle.images.response.success2x} 2x, 
+                            ${accessStyle.images.response.success3x} 3x
+                        `}
+                            alt="Logo Affina"
+                            width={'auto'}
+                            height={'auto'}
+                        />
+                        <h5>
+                            ĐÃ GỬI LINK THÀNH CÔNG
+                        </h5>
+                        <p>Hệ thống đã gửi link thành công đến khách hàng của bạn.</p>
+                        <p>Link:    </p>
+                        {renderButton('1')}
+                    </div>
+                )
 
             default:
                 return (
@@ -158,6 +186,7 @@ const BuyInsurancePersonalComponent = () => {
     }
 
     const renderButton = (status) => {
+        console.log('renderButton>>>', status);
         switch (status) {
             case '1':
             case configDefault.BANK_TRANSFER_SUCCESS:
@@ -165,7 +194,7 @@ const BuyInsurancePersonalComponent = () => {
                     <Navbar className='wrap-button'>
                         <Navbar.Collapse className='justify-content-center'>
                             <Nav.Item>
-                                <Button variant="outline-primary btn-outline-blue btn-md text-uppercase" onClick={(handleButtonGoBack)}>
+                                <Button variant="outline-primary btn-outline-blue btn-md text-uppercase" onClick={(goBackHome)}>
                                     {'Quay về trang chủ'}
                                 </Button>
                             </Nav.Item>
@@ -185,7 +214,7 @@ const BuyInsurancePersonalComponent = () => {
                     <Navbar className='wrap-button'>
                         <Navbar.Collapse className='justify-content-center'>
                             <Nav.Item>
-                                <Button variant="outline-primary btn-outline-blue btn-md text-uppercase" onClick={handleButtonGoBack}>
+                                <Button variant="outline-primary btn-outline-blue btn-md text-uppercase" onClick={goBackHome}>
                                     {'Quay về trang chủ'}
                                 </Button>
                             </Nav.Item>

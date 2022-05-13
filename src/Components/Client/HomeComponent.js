@@ -3,7 +3,7 @@ import React from 'react'
 import { Col, Container, Image, Navbar, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import accessStyle from '../../Assets'
-import { BUY_NOW } from '../../Routers/RoutePath'
+import { BUY_NOW, LINK_DOWNLOAD } from '../../Routers/RoutePath'
 import NeedInsurance from '../../Templates/Client/NeedInsurance'
 import CustomerReviewsComponent from './CustomerReviewsComponent'
 import QuestionOftenComponent from './QuestionOftenComponent'
@@ -209,9 +209,9 @@ const HomeComponent = () => {
                 <p>* Nếu bạn chia sẻ với Affina nhu cầu, tình trạng sức khỏe & tài chính của mình, Affina chắc chắn sẽ tư vấn để bạn lựa chọn & “tự thiết kế” nên gói bảo hiểm Benefits One phù hợp nhất cho chính bạn, gia đình, người thân.</p>
               </div>
               <div className='display-block'>
-                <Link to='/rights-detail' className='btn btn-outline-protection'>
+                <a download target="_blank" href={LINK_DOWNLOAD} className='btn btn-outline-protection'>
                   Chi tiết quyền lợi
-                </Link>
+                </a>
               </div>
               <div className='display-block'>
                 <Link to='/download-brochure' className='btn btn-protection'>

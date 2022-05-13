@@ -2,17 +2,19 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { Col, Container, FormLabel, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatIOSToDate, genderByText, isValidateEmail, isValidatePhone, validate } from '../../../Common/Helper';
+import { formatIOSToDate, genderByText, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
 import District from '../../../Config/districts';
 import ProvinceData from '../../../Config/provinces';
 import Ward from '../../../Config/wards';
 import { handleStep3 } from '../../../Reducers/Insurance/StepRedux';
+import { createPaymentResponse } from '../../../Reducers/Insurance/PackagesRedux';
 import CommonComboBox from '../../Common/CommonComboBox';
 import CommonInput from '../../Common/CommonInput';
 import CommonButtonInsurance from './CommonButtonInsurance';
 
 const BuyInsurancePersonalStep3InputComponent = (props) => {
     const dispatch = useDispatch();
+    const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
     // 
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step3 } = dataStep;
@@ -117,7 +119,16 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 isConfirm: isConfirm,
             }),
         )
-        props.handleButtonContinue && props.handleButtonContinue()
+        console.log('dataAuth>>>', dataAuth);
+        resetStore()
+        if (dataAuth.data && dataAuth.data._id) {            
+            dispatch(createPaymentResponse({
+                status:0
+            }))
+            resetStore()
+        } else {
+            props.handleButtonContinue && props.handleButtonContinue()
+        }
     }
     return (
         <div className='insurance-content-step3-input'>

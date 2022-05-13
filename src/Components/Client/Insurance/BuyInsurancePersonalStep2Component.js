@@ -307,6 +307,27 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                 </div>
                             </div>
                         </div>
+                        
+                        <div className={"insurance-sidebar bg-white sidebar-right-content my-sticky-top xs-hidden " + `${isBenefitMainMobile ? 'open' : ''}` + ""}>
+                            <Form.Label className='justify-content-start'>Những quyền lợi chính</Form.Label>
+                            <ul className='list-benefit-main position-relative'>
+                                {
+                                    (!isEmptyArray(step2.packageMain)) &&
+                                    step2.packageMain.map((itemMain, index) => {
+                                        return (
+                                            <li key={itemMain._id}>
+                                                <div className='topic-benefit'>
+                                                    <span>{
+                                                        htmlParserCode(itemMain.description)
+                                                    }</span>
+                                                </div>
+                                                <b>Số tiền được bảo hiểm: {numFormatter(itemMain.amount)}</b>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
                     </Col>
 
                     <Col md={6} className='insurance-center'>
@@ -493,26 +514,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
                             isBenefitMainMobile &&
                             <div className='bg-overlay' onClick={handleViewBenefitMainMobile}></div>
                         }
-                        <div className={"insurance-sidebar bg-white sidebar-right-content my-sticky-top xs-hidden " + `${isBenefitMainMobile ? 'open' : ''}` + ""}>
-                            <Form.Label className='justify-content-start'>Những quyền lợi chính</Form.Label>
-                            <ul className='list-benefit-main position-relative'>
-                                {
-                                    (!isEmptyArray(step2.packageMain)) &&
-                                    step2.packageMain.map((itemMain, index) => {
-                                        return (
-                                            <li key={itemMain._id}>
-                                                <div className='topic-benefit'>
-                                                    <span>{
-                                                        htmlParserCode(itemMain.description)
-                                                    }</span>
-                                                </div>
-                                                <b>Số tiền được bảo hiểm: {numFormatter(itemMain.amount)}</b>
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                        </div>
+                        {/* quyen loi chinh */}
                     </Col>
                 </Row>
             </Container >

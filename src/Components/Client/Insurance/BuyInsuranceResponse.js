@@ -38,8 +38,6 @@ const BuyInsuranceResponse = (props) => {
                     </Button>
                 </div>
             )
-        case 0:
-        case '0':
         default:
             return (
                 <div className='response-success bg-white'>

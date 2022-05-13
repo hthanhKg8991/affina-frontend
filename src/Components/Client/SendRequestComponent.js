@@ -56,8 +56,8 @@ const SendRequestComponent = () => {
         <Row className='align-items-center'>
           <Col md={6} sm={12} xs={12}>
             <div className='content-brief'>
-              <h4>Bạn đã sẵn sàng cải thiện phúc lợi cho mình chưa?</h4>
-              <small>Để lại thông tin để nhận được tư vấn và báo giá nhanh nhất!</small>
+              <h4>Nhận tư vấn và ưu đãi từ Affina</h4>
+              <small>Nhập thông tin để nhận được tư vấn sớm nhất từ Affina</small>
             </div>
           </Col>
           <Col md={6} sm={12} xs={12}>

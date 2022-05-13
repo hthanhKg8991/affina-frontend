@@ -1,4 +1,8 @@
 import moment from "moment";
+import { persistor } from '../Store';
+export function resetStore() {
+    setTimeout(() => persistor.purge(), 200);
+}
 
 export function isViewMobile() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent))
@@ -159,10 +163,9 @@ export function vnConvert(str) {
     return str;
 }
 
-export function roundUp(number, digits)
-{
-    var factor = Math.pow(10,digits);
-    return Math.ceil(number*factor) / factor
+export function roundUp(number, digits) {
+    var factor = Math.pow(10, digits);
+    return Math.ceil(number * factor) / factor
 }
 
 export function percentage(amount = 0, precision) {
@@ -173,7 +176,7 @@ export function percentage(amount = 0, precision) {
     }
 }
 
- 
+
 
 export function calculatorFee(amount, rate) {
     if (!isStringNullOrEmpty(amount)) {
@@ -188,6 +191,7 @@ export function removeAllScript(string) {
 
 export function matchRound(amount) {
     if (!isStringNullOrEmpty(amount)) {
-        return Math.ceil(amount)
+        // return Math.ceil(amount)
+        return roundUp(amount, -3)
     }
 }
