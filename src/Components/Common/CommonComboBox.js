@@ -2,12 +2,13 @@ import PropTypes from "prop-types";
 
 import React, { useEffect, useState } from 'react'
 import { FormLabel, Stack } from 'react-bootstrap'
-import { isEmptyArray, isStringNullOrEmpty } from "../../Common/Helper";
+import { isEmptyArray, isStringNullOrEmpty, validateCharacters, vnConvert } from "../../Common/Helper";
 import OutsideClickHandler from 'react-outside-click-handler';
 
 const CommonComboBox = (props) => {
     const [isDrop, setIsDrop] = useState(false);
     const [isOutSide, setIsOutSide] = useState(false);
+    const [keywords, setKeywords] = useState('');
     // const [isSelect, setIsSelect] = useState(props.value);
     let clearSetInterval;
     const handleIsDrop = (value) => {
@@ -29,6 +30,18 @@ const CommonComboBox = (props) => {
         }
     }
 
+    const handleSearch = (keywords) => {
+        console.log('keywords:::', props.viewValue);
+        if (keywords === '') {
+            return props.data;
+        }
+        var character = validateCharacters(keywords);
+        const regex = new RegExp(`${character.trim()}`, 'i');
+        // vnConvert('á')
+        // const data =  arrayData.filter(item => vnConvert(item.name).search(regex) >= 0);
+        return props.data.filter(item => vnConvert(item[props.viewValue]).search(regex) >= 0);
+    }
+    let dataFilter = handleSearch(keywords);
     return (
         <div className='combo-box'>
             {
@@ -76,20 +89,27 @@ const CommonComboBox = (props) => {
                 {
                     (isDrop) &&
                     <ul className='list-data' data-aos="fade-up" data-aos-duration="200">
+                        <li className="fix-sticky-top">
+                            <input placeholder="search" autoFocus={true} onClick={() => handleIsDrop(true)}
+                                onChange={(e) => setKeywords(e.target.value)} />
+                        </li>
                         {
-                            props.data.map((item, index) => {
-                                return (
-                                    <li key={index} tabIndex={index} className={(props.value === item[props.viewValue]) ? 'selected' : ''} onClick={() => handleSelect(item)}>
-                                        <Stack direction="horizontal">
-                                            {item[props.viewValue]}
-                                            {
-                                                (props.value === item[props.viewValue]) &&
-                                                <i className="mdi mdi-check ms-auto"></i>
-                                            }
-                                        </Stack>
-                                    </li>
-                                )
-                            })
+                            // props.data.map((item, index) => {
+                            (!isEmptyArray(dataFilter)) &&
+                            [].concat(dataFilter)
+                                .map((item, index) => {
+                                    return (
+                                        <li key={index} tabIndex={index} className={(props.value === item[props.viewValue]) ? 'selected' : ''} onClick={() => handleSelect(item)}>
+                                            <Stack direction="horizontal">
+                                                {item[props.viewValue]}
+                                                {
+                                                    (props.value === item[props.viewValue]) &&
+                                                    <i className="mdi mdi-check ms-auto"></i>
+                                                }
+                                            </Stack>
+                                        </li>
+                                    )
+                                })
                         }
                     </ul>
                 }

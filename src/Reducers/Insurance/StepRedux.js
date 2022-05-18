@@ -19,6 +19,7 @@ const initialState = {
             packageMain: [],
             totalAmount: 0,
             intoMoney: 0,
+            intoMoneyAmount: 0,
             paidAmount: 0,
         },
         step3: {
@@ -56,6 +57,7 @@ const InsuranceSlice = createSlice({
                 amount += parseInt(item.amount);
                 amountFee += parseInt(item.amount * item.rate) / 100;
             })
+            state.dataStep.step2.intoMoneyAmount = amount + state.dataStep.step2.price;
             state.dataStep.step2.intoMoney = amountFee + state.dataStep.step2.fee;
             state.dataStep.step2.totalAmount = (state.dataStep.step2.intoMoney - state.dataStep.step2.discount);
             state.dataStep.step2.paidAmount = percentage(state.dataStep.step2.intoMoney, - state.dataStep.step2.discount);
@@ -65,6 +67,7 @@ const InsuranceSlice = createSlice({
         },
         handleSelectAdditional(state, action) {
             // const removeId = state.dataStep.step2.additional.filter(item => item._id === action.payload._id).indexOf(action.payload._id);
+            let amount = 0;
             let amountFee = 0;
             const removeId = state.dataStep.step2.additional.findIndex(item => item._id === action.payload._id);
             console.log('removeId::', removeId, action.payload);
@@ -75,8 +78,10 @@ const InsuranceSlice = createSlice({
                 state.dataStep.step2.additional.push(action.payload);
             }
             state.dataStep.step2.additional.forEach(item => {
+                amount += parseInt(item.amount);
                 amountFee += parseInt(item.amount * item.rate) / 100;
             })
+            state.dataStep.step2.intoMoneyAmount = amount + state.dataStep.step2.price;
             state.dataStep.step2.intoMoney = amountFee + state.dataStep.step2.fee;
             // state.dataStep.step2.paidAmount = (state.dataStep.step2.intoMoney - (state.dataStep.step2.discount * state.dataStep.step2.intoMoney));
             state.dataStep.step2.paidAmount = percentage(state.dataStep.step2.intoMoney, - state.dataStep.step2.discount);

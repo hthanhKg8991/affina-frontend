@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Container, Dropdown, Image, Nav, Navbar } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import accessStyle from "../../Assets";
-import { ABOUT, HOME_PAGE, LOGIN, SEND_REQUEST } from "../../Routers/RoutePath";
+import { isStringNullOrEmpty } from "../../Common/Helper";
+import { ABOUT, BUY_NOW, HOME_PAGE, LOGIN, SEND_REQUEST } from "../../Routers/RoutePath";
 
 function Header() {
+    const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
+
     const [showDropdown, setShowDropdown] = useState(false);
     return (
         <header className="container">
@@ -30,7 +34,7 @@ function Header() {
                             navbarScroll
                         >
                             <Nav.Item>
-                                <Link to="/">Bảo hiểm sức khoẻ</Link>
+                                <Link to={'/'}>Bảo hiểm sức khoẻ</Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link to={ABOUT}>Về Affina</Link>
@@ -41,7 +45,15 @@ function Header() {
                         </Nav>
                         <Nav className="d-flex header-right align-items-center">
                             <Nav.Item>
-                                <Link to={LOGIN}>Đăng nhập</Link>
+                                {
+                                    (dataAuth.data && !isStringNullOrEmpty(dataAuth.data._id)) ?
+                                        <a className="is-login nav-item">
+                                            <span>Xin chào: </span>
+                                            <strong>{dataAuth.data.staff_name}</strong>
+                                        </a>
+                                        :
+                                        <Link to={LOGIN}>Đăng nhập</Link>
+                                }
                             </Nav.Item>
                             <Nav.Item >
                                 <Dropdown

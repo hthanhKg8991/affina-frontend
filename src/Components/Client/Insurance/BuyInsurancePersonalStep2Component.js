@@ -1,8 +1,9 @@
+import htmlParserCode from 'html-react-parser';
 import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Container, Form, Image, Nav, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { calculatorFee, dynamicSort, formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, matchRound, numFormatter, percentage, validate } from '../../../Common/Helper';
+import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import configDefault from '../../../Config/app';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../Reducers/Insurance/PackagesRedux';
@@ -11,7 +12,6 @@ import CommonModal from '../../Common/CommonModal';
 import MultiRangeSlider from '../../Common/MultiRangeSlider';
 import BriefComponent from './BriefComponent';
 import CommonButtonInsurance from './CommonButtonInsurance';
-import htmlParserCode from 'html-react-parser';
 
 const STEP = 500000;
 const MIN = 0;
@@ -60,26 +60,28 @@ const BuyInsurancePersonalStep2Component = (props) => {
 
     const handleFilter = () => {
         let params = {
-            age: moment().format('YYYY') - moment(step1.birthday).format('YYYY'),
+            // age: moment().format('YYYY') - moment(step1.birthday).format('YYYY'),
+            age: moment(step1.birthday).format('YYYY/MM/DD'),
             gender: step1.gender,
             fee_min: min,
             fee_max: max,
             supplier: selectSupplier,
             sort: selectSort,
         }
+        console.log('params>>>', params);
         dispatch(postPackageBySupplier(params))
     }
-    useMemo(() => {
-        handleFilter()
+    useEffect(() => {
+        handleFilter();
     }, [min, max, selectSupplier, selectSort])
     const callAPI = () => {
+        // dispatch(packagesGetAll());
         dispatch(getAllSuppliers());
-        dispatch(packagesGetAll());
-        dispatch(packagesGetAll());
     }
-    useEffect(() => {
-        callAPI()
+    useEffect(async () => {
+        await callAPI()
     }, [dispatch])
+    
     const handleAdditional = (id) => {
         if (id === isAdditional) {
             setIsAdditional(false)
@@ -307,7 +309,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className={"insurance-sidebar bg-white sidebar-right-content my-sticky-top xs-hidden " + `${isBenefitMainMobile ? 'open' : ''}` + ""}>
                             <Form.Label className='justify-content-start'>Những quyền lợi chính</Form.Label>
                             <ul className='list-benefit-main position-relative'>
@@ -368,14 +370,18 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                         <Stack className='align-items-start'>
                                                             <Stack direction="horizontal" gap={3} className="align-items-start">
                                                                 <h6 className='insure-package'>{item.name}</h6>
-                                                                <span className='discount-price'>-{item.discount}%</span>
+                                                                {
+                                                                    (item.discount > 0 && !isStringNullOrEmpty(item.discount)) ?
+                                                                        <span className='discount-price'>-{item.discount}%</span>
+                                                                        : ''
+                                                                }
                                                             </Stack>
                                                             <i className="package-detail" onClick={() => handleViewDetail(item)}>Chi tiết gói &raquo;</i>
                                                         </Stack>
                                                         <div className="text-right ms-auto">
                                                             <p className='package-price'>{formatPrepaidAmount(item.price)}VNĐ</p>
-                                                            {/* <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p> */}
-                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(percentage(item.price_fee, +30))}VNĐ/năm</p>
+                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p>
+                                                            {/* <p className='package-fee'>Phí: {formatPrepaidAmount(percentage(item.price_fee, +30))}VNĐ/năm</p> */}
                                                         </div>
                                                     </Stack>
                                                     <Line type="dashed" color='e6e6e6' />
@@ -395,7 +401,10 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                         {
                                                             (!isEmptyArray(item.additional)) &&
                                                             <p className='additional-benefits'
-                                                                onClick={() => handleAdditional(item._id)}
+                                                                onClick={() => {
+                                                                    handleSelectPackage(item, item.package_code);
+                                                                    handleAdditional(item._id);
+                                                                }}
                                                             >
                                                                 Quyền lợi bổ sung
                                                                 {
@@ -484,7 +493,8 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                                                         :
                                                                                         <>
                                                                                             <p className='package-price'>{formatPrepaidAmount(matchRound(additionalItem.amount))}VNĐ</p>
-                                                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(calculatorFee(additionalItem.amount, additionalItem.rate)))}/năm</p>
+                                                                                            {/* <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(calculatorFee(additionalItem.amount, additionalItem.rate)))}/năm</p> */}
+                                                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(additionalItem.fee))}/năm</p>
                                                                                         </>
                                                                                 }
                                                                             </div>

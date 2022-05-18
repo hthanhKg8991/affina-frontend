@@ -156,6 +156,7 @@ const accessStyle = {
             logoCircle3x: require('./Images/public/partner/logo-circle@3x.webp'),
             // 
             logoMIC: require('./Images/public/partner/MIC_logo.png'),
+            logoPayoo: require('./Images/public/partner/logo-payoo.jpeg'),
         }
     }
 }

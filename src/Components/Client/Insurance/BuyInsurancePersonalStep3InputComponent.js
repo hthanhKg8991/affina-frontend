@@ -1,22 +1,26 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, FormLabel, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { formatIOSToDate, genderByText, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
 import District from '../../../Config/districts';
 import ProvinceData from '../../../Config/provinces';
 import Ward from '../../../Config/wards';
-import { handleStep3 } from '../../../Reducers/Insurance/StepRedux';
-import { createPaymentResponse } from '../../../Reducers/Insurance/PackagesRedux';
+import { createOrder, createPaymentResponse, getOrderDetail } from '../../../Reducers/Insurance/PackagesRedux';
+import { handleStep3, resetState } from '../../../Reducers/Insurance/StepRedux';
 import CommonComboBox from '../../Common/CommonComboBox';
 import CommonInput from '../../Common/CommonInput';
 import CommonButtonInsurance from './CommonButtonInsurance';
 
 const BuyInsurancePersonalStep3InputComponent = (props) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
-    // 
+    const { orderData = {}, paymentData = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
+    // 
     const { step1, step3 } = dataStep;
     console.log('step1::', step3.startDay);
     const [isBilling, setIsBilling] = useState(step3.requireBilling);
@@ -99,6 +103,91 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         }
     }
     console.log('handleValidateButton', handleValidateButton());
+
+    const handleCreateOrder = () => {
+        dispatch(createOrder({
+            "user": dataAuth.data && dataAuth.data._id,
+            "sale": {
+                partner: dataAuth.data && dataAuth.data.partner || '',
+                region: dataAuth.data && dataAuth.data.region || '',
+                area: dataAuth.data && dataAuth.data.area || '',
+                employee_unit: dataAuth.data && dataAuth.data.employee_unit || '',
+                employee_code: dataAuth.data && dataAuth.data.employee_code || '',
+                staff_name: dataAuth.data && dataAuth.data.staff_name || '',
+            },
+            "contract_cate": {
+                "contract_num": "",
+                "group_code": "",
+                "partner_code": "",
+                "cus_source": ""
+            },
+            "product_package": {
+                "cus_type": "Individual",
+                "package": "B.One B3",
+                "quantily": "",
+                "fee_primary_package": "",
+                "fee_additional_package_5": "",
+                "fee_additional_package_6": "",
+                "fee_additional_package_7": "",
+                "fee_additional_package_8": "",
+                "total_insurance_fee": "",
+                "total_group_insurance_fee": ""
+            },
+            "contract_detail": {
+                "effective_date": step3.startDay,
+                "end_date": '',
+                "duration": "",
+                "create_date": "",
+                "update_date": "",
+                "first_date_confirm": ""
+            },
+            "insured_info": {
+                "fullname": step3.name,
+                "dob": "",
+                "gender": step1.gender,
+                "id_card": "",
+                "phone": step3.phone,
+                "email": step3.email,
+                "address": step3.address,
+                "city": step3.province.name,
+                "district": step3.district.name,
+                "note": "",
+                // Require billing
+                "is_billing": step3.isBilling,
+                "company_name": step3.companyName,
+                "tax_number": step3.taxNumber,
+                "company_address": step3.companyAddress,
+            },
+            "insurance_buyer": {
+                "fullname": "",
+                "relationship": "",
+                "id_card": "",
+                "phone": "",
+                "email": step3.email,
+                "phone_consultant": "",
+                "note": ""
+            },
+            "insurance_fee": {
+                "pecent_discount_original": "",
+                "price_discount_original": "",
+                "pecent_discount_camp1": "",
+                "price_discount_camp1": "",
+                "id_camp1": "",
+                "code_discount_camp2": "",
+                "price_discount_camp2": "",
+                "id_camp2": "",
+                "total_fee_after_discount": ""
+            },
+            "commission": {
+                "commission": "",
+                "fee_after_commission": "",
+                "fee_after_commission_discount": ""
+            },
+            "contract_status": "GD đang chờ"
+        }))
+        // props.handleButtonContinue && props.handleButtonContinue()
+    }
+
     const handleContinue = () => {
         dispatch(
             handleStep3({
@@ -121,15 +210,22 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         )
         console.log('dataAuth>>>', dataAuth);
         resetStore()
-        if (dataAuth.data && dataAuth.data._id) {            
+        if (dataAuth.data && dataAuth.data._id) {
             dispatch(createPaymentResponse({
-                status:0
+                status: 0
             }))
-            resetStore()
+            handleCreateOrder();
+            // resetStore()
+            // dispatch(
+            //     resetState()
+            // )
         } else {
             props.handleButtonContinue && props.handleButtonContinue()
         }
     }
+    useEffect(()=>{
+        dispatch(getOrderDetail())
+    },[])
     return (
         <div className='insurance-content-step3-input'>
             <Container className='text-left'>
@@ -210,6 +306,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                             //     value: '3 năm',
                                             // },
                                         ]}
+                                        viewValue="value"
                                         value={timeExp.value}
                                         defaultValue={timeExp.value}
                                         label='Thời gian hiệu lực'

@@ -8,6 +8,7 @@ const initialState = {
     isLoading: false,
     isShowPaymentSuccess: false,
     orderData: {},
+    orderDataDetail: {},
     paymentData: {},
 };
 
@@ -27,10 +28,11 @@ const PackagesSlice = createSlice({
             state.isLoading = true;
         },
         packagesGetAllResponse(state, action) {
+            console.log('action.payload>>>', action.payload);
             state.data = action.payload;
-            state.data.map(item=>{
+            action.payload.map(item => {
                 item.package_main.map(itemChild => {
-                    if (itemChild.is_view === 0){
+                    if (itemChild.is_view === 0) {
                         item.package_main.push(...itemChild.product_details)
                     }
                     return itemChild;
@@ -75,6 +77,14 @@ const PackagesSlice = createSlice({
             state.isLoading = false;
         },
         // 
+        getOrderDetail(state, action) {
+            state.isLoading = true;
+        },
+        getOrderResponse(state, action) {
+            state.orderDataDetail = action.payload;
+            state.isLoading = false;
+        },
+        // 
         createOrder(state, action) {
             state.isLoading = true;
         },
@@ -91,6 +101,8 @@ const PackagesSlice = createSlice({
             state.paymentData = action.payload;
             state.isShowPaymentSuccess = true;
         },
+        resetStateInsurance: () => initialState
+
     }
 });
 export const {
@@ -98,9 +110,11 @@ export const {
     packagesGetAll, packagesGetAllResponse,
     packagesGetBySupplier, packagesGetBySupplierResponse,
     packagesGetDetail, packagesGetDetailResponse,
+    getOrderDetail, getOrderResponse,
     createOrder, createOrderResponse,
     createPayment, createPaymentResponse,
     productGetByPackage, productGetByPackageResponse,
     postPackageBySupplier, postPackageBySupplierResponse,
+    resetStateInsurance
 } = PackagesSlice.actions;
 export default PackagesSlice.reducer

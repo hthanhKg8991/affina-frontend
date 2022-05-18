@@ -4,7 +4,7 @@ import * as packageRedux from '../Reducers/Insurance/PackagesRedux';
 // Send request
 import * as SendRequestRedux from '../Reducers/SentRequest/SendRequestRedux';
 import { categoriesGetAll, categoriesGetDetail, categoriesGetType } from '../Saga/Admin/CategoriesSaga';
-import { createOrder, createPayment, getAllSuppliers, packageGetAll, packageGetBySupplier, packageGetDetail, postPackageBySupplier, postProductGetByPackage } from '../Saga/Client/PackageSaga';
+import { getOrderDetail, createOrder, createPayment, getAllSuppliers, packageGetAll, packageGetBySupplier, packageGetDetail, postPackageBySupplier, postProductGetByPackage } from '../Saga/Client/PackageSaga';
 import { rootAuthentication } from './Client/AuthenticationSaga';
 import { createSendRequest, getAll, getDetail } from './Client/SendRequestSaga';
 
@@ -22,6 +22,7 @@ export default function* rootSaga() {
         takeLatest(packageRedux.productGetByPackage.type, postProductGetByPackage),
         takeLatest(packageRedux.postPackageBySupplier.type, postPackageBySupplier),
         takeLatest(packageRedux.createOrder.type, createOrder),
+        takeLatest(packageRedux.getOrderDetail.type, getOrderDetail),
         takeLatest(packageRedux.createPayment.type, createPayment),
         // Send request
         // rootSendRequest

@@ -4,6 +4,13 @@
     .view-error {
       animation-name: fadeInRight;
       animation-duration: 1s;
+      padding: 1rem;
+      border-radius: 0.3rem;
+      margin-bottom: 1rem;
+      p{
+        margin: 0;
+        padding: 0;
+      }
     }
   }
   h5 {

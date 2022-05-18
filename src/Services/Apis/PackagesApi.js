@@ -51,6 +51,13 @@ const PackagesApi = {
             send: () => axiosClient.post(url, params)
         }
     },
+    getOrderDetail(params) {
+        console.log('getOrderDetail::', params);
+        const url = '/orders/get-detail/' + params;
+        return {
+            send: () => axiosClient.get(url)
+        }
+    },
     createPayment(params) {
         console.log('createPayment::', params);
         const url = 'payments/create-payment';

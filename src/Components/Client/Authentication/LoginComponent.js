@@ -51,8 +51,8 @@ const LoginComponent = () => {
                                 <h5 className='text-uppercase login-title'>Đăng nhập</h5>
                                 {
                                     (dataError && dataError.error) &&
-                                    <Col className='text-danger view-error'>
-                                        <p>{dataError.error}</p>
+                                    <Col className='bg-danger view-error'>
+                                        <p className='text-white'>{dataError.error}</p>
                                     </Col>
                                 }
 

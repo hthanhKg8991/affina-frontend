@@ -8,6 +8,7 @@ var configDefault = {
     SUCCESS: '09',
     BANK_TRANSFER_SUCCESS: '08',
     FAILED: '10',
+    MY_TRANSFER_QR: '11',
 }
 
 export default configDefault;

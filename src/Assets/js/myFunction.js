@@ -7,7 +7,7 @@ AOS.init({
 });
 $(function () {
     // scrollToFixed();
-    handleTab();
+    // handleTab();
     $('.dropdown').hover(function () {
         $(this).find('.dropdown-menu').addClass('show');
     },

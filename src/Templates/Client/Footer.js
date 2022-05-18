@@ -1,7 +1,7 @@
 import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Line from "../../Common/Line";
-import { HOME_PAGE, BUY_NOW, PRIVACY_POLICY, SEND_REQUEST, SOCIAL_FACEBOOK, STORY_AFFINA, TERM_CONDITIONS } from "../../Routers/RoutePath";
+import { HOME_PAGE, BUY_NOW, PRIVACY_POLICY, SEND_REQUEST, SOCIAL_FACEBOOK, STORY_AFFINA, TERM_CONDITIONS, ABOUT } from "../../Routers/RoutePath";
 
 function Footer() {
     const navigate = useNavigate();
@@ -51,19 +51,19 @@ function Footer() {
                         <h5>Affina Vietnam</h5>
                         <Nav className="flex-column">
                             <Nav.Item>
-                                <Link to="/about">Về Affina</Link>
+                                <Link to={ABOUT}>Về Affina</Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link to={STORY_AFFINA}>Câu chuyện thương hiệu</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/about">Tin tức</Link>
+                                <Link to='/'>Tin tức</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/about">Tuyển dụng</Link>
+                                <Link to="/">Tuyển dụng</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/about">Liên hệ</Link>
+                                <Link to="/">Liên hệ</Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
@@ -82,7 +82,7 @@ function Footer() {
                                 <Link to={SEND_REQUEST}>Trung tâm trợ giúp</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/about">Câu hỏi thường gặp</Link>
+                                <Link to="/">Câu hỏi thường gặp</Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link to="/">Hướng dẫn mua bảo hiểm</Link>

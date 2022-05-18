@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Image, Nav, Navbar, Tab, Tabs } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { Button, Image, Nav, Navbar, Stack, Tab, Tabs } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { isStringNullOrEmpty } from '../../../Common/Helper';
+import { formatPrepaidAmount, isStringNullOrEmpty, resetStore, vnConvert } from '../../../Common/Helper';
 import configDefault from '../../../Config/app';
+import { resetStateInsurance } from '../../../Reducers/Insurance/PackagesRedux';
+import { resetState } from '../../../Reducers/Insurance/StepRedux';
+import { BUY_NOW } from '../../../Routers/RoutePath';
 import ProgressBarStep from '../../Common/ProgressBarStep';
 import BuyInsuranceGroupComponent from './BuyInsuranceGroup/BuyInsuranceGroupComponent';
 import BuyInsurancePersonalStep1Component from './BuyInsurancePersonalStep1Component';
@@ -12,8 +15,16 @@ import BuyInsurancePersonalStep2Component from './BuyInsurancePersonalStep2Compo
 import BuyInsurancePersonalStep3Component from './BuyInsurancePersonalStep3Component';
 import BuyInsurancePersonalStep4Component from './BuyInsurancePersonalStep4Component';
 import BuyInsuranceResponse from './BuyInsuranceResponse';
+const configTab = {
+    single: 'tab-single',
+    group: 'tab-group',
+}
 const BuyInsurancePersonalComponent = () => {
-    const { isShowPaymentSuccess, paymentData = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const dispatch = useDispatch();
+
+    const { isShowPaymentSuccess, paymentData = {}, orderData = {}, } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
+    const { step1, step2, step3 } = dataStep;
 
     const params = useParams();
     const navigate = useNavigate();
@@ -26,6 +37,9 @@ const BuyInsurancePersonalComponent = () => {
     const [buyInsuranceStep, setBuyInsuranceStep] = useState(parseInt(paramsSearch.get('step')) || 1);
     const [standStep, setStandStep] = useState(parseInt(paramsSearch.get('standStep')) || 3);
     const [isShowPayment, setIsShowPayment] = useState(isShowPaymentSuccess);
+    const [textCopy, setTextCopy] = useState('')
+    const [tab, setTab] = useState(configTab.single)
+
     const handleButtonContinue = () => {
         if (buyInsuranceStep < 4) {
             if (standStep < 4 && buyInsuranceStep === 3) {
@@ -65,6 +79,14 @@ const BuyInsurancePersonalComponent = () => {
     const paymentAgain = () => {
         setBuyInsuranceStep(1)
     }
+
+    const handleCopyClipBoard = (valueCopy) => {
+        console.log('handleCopyClipBoard:::', valueCopy);
+        window.navigator.clipboard.writeText(valueCopy)
+        setTextCopy(valueCopy)
+    }
+
+
     let textButtonGoBack = 'QUAY LẠI';
     const renderStep = () => {
 
@@ -87,6 +109,59 @@ const BuyInsurancePersonalComponent = () => {
                 return (
                     <BuyInsurancePersonalStep4Component handleButtonGoBack={handleButtonGoBack} handleButtonContinue={handleButtonContinue} />
                 )
+            case configDefault.MY_TRANSFER_QR:
+                return (
+                    <div className='response-data response-success bg-white'>
+                        <Image
+                            src={accessStyle.images.response.success}
+                            srcSet={`
+                            ${accessStyle.images.response.success2x} 2x, 
+                            ${accessStyle.images.response.success3x} 3x
+                        `}
+                            className="width-auto"
+                            alt="Logo Affina"
+                            width={'auto'}
+                            height={'auto'}
+                        />
+                        <h4>Tạo hồ sơ bảo hiểm thành công!</h4>
+                        <p>Quí khách vui lòng thanh toán để kích hoạt thời gian hiệu lực bảo hiểm sớm nhất.</p>
+                        <h2 className='paid-amount text-success'><strong>{formatPrepaidAmount(Math.ceil(step2.paidAmount))}VNĐ </strong></h2>
+                        <Stack direction='horizontal' gap={2} className='payment-content position-relative align-items-start'>
+                            <div className='qr-payment'>
+                                <h5>Quẹt mã QR để thanh toán</h5>
+                                <div className='cut-border'>
+                                    <div className='content-conner'></div>
+                                </div>
+
+                            </div>
+                            <div className='wrapper-line'>
+                                <div className="vertical-line">
+                                    <span className='word'>Hoặc</span>
+                                </div>
+                            </div>
+                            <div className='payment-info'>
+                                <h5>Thông tin chuyển khoản</h5>
+                                <div className='info-transfer'>
+                                    <p>Tên Ngân hàng: <strong>Vietcombank</strong>
+                                        <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Vietcombank')}></i>
+                                    </p>
+                                    <p>Tên tài khoản: <strong>CONG TY TNHH AFFINA VIET NAM</strong>
+                                        <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('CONG TY TNHH AFFINA VIET NAM')}></i>
+                                    </p>
+                                    <p>Số tài khoản: <strong>1026967259</strong>
+                                        <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('1026967259')}></i>
+                                    </p>
+                                    <p>Chi nhánh: <strong>Bình Tây</strong>
+                                        <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Bình Tây')}></i>
+                                    </p>
+                                    <p>Nội dung chuyển Khoản:: <strong>{vnConvert(step3.name).split(' ').join('')} {step3.phone} {orderData.data && orderData.data.order_code}</strong>
+                                        <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard(vnConvert(step3.name).split(' ').join('') + ' ' + step3.phone + ' ' + (orderData.data && orderData.data.order_code))}></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </Stack>
+                    </div>
+                );
             case configDefault.BANK_TRANSFER_SUCCESS:
                 return (
                     <div className='response-data response-success bg-white'>
@@ -100,7 +175,7 @@ const BuyInsurancePersonalComponent = () => {
                             width={'auto'}
                             height={'auto'}
                         />
-                        <h5>Tạo hồ sơ bảo hiểm thành công!</h5>
+                        <h4>Tạo hồ sơ bảo hiểm thành công!</h4>
                         <p>Thông tin hợp đồng đã được gửi về email của quý khách.</p>
                         <p>Quý khách vui lòng thanh toán để kích hoạt hiệu lực bảo hiểm trong thời gian sớm nhất theo thông tin sau: </p>
                     </div>
@@ -118,7 +193,7 @@ const BuyInsurancePersonalComponent = () => {
                             width={'auto'}
                             height={'auto'}
                         />
-                        <h5>THANH TOÁN Thất bại!</h5>
+                        <h4>THANH TOÁN Thất bại!</h4>
                         <p>Rất tiếc giao dịch của bạn không thành công!
                             Vui lòng thực hiện lại giao dịch</p>
                     </div>
@@ -177,7 +252,7 @@ const BuyInsurancePersonalComponent = () => {
                     <>
                         <ProgressBarStep
                             current={buyInsuranceStep}
-                            step={['Thông tin người được bảo hiểm', 'Chọn nhà bảo hiểm', 'hoàn tất thông tin đơn bảo hiểm', 'Thanh toán']}
+                            step={['Thông tin người được bảo hiểm', 'Chọn nhà bảo hiểm', 'Hoàn tất thông tin đơn bảo hiểm', 'Thanh toán']}
                         />
                         {renderStep()}
                     </>
@@ -185,11 +260,22 @@ const BuyInsurancePersonalComponent = () => {
         }
     }
 
+    const handleFinish = () => {
+        setBuyInsuranceStep(1);
+        dispatch(
+            resetState(),
+            resetStateInsurance()
+        );
+        resetStore();
+        navigate(BUY_NOW);
+    }
+
     const renderButton = (status) => {
         console.log('renderButton>>>', status);
         switch (status) {
             case '1':
             case configDefault.BANK_TRANSFER_SUCCESS:
+            case configDefault.MY_TRANSFER_QR:
                 return (
                     <Navbar className='wrap-button'>
                         <Navbar.Collapse className='justify-content-center'>
@@ -202,7 +288,8 @@ const BuyInsurancePersonalComponent = () => {
                             <Nav.Item>
                                 <Button variant={"blue btn-md text-uppercase"} className='active'
                                     // disabled
-                                    onClick={handleButtonContinue}>
+                                    // onClick={handleButtonContinue}>
+                                    onClick={handleFinish}>
                                     HOÀN TẤT
                                 </Button>
                             </Nav.Item>
@@ -233,29 +320,67 @@ const BuyInsurancePersonalComponent = () => {
                 return null;
         }
     }
+
+    const handleTab = (value) => {
+        setTab(value)
+    }
     return (
         <div className='insurance-content'>
-            <Tabs defaultActiveKey="single" id="uncontrolled-tab-example" className='justify-content-center'>
-                <Tab eventKey="single" title="Tham gia gói cá nhân" >
-                    {
-                        (!isStringNullOrEmpty(statusPayment)) ?
-                            renderLayoutResponse(statusPayment)
-                            :
-                            renderLayoutResponse(paymentData.status)
+            <ul className="justify-content-center nav nav-tabs" role="tablist">
+                <li className={(tab === configTab.single) ? "nav-item active" : "nav-item"} role="presentation" onClick={() => handleTab(configTab.single)}>
+                    <a type="button" id="tab-single" role="tab" data-rr-ui-event-key="single" aria-controls="tab-single" aria-selected="true" className="nav-link active">Tham gia gói cá nhân</a>
+                </li>
+                <li className={(tab === configTab.group) ? "nav-item active" : "nav-item"} role="presentation" onClick={() => handleTab(configTab.group)}>
+                    <a type="button" id="tab-group" role="tab" data-rr-ui-event-key="group" aria-controls="tab-group" tabIndex="-1" className="nav-link">Tham gia theo nhóm</a>
+                </li>
+            </ul>
+            <div className="tab-content">
+                {
+                    (tab === configTab.single) &&
+                    <div role="tabpanel" id="tab-single" aria-labelledby="tab-single" >
+                        {
+                            (!isStringNullOrEmpty(statusPayment)) ?
+                                renderLayoutResponse(statusPayment)
+                                :
+                                renderLayoutResponse(paymentData.status)
 
-                    }
-                    {/* THANH TOÁN THÀNH CÔNG! */}
-                    {
-                        (!isStringNullOrEmpty(statusPayment)) ?
-                            renderButton(statusPayment)
-                            :
-                            renderButton(buyInsuranceStep)
-                    }
-                </Tab>
-                <Tab eventKey="group" title="Tham gia theo nhóm">
-                    <BuyInsuranceGroupComponent />
-                </Tab>
-            </Tabs>
+                        }
+                        {/* THANH TOÁN THÀNH CÔNG! */}
+                        {
+                            (!isStringNullOrEmpty(statusPayment)) ?
+                                renderButton(statusPayment)
+                                :
+                                renderButton(buyInsuranceStep)
+                        }
+                    </div>
+                }
+                {
+                    (tab === configTab.group) &&
+                    <div role="tabpanel" id="tab-group" aria-labelledby="tab-group" className="tab-pane"></div>
+                }
+
+            </div>
+            {/* <Tabs defaultActiveKey="single" id="uncontrolled-tab-example" className='justify-content-center'>
+                <Tab eventKey="single" title="Tham gia gói cá nhân" > */}
+            {
+                // (!isStringNullOrEmpty(statusPayment)) ?
+                //     renderLayoutResponse(statusPayment)
+                //     :
+                //     renderLayoutResponse(paymentData.status)
+
+            }
+            {/* THANH TOÁN THÀNH CÔNG! */}
+            {
+                // (!isStringNullOrEmpty(statusPayment)) ?
+                //     renderButton(statusPayment)
+                //     :
+                //     renderButton(buyInsuranceStep)
+            }
+            {/* </Tab>
+                <Tab eventKey="group" title="Tham gia theo nhóm"> */}
+            {/* <BuyInsuranceGroupComponent /> */}
+            {/* </Tab> */}
+            {/* </Tabs> */}
         </div>
     )
 }
