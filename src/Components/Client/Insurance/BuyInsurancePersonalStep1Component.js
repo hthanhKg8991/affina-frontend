@@ -1,10 +1,10 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Nav, Navbar, Row } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatIOSToDate, validate } from '../../../Common/Helper';
+import { checkAge, formatIOSToDate, isStringNullOrEmpty, validate } from '../../../Common/Helper';
 import { handleStep1 } from '../../../Reducers/Insurance/StepRedux';
 import CommonButtonInsurance from './CommonButtonInsurance';
 
@@ -37,6 +37,10 @@ const BuyInsurancePersonalStep1Component = (props) => {
         props.handleButtonContinue && props.handleButtonContinue()
     }
 
+    // useEffect(()=>{
+    //     checkAge
+    // })
+    checkAge(birthday)
     return (
         <div className='insurance-content-step1'>
             <h4>Cho Affina biết chút thông tin về người được bảo hiểm bạn nhé!</h4>
@@ -87,7 +91,8 @@ const BuyInsurancePersonalStep1Component = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='Quay về trang chủ'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([gender, birthday])}
+                validate={validate([gender, birthday, checkAge(birthday)])}
+                isErrorAgeing={!isStringNullOrEmpty(birthday) ? !checkAge(birthday) : false}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
             />

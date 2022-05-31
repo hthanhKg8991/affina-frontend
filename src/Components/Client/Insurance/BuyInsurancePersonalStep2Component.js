@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Container, Form, Image, Nav, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty } from '../../../Common/Helper';
+import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import configDefault from '../../../Config/app';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../Reducers/Insurance/PackagesRedux';
@@ -81,7 +81,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
     useEffect(async () => {
         await callAPI()
     }, [dispatch])
-    
+
     const handleAdditional = (id) => {
         if (id === isAdditional) {
             setIsAdditional(false)
@@ -473,32 +473,38 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                                             return (
                                                                 <div className='sub-item' key={additionalItem._id}>
                                                                     <div className='package-additional-preview '>
-                                                                        <Stack direction='horizontal'>
-                                                                            <Stack className='justify-content-center'>
-                                                                                <Stack direction="horizontal" gap={3} className="align-items-start">
-                                                                                    <input className="form-check-input" type="checkbox" id={additionalItem._id}
-                                                                                        checked={handleCheckAdditional(additionalItem._id, item.additional)}
-                                                                                        // checked={additionalItem.isChecked}
-                                                                                        onChange={() => onSelectAdditional(additionalItem, item.package_code)} />
-                                                                                    <label htmlFor={additionalItem._id} className='insure-package' >{additionalItem.name}</label>
+                                                                        {
+                                                                            (additionalItem.fee !== 0) ?
+
+                                                                                <Stack direction='horizontal'>
+                                                                                    <Stack className='justify-content-center'>
+                                                                                        <Stack direction="horizontal" gap={3} className="align-items-start">
+                                                                                            <input className="form-check-input" type="checkbox" id={additionalItem._id}
+                                                                                                checked={handleCheckAdditional(additionalItem._id, item.additional)}
+                                                                                                // checked={additionalItem.isChecked}
+                                                                                                onChange={() => onSelectAdditional(additionalItem, item.package_code)} />
+                                                                                            <label htmlFor={additionalItem._id} className='insure-package' >{additionalItem.name}</label>
+                                                                                        </Stack>
+                                                                                    </Stack>
+                                                                                    <div className="text-right ms-auto">
+                                                                                        {
+                                                                                            (additionalItem.fee !== 0) ?
+                                                                                                <>
+                                                                                                    <p className='package-price'>{formatPrepaidAmount(matchRound(additionalItem.amount))}VNĐ</p>
+                                                                                                    <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(additionalItem.fee))}/năm</p>
+                                                                                                </>
+                                                                                                :
+                                                                                                <>
+                                                                                                    {/* <p className='package-price'>{formatPrepaidAmount(matchRound(additionalItem.amount))}VNĐ</p> */}
+                                                                                                    {/* <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(calculatorFee(additionalItem.amount, additionalItem.rate)))}/năm</p> */}
+                                                                                                    {/* <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(additionalItem.fee))}/năm</p> */}
+                                                                                                </>
+                                                                                        }
+                                                                                    </div>
                                                                                 </Stack>
-                                                                            </Stack>
-                                                                            <div className="text-right ms-auto">
-                                                                                {
-                                                                                    (additionalItem.amount === "Không áp dụng") ?
-                                                                                        <>
-                                                                                            <p className='package-price'>{formatPrepaidAmount(matchRound(additionalItem.amount))}</p>
-                                                                                            <p className='package-fee'>Phí: {matchRound(additionalItem.amount)}</p>
-                                                                                        </>
-                                                                                        :
-                                                                                        <>
-                                                                                            <p className='package-price'>{formatPrepaidAmount(matchRound(additionalItem.amount))}VNĐ</p>
-                                                                                            {/* <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(calculatorFee(additionalItem.amount, additionalItem.rate)))}/năm</p> */}
-                                                                                            <p className='package-fee'>Phí: {formatPrepaidAmount(matchRound(additionalItem.fee))}/năm</p>
-                                                                                        </>
-                                                                                }
-                                                                            </div>
-                                                                        </Stack>
+                                                                                :
+                                                                                <></>
+                                                                        }
                                                                     </div>
                                                                     <div className='row'>
                                                                         <Line type="solid" color='e6e6e6' />
@@ -532,7 +538,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([isPackage.package_code || step2.packageCode])}
+                validate={validate([isPackage.package_code || step2.packageCode, checkAge(step1.birthday)])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
                 paidAmount={step2.paidAmount}

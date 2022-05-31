@@ -134,7 +134,7 @@ function CustomerReviewsComponent() {
         <Container fluid className="customer-reviews">
             <Container>
                 <Nav className="justify-content-center flex-column align-items-center">
-                    <h1>Nhận xét từ khách hàng</h1>
+                    <h1 className="text-gradient">Nhận xét từ khách hàng</h1>
                     <Navbar.Text className="brief">4.8 trên 5 điểm dựa trên 180 nhận xét</Navbar.Text>
                 </Nav>
                 <Slider {...settings}>
@@ -154,11 +154,11 @@ function CustomerReviewsComponent() {
                                                 </Navbar.Text> */}
                                                 {rateStart(item.rate)}
                                                 <Navbar.Collapse className="justify-content-end">
-                                                    <Navbar.Text>{item.date}</Navbar.Text>
+                                                    <Navbar.Text className="text-date">{item.date}</Navbar.Text>
                                                 </Navbar.Collapse>
                                             </Navbar>
                                             <Nav>
-                                                <Navbar.Text className="title">{item.title}</Navbar.Text>
+                                                <Navbar.Text className="title text-gradient">{item.title}</Navbar.Text>
                                                 <Navbar.Text className="description">{item.describe}</Navbar.Text>
                                                 <Navbar.Text className="author">{item.author}</Navbar.Text>
                                             </Nav>
@@ -171,7 +171,7 @@ function CustomerReviewsComponent() {
 
                 </Slider>
                 <Nav className="justify-content-center">
-                    <Link className="review-all" to="/all-review">Xem tất cả nhận xét</Link>
+                    <Link className="review-all text-gradient" to="/">Xem tất cả nhận xét</Link>
                 </Nav>
             </Container>
         </Container>

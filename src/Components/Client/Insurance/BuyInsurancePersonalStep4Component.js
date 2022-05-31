@@ -4,7 +4,7 @@ import { Col, Container, Image, Modal, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { isStringNullOrEmpty, isViewMobile, resetStore, validate, vnConvert } from '../../../Common/Helper';
+import { checkAge, isStringNullOrEmpty, isViewMobile, resetStore, validate, vnConvert } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createPayment, resetStateInsurance } from '../../../Reducers/Insurance/PackagesRedux';
 import { resetState } from '../../../Reducers/Insurance/StepRedux';
@@ -65,25 +65,27 @@ const BuyInsurancePersonalStep4Component = (props) => {
             dispatch(createPayment(params))
             console.log('params>>>createPayment', params);
             console.log('params>>>paymentData', paymentData);
-            if (paymentData.status === false) {
-                props.handleButtonGoBack && props.handleButtonGoBack(configDefault.FAILED)
-            } else {
-                if (!isStringNullOrEmpty(paymentData.data && paymentData.data.payment_url)) {
-                    // setIsShowPopup(true)
-                    resetStore();
-                    dispatch(
-                        resetState(),
-                        resetStateInsurance()
-                    )
-                    navigate('/');
-                    console.log('paymentData>>>', paymentData);
-                    window.open(paymentData.data && paymentData.data.payment_url)
 
-                }
-            }
-            props.handleButtonContinue && props.handleButtonContinue()
+            // props.handleButtonContinue && props.handleButtonContinue()
         }
     }
+
+    useEffect(() => {
+        if (paymentData.status === false) {
+            props.handleButtonGoBack && props.handleButtonGoBack(configDefault.FAILED)
+        } else {
+            if (!isStringNullOrEmpty(paymentData.data && paymentData.data.payment_url)) {
+                // setIsShowPopup(true)
+                resetStore();
+                dispatch(resetState());
+                dispatch(resetStateInsurance())
+                navigate('/');
+                console.log('paymentData>>>', paymentData);
+                window.open(paymentData.data && paymentData.data.payment_url)
+
+            }
+        }
+    }, [paymentData])
 
     const handleGoBack = () => {
         props.handleButtonGoBack && props.handleButtonGoBack();
@@ -349,7 +351,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([paymentPort])}
+                validate={validate([paymentPort,  checkAge(step1.birthday)])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
                 paidAmount={step2.paidAmount}

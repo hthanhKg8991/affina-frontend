@@ -356,7 +356,9 @@ const BuyInsurancePersonalComponent = () => {
                 }
                 {
                     (tab === configTab.group) &&
-                    <div role="tabpanel" id="tab-group" aria-labelledby="tab-group" className="tab-pane"></div>
+                    <div role="tabpanel" id="tab-group" aria-labelledby="tab-group">
+                        <h3 className='text-muted'>Chức năng sẽ sớm ra mắt</h3>
+                    </div>
                 }
 
             </div>

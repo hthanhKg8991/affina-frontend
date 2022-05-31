@@ -57,29 +57,30 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
             },
             "product_package": {
                 "cus_type": "Individual",
-                "package": "B.One B3",
+                "package": step2.packageCode,
                 "quantily": "",
-                "fee_primary_package": "",
+                "fee_primary_package": step2.fee,
+                "additional": JSON.stringify(step2.additional),
                 "fee_additional_package_5": "",
                 "fee_additional_package_6": "",
                 "fee_additional_package_7": "",
                 "fee_additional_package_8": "",
-                "total_insurance_fee": "",
+                "total_additional_fee": step2.totalAdditionalFee,
+                "total_insurance_fee": step2.intoMoney,
                 "total_group_insurance_fee": ""
             },
             "contract_detail": {
                 "effective_date": "",
                 "end_date": "",
-                "duration": "",
-                "create_date": "",
+                "duration": step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
+                "create_date": step3.startDay, //Ngày bắt đầu bảo hiểm
                 "update_date": "",
                 "first_date_confirm": ""
             },
             "insured_info": {
                 "fullname": step3.name,
-                "dob": "",
                 "gender": step1.gender,
-                "id_card": "",
+                "id_card": step3.identity,
                 "phone": step3.phone,
                 "email": step3.email,
                 "address": step3.address,
@@ -88,7 +89,6 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 "district": step3.district.name,
                 "ward": step3.ward.name,
                 "ward": step3.ward.name,
-                "identity": step3.identity,
                 "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",
                 // Require billing
@@ -320,7 +320,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                     <strong>{moment(step3.startDay).format('DD/MM/YYYY')}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
-                                    <p className='title-info'>Thời gian hiệu lực</p>
+                                    <p className='title-info'>Ngày hết hạn bảo hiểm</p>
                                     <strong>{step3.timeExpire.value}</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
@@ -353,7 +353,8 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                     {
                                         (!isEmptyArray(step2.additional)) &&
                                         step2.additional.map((itemSecondary, index) => {
-                                            amountSecondary += !isStringNullOrEmpty(itemSecondary.amount) ? parseInt((itemSecondary.amount * itemSecondary.rate) / 100) : 0
+                                            // amountSecondary += !isStringNullOrEmpty(itemSecondary.amount) ? parseInt((itemSecondary.amount * itemSecondary.rate) / 100) : 0
+                                            amountSecondary += itemSecondary.fee;
                                             return (
                                                 <div className='sub-info-insure' key={itemSecondary._id}>
                                                     <strong className='benefits-title'>{index + 1}. {itemSecondary.name}</strong>
@@ -373,7 +374,8 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Tổng phí gói phụ</p>
-                                    <strong>{formatPrepaidAmount(matchRound(amountSecondary))}VNĐ</strong>
+                                    {/* <strong>{formatPrepaidAmount(matchRound(amountSecondary))}VNĐ</strong> */}
+                                    <strong>{formatPrepaidAmount(matchRound(step2.totalAdditionalFee))}VNĐ</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
                                 <Col md={3} xs={6}></Col>

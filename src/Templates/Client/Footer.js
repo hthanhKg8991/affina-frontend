@@ -47,8 +47,8 @@ function Footer() {
                             </Navbar>
                         </Nav>
                     </Col>
-                    <Col lg md sm={12} xs={12}>
-                        <h5>Affina Vietnam</h5>
+                    <Col lg md sm={12} xs={6}>
+                        <h5 className="text-gradient">Affina Vietnam</h5>
                         <Nav className="flex-column">
                             <Nav.Item>
                                 <Link to={ABOUT}>Về Affina</Link>
@@ -67,16 +67,16 @@ function Footer() {
                             </Nav.Item>
                         </Nav>
                     </Col>
-                    <Col lg md sm={12} xs={12}>
-                        <h5>Sản phẩm bảo hiểm</h5>
+                    <Col lg md sm={12} xs={6}>
+                        <h5 className="text-gradient">Sản phẩm bảo hiểm</h5>
                         <Nav className="flex-column">
                             <Nav.Item>
                                 <Link to={BUY_NOW}>Bảo hiểm Benefits One</Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
-                    <Col lg md sm={12} xs={12}>
-                        <h5>Hỗ trợ khách hàng</h5>
+                    <Col lg md sm={12} xs={6}>
+                        <h5 className="text-gradient">Hỗ trợ khách hàng</h5>
                         <Nav className="flex-column">
                             <Nav.Item>
                                 <Link to={SEND_REQUEST}>Trung tâm trợ giúp</Link>
@@ -92,8 +92,8 @@ function Footer() {
                             </Nav.Item>
                         </Nav>
                     </Col>
-                    <Col lg md sm={12} xs={12}>
-                        <h5>Chính sách</h5>
+                    <Col lg md sm={12} xs={6}>
+                        <h5 className="text-gradient">Chính sách</h5>
                         <Nav className="flex-column">
                             <Nav.Item>
                                 <Link to={PRIVACY_POLICY}>Chính sách bảo mật thông tin</Link>
@@ -111,8 +111,9 @@ function Footer() {
                     </Col>
                 </Row>
             </Container >
-            <div className="text-center background-gradient-to-bottom text-white">
-                <Container className="end-of-page text-center text-white">
+            <div className="line-gradient"></div>
+            <div className="text-center">
+                <Container className="end-of-page text-center">
                     <p className="mb-0">© 2022  Affina Việt Nam, All rights reserved.<br /> Công ty TNHH Affina Việt Nam. ĐC: B7 An Phú New City, đường Nguyễn Hoàng, P. An Phú, Tp. Thủ Đức, Tp. Hồ Chí Minh, Việt Nam. GPKD: 0317130512.</p>
                 </Container>
             </div>

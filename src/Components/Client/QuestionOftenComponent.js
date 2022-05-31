@@ -7,7 +7,7 @@ function QuestionOftenComponent() {
         <Container fluid className="frequently-asked-question">
             <Container>
                 <Nav className="justify-content-center flex-column align-items-center">
-                    <h1>Câu hỏi thường gặp</h1>
+                    <h1 className="text-gradient">Câu hỏi thường gặp</h1>
                 </Nav>
                 <Accordion defaultActiveKey="0">
                     <Accordion.Item eventKey="0">

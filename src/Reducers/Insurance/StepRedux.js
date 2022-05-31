@@ -21,6 +21,7 @@ const initialState = {
             intoMoney: 0,
             intoMoneyAmount: 0,
             paidAmount: 0,
+            totalAdditionalFee: 0,
         },
         step3: {
             name: '',
@@ -32,7 +33,10 @@ const initialState = {
             email: '',
             phone: '',
             startDay: '',
-            timeExpire: '',
+            timeExpire: {
+                key: "1",
+                value: "1 năm"
+            },
             requireBilling: false,
             isConfirm: false,
             companyName: '',
@@ -55,10 +59,11 @@ const InsuranceSlice = createSlice({
             state.dataStep.step2 = action.payload;
             state.dataStep.step2.additional.forEach(item => {
                 amount += parseInt(item.amount);
-                amountFee += parseInt(item.amount * item.rate) / 100;
+                amountFee += item.fee//parseInt(item.amount * item.rate) / 100;
             })
             state.dataStep.step2.intoMoneyAmount = amount + state.dataStep.step2.price;
             state.dataStep.step2.intoMoney = amountFee + state.dataStep.step2.fee;
+            state.dataStep.step2.totalAdditionalFee = amountFee;
             state.dataStep.step2.totalAmount = (state.dataStep.step2.intoMoney - state.dataStep.step2.discount);
             state.dataStep.step2.paidAmount = percentage(state.dataStep.step2.intoMoney, - state.dataStep.step2.discount);
         },
@@ -79,10 +84,11 @@ const InsuranceSlice = createSlice({
             }
             state.dataStep.step2.additional.forEach(item => {
                 amount += parseInt(item.amount);
-                amountFee += parseInt(item.amount * item.rate) / 100;
+                amountFee += item.fee//parseInt(item.amount * item.rate) / 100;
             })
             state.dataStep.step2.intoMoneyAmount = amount + state.dataStep.step2.price;
             state.dataStep.step2.intoMoney = amountFee + state.dataStep.step2.fee;
+            state.dataStep.step2.totalAdditionalFee = amountFee;
             // state.dataStep.step2.paidAmount = (state.dataStep.step2.intoMoney - (state.dataStep.step2.discount * state.dataStep.step2.intoMoney));
             state.dataStep.step2.paidAmount = percentage(state.dataStep.step2.intoMoney, - state.dataStep.step2.discount);
         },

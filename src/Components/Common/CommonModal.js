@@ -134,7 +134,7 @@ const CommonModal = (props) => {
                                     <span>6. Không giới hạn nơi khám chữa bệnh bao gồm bệnh viện, phòng khám tư nhân, quốc tế</span>
                                 </li>
                                 <li>
-                                    <span>7. Bảo lãnh viện phí tại hơn 120 cơ sở y tế</span>
+                                    <span>7. Danh sách bảo lãnh viện phí trải dài khắp các tỉnh thành</span>
                                 </li>
                                 <li>
                                     <span>8. Ứng dụng bồi thường trực tuyến. Áp dụng đối với hồ sơ Ngoại trú và nha khoa (đối với chương trình từ B.5 đến B.10)</span>
@@ -144,9 +144,6 @@ const CommonModal = (props) => {
                                 </li>
                                 <li>
                                     <span>10. Không nộp form khai báo y tế để tham gia bảo hiểm</span>
-                                </li>
-                                <li>
-                                    <span>11. Chỉ dành riêng cho khách hàng của MMB</span>
                                 </li>
                             </ul>
                         </div>

@@ -1,5 +1,31 @@
 import moment from "moment";
 import { persistor } from '../Store';
+export function checkAge(birthday) {
+    let isFormatBirthday = moment(birthday).format('DD/MM/YYYY');
+    let currentMoment = moment();
+    let oldMoment = moment(isFormatBirthday, 'DD/MM/YYYY');
+    let minDays = currentMoment.diff(oldMoment, 'days');
+    let maxYear = currentMoment.diff(oldMoment, 'Year');
+    console.log('minDays>>>', isFormatBirthday, minDays);
+    console.log('maxYear>>>', maxYear);
+    if (minDays >= 30 && maxYear <= 65) {
+        return true;
+    } else {
+        return false;
+    }
+}
+export function checkAgeHadIdentity(birthday) {
+    let isFormatBirthday = moment(birthday).format('DD/MM/YYYY');
+    let currentMoment = moment();
+    let oldMoment = moment(isFormatBirthday, 'DD/MM/YYYY');
+    let maxYear = currentMoment.diff(oldMoment, 'Year');
+    if (maxYear < 14) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 export function resetStore() {
     setTimeout(() => persistor.purge(), 200);
 }

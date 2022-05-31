@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, FormLabel, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { formatIOSToDate, genderByText, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
+import { checkAge, formatIOSToDate, genderByText, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
 import District from '../../../Config/districts';
 import ProvinceData from '../../../Config/provinces';
 import Ward from '../../../Config/wards';
@@ -20,8 +20,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
     const { orderData = {}, paymentData = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
+    const { step1, step2, step3 } = dataStep;
     // 
-    const { step1, step3 } = dataStep;
     console.log('step1::', step3.startDay);
     const [isBilling, setIsBilling] = useState(step3.requireBilling);
     const [isConfirm, setIsConfirm] = useState(step3.isConfirm);
@@ -42,6 +42,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const [companyAddress, setCompanyAddress] = useState(step3.companyAddress);
     const DistrictData = District.filter(element => element.province_code === province.code);
     const WardData = Ward.filter(element => element.district_code === district.code);
+    
+    var datePlusOne =  new Date();
     const handleCheckBilling = () => {
         setIsBilling(!isBilling)
     }
@@ -97,9 +99,9 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     }
     const handleValidateButton = () => {
         if (isBilling === false) {
-            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm])
+            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, checkAge(step1.birthday)])
         } else {
-            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, companyName, taxNumber, companyAddress])
+            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, companyName, taxNumber, companyAddress,  checkAge(step1.birthday)])
         }
     }
     console.log('handleValidateButton', handleValidateButton());
@@ -123,21 +125,21 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
             },
             "product_package": {
                 "cus_type": "Individual",
-                "package": "B.One B3",
+                "package": step2.packageCode,
                 "quantily": "",
                 "fee_primary_package": "",
                 "fee_additional_package_5": "",
                 "fee_additional_package_6": "",
                 "fee_additional_package_7": "",
                 "fee_additional_package_8": "",
-                "total_insurance_fee": "",
+                "total_insurance_fee": step2.fee,
                 "total_group_insurance_fee": ""
             },
             "contract_detail": {
-                "effective_date": step3.startDay,
+                "effective_date": "",
                 "end_date": '',
-                "duration": "",
-                "create_date": "",
+                "duration": step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
+                "create_date": step3.startDay, //Ngày bắt đầu bảo hiểm
                 "update_date": "",
                 "first_date_confirm": ""
             },
@@ -145,7 +147,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 "fullname": step3.name,
                 "dob": "",
                 "gender": step1.gender,
-                "id_card": "",
+                "id_card": step3.identity,
                 "phone": step3.phone,
                 "email": step3.email,
                 "address": step3.address,
@@ -235,8 +237,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                         <Col md={6}>
                             <CommonInput
                                 require={true}
-                                label='Họ và tên'
-                                hint='Nhập họ và tên'
+                                label='Họ và tên người được bảo hiểm'
+                                hint='Nhập họ và tên người được bảo hiểm'
                                 defaultValue={name}
                                 value={name}
                                 onChange={(e) => handleName(e)}
@@ -244,6 +246,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                             <CommonInput
                                 require={true}
                                 label='Số CMND / CCCD / Passport '
+                                txtSmall='Sử dụng CMND / CCCD của cha hoặc mẹ'
                                 hint='Nhập CMND / CCCD / Passport'
                                 defaultValue={identity}
                                 value={identity}
@@ -284,7 +287,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                         hint='Nhập ngày/tháng/năm'
                                         defaultValue={startTimeInsure}
                                         value={startTimeInsure}
-                                        minDate={new Date()}
+                                        minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
                                         onChange={(e) => handleTimeInsure(e)}
                                     />
 
@@ -306,6 +309,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                             //     value: '3 năm',
                                             // },
                                         ]}
+                                        readOnly={true}
                                         viewValue="value"
                                         value={timeExp.value}
                                         defaultValue={timeExp.value}

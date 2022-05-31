@@ -79,13 +79,12 @@ const HomeComponent = () => {
                 height={'auto'}
               />
             </div>
-            <h1>Bảo hiểm sức khỏe<br /> Benefits One</h1>
+            <h1>Món quà từ <br />sức khỏe</h1>
             {/* <h4 className='describe'>Bảo hiểm sức khỏe Benefits One</h4> */}
             <h4 className='describe'>
-              Giải pháp công nghệ từ Affina - 1 chạm cho tất cả, 1 phút xử lý bồi thường.<br />
-              Được thiết kế bởi Mercer Marsh Benefits – chuyên gia hàng đầu <br /> về giải pháp bảo hiểm.
+              Giải pháp công nghệ từ Affina - 1 chạm để được<br /> bảo hiểm, 1 phút để gửi yêu cầu bồi thường
             </h4>
-            <a href={BUY_NOW} className="btn btn-lg">THAM GIA NGAY</a>
+            <a href={BUY_NOW} className="btn btn-lg">MUA NGAY</a>
             {/* <Link to={BUY_NOW} className="btn btn-lg">
               THAM GIA NGAY</Link> */}
           </div>
@@ -94,12 +93,10 @@ const HomeComponent = () => {
       <Container className='benefits-seconds'>
         <Row>
           <Col md={4} sm={12} xs={12} data-aos="fade-right">
-            <h3 className='header-text'>Điều gì làm cho Affina trở thành nơi tốt nhất để mua bảo hiểm sức khoẻ?</h3>
+            <h3 className='header-text text-gradient'>Không giới hạn nơi khám chữa bệnh bao gồm bệnh viện, phòng khám tư nhân, quốc tế</h3>
             <hr className='line-gradient' />
-            <p>Sản phẩm tối ưu</p>
-            <p>- Mở rộng phạm vi địa lý toàn cầu để bạn tự do lựa chọn nơi điều trị phù hợp nhất  </p>
-            <p>- Thời gian chờ tối ưu nhất thị trường</p>
-            <Link to={BUY_NOW} className="btn btn-lg">Tham gia ngay</Link>
+            <p>Giải pháp công nghệ từ Affina - 1 chạm để được bảo hiểm, 1 phút để gửi yêu cầu bồi thường</p>
+            <Link to={BUY_NOW} className="btn btn-lg xs-hidden">Mua ngay</Link>
           </Col>
           <Col md={8} sm={12} xs={12} data-aos="fade-left">
             <Row>
@@ -110,15 +107,14 @@ const HomeComponent = () => {
                     ${accessStyle.images.icons.liveOnline2x} 2x, 
                     ${accessStyle.images.icons.liveOnline3x} 3x
                 `}
+                  className="benefits-seconds-img"
                   alt="live online"
-                  width={58}
-                  height={58}
                 />
                 <div className='title'>
                   100% Trực tuyến
                 </div>
                 <Navbar className='brief'>
-                  Một chạm hoàn thành đơn, 1 phút hoàn tất bồi thường. Quy trình tham gia bảo hiểm đơn giản, nhanh chóng, chỉ trong 1 phút.
+                  Một chạm để được bảo hiểm, một phút để hoàn tất yêu cầu bồi thường, 1 phút hoàn tất bồi thường
                 </Navbar>
               </Col>
               <Col md={6} sm={6} xs={12} className='col'>
@@ -128,15 +124,14 @@ const HomeComponent = () => {
                     ${accessStyle.images.icons.procedureBasic2x} 2x, 
                     ${accessStyle.images.icons.procedureBasic3x} 3x
                 `}
+                  className="benefits-seconds-img"
                   alt="live online"
-                  width={58}
-                  height={58}
                 />
                 <div className='title'>
-                  Quản lý dễ dàng
+                  Quy trình đơn giản
                 </div>
                 <Navbar className='brief'>
-                  Chủ động tra cứu quyền lợi, hạn mức còn lại và trạng thái giải quyết bồi thường nhanh chóng.
+                  Không cần khai báo tình trạng bệnh lý để tham gia bảo hiểm.
                 </Navbar>
               </Col>
               <Col md={6} sm={6} xs={12} className='col'>
@@ -147,14 +142,13 @@ const HomeComponent = () => {
                     ${accessStyle.images.icons.medicine3x} 3x
                 `}
                   alt="live online"
-                  width={58}
-                  height={58}
+                  className="benefits-seconds-img"
                 />
                 <div className='title'>
-                  Linh động quyền lợi
+                  Tham gia độc lập
                 </div>
                 <Navbar className='brief'>
-                  Trẻ em có thể tham gia độc lập mà không cần có bố mẹ tham gia cùng, tang quyền lợi bệnh hiểm nghèo.
+                  Trẻ em từ 30 ngày tuổi được tham gia độc lập mà không cần bố mẹ tham gia cùng
                 </Navbar>
               </Col>
               <Col md={6} sm={6} xs={12} className='col'>
@@ -165,34 +159,38 @@ const HomeComponent = () => {
                     ${accessStyle.images.icons.medicine3x} 3x
                 `}
                   alt="live online"
-                  width={58}
-                  height={58}
+                  className="benefits-seconds-img"
                 />
                 <div className='title'>
                   Cam kết đồng hành
                 </div>
                 <Navbar className='brief'>
-                  Luôn bên cạnh bạn và cam kết tái tục bảo hiểm trong những năm tiếp theo.
+                  Luôn bên cạnh bạn và cam kết tái tục bảo hiểm trong những năm tiếp theo
                 </Navbar>
               </Col>
             </Row>
+          </Col>
+          <Col>
+            <Link to={BUY_NOW} className="btn btn-lg xs-visibility">Mua ngay</Link>
           </Col>
         </Row>
       </Container>
       <Container data-aos='zoom-in'>
         <div className='benefits-condition'>
           <Row>
-            <Col md={10} xs={12}>
-              <div className='condition-header-text'>Điều kiện tham gia bảo hiểm</div>
-              <div className='condition-describe'>Tất cả công dân đang sinh sống tại Việt Nam từ 30 ngày tuổi đến 65 tuổi (*)</div>
-              <div className='condition-brief'>(*) Trừ người mắc bệnh tâm thần, thần kinh, phong, đã và đang bị ung thư; người bị thương tật vĩnh viễn trên 80%; người đang trong thời gian điều trị bệnh hoặc thương tật.</div>
+            <Col md={12} xs={12}>
+              <Navbar>
+                <Navbar.Collapse >
+                  <div className='condition-header-text'>Điều kiện tham gia</div>
+                  <Link to={BUY_NOW} className='btn-md btn-blue ms-auto'>
+                    Tham gia ngay
+                  </Link>
+                </Navbar.Collapse>
+              </Navbar>
+              <div className='condition-describe'>Người Việt Nam hoặc người nước ngoài từ 30 ngày tuổi đến 65 tuổi sinh sống và làm việc trong lãnh thổ Việt Nam và không rời Việt Nam quá 180 ngày liên tục</div>
+              <div className='condition-brief'>* Trường hợp không được tham gia: Người bị bệnh tâm thần, động kinh, phong, ung thư , thương tật vĩnh viễn trên 80%, đang trong thời gian điều trị bệnh hoặc thương tật</div>
             </Col>
-            <Col md={2} xs={12}>
-              <Link to={BUY_NOW} className='btn'>
-                Tham gia ngay
-                <i className="mdi mdi-arrow-right"></i>
-              </Link>
-            </Col>
+
           </Row>
         </div>
       </Container>
@@ -200,24 +198,23 @@ const HomeComponent = () => {
         <div className='protection-rights'>
           <Row>
             <Col md={6} sm={12} xs={12} data-aos="fade-right">
-              <h3 className='protection-header-text'>Đa dạng đối tượng tham gia, quyền lợi bảo vệ tối đa</h3>
+              <h3 className='protection-header-text text-gradient'>Đa đạng đối tượng tham gia, quyền lợi bảo vệ tối đa</h3>
               <div className='protection-describe'>
-                <p>* Nếu bạn và người thân trong độ tuổi phù hợp (từ 30 ngày tuổi cho đến 65 tuổi) và không mắc các chứng bệnh loại trừ thì đều có thể tham gia chương trình bảo hiểm sức khỏe này nhé.  </p>
-                <p>* Chỉ cần bỏ ra một khoản phí hợp lý, bạn, gia đình & người thân sẽ hoàn toàn an tâm khi được Benefits One bảo vệ toàn diện với 7 quyền lợi (gồm 4 quyền lợi chính và 3 quyền lợi bổ sung).</p>
-                <p>* Đặc biệt với Benefits One, bạn có thể cùng Affina tùy chọn, linh hoạt “thiết kế” các quyền lợi bảo hiểm bổ sung dành cho mình, gia đình và những người thân yêu.</p>
-                <p>“TỰ THIẾT KẾ” GÓI BẢO HIỂM THEO NHU CẦU VỚI MỨC PHÍ LINH HOẠT </p>
-                <p>* Nếu bạn chia sẻ với Affina nhu cầu, tình trạng sức khỏe & tài chính của mình, Affina chắc chắn sẽ tư vấn để bạn lựa chọn & “tự thiết kế” nên gói bảo hiểm Benefits One phù hợp nhất cho chính bạn, gia đình, người thân.</p>
+                <p>-  Đa đạng đối tượng tham gia, quyền lợi bảo vệ tối đa: Đặc biệt với Benefits One - sản phẩm bảo hiểm toàn diện với 7 quyền lợi, bạn có thể  tự thiết kế gói bảo hiểm theo nhu cầu với mức phí linh hoạt dành cho mình, gia đình và những người thân yêu.</p>
+                <p>-  Hãy  chia sẻ với chúng tôi nhu cầu, tình trạng sức khỏe & tài chính của bạn, chắc chắn chung tôi sẽ tư vấn gói bảo hiểm Benefits One phù hợp nhất cho chính bạn, gia đình, người thân.</p>
               </div>
-              <div className='display-block'>
-                <a download target="_blank" href={LINK_DOWNLOAD} className='btn btn-outline-protection'>
-                  Chi tiết quyền lợi
-                </a>
-              </div>
-              <div className='display-block'>
-                <Link to='/download-brochure' className='btn btn-protection'>
-                  <i className="mdi mdi-tray-arrow-down"></i>
-                  Tải bản quyền lợi
-                </Link>
+              <div className='protection-btn-group xs-hidden'>
+                <div className='display-block'>
+                  <a download target="_blank" href={LINK_DOWNLOAD} className='btn btn-outline-protection'>
+                    Chi tiết quyền lợi
+                  </a>
+                </div>
+                <div className='display-block'>
+                  <Link to='/download-brochure' className='btn btn-protection'>
+                    <i className="mdi mdi-tray-arrow-down"></i>
+                    Tải bản quyền lợi
+                  </Link>
+                </div>
               </div>
             </Col>
             <Col md={6} sm={12} xs={12} data-aos="fade-left">
@@ -233,6 +230,19 @@ const HomeComponent = () => {
                 className="logo-footer"
               />
             </Col>
+            <div className='protection-btn-group xs-visibility'>
+                <div className='display-block'>
+                  <a download target="_blank" href={LINK_DOWNLOAD} className='btn btn-outline-protection'>
+                    Chi tiết quyền lợi
+                  </a>
+                </div>
+                <div className='display-block'>
+                  <Link to='/download-brochure' className='btn btn-protection'>
+                    <i className="mdi mdi-tray-arrow-down"></i>
+                    Tải bản quyền lợi
+                  </Link>
+                </div>
+              </div>
           </Row>
         </div>
       </Container>

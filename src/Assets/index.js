@@ -9,14 +9,18 @@ const accessStyle = {
             merchantBenefit2x: require('./Images/public/mercer-marsh-benefits@2x.webp'),
             merchantBenefit3x: require('./Images/public/mercer-marsh-benefits@3x.webp'),
             // 
-            card: require('./Images/public/card.webp'),
-            card2x: require('./Images/public/card@2x.webp'),
-            card3x: require('./Images/public/card@3x.webp'),
+            card: require('./Images/public/cart.webp'),
+            card2x: require('./Images/public/cart@2x.webp'),
+            card3x: require('./Images/public/cart@3x.webp'),
             // 
             // 
             backgroundSendRequest: require('./Images/public/background-send-request.webp'),
             backgroundSendRequest2x: require('./Images/public/background-send-request@2x.webp'),
             backgroundSendRequest3x: require('./Images/public/background-send-request@3x.webp'),
+            // 
+            backgroundPattern: require('./Images/public/background-pattern.webp'),
+            backgroundPattern2x: require('./Images/public/background-pattern@2x.webp'),
+            backgroundPattern3x: require('./Images/public/background-pattern@3x.webp'),
             // 
         },
         icons: {

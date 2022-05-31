@@ -2,13 +2,15 @@ import PropTypes from "prop-types";
 
 import React, { useState } from 'react';
 import { Form, FormControl, FormLabel, InputGroup, Stack } from 'react-bootstrap'
-import { isStringNullOrEmpty, formatIOSToDate } from "../../Common/Helper";
+import { isStringNullOrEmpty, formatIOSToDate, checkAgeHadIdentity } from "../../Common/Helper";
 import ReactTooltip from 'react-tooltip';
 import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
+import { useSelector } from "react-redux";
 
 const CommonInput = (props) => {
-
+    const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
+    const { step1, step2, step3 } = dataStep;
     const [isEyeOffEye, setIsEyeOffEye] = useState(false);
 
 
@@ -97,6 +99,13 @@ const CommonInput = (props) => {
                     {
                         props.tooltip &&
                         <i className="mdi mdi-alert-circle" data-tip='' data-for="happyFace"></i>
+                    }
+                    <br />
+                    {
+                        (checkAgeHadIdentity(step1.birthday) && !isStringNullOrEmpty(props.txtSmall)) &&
+                        <small className="text-color-main">
+                            {props.txtSmall}
+                        </small>
                     }
                 </FormLabel>
             }

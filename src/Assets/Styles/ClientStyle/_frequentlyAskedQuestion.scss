@@ -1,100 +1,24 @@
 .frequently-asked-question {
-  h1 {
-    font-size: 2.25rem;
-    color: color(affina-color);
-    font-weight: bold;
-    margin-bottom: 4.5rem;
-    @media screen and (max-width: 767px) {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-  }
   .accordion-item {
-    border: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-    border-radius: inherit;
-    .accordion-button {
-      font-size: 1.25rem;
-      color: color(affina-color);
-      font-weight: 600;
-      &:after {
-        font: normal normal normal 24px/1 "Material Design Icons";
-        content: "\F0415";
-        background-image: none !important;
-        color: color(color-a3a3a3);
-      }
+    margin: 0.375rem 0;
+    h2.accordion-header {
       @media screen and (max-width: 767px) {
         font-size: 0.875rem;
-      }
-      @media (max-width: 575.98px) {
-        font-size: 0.875rem;
-      }
-      @media (max-width: 360px) {
-        font-size: 0.875rem;
+        font-weight: 500;
+        color: color(affina-color);
       }
     }
-    .accordion-button:not(.collapsed) {
-      font-size: 1.25rem;
-      color: color(affina-color) !important;
-      background: transparent !important;
-      font-weight: 600;
-      &:after {
-        background-image: none !important;
-        font: normal normal normal 24px/1 "Material Design Icons";
-        content: "\F0374";
-        color: color(color-a3a3a3);
-      }
-      @media screen and (max-width: 767px) {
-        font-size: 0.875rem;
-      }
-      @media (max-width: 575.98px) {
-        font-size: 0.875rem;
-      }
-      @media (max-width: 360px) {
-        font-size: 0.875rem;
-      }
+    .accordion-button:not(.collapsed){
+      background: rgba(9, 94, 251, 0.1);
+      color: color(affina-blue);
+      box-shadow: none !important;
     }
-    .accordion-body {
-      font-size: 1rem;
-      color: color(affina-color);
-      ul{
-        li{
-          @media screen and (max-width: 767px) {
-            font-size: 0.75rem;
-          }
+    .accordion-collapse {
+      &.collapse{
+        &.show{
+          background: rgba(9, 94, 251, 0.1);
         }
       }
-    }
-  }
-  .question-btn {
-    margin-top: 6.5rem;
-    margin-bottom: 5rem;
-    @media (max-width: 575.98px) {
-      margin-top: 3.5rem;
-    }
-    .btn {
-      font-size: $default-font-size-large-18;
-      border-radius: $button-border-radius-large;
-      padding: 1rem 6rem !important;
-      color: color(white);
-      margin-top: 1.5rem;
-      @media (max-width: 575.98px) {
-        width: 100%;
-      }
-      @media (max-width: 360px) {
-        font-size: .75rem;
-      }
-    }
-    .question-btn-primary {
-      background: color(affina-blue);
-      margin-right: 1.5rem;
-      @media (max-width: 360px) {
-        margin-right: 0;
-      }
-    }
-    .question-btn-outline-primary {
-      border: 1px solid color(affina-blue);
-      color: color(affina-blue);
     }
   }
 }

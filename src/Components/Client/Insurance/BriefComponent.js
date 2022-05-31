@@ -29,12 +29,12 @@ const BriefComponent = (props) => {
         let templateAdditional = [];
         if (!isEmptyArray(additional)) {
             additional.forEach((item, index) => {
-                amountFee = (item.amount * item.rate) / 100;
-                amountFeeSecondary += amountFee;
+                // amountFee = (item.amount * item.rate) / 100;
+                amountFeeSecondary += item.fee;
                 templateAdditional.push(
                     <Stack key={item._id} direction='horizontal' className='align-items-start justify-content-between ms3'>
                         <Nav.Item>{item.name}</Nav.Item>
-                        <Nav.Item className='ms-auto'>{formatPrepaidAmount(matchRound(amountFee))}</Nav.Item>
+                        <Nav.Item className='ms-auto'>{formatPrepaidAmount(matchRound(item.fee))}</Nav.Item>
                         <div className='wrap-box-delete' onClick={() => onRemoveAdditional(item._id)}>
                             <i className='mdi mdi-trash-can-outline'></i>
                         </div>

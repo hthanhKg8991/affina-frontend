@@ -14,7 +14,7 @@
     font-weight: bold;
     // line-height: $line-height-max;
     margin-bottom: $space-max-47;
-    background: linear-gradient(to right,#ff52db 0%,  #095efb 100%);
+    background: linear-gradient(to right, #ff52db 0%, #095efb 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -362,7 +362,10 @@
 .background-gradient {
   border-radius: 1.5em;
   background-clip: padding-box;
-  background: linear-gradient(to right, #095efb, #ff52db);
+  background: url("../../Images/public/background-pattern.webp") no-repeat
+      center bottom,
+    linear-gradient(to right, #095efb, #ff52db);
+  background-size: contain;
   margin: 6.25rem 0;
   @media screen and (max-width: 767px) {
     margin: 2.25rem 0;

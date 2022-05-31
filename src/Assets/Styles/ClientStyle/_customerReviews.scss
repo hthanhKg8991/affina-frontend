@@ -20,7 +20,7 @@
   }
   span.brief {
     font-size: $default-font-size-large-18;
-    color: color(affina-color);
+    color: color(affina-555555);
     @media screen and (max-width: 767px) {
       font-size: 0.75rem;
     }
@@ -43,12 +43,16 @@
         border-radius: $button-border-radius;
         padding: $button-border-radius;
         color: color(color-ffc416);
+        
         @media screen and (max-width: 767px) {
           margin: 0 0;
         }
         nav{
             div.navbar-collapse{
                 font-size: $default-font-size-12;
+            }
+            .text-date{
+              color: color(affina-blue) !important;
             }
         }
         span.title {
@@ -57,10 +61,10 @@
           font-size: $btn-font-size;
         }
         span.description {
-          color: color(affina-color);
+          color: color(color_262626);
         }
         span.author {
-          color: color(color_262626);
+          color: color(affina-555555);
           font-size: $default-font-size-12;
         }
       }

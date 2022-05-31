@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Nav, Navbar, Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { formatPrepaidAmount, isStringNullOrEmpty, isViewMobile } from '../../../Common/Helper'
+import ReactTooltip from "react-tooltip";
+import { checkAge, formatPrepaidAmount, isStringNullOrEmpty, isViewMobile } from '../../../Common/Helper'
 import Line from "../../../Common/Line";
 
 const CommonButtonInsurance = (props) => {
@@ -53,7 +54,18 @@ const CommonButtonInsurance = (props) => {
                         </Button>
                     </Nav.Item>
                 </Navbar.Collapse>
+
             </Navbar>
+            {
+                props.isErrorAgeing ?
+                    <div className="error-ageing">
+                        <label data-for="ageing">Số tuổi của người được bảo hiểm không nằm trong quy định <i className="mdi mdi-alert-circle" data-tip='' data-for="ageing"></i></label>
+                        <ReactTooltip id="ageing" type="error" backgroundColor="#fff8fd" textColor="#ff52db">
+                            Độ tuổi tham gia từ 30 ngày tuổi đến 65 tuổi
+                        </ReactTooltip>
+                    </div>
+                    : ''
+            }
         </div>
     )
 }
@@ -61,11 +73,15 @@ const CommonButtonInsurance = (props) => {
 CommonButtonInsurance.propTypes = {
     textButtonGoBack: PropTypes.string,
     textButtonContinue: PropTypes.string,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    isViewStep: PropTypes.bool,
+    isErrorAgeing: PropTypes.bool,
 };
 CommonButtonInsurance.defaultProps = {
     textButtonGoBack: 'Quay về trang chủ',
     textButtonContinue: 'TIẾP TỤC',
     onChange: () => { },
+    isViewStep: false,
+    isErrorAgeing: false,
 };
 export default CommonButtonInsurance
