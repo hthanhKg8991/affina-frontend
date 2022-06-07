@@ -215,7 +215,7 @@
             justify-content: center;
             content: counter(step);
             counter-increment: step;
-            color: color(affina-blue);
+            color: color(affina-555555);
             border: 1.5px solid color(affina-555555);
             background: color(white);
             border-radius: 50%;
@@ -1290,6 +1290,7 @@
     border: 1px dashed color(affina-blue);
     padding: 1rem;
     border-radius: 1rem;
+    background: color(color-f6f9ff);
     .text-content-upload {
       span {
         font-size: 1.125rem;
@@ -1307,6 +1308,15 @@
           font-size: 0.75rem;
         }
       }
+    }
+  }
+  .group-add-info{
+    h3{
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: color(color-333333);
+      margin-top: 2.5rem;
+      margin-bottom: 1.4375rem;
     }
   }
 }

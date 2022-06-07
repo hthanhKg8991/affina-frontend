@@ -46,8 +46,8 @@ const CommonInput = (props) => {
                                 onChange={props.onChange}
                                 readOnly={props.readOnly}
                                 className={(props.error) && 'error'}
-                                autocomplete={props.autocomplete}
-                                autocomplete="off"
+                                autoComplete={props.autoComplete}
+                                autoComplete="off"
                             />
                             <InputGroup.Text className="eye-off-eye cursor-pointer" onClick={handleEyeOffEye}>
                                 {
@@ -76,7 +76,7 @@ const CommonInput = (props) => {
                             onChange={props.onChange}
                             readOnly={props.readOnly}
                             className={(props.error) && 'error'}
-                            autocomplete={props.autocomplete}
+                            autoComplete={props.autoComplete}
                         />
 
                         <Form.Text className="text-danger">
@@ -137,7 +137,7 @@ CommonInput.propTypes = {
     error: PropTypes.bool,
     errorMessage: PropTypes.string,
     type: PropTypes.string,
-    autocomplete: PropTypes.string,
+    autoComplete: PropTypes.string,
 };
 CommonInput.defaultProps = {
     label: '',
@@ -151,7 +151,7 @@ CommonInput.defaultProps = {
     onChange: () => { },
     error: false,
     errorMessage: '',
-    autocomplete: 'off',
+    autoComplete: 'off',
 };
 
 export default CommonInput

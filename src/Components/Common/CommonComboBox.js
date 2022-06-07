@@ -89,10 +89,14 @@ const CommonComboBox = (props) => {
                 {
                     (isDrop) &&
                     <ul className='list-data' data-aos="fade-up" data-aos-duration="200">
-                        <li className="fix-sticky-top">
-                            <input placeholder="search" autoFocus={true} onClick={() => handleIsDrop(true)}
-                                onChange={(e) => setKeywords(e.target.value)} />
-                        </li>
+                        {
+                            (props.isSearch) &&
+                            <li className="fix-sticky-top">
+                                <input placeholder="search" autoFocus={true} onClick={() => handleIsDrop(true)}
+                                    onChange={(e) => setKeywords(e.target.value)} />
+                            </li>
+                        }
+
                         {
                             // props.data.map((item, index) => {
                             (!isEmptyArray(dataFilter)) &&
@@ -120,6 +124,7 @@ const CommonComboBox = (props) => {
 }
 
 CommonComboBox.propTypes = {
+    isSearch: PropTypes.bool,
     require: PropTypes.bool,
     label: PropTypes.string,
     hint: PropTypes.string,
@@ -139,6 +144,7 @@ CommonComboBox.defaultProps = {
     viewValue: 'value',
     data: [],
     require: false,
+    isSearch: true,
     onChange: () => { },
 };
 

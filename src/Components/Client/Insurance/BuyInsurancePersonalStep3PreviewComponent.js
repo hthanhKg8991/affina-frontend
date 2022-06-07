@@ -22,7 +22,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
     // 
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
-    console.log('BuyInsurancePersonalStep3PreviewComponent:', orderDataDetail);
+    console.log('BuyInsurancePersonalStep3PreviewComponent:', dataStep);
     // const [amountSecondary, setAmountSecondary] = useState(0);
     var amountSecondary = 0;
     var amountMain = 0;
@@ -57,6 +57,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
             },
             "product_package": {
                 "cus_type": "Individual",
+                "package_id": step2.packageId,
                 "package": step2.packageCode,
                 "quantily": "",
                 "fee_primary_package": step2.fee,
@@ -72,8 +73,8 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
             "contract_detail": {
                 "effective_date": "",
                 "end_date": "",
-                "duration": step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
-                "create_date": step3.startDay, //Ngày bắt đầu bảo hiểm
+                "duration": moment(step3.startDay, 'dd/mm/yyyy').add(364, 'days').format('DD/MM/YYYY' ),// step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
+                "create_date": moment(step3.startDay).format('DD/MM/YYYY'), //Ngày bắt đầu bảo hiểm
                 "update_date": "",
                 "first_date_confirm": ""
             },
@@ -87,7 +88,6 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 "city": step3.province.name,
                 "province": step3.province.name,
                 "district": step3.district.name,
-                "ward": step3.ward.name,
                 "ward": step3.ward.name,
                 "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",

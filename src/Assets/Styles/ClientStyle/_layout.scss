@@ -93,7 +93,11 @@ body {
   }
   .translucent-layer {
     // background: rgb(0 0 0 / 22%);
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
     width: 100%;
     height: 100%;
     position: absolute;
@@ -461,4 +465,14 @@ button,
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.wrapper-horizontal-line {
+  width: 15%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+  span.word {
+    padding: 0 10px;
+  }
 }

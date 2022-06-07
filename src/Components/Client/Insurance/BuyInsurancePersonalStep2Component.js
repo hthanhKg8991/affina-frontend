@@ -138,6 +138,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
             supplier: item.supplier,
             additional: additional,
             packageMain: item.package_main,
+            packageId: item._id,
         }))
         setPackageDetail(item)
         setIsPackage(item)

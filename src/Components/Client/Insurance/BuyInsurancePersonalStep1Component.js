@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAge, formatIOSToDate, isStringNullOrEmpty, validate } from '../../../Common/Helper';
+import { resetStateInsurance } from '../../../Reducers/Insurance/PackagesRedux';
 import { handleStep1 } from '../../../Reducers/Insurance/StepRedux';
 import CommonButtonInsurance from './CommonButtonInsurance';
 
@@ -34,6 +35,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
             gender: gender,
             birthday: birthday,
         }))
+        dispatch(resetStateInsurance());
         props.handleButtonContinue && props.handleButtonContinue()
     }
 

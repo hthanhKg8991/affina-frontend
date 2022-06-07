@@ -25,6 +25,7 @@ const BuyInsurancePersonalComponent = () => {
     const { isShowPaymentSuccess, paymentData = {}, orderData = {}, } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
+    const { data = {} } = orderData;
 
     const params = useParams();
     const navigate = useNavigate();
@@ -242,7 +243,7 @@ const BuyInsurancePersonalComponent = () => {
                             ĐÃ GỬI LINK THÀNH CÔNG
                         </h5>
                         <p>Hệ thống đã gửi link thành công đến khách hàng của bạn.</p>
-                        <p>Link:    </p>
+                        <p>Link: <a href={"https://affina.com.vn/tham-gia-bao-hiem-BOne?step=3&standStep=4&contract_num=" + data.order_code} target="_blank">https://affina.com.vn/tham-gia-bao-hiem-BOne?step=3&standStep=4&contract_num={orderData.data && orderData.data.order_code}</a>   </p>
                         {renderButton('1')}
                     </div>
                 )
@@ -358,6 +359,7 @@ const BuyInsurancePersonalComponent = () => {
                     (tab === configTab.group) &&
                     <div role="tabpanel" id="tab-group" aria-labelledby="tab-group">
                         <h3 className='text-muted'>Chức năng sẽ sớm ra mắt</h3>
+                        {/* <BuyInsuranceGroupComponent /> */}
                     </div>
                 }
 

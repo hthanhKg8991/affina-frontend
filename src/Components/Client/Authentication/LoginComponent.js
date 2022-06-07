@@ -56,7 +56,7 @@ const LoginComponent = () => {
                                     </Col>
                                 }
 
-                                <Form autocomplete="off">
+                                <Form autoComplete="off">
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <CommonInput
                                             label='Tên đăng nhập'
@@ -64,7 +64,7 @@ const LoginComponent = () => {
                                             defaultValue={userName}
                                             value={userName}
                                             onChange={(e) => onChangeUserName(e)}
-                                            autocomplete="off"
+                                            autoComplete="off"
                                             errorMessage=""
                                         />
                                     </Form.Group>
@@ -77,7 +77,7 @@ const LoginComponent = () => {
                                             value={password}
                                             onChange={(e) => onChangePassword(e)}
                                             inputType="password"
-                                            autocomplete="off"
+                                            autoComplete="off"
                                             errorMessage=""
                                         />
                                     </Form.Group>

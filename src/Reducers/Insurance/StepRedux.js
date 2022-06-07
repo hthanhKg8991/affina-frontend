@@ -6,9 +6,11 @@ const initialState = {
     dataStep: {
         step1: {
             gender: '',
-            birthday: ''
+            birthday: '',
+            listPerson: []
         },
         step2: {
+            packageId: '',
             packageCode: '',
             packageName: '',
             discount: 0,
@@ -104,6 +106,20 @@ const InsuranceSlice = createSlice({
         resetAdditionalState: (state) => {
             state.dataStep.step2.additional = []
         },
+        handleAddPerson: (state, action) => {
+            const { dataStep = {} } = state;
+            const { step1 = {}, gender = '', birthday } = dataStep;
+            const { listPerson = [] } = step1;
+            var verifyItem   = {};
+            var dataPayload = action.payload;
+            if(dataPayload.gender === "0"){
+                dataPayload.isEligible = "Không đủ điều kiện"
+            }else{
+                dataPayload.isEligible = "Đủ điều kiện"
+            }
+            state.dataStep.step1.listPerson = [...listPerson, dataPayload];
+            console.log('action.payload>>>', action.payload, listPerson);
+        },
         resetState: () => initialState
     }
 });
@@ -113,6 +129,7 @@ export const {
     handleSelectAdditional,
     handleCurrentStep,
     handleRemoveAdditional,
-    resetAdditionalState
+    resetAdditionalState,
+    handleAddPerson,
 } = InsuranceSlice.actions;
 export default InsuranceSlice.reducer

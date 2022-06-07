@@ -61,7 +61,7 @@ const SendRequestComponent = () => {
             </div>
           </Col>
           <Col md={6} sm={12} xs={12}>
-            <Form autocomplete="off" className='send-request-form' method='POST'>
+            <Form autoComplete="off" className='send-request-form' method='POST'>
               <Form.Group className="mb-3" controlId="formBasicName">
                 <CommonInput
                   require={true}
@@ -70,7 +70,7 @@ const SendRequestComponent = () => {
                   defaultValue={name}
                   value={name}
                   onChange={(e) => onChangeName(e)}
-                  autocomplete="off"
+                  autoComplete="off"
                   errorMessage=""
                 />
               </Form.Group>
@@ -83,7 +83,7 @@ const SendRequestComponent = () => {
                   defaultValue={phone}
                   value={phone}
                   onChange={(e) => onChangePhone(e)}
-                  autocomplete="off"
+                  autoComplete="off"
                   error={phone && !isValidatePhone(phone)}
                   errorMessage=""
                 />
@@ -96,7 +96,7 @@ const SendRequestComponent = () => {
                   defaultValue={email}
                   value={email}
                   onChange={(e) => onChangeEmail(e)}
-                  autocomplete="off"
+                  autoComplete="off"
                   error={email && !isValidateEmail(email)}
                   errorMessage=""
                 />
@@ -108,7 +108,7 @@ const SendRequestComponent = () => {
                   defaultValue={note}
                   value={note}
                   onChange={(e) => onChangeNote(e)}
-                  autocomplete="off"
+                  autoComplete="off"
                   errorMessage=""
                 />
               </Form.Group>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, FormLabel, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAge, formatIOSToDate, genderByText, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
+import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
 import District from '../../../Config/districts';
 import ProvinceData from '../../../Config/provinces';
 import Ward from '../../../Config/wards';
@@ -12,6 +12,7 @@ import { handleStep3, resetState } from '../../../Reducers/Insurance/StepRedux';
 import CommonComboBox from '../../Common/CommonComboBox';
 import CommonInput from '../../Common/CommonInput';
 import CommonButtonInsurance from './CommonButtonInsurance';
+import configDefault from '../../../Config/app';
 
 const BuyInsurancePersonalStep3InputComponent = (props) => {
     const dispatch = useDispatch();
@@ -21,6 +22,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const { orderData = {}, paymentData = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
+    const { data = {} } = orderData;
+    const { order_code } = data;
     // 
     console.log('step1::', step3.startDay);
     const [isBilling, setIsBilling] = useState(step3.requireBilling);
@@ -42,8 +45,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const [companyAddress, setCompanyAddress] = useState(step3.companyAddress);
     const DistrictData = District.filter(element => element.province_code === province.code);
     const WardData = Ward.filter(element => element.district_code === district.code);
-    
-    var datePlusOne =  new Date();
+
+    var datePlusOne = new Date();
     const handleCheckBilling = () => {
         setIsBilling(!isBilling)
     }
@@ -101,13 +104,13 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         if (isBilling === false) {
             return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, checkAge(step1.birthday)])
         } else {
-            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, companyName, taxNumber, companyAddress,  checkAge(step1.birthday)])
+            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, companyName, taxNumber, companyAddress, checkAge(step1.birthday)])
         }
     }
     console.log('handleValidateButton', handleValidateButton());
 
     const handleCreateOrder = () => {
-        dispatch(createOrder({
+        let params = {
             "user": dataAuth.data && dataAuth.data._id,
             "sale": {
                 partner: dataAuth.data && dataAuth.data.partner || '',
@@ -125,47 +128,52 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
             },
             "product_package": {
                 "cus_type": "Individual",
+                "package_id": step2.packageId,
                 "package": step2.packageCode,
                 "quantily": "",
-                "fee_primary_package": "",
+                "fee_primary_package": step2.fee,
+                "additional": JSON.stringify(step2.additional),
                 "fee_additional_package_5": "",
                 "fee_additional_package_6": "",
                 "fee_additional_package_7": "",
                 "fee_additional_package_8": "",
-                "total_insurance_fee": step2.fee,
+                "total_additional_fee": step2.totalAdditionalFee,
+                "total_insurance_fee": step2.intoMoney,
                 "total_group_insurance_fee": ""
             },
             "contract_detail": {
                 "effective_date": "",
                 "end_date": '',
-                "duration": step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
-                "create_date": step3.startDay, //Ngày bắt đầu bảo hiểm
+                "duration": moment(startTimeInsure, 'dd/mm/yyyy').add(364, 'days').format('DD/MM/YYYY'),// step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
+                "create_date": moment(startTimeInsure).format('DD/MM/YYYY'), //Ngày bắt đầu bảo hiểm
                 "update_date": "",
                 "first_date_confirm": ""
             },
             "insured_info": {
-                "fullname": step3.name,
-                "dob": "",
+                "fullname": name || step3.name,
                 "gender": step1.gender,
-                "id_card": step3.identity,
-                "phone": step3.phone,
-                "email": step3.email,
-                "address": step3.address,
-                "city": step3.province.name,
-                "district": step3.district.name,
+                "id_card": identity || step3.identity,
+                "phone": phone || step3.phone,
+                "email": email || step3.email,
+                "address": address || step3.address,
+                "city": province.name || step3.province.name,
+                "province": province.name || step3.province.name,
+                "district": district.name || step3.district.name,
+                "ward": ward.name || step3.ward.name,
+                "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",
                 // Require billing
                 "is_billing": step3.isBilling,
-                "company_name": step3.companyName,
-                "tax_number": step3.taxNumber,
-                "company_address": step3.companyAddress,
+                "company_name": companyName || step3.companyName,
+                "tax_number": taxNumber || step3.taxNumber,
+                "company_address": companyAddress || step3.companyAddress,
             },
             "insurance_buyer": {
                 "fullname": "",
                 "relationship": "",
                 "id_card": "",
                 "phone": "",
-                "email": step3.email,
+                "email": email || step3.email,
                 "phone_consultant": "",
                 "note": ""
             },
@@ -186,7 +194,9 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 "fee_after_commission_discount": ""
             },
             "contract_status": "GD đang chờ"
-        }))
+        }
+        console.log('createOrder-params>>>', params);
+        dispatch(createOrder(params))
         // props.handleButtonContinue && props.handleButtonContinue()
     }
 
@@ -213,9 +223,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         console.log('dataAuth>>>', dataAuth);
         resetStore()
         if (dataAuth.data && dataAuth.data._id) {
-            dispatch(createPaymentResponse({
-                status: 0
-            }))
+            
             handleCreateOrder();
             // resetStore()
             // dispatch(
@@ -225,9 +233,19 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
             props.handleButtonContinue && props.handleButtonContinue()
         }
     }
-    useEffect(()=>{
-        dispatch(getOrderDetail())
-    },[])
+    useEffect(() => {
+        console.log('paymentData>>>>', paymentData);
+        if (!isStringNullOrEmpty(order_code)) {
+            dispatch(createPaymentResponse({
+                status: 0,
+            }))
+        }else{
+            dispatch(createPaymentResponse({
+                status: configDefault.FAILED,
+            }))
+        }
+        // dispatch(getOrderDetail())
+    }, [orderData])
     return (
         <div className='insurance-content-step3-input'>
             <Container className='text-left'>
@@ -246,7 +264,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                             <CommonInput
                                 require={true}
                                 label='Số CMND / CCCD / Passport '
-                                txtSmall='Sử dụng CMND / CCCD của cha hoặc mẹ'
+                                txtSmall='Nhập CMND/ Mã Định Danh của Cha/Mẹ nếu trẻ chưa có.'
                                 hint='Nhập CMND / CCCD / Passport'
                                 defaultValue={identity}
                                 value={identity}

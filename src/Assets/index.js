@@ -161,6 +161,14 @@ const accessStyle = {
             // 
             logoMIC: require('./Images/public/partner/MIC_logo.png'),
             logoPayoo: require('./Images/public/partner/logo-payoo.jpeg'),
+            // 
+            logoBSH: require('./Images/public/partner/logo-bsh.png'),
+            logoBSH2x: require('./Images/public/partner/logo-bsh@2x.png'),
+            logoBSH3x: require('./Images/public/partner/logo-bsh@3x.png'),
+            // 
+            pti: require('./Images/public/partner/pti.png'),
+            pti2x: require('./Images/public/partner/pti@2x.png'),
+            pti3x: require('./Images/public/partner/pti@3x.png'),
         }
     }
 }
