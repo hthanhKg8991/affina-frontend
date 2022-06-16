@@ -2,6 +2,8 @@
   img.image-benefit {
   }
   .benefits {
+    padding-right: 0;
+    padding-left: 0; // chỉnh padding từ 12 về 0
     .position-absolute {
       top: 0;
       left: 5.906rem;

@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from "react-router-dom";
 import Spinner from "../Common/Spinner";
 // Admin
 import LoginContainer from "../Containers/Admin/Auth/LoginContainer";
@@ -19,47 +19,73 @@ import HomeContainer from "../Containers/Client/HomeContainer";
 import LandingPageContainer from "../Containers/Client/LandingPageContainer";
 import PrivacyPolicyContainer from "../Containers/Client/PrivacyPolicyContainer";
 import TermConditionsContainer from "../Containers/Client/TermConditionsContainer";
-import { ABOUT, BUY_NOW, LANDING_PAGE, LIST_SEND_REQUEST, LOGIN, PRIVACY_POLICY, SEND_REQUEST, STORY_AFFINA, TERM_CONDITIONS } from "./RoutePath";
+import {
+  ABOUT,
+  BUY_NOW,
+  LANDING_PAGE,
+  LIST_SEND_REQUEST,
+  LOGIN,
+  PRIVACY_POLICY,
+  SEND_REQUEST,
+  STORY_AFFINA,
+  TERM_CONDITIONS,
+} from "./RoutePath";
 import SendRequestContainer from "../Containers/Client/SendRequestContainer";
 import ListSentRequestComponent from "../Components/Client/LinkExample/ListSentRequestComponent";
 import LayoutMail from "../Common/LayoutMail";
 
 const AdminRouter = (props) => {
-
-    return (
-        <Suspense fallback={<Spinner />}>
-                <Routes>
-                    {
-                        (props.isToken === undefined) ?
-                            <>
-                                <Route index element={<HomeContainer />} />
-                                <Route path={LOGIN} element={<AuthLoginContainer/>} />
-                                <Route path={LANDING_PAGE} element={<LandingPageContainer />} />
-                                <Route path={ABOUT} element={<AboutContainer />} />
-                                <Route path={PRIVACY_POLICY} element={<PrivacyPolicyContainer />} />
-                                <Route path={TERM_CONDITIONS} element={<TermConditionsContainer />} />
-                                <Route path={BUY_NOW} element={<BuyInsuranceContainer />} />
-                                <Route path={STORY_AFFINA} element={<CategoryDetailContainer />} />
-                                <Route path={SEND_REQUEST} element={<SendRequestContainer />} />
-                                <Route path={LIST_SEND_REQUEST} element={<ListSentRequestComponent />} />
-                                <Route path='demo' element={<LayoutMail />} />
-                            </>
-                            :
-                            <>
-                                <Route path="/admin/login" element={<LoginContainer />} />
-                                <Route path="/dashboard" element={<DashboardContainer />} />
-                                <Route path="/category" element={<GetAllCategoryContainer />} />
-                                <Route path="/category/:type" element={<GetTypeCategoryContainer />} />
-                                <Route path="/category/create" element={<CreateCategoryContainer />} />
-                                <Route path="/category/edit/:id" element={<CreateCategoryContainer />} />
-                                <Route path="/customer" element={<CustomerContainer />} />
-                                <Route path="/products" element={<GetAllProductContainer />} />
-                                <Route path="/products/create" element={<CreateProductContainer />} />
-                            </>
-                    }
-                    {/* <Route path="*" element={<Navigate to={(props.isToken < 3) ? "/" : '/login'} replace />} /> */}
-                </Routes>
-        </Suspense>
-    )
-}
-export default AdminRouter
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Routes>
+        {props.isToken === undefined ? (
+          <>
+            <Route index element={<HomeContainer />} />
+            <Route path={LOGIN} element={<AuthLoginContainer />} />
+            <Route path={LANDING_PAGE} element={<LandingPageContainer />} />
+            <Route path={ABOUT} element={<AboutContainer />} />
+            <Route path={PRIVACY_POLICY} element={<PrivacyPolicyContainer />} />
+            <Route
+              path={TERM_CONDITIONS}
+              element={<TermConditionsContainer />}
+            />
+            <Route path={BUY_NOW} element={<BuyInsuranceContainer />} />
+            <Route path={STORY_AFFINA} element={<CategoryDetailContainer />} />
+            <Route path={SEND_REQUEST} element={<SendRequestContainer />} />
+            <Route
+              path={LIST_SEND_REQUEST}
+              element={<ListSentRequestComponent />}
+            />
+            <Route path="demo" element={<LayoutMail />} />
+          </>
+        ) : (
+          <>
+            <Route path="/admin/login" element={<LoginContainer />} />
+            <Route path="/dashboard" element={<DashboardContainer />} />
+            <Route path="/category" element={<GetAllCategoryContainer />} />
+            <Route
+              path="/category/:type"
+              element={<GetTypeCategoryContainer />}
+            />
+            <Route
+              path="/category/create"
+              element={<CreateCategoryContainer />}
+            />
+            <Route
+              path="/category/edit/:id"
+              element={<CreateCategoryContainer />}
+            />
+            <Route path="/customer" element={<CustomerContainer />} />
+            <Route path="/products" element={<GetAllProductContainer />} />
+            <Route
+              path="/products/create"
+              element={<CreateProductContainer />}
+            />
+          </>
+        )}
+        {/* <Route path="*" element={<Navigate to={(props.isToken < 3) ? "/" : '/login'} replace />} /> */}
+      </Routes>
+    </Suspense>
+  );
+};
+export default AdminRouter;

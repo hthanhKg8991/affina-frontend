@@ -1240,6 +1240,8 @@
 }
 // Style insurance group
 .insurance-group-step1-content {
+  width: 903px;
+  margin: auto;
   h4 {
     margin-bottom: 2.813rem;
   }
@@ -1285,12 +1287,61 @@
       }
     }
   }
+ .button-load-file {
+  position: relative;
+    width: 153.9px;
+      height: 55px;
+      flex-grow: 0;
+      border-radius: 6px;
+      border: solid 1.2px #095efb;
+      background-color: #fbfdfe;
+ }
+    .Chn-file {
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-transform: uppercase;
+      width: 153.9px;
+      height: 55px;
+      font-family: Manrope;
+      font-size: 18px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #095efb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  .line-or-left {
+      width: 107px;
+      height: 1px;
+        flex-grow: 0;
+        margin: 9px 8px 9px 0;
+        transform: rotate(-360deg);
+        background-image: linear-gradient(to left, #ff52db 100%, #095efb 0%), linear-gradient(to bottom, #ff52db 0%, #095efb -100%);
+    }
+         .line-or-right {
+           width: 107px;
+           height: 1px;
+           flex-grow: 0;
+          margin: 9px 0 9px 8px;
+           transform: rotate(-360deg);
+            background-image: linear-gradient(to right, #ff52db 0%, #095efb 100%), linear-gradient(to bottom, #ff52db, #095efb -100%);
+         }
   .box-upload {
-    border: 1px dashed color(affina-blue);
-    padding: 1rem;
-    border-radius: 1rem;
+    margin-left: -12px;
+    margin-top: 40px;
+    width: 903px;
+    height: 124px;
+    border: 1.6px dashed color(affina-blue);
+    border-radius: 16px;
     background: color(color-f6f9ff);
+
     .text-content-upload {
+      text-align: start;
       span {
         font-size: 1.125rem;
         color: color(color_262626);
