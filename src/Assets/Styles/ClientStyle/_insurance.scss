@@ -1190,7 +1190,6 @@
                 }
               }
             }
-            
           }
         }
       }
@@ -1310,13 +1309,93 @@
       }
     }
   }
-  .group-add-info{
-    h3{
+  .group-add-info {
+    h3 {
       font-weight: 600;
       font-size: 1.25rem;
       color: color(color-333333);
       margin-top: 2.5rem;
       margin-bottom: 1.4375rem;
+    }
+  }
+}
+.insurance-groups-step2 {
+  .group-insurance {
+    .accordion-item {
+      border: 0 !important;
+      background: color(white);
+      border-radius: 1.25rem;
+      &.show {
+        background: color(color-f6f9ff);
+      }
+      .accordion-header {
+        .text-header {
+          font-size: 1.125rem;
+          color: color(affina-blue);
+          font-weight: bold;
+          span {
+            font-weight: normal;
+          }
+          small {
+            font-size: 1rem;
+            color: color(affina-555555);
+            font-weight: normal;
+          }
+        }
+        button {
+          box-shadow: none !important;
+          background: color(color-f6f9ff);
+          border-top-left-radius: 1.25rem;
+          border-top-right-radius: 1.25rem;
+          &.collapsed {
+            background: transparent;
+          }
+        }
+      }
+      .accordion-collapse {
+        padding: 0 1.25rem;
+        &.collapse {
+          background: color(color-f6f9ff);
+          border-bottom-left-radius: 1.25rem;
+          border-bottom-right-radius: 1.25rem;
+        }
+      }
+    }
+  }
+}
+.insurance-group-step3-input {
+  h5 {
+    font-size: 1.75rem;
+    font-weight: normal;
+    background-image: linear-gradient(to bottom, #ff52db, #095efb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2.625rem;
+  }
+  .list-group {
+    border: 1px solid color(color-e6e6e6);
+    border-radius: 1.25rem;
+    .list-group-item {
+      margin: 0 1rem;
+      padding: 0.875rem 0rem;
+      display: flex;
+      flex: 1;
+      font-size: 17px;
+      text-transform: uppercase;
+      cursor: pointer;
+      &.title {
+        margin: 0 0;
+        padding: 1rem 1rem;
+        background: color(color-f6f9ff);
+        color: color(affina-blue);
+        font-size: 17px;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+      .is-select{
+        color: color(color-27ae60);
+      }
     }
   }
 }

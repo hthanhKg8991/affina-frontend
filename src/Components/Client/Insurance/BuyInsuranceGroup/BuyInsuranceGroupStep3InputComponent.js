@@ -1,23 +1,23 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Col, Container, FormLabel, Row } from 'react-bootstrap';
+import { Col, Container, FormLabel, ListGroup, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
-import configDefault from '../../../Config/app';
-import District from '../../../Config/districts';
-import ProvinceData from '../../../Config/provinces';
-import Ward from '../../../Config/wards';
-import { createOrder } from '../../../Reducers/Insurance/PackagesRedux';
-import { createPaymentResponse } from '../../../Reducers/Insurance/PaymentRedux';
-import { handleStep3 } from '../../../Reducers/Insurance/StepRedux';
-import CommonComboBox from '../../Common/CommonComboBox';
-import CommonInput from '../../Common/CommonInput';
-import CommonButtonInsurance from './CommonButtonInsurance';
+import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../../Common/Helper';
+import configDefault from '../../../../Config/app';
+import District from '../../../../Config/districts';
+import ProvinceData from '../../../../Config/provinces';
+import Ward from '../../../../Config/wards';
+import { createOrder } from '../../../../Reducers/Insurance/PackagesRedux';
+import { createPaymentResponse } from '../../../../Reducers/Insurance/PaymentRedux';
+import { handleStep3 } from '../../../../Reducers/Insurance/StepRedux';
+import CommonComboBox from '../../../Common/CommonComboBox';
+import CommonInput from '../../../Common/CommonInput';
+import CommonButtonInsurance from '../CommonButtonInsurance';
 import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 
-const BuyInsurancePersonalStep3InputComponent = (props) => {
+const BuyInsuranceGroupStep3InputComponent = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -26,6 +26,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const { paymentData = {} } = useSelector((state) => state.PaymentRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
+    const { listPerson = [] } = step1;
     const { data = {} } = orderData;
     const { order_code } = data;
     // 
@@ -273,185 +274,209 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         // dispatch(getOrderDetail())
     }, [orderData])
     return (
-        <div className='insurance-content-step3-input'>
+        <div className='insurance-group-step3-input'>
             <Container className='text-left'>
                 <h5 className='text-center'>Vui lòng điền thông tin </h5>
                 <Container>
                     <Row>
-                        <Col md={6}>
-                            <CommonInput
-                                require={true}
-                                label='Họ và tên người được bảo hiểm'
-                                hint='Nhập họ và tên người được bảo hiểm'
-                                defaultValue={name}
-                                value={name}
-                                onChange={(e) => handleName(e)}
-                            />
-                            <CommonInput
-                                require={true}
-                                label='Số CMND / CCCD / Passport '
-                                txtSmall='Nhập CMND/ Mã Định Danh của Cha/Mẹ nếu trẻ chưa có.'
-                                hint='Nhập CMND / CCCD / Passport'
-                                defaultValue={identity}
-                                value={identity}
-                                onChange={(e) => handleIdentity(e)}
-                            />
+                        <Col sm={3} md={4}>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item className='title'>Danh sách người được bảo hiểm
+                                </ListGroup.Item>
+                                {
+                                    listPerson.map((item, index) => {
+                                        return (
+                                            <ListGroup.Item key={index} >
+                                                {item.name}
+                                                {/* <i className='mdi mdi-check-bold ms-auto is-select'></i> */}
+                                            </ListGroup.Item>
+                                        )
+                                    })
+                                }
 
+                                {/* <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                                <ListGroup.Item>Morbi leo risus</ListGroup.Item>
+                                <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item> */}
+                            </ListGroup>
                         </Col>
-                        <Col md={6}>
+                        <Col sm={9} md={8}>
                             <Row>
-                                <Col md={6} sm={6} xs={12}>
+                                <Col md={6}>
                                     <CommonInput
                                         require={true}
-                                        label='Giới tính '
-                                        hint='Nam/ Nữ'
-                                        defaultValue={gender}
-                                        value={genderByText(gender)}
-                                        readOnly={true}
+                                        label='Họ và tên người được bảo hiểm'
+                                        hint='Nhập họ và tên người được bảo hiểm'
+                                        defaultValue={name}
+                                        value={name}
+                                        onChange={(e) => handleName(e)}
+                                    />
+                                    <CommonInput
+                                        require={true}
+                                        label='Số CMND / CCCD / Passport '
+                                        txtSmall='Nhập CMND/ Mã Định Danh của Cha/Mẹ nếu trẻ chưa có.'
+                                        hint='Nhập CMND / CCCD / Passport'
+                                        defaultValue={identity}
+                                        value={identity}
+                                        onChange={(e) => handleIdentity(e)}
                                     />
 
                                 </Col>
-                                <Col md={6} sm={6} xs={12}>
-                                    <CommonInput
-                                        require={true}
-                                        label='Ngày sinh'
-                                        hint='Nhập ngày/tháng/năm'
-                                        defaultValue={birthday}
-                                        value={moment(birthday).format('DD/MM/YYYY')}
-                                        readOnly={true}
-                                    />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col md={6} sm={6} xs={12}>
-                                <div className="box-input box-input-active">
+                                <Col md={6}>
+                                    <Row>
+                                        <Col md={6} sm={6} xs={12}>
+                                            <CommonInput
+                                                require={true}
+                                                label='Giới tính '
+                                                hint='Nam/ Nữ'
+                                                defaultValue={gender}
+                                                value={genderByText(gender)}
+                                                readOnly={true}
+                                            />
+
+                                        </Col>
+                                        <Col md={6} sm={6} xs={12}>
+                                            <CommonInput
+                                                require={true}
+                                                label='Ngày sinh'
+                                                hint='Nhập ngày/tháng/năm'
+                                                defaultValue={birthday}
+                                                value={moment(birthday).format('DD/MM/YYYY')}
+                                                readOnly={true}
+                                            />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col md={6} sm={6} xs={12}>
+                                            <div className="box-input box-input-active">
                                                 <FormLabel><small className="text-danger">*</small>Ngày bắt đầu bảo hiểm</FormLabel>
                                                 <DatePicker className="form-control"
                                                     selected={startTimeInsure}
                                                     onChange={(date) => handleTimeInsure(date)}
                                                     placeholderText="Nhập ngày/tháng/năm sinh*"
                                                     dateFormat="dd/MM/yyyy"
-                                                    minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
+                                                    // minDate={new Date()}
                                                     customInput={
                                                         <MaskedInput mask="99/99/9999" />
                                                     }
                                                 />
                                             </div>
-                                    {/* <CommonInput
-                                        inputType='date'
-                                        require={true}
-                                        label='Ngày bắt đầu bảo hiểm'
-                                        hint='Nhập ngày/tháng/năm'
-                                        defaultValue={startTimeInsure}
-                                        value={startTimeInsure}
-                                        minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
-                                        onChange={(e) => handleTimeInsure(e)}
-                                    /> */}
-
+                                            {/* <CommonInput
+                                                inputType='date'
+                                                require={true}
+                                                label='Ngày bắt đầu bảo hiểm'
+                                                hint='Nhập ngày/tháng/năm'
+                                                defaultValue={startTimeInsure}
+                                                value={startTimeInsure}
+                                                minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
+                                                onChange={(e) => handleTimeInsure(e)}
+                                            /> */}
+                                        </Col>
+                                        <Col md={6} sm={6} xs={12}>
+                                            <CommonComboBox
+                                                require={true}
+                                                data={[
+                                                    {
+                                                        key: '1',
+                                                        value: '1 năm',
+                                                    },
+                                                    // {
+                                                    //     key: '2',
+                                                    //     value: '2 năm',
+                                                    // },
+                                                    // {
+                                                    //     key: '3',
+                                                    //     value: '3 năm',
+                                                    // },
+                                                ]}
+                                                readOnly={true}
+                                                viewValue="value"
+                                                value={timeExp.value}
+                                                defaultValue={timeExp.value}
+                                                label='Thời gian hiệu lực'
+                                                hint='Chọn thời gian hiệu lực'
+                                                onChange={(e) => handleTimeExp(e)}
+                                            />
+                                        </Col>
+                                    </Row>
                                 </Col>
-                                <Col md={6} sm={6} xs={12}>
+                            </Row>
+                            <Row>
+                                <FormLabel>
+                                    <small className="text-danger">*</small>
+                                    Địa chỉ
+                                </FormLabel>
+                                <Col md={6}>
                                     <CommonComboBox
+                                        data={ProvinceData}
+                                        viewKey="code"
+                                        viewValue="name"
+                                        value={province.name}
+                                        defaultValue={province.name}
+                                        label=''
+                                        hint='Chọn tỉnh, Thành phố'
+                                        onChange={(e) => handleProvince(e)}
+                                    />
+
+                                    <CommonComboBox
+                                        data={DistrictData}
+                                        viewKey="code"
+                                        viewValue="name"
+                                        value={district.name}
+                                        defaultValue={district.name}
+                                        label=''
+                                        hint='Chọn quận, huyện '
+                                        onChange={(e) => handleDistrict(e)}
+                                    />
+                                </Col>
+                                <Col md={6}>
+                                    <CommonComboBox
+                                        data={WardData}
+                                        viewKey="code"
+                                        viewValue="name"
+                                        value={ward.name}
+                                        defaultValue={ward.name}
+                                        label=''
+                                        hint='Chọn phường, xã'
+                                        onChange={(e) => handleWard(e)}
+                                    />
+                                    <CommonInput
+                                        label=''
+                                        hint='Nhập số nhà, tên đường'
+                                        defaultValue={address}
+                                        value={address}
+                                        onChange={(e) => handleAddress(e)}
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <CommonInput
                                         require={true}
-                                        data={[
-                                            {
-                                                key: '1',
-                                                value: '1 năm',
-                                            },
-                                            // {
-                                            //     key: '2',
-                                            //     value: '2 năm',
-                                            // },
-                                            // {
-                                            //     key: '3',
-                                            //     value: '3 năm',
-                                            // },
-                                        ]}
-                                        readOnly={true}
-                                        viewValue="value"
-                                        value={timeExp.value}
-                                        defaultValue={timeExp.value}
-                                        label='Thời gian hiệu lực'
-                                        hint='Chọn thời gian hiệu lực'
-                                        onChange={(e) => handleTimeExp(e)}
+                                        type='email '
+                                        label='Email '
+                                        hint='Nhập địa chỉ email '
+                                        defaultValue={email}
+                                        value={email}
+                                        error={email && !isValidateEmail(email)}
+                                        tooltip={'Chúng tôi sẽ gửi hợp đồng bảo hiểm & tài liệu liên quan đến email này'}
+                                        onChange={(e) => handleEmail(e)}
+                                    />
+                                </Col>
+                                <Col md={6}>
+                                    <CommonInput
+                                        require={true}
+                                        label='Số điện thoại '
+                                        hint='Nhập số điện thoại'
+                                        defaultValue={phone}
+                                        value={phone}
+                                        error={phone && !isValidatePhone(phone)}
+                                        onChange={(e) => handlePhone(e)}
                                     />
                                 </Col>
                             </Row>
                         </Col>
                     </Row>
-                    <Row>
-                        <FormLabel>
-                            <small className="text-danger">*</small>
-                            Địa chỉ
-                        </FormLabel>
-                        <Col md={6}>
-                            <CommonComboBox
-                                data={ProvinceData}
-                                viewKey="code"
-                                viewValue="name"
-                                value={province.name}
-                                defaultValue={province.name}
-                                label=''
-                                hint='Chọn tỉnh, Thành phố'
-                                onChange={(e) => handleProvince(e)}
-                            />
 
-                            <CommonComboBox
-                                data={DistrictData}
-                                viewKey="code"
-                                viewValue="name"
-                                value={district.name}
-                                defaultValue={district.name}
-                                label=''
-                                hint='Chọn quận, huyện '
-                                onChange={(e) => handleDistrict(e)}
-                            />
-                        </Col>
-                        <Col md={6}>
-                            <CommonComboBox
-                                data={WardData}
-                                viewKey="code"
-                                viewValue="name"
-                                value={ward.name}
-                                defaultValue={ward.name}
-                                label=''
-                                hint='Chọn phường, xã'
-                                onChange={(e) => handleWard(e)}
-                            />
-                            <CommonInput
-                                label=''
-                                hint='Nhập số nhà, tên đường'
-                                defaultValue={address}
-                                value={address}
-                                onChange={(e) => handleAddress(e)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6}>
-                            <CommonInput
-                                require={true}
-                                type='email '
-                                label='Email '
-                                hint='Nhập địa chỉ email '
-                                defaultValue={email}
-                                value={email}
-                                error={email && !isValidateEmail(email)}
-                                tooltip={'Chúng tôi sẽ gửi hợp đồng bảo hiểm & tài liệu liên quan đến email này'}
-                                onChange={(e) => handleEmail(e)}
-                            />
-                        </Col>
-                        <Col md={6}>
-                            <CommonInput
-                                require={true}
-                                label='Số điện thoại '
-                                hint='Nhập số điện thoại'
-                                defaultValue={phone}
-                                value={phone}
-                                error={phone && !isValidatePhone(phone)}
-                                onChange={(e) => handlePhone(e)}
-                            />
-                        </Col>
-                    </Row>
                 </Container>
                 <Container className='income-info'>
                     <div className="form-check group-vertical">
@@ -513,4 +538,4 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     )
 }
 
-export default BuyInsurancePersonalStep3InputComponent
+export default BuyInsuranceGroupStep3InputComponent

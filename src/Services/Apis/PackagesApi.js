@@ -53,7 +53,8 @@ const PackagesApi = {
     },
     getOrderDetail(params) {
         console.log('getOrderDetail::', params);
-        const url = '/orders/get-detail/' + params;
+        // const url = '/orders/get-detail/' + params;
+        const url = '/orders/get-detail-by-code/' + params;
         return {
             send: () => axiosClient.get(url)
         }

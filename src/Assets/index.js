@@ -136,6 +136,14 @@ const accessStyle = {
             medicine2x: require('./Images/public/icons/medicine@2x.webp'),
             medicine3x: require('./Images/public/icons/medicine@3x.webp'),
             // 
+            search: require('./Images/public/icons/search.webp'),
+            search2x: require('./Images/public/icons/search@2x.webp'),
+            search3x: require('./Images/public/icons/search@3x.webp'),
+            // 
+            swapVertical: require('./Images/public/icons/swap-vertical.webp'),
+            swapVertical2x: require('./Images/public/icons/swap-vertical@2x.webp'),
+            swapVertical3x: require('./Images/public/icons/swap-vertical@3x.webp'),
+            // 
         },
         response: {
             success: require('./Images/public/bg-success.webp'),

@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, Row, Stack, Table } from 'react-bootstrap'
+import { Button, Col, Container, Form, Row, Stack, Table, FormLabel } from 'react-bootstrap'
 import { formatIOSToDate, genderByText, isValidateEmail, validate } from '../../../../Common/Helper'
 import CommonInput from '../../../Common/CommonInput'
 import CommonButtonInsurance from '../CommonButtonInsurance'
@@ -10,7 +10,7 @@ import CommonComboBox from '../../../Common/CommonComboBox'
 import { handleAddPerson } from '../../../../Reducers/Insurance/StepRedux';
 import { useDispatch, useSelector } from 'react-redux'
 
-const BuyInsuranceGroupStep1Component = () => {
+const BuyInsuranceGroupStep1Component = (props) => {
     const dispatch = useDispatch();
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1 } = dataStep;
@@ -19,6 +19,12 @@ const BuyInsuranceGroupStep1Component = () => {
     const [gender, setGender] = useState(0);
     const [birthday, setBirthday] = useState(formatIOSToDate());
 
+
+    const resetInputState = () => {
+        setName('');
+        setGender('');
+        setBirthday('');
+    }
     const handleName = (e) => {
         setName(e.target.value);
     }
@@ -27,6 +33,7 @@ const BuyInsuranceGroupStep1Component = () => {
     }
     var datePlusOne = new Date();
     const onChangeBirthday = (date) => {
+        console.log('date>>', date);
         setBirthday(date)
     }
 
@@ -35,7 +42,12 @@ const BuyInsuranceGroupStep1Component = () => {
             name: name,
             gender: gender.key,
             birthday: moment(birthday).format('DD/MM/YYYY'),
-        }))
+        }));
+        resetInputState();
+    }
+
+    const handleContinue = () => {
+        props.handleButtonContinue && props.handleButtonContinue()
     }
 
     console.log('listPerson>>>', listPerson);
@@ -78,7 +90,7 @@ const BuyInsuranceGroupStep1Component = () => {
 
                     </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                     <Col md={8} sm={8} xs={12} className='m-auto'>
                         <Stack direction='horizontal' className="box-upload justify-content-around">
                             <i className='mdi mdi-cloud-upload-outline'></i>
@@ -94,14 +106,14 @@ const BuyInsuranceGroupStep1Component = () => {
                             </Button>
                         </Stack>
                     </Col>
-                </Row>
+                </Row> */}
                 <Row>
                     <Col className="group-add-info">
-                        <div className='wrapper-horizontal-line justify-content-center'>
+                        {/* <div className='wrapper-horizontal-line justify-content-center'>
                             <hr className='line-gradient' />
                             <span className='word text-gradient'>Hoặc</span>
                             <hr className='line-gradient' />
-                        </div>
+                        </div> */}
                         <h3>Nhập thông tin người được bảo hiểm</h3>
                         <Row>
                             <Col md={4} sm={4} xs={4} className="text-left">
@@ -138,16 +150,19 @@ const BuyInsuranceGroupStep1Component = () => {
                                 />
                             </Col>
                             <Col md={4} sm={4} xs={4} className="text-left">
-                                <CommonInput
-                                    inputType='date'
-                                    require={true}
-                                    label='Ngày sinh'
-                                    hint='Nhập ngày/tháng/năm'
-                                    defaultValue={birthday}
-                                    value={birthday}
-                                    minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
-                                    onChange={(e) => onChangeBirthday(e)}
-                                />
+                                <div className="box-input box-input-active">
+                                    <FormLabel><small className="text-danger">*</small>Ngày sinh</FormLabel>
+                                    <DatePicker className="form-control"
+                                        selected={birthday}
+                                        onChange={(date) => onChangeBirthday(date)}
+                                        placeholderText="Nhập ngày/tháng/năm sinh*"
+                                        dateFormat="dd/MM/yyyy"
+                                        // minDate={new Date()}
+                                        customInput={
+                                            <MaskedInput mask="99/99/9999" />
+                                        }
+                                    />
+                                </div>
                             </Col>
 
                         </Row>
@@ -163,9 +178,9 @@ const BuyInsuranceGroupStep1Component = () => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY VỀ TRANG CHỦ'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([''])}
+                validate={validate([listPerson.length > 0])}
                 handleButtonGoBack={() => { }}
-                handleButtonContinue={() => { }}
+                handleButtonContinue={handleContinue}
             // paidAmount={step2.paidAmount}
             // intoMoney={step2.intoMoney}
             // isViewStep={true}

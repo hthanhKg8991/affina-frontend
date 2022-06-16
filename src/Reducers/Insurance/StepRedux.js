@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import moment from 'moment';
 import { percentage } from '../../Common/Helper';
 const initialState = {
     currentStep: 1,
@@ -44,6 +45,7 @@ const initialState = {
             companyName: '',
             companyAddress: '',
             taxNumber: '',
+            createOrder: moment().format('DD/MM/YYYY'),
         },
     }
 };

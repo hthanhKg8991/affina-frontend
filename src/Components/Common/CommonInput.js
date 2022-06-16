@@ -13,18 +13,22 @@ const CommonInput = (props) => {
     const { step1, step2, step3 } = dataStep;
     const [isEyeOffEye, setIsEyeOffEye] = useState(false);
 
-
     const handleEyeOffEye = () => {
         setIsEyeOffEye(!isEyeOffEye)
-
     }
+    const demo = (date)=>{
+        console.log('demo>date', date);
+    }
+
     const renderInputType = (inputType) => {
         switch (inputType) {
             case 'date':
                 return (
                     <DatePicker className="form-control"
-                        selected={formatIOSToDate(props.value || props.default)}
-                        onChange={(date) => props.onChange(date)}
+                        // selected={formatIOSToDate(props.value || props.defaultValue)}
+                        selected={props.value || props.defaultValue}
+                        // onChange={props.onChange}
+                        onChange={(e)=>demo(e)}
                         placeholderText={props.hint}
                         dateFormat="dd/MM/yyyy"
                         minDate={props.minDate}

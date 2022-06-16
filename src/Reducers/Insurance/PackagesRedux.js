@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import configDefault from '../../Config/app';
 const initialState = {
     data: [],
     supplier: [],
@@ -9,13 +10,16 @@ const initialState = {
     isShowPaymentSuccess: false,
     orderData: {},
     orderDataDetail: {},
-    paymentData: {},
+    isPackage: configDefault.configTab.single,
 };
 
 const PackagesSlice = createSlice({
     name: 'Insurance',
     initialState,
     reducers: {
+        selectPackage(state, action) {
+            state.isPackage = action.payload;
+        },
         getAllSuppliers(state, action) {
             state.isLoading = true;
         },
@@ -92,29 +96,21 @@ const PackagesSlice = createSlice({
             state.orderData = action.payload;
             state.isLoading = false;
         },
-        // 
-        createPayment(state, action) {
-            state.isLoading = true;
-        },
-        createPaymentResponse(state, action) {
-            console.log('action.payload>>>', action.payload);
-            state.paymentData = action.payload;
-            state.isShowPaymentSuccess = true;
-        },
-        resetStateInsurance: () => initialState
+        //
+        resetStateInsurance: () => initialState,
 
     }
 });
 export const {
+    selectPackage,
     getAllSuppliers, getAllSuppliersResponse,
     packagesGetAll, packagesGetAllResponse,
     packagesGetBySupplier, packagesGetBySupplierResponse,
     packagesGetDetail, packagesGetDetailResponse,
     getOrderDetail, getOrderResponse,
     createOrder, createOrderResponse,
-    createPayment, createPaymentResponse,
     productGetByPackage, productGetByPackageResponse,
     postPackageBySupplier, postPackageBySupplierResponse,
-    resetStateInsurance
+    resetStateInsurance,
 } = PackagesSlice.actions;
 export default PackagesSlice.reducer

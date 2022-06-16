@@ -1,6 +1,7 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import * as categories from '../Reducers/Categories/CategoriesRedux';
 import * as packageRedux from '../Reducers/Insurance/PackagesRedux';
+import * as PaymentRedux from '../Reducers/Insurance/PaymentRedux';
 // Send request
 import * as SendRequestRedux from '../Reducers/SentRequest/SendRequestRedux';
 import { categoriesGetAll, categoriesGetDetail, categoriesGetType } from '../Saga/Admin/CategoriesSaga';
@@ -23,7 +24,7 @@ export default function* rootSaga() {
         takeLatest(packageRedux.postPackageBySupplier.type, postPackageBySupplier),
         takeLatest(packageRedux.createOrder.type, createOrder),
         takeLatest(packageRedux.getOrderDetail.type, getOrderDetail),
-        takeLatest(packageRedux.createPayment.type, createPayment),
+        takeLatest(PaymentRedux.createPayment.type, createPayment),
         // Send request
         // rootSendRequest
         takeLatest(SendRequestRedux.getAll.type, getAll),

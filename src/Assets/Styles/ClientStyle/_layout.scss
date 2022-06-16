@@ -473,6 +473,14 @@ button,
   align-items: center;
   margin: 0 auto;
   span.word {
-    padding: 0 10px;
+    padding: 0 0.625rem;
   }
+}
+.is-login {
+  cursor: pointer;
+}
+.icon-logout {
+  color: #fc52db;
+  margin-left: 0.625rem;
+  cursor: pointer;
 }

@@ -3,15 +3,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Container, Image, Modal, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import accessStyle from '../../../Assets';
-import { checkAge, isStringNullOrEmpty, isViewMobile, resetStore, validate, vnConvert } from '../../../Common/Helper';
-import Line from '../../../Common/Line';
-import { resetStateInsurance } from '../../../Reducers/Insurance/PackagesRedux';
-import { createPayment } from '../../../Reducers/Insurance/PaymentRedux';
-import { resetState } from '../../../Reducers/Insurance/StepRedux';
-import BriefComponent from './BriefComponent';
-import CommonButtonInsurance from './CommonButtonInsurance';
-import configDefault from '../../../Config/app';
+import accessStyle from '../../../../Assets';
+import { checkAge, isStringNullOrEmpty, isViewMobile, resetStore, validate, vnConvert } from '../../../../Common/Helper';
+import Line from '../../../../Common/Line';
+import { resetStateInsurance } from '../../../../Reducers/Insurance/PackagesRedux';
+import { createPayment } from '../../../../Reducers/Insurance/PaymentRedux';
+import { resetState } from '../../../../Reducers/Insurance/StepRedux';
+import BriefComponent from '../BriefComponent';
+import CommonButtonInsurance from '../CommonButtonInsurance';
+import configDefault from '../../../../Config/app';
 const paymentMethod = {
     bank_account: 'Bank-account',
     payoo_account: 'Payoo-account',
@@ -21,7 +21,7 @@ const paymentMethod = {
     cc: 'CC',
     myQR: 'myQR',
 }
-const BuyInsurancePersonalStep4Component = (props) => {
+const BuyInsuranceGroupStep4Component = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
@@ -392,4 +392,4 @@ const BuyInsurancePersonalStep4Component = (props) => {
     )
 }
 
-export default BuyInsurancePersonalStep4Component
+export default BuyInsuranceGroupStep4Component

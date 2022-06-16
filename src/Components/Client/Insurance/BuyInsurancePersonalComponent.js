@@ -3,9 +3,9 @@ import { Button, Image, Nav, Navbar, Stack, Tab, Tabs } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { formatPrepaidAmount, isStringNullOrEmpty, resetStore, vnConvert } from '../../../Common/Helper';
+import { checkDays, formatPrepaidAmount, isStringNullOrEmpty, resetStore, vnConvert } from '../../../Common/Helper';
 import configDefault from '../../../Config/app';
-import { resetStateInsurance } from '../../../Reducers/Insurance/PackagesRedux';
+import { resetStateInsurance, selectPackage } from '../../../Reducers/Insurance/PackagesRedux';
 import { resetState } from '../../../Reducers/Insurance/StepRedux';
 import { BUY_NOW } from '../../../Routers/RoutePath';
 import ProgressBarStep from '../../Common/ProgressBarStep';
@@ -15,14 +15,15 @@ import BuyInsurancePersonalStep2Component from './BuyInsurancePersonalStep2Compo
 import BuyInsurancePersonalStep3Component from './BuyInsurancePersonalStep3Component';
 import BuyInsurancePersonalStep4Component from './BuyInsurancePersonalStep4Component';
 import BuyInsuranceResponse from './BuyInsuranceResponse';
-const configTab = {
-    single: 'tab-single',
-    group: 'tab-group',
-}
+// const configTab = {
+//     single: 'tab-single',
+//     group: 'tab-group',
+// }
 const BuyInsurancePersonalComponent = () => {
     const dispatch = useDispatch();
 
-    const { isShowPaymentSuccess, paymentData = {}, orderData = {}, } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { isShowPaymentSuccess, orderData = {}, isPackage} = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { paymentData = {}} = useSelector((state) => state.PaymentRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
     const { data = {} } = orderData;
@@ -39,7 +40,7 @@ const BuyInsurancePersonalComponent = () => {
     const [standStep, setStandStep] = useState(parseInt(paramsSearch.get('standStep')) || 3);
     const [isShowPayment, setIsShowPayment] = useState(isShowPaymentSuccess);
     const [textCopy, setTextCopy] = useState('')
-    const [tab, setTab] = useState(configTab.single)
+    const [tab, setTab] = useState(isPackage)
 
     const handleButtonContinue = () => {
         if (buyInsuranceStep < 4) {
@@ -210,6 +211,11 @@ const BuyInsurancePersonalComponent = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        if (checkDays(step3.createOrder)) {
+            dispatch(resetStateInsurance());
+            dispatch(resetState());
+            navigate(BUY_NOW);
+        }
     }, [buyInsuranceStep, standStep]);
 
     const renderLayoutResponse = (status) => {
@@ -263,11 +269,10 @@ const BuyInsurancePersonalComponent = () => {
 
     const handleFinish = () => {
         setBuyInsuranceStep(1);
-        dispatch(
-            resetState(),
-            resetStateInsurance()
-        );
-        resetStore();
+        dispatch(resetStateInsurance());
+        dispatch(resetState());
+        // resetStore();
+        // window.location.reload();
         navigate(BUY_NOW);
     }
 
@@ -323,21 +328,23 @@ const BuyInsurancePersonalComponent = () => {
     }
 
     const handleTab = (value) => {
-        setTab(value)
+        console.log('value>>>',value);
+        setTab(value);
+        dispatch(selectPackage(value));
     }
     return (
         <div className='insurance-content'>
             <ul className="justify-content-center nav nav-tabs" role="tablist">
-                <li className={(tab === configTab.single) ? "nav-item active" : "nav-item"} role="presentation" onClick={() => handleTab(configTab.single)}>
+                <li className={(tab === configDefault.configTab.single) ? "nav-item active" : "nav-item"} role="presentation" onClick={() => handleTab(configDefault.configTab.single)}>
                     <a type="button" id="tab-single" role="tab" data-rr-ui-event-key="single" aria-controls="tab-single" aria-selected="true" className="nav-link active">Tham gia gói cá nhân</a>
                 </li>
-                <li className={(tab === configTab.group) ? "nav-item active" : "nav-item"} role="presentation" onClick={() => handleTab(configTab.group)}>
+                <li className={(tab === configDefault.configTab.group) ? "nav-item active" : "nav-item"} role="presentation" onClick={() => handleTab(configDefault.configTab.group)}>
                     <a type="button" id="tab-group" role="tab" data-rr-ui-event-key="group" aria-controls="tab-group" tabIndex="-1" className="nav-link">Tham gia theo nhóm</a>
                 </li>
             </ul>
             <div className="tab-content">
                 {
-                    (tab === configTab.single) &&
+                    (tab === configDefault.configTab.single) &&
                     <div role="tabpanel" id="tab-single" aria-labelledby="tab-single" >
                         {
                             (!isStringNullOrEmpty(statusPayment)) ?
@@ -356,10 +363,10 @@ const BuyInsurancePersonalComponent = () => {
                     </div>
                 }
                 {
-                    (tab === configTab.group) &&
+                    (tab === configDefault.configTab.group) &&
                     <div role="tabpanel" id="tab-group" aria-labelledby="tab-group">
-                        <h3 className='text-muted'>Chức năng sẽ sớm ra mắt</h3>
-                        {/* <BuyInsuranceGroupComponent /> */}
+                        {/* <h3 className='text-muted'>Chức năng sẽ sớm ra mắt</h3> */}
+                        <BuyInsuranceGroupComponent />
                     </div>
                 }
 

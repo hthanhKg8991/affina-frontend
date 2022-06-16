@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Container, Form, Image, Nav, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import accessStyle from '../../../Assets';
 import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import configDefault from '../../../Config/app';
@@ -217,12 +218,12 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                         <span className="input-group-append">
                                             <button className="btn btn-search" type="button">
                                                 <Image
-                                                    src={require("../../../Assets/Images/public/icons/search.webp")}
+                                                    src={accessStyle.images.icons.search}
                                                     srcSet={`
-                                                    ${require('../../../Assets/Images/public/icons/search@2x.webp')} 2x, 
-                                                    ${require('../../../Assets/Images/public/icons/search@3x.webp')} 3x
+                                                    ${accessStyle.images.icons.search2x} 2x, 
+                                                    ${accessStyle.images.icons.search3x} 3x
                                                 `}
-                                                    alt="Logo Affina"
+                                                    alt="Logo search"
                                                     width={21}
                                                     height={21}
                                                 />
@@ -230,10 +231,10 @@ const BuyInsurancePersonalStep2Component = (props) => {
                                         </span>
                                         <button className="btn swap-vertical" type="button" onClick={handleSwap}>
                                             <Image
-                                                src={require("../../../Assets/Images/public/icons/swap-vertical.webp")}
+                                                src={accessStyle.images.icons.swapVertical}
                                                 srcSet={`
-                                                    ${require('../../../Assets/Images/public/icons/swap-vertical@2x.webp')} 2x, 
-                                                    ${require('../../../Assets/Images/public/icons/swap-vertical@3x.webp')} 3x
+                                                    ${accessStyle.images.icons.swapVertical2x} 2x, 
+                                                    ${accessStyle.images.icons.swapVertical3x} 3x
                                                 `}
                                                 alt="icon swap"
                                                 width={34}

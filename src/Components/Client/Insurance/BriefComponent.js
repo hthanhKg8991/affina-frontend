@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react'
 import { Form, Nav, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatPrepaidAmount, isEmptyArray, matchRound, percentage } from '../../../Common/Helper';
+import { formatPrepaidAmount, isEmptyArray, matchRound, percentage, tabByText } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { handleRemoveAdditional } from '../../../Reducers/Insurance/StepRedux';
 
@@ -12,9 +12,11 @@ const BriefComponent = (props) => {
     var amountFeeSecondary = 0;
     var amountTotal = 0;
     let amountFee = 0;
+    const { isPackage } = useSelector((state) => state.insurancePackagesRedux) || [];
 
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2 } = dataStep;
+    const { listPerson = [] } = step1;
     const { additional = [] } = step2;
     const { selectAdditional = [] } = props;
 
@@ -48,13 +50,19 @@ const BriefComponent = (props) => {
 
     return (
         <div className='insurance-sidebar bg-white sidebar-right-content my-sticky-top'>
-            <Form.Label className='justify-content-start'>Tóm tắt đơn bảo hiểm</Form.Label>
-            <label className='unit'> *Đơn vị: VNĐ</label>
+            <Form.Label className='justify-content-start d-flex'>Tóm tắt đơn bảo hiểm</Form.Label>
+            <Nav className='justify-content-between'>
+                <label className='unit'> *Đơn vị: VNĐ</label>
+                {
+                    props.isFlowPackage &&
+                    <label className='unit ms-auto'> Số lượng: {listPerson.length}</label>
+                }
+            </Nav>
             <Line type='dotted' />
             <div className='brief-info'>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Đối tượng bảo hiểm:</Nav.Item>
-                    <Nav.Item>Cá nhân</Nav.Item>
+                    <Nav.Item>{tabByText(isPackage)}</Nav.Item>
                 </Nav>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Ngày sinh:</Nav.Item>

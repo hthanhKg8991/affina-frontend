@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import PackagesApi from '../../Services/Apis/PackagesApi';
-import { createOrderResponse, createPaymentResponse, getAllSuppliersResponse, getOrderResponse, packagesGetAllResponse, packagesGetBySupplierResponse, packagesGetDetailResponse, postPackageBySupplierResponse, productGetByPackageResponse } from '../../Reducers/Insurance/PackagesRedux';
+import { createOrderResponse, getAllSuppliersResponse, getOrderResponse, packagesGetAllResponse, packagesGetBySupplierResponse, packagesGetDetailResponse, postPackageBySupplierResponse, productGetByPackageResponse } from '../../Reducers/Insurance/PackagesRedux';
+import {  createPaymentResponse } from '../../Reducers/Insurance/PaymentRedux';
 
 export function* getAllSuppliers() {
     try {

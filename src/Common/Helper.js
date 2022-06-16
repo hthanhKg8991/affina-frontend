@@ -1,4 +1,6 @@
 import moment from "moment";
+import configDefault from '../Config/app';
+
 import { persistor } from '../Store';
 export function checkAge(birthday) {
     let isFormatBirthday = moment(birthday).format('DD/MM/YYYY');
@@ -14,6 +16,25 @@ export function checkAge(birthday) {
         return false;
     }
 }
+export function viewTextAge(birthday) {
+    let isFormatBirthday = moment(birthday).format('DD/MM/YYYY');
+    let currentMoment = moment();
+    let oldMoment = moment(isFormatBirthday, 'DD/MM/YYYY');
+    let maxYear = currentMoment.diff(oldMoment, 'Year');
+    if (maxYear > 6 && maxYear <= 65) {
+        return "6 tuổi - 60 tuổi";
+    } else {
+        return "1 tháng - 6 tuổi";
+    }
+}
+
+export function checkDays(oldDay) {
+    let _oldDay = moment(oldDay);
+    let currentMoment = moment();
+    if (currentMoment.diff(_oldDay, 'days') >= 1)
+        return true;
+    return false;
+}
 export function checkAgeHadIdentity(birthday) {
     let isFormatBirthday = moment(birthday).format('DD/MM/YYYY');
     let currentMoment = moment();
@@ -27,7 +48,7 @@ export function checkAgeHadIdentity(birthday) {
 }
 
 export function resetStore() {
-    setTimeout(() => persistor.purge(), 200);
+    setTimeout(() => persistor.purge(), 1);
 }
 
 export function isViewMobile() {
@@ -128,6 +149,22 @@ export function genderByText(variable) {
             case '0':
             case 0:
                 return 'Nữ';
+            default:
+                return '';
+        }
+    } else {
+        return variable
+    }
+
+}
+export function tabByText(variable) {
+
+    if (!isStringNullOrEmpty(variable)) {
+        switch (variable) {
+            case configDefault.configTab.single:
+                return 'Cá nhân';
+            case configDefault.configTab.group:
+                return 'Nhóm';
             default:
                 return '';
         }
