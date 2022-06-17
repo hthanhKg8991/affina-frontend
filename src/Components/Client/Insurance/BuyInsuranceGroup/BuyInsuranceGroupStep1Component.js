@@ -33,7 +33,6 @@ const BuyInsuranceGroupStep1Component = (props) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState(0);
   const [birthday, setBirthday] = useState(formatIOSToDate());
-  const [isFile, setIsFile] = useState(false);
 
   const resetInputState = () => {
     setName("");
@@ -75,11 +74,8 @@ const BuyInsuranceGroupStep1Component = (props) => {
     console.log("ok");
     let file = event.target.files[0];
     console.log("listperson", file);
-    setIsFile(true);
   };
-  const handleSubmitFile = () => {
-    setIsFile(false);
-  };
+
   return (
     <div className="insurance-group-step1-content">
       <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
@@ -136,31 +132,19 @@ const BuyInsuranceGroupStep1Component = (props) => {
                 <br />
                 <small>Chỉ nhận file excel, dung lượng tối đa 10MB</small>
               </div>
-              {isFile ? (
-                <Button
-                  type="submit"
-                  className="button-submit"
-                  onClick={handleSubmitFile}
-                >
-                  <lable className="Chn-submit">SUBMIT</lable>
-                </Button>
-              ) : (
-                <>
-                  <input
-                    type="file"
-                    // accept="file_extension"
-                    name="uploadfile"
-                    id="listperson"
-                    hidden
-                    onChange={(e) => handleFile(e)}
-                  />{" "}
-                  <label for="listperson" className="button-load-file">
-                    <label for="listperson" className="Chn-file">
-                      Chọn file
-                    </label>
-                  </label>
-                </>
-              )}
+              <input
+                type="file"
+                // accept="file_extension"
+                name="uploadfile"
+                id="listperson"
+                hidden
+                onChange={(e) => handleFile(e)}
+              />{" "}
+              <label for="listperson" className="button-load-file">
+                <label for="listperson" className="Chn-file">
+                  Chọn file
+                </label>
+              </label>
             </Stack>
           </Col>
         </Row>
