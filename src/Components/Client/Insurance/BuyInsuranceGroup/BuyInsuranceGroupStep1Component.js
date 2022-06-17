@@ -23,6 +23,7 @@ import MaskedInput from "react-input-mask";
 import CommonComboBox from "../../../Common/CommonComboBox";
 import { handleAddPerson } from "../../../../Reducers/Insurance/StepRedux";
 import { useDispatch, useSelector } from "react-redux";
+import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.png";
 
 const BuyInsuranceGroupStep1Component = (props) => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState(0);
   const [birthday, setBirthday] = useState(formatIOSToDate());
+  const [isFile, setIsFile] = useState(false);
 
   const resetInputState = () => {
     setName("");
@@ -68,6 +70,16 @@ const BuyInsuranceGroupStep1Component = (props) => {
   };
 
   console.log("listPerson>>>", listPerson);
+
+  const handleFile = (event) => {
+    console.log("ok");
+    let file = event.target.files[0];
+    console.log("listperson", file);
+    setIsFile(true);
+  };
+  const handleSubmitFile = () => {
+    setIsFile(false);
+  };
   return (
     <div className="insurance-group-step1-content">
       <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
@@ -113,21 +125,42 @@ const BuyInsuranceGroupStep1Component = (props) => {
               direction="horizontal"
               className="box-upload justify-content-around"
             >
-              <i className="mdi mdi-cloud-upload-outline"></i>
+              <img
+                src={upLoad}
+                alt="not found"
+                style={{ marginBottom: "16px" }}
+              ></img>
               <div className="text-content-upload">
                 <span>Chọn file tải lên hoặc kéo thả để upload file </span>
                 <br />
                 <br />
                 <small>Chỉ nhận file excel, dung lượng tối đa 10MB</small>
               </div>
-              <Button
-                // variant={"outline-info"}
-                // disabled={props.validate}
-                // onClick={props.handleButtonContinue}
-                className="button-load-file"
-              >
-                <div class="Chn-file">Chọn file</div>
-              </Button>
+              {isFile ? (
+                <Button
+                  type="submit"
+                  className="button-submit"
+                  onClick={handleSubmitFile}
+                >
+                  <lable className="Chn-submit">SUBMIT</lable>
+                </Button>
+              ) : (
+                <>
+                  <input
+                    type="file"
+                    // accept="file_extension"
+                    name="uploadfile"
+                    id="listperson"
+                    hidden
+                    onChange={(e) => handleFile(e)}
+                  />{" "}
+                  <label for="listperson" className="button-load-file">
+                    <label for="listperson" className="Chn-file">
+                      Chọn file
+                    </label>
+                  </label>
+                </>
+              )}
             </Stack>
           </Col>
         </Row>
@@ -137,12 +170,13 @@ const BuyInsuranceGroupStep1Component = (props) => {
               style={{
                 display: "flex",
                 justifyContent: "center",
+                alignItems: "center",
                 marginTop: "30px",
                 marginBottom: "-10px",
               }}
             >
               <hr className="line-or-left" />
-              <span style={{ color: "#095efb" }}>Hoặc</span>
+              <span style={{ color: "#095efb", fontSize: "16px" }}>Hoặc</span>
               <hr className="line-or-right" />
             </div>
             <div
