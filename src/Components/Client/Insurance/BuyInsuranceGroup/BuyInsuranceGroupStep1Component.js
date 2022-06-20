@@ -22,7 +22,10 @@ import CommonButtonInsurance from "../CommonButtonInsurance";
 import DatePicker from "react-datepicker";
 import MaskedInput from "react-input-mask";
 import CommonComboBox from "../../../Common/CommonComboBox";
-import { handleAddPerson } from "../../../../Reducers/Insurance/StepRedux";
+import {
+  handleAddPerson,
+  handleRemovePersonFromGroup,
+} from "../../../../Reducers/Insurance/StepRedux";
 import { useDispatch, useSelector } from "react-redux";
 import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.png";
 import TemplateImportDataGruop from "../../../../Assets/FileExcelMau/TemplateImportDataGruop.xlsx";
@@ -81,12 +84,19 @@ const BuyInsuranceGroupStep1Component = (props) => {
   };
 
   const handleEdit = () => {
-    console.log("edit ok");
+    console.log(listPerson);
   };
 
+  const handleDelete = (index) => {
+    dispatch(handleRemovePersonFromGroup(index));
+  };
   return (
     <div className="insurance-group-step1-content">
-      <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
+      {listPerson.length > 0 ? (
+        ""
+      ) : (
+        <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
+      )}
       <Container>
         <Row>
           <Col md={10} sm={10} xs={12} className="m-auto">
@@ -118,7 +128,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
                           <MuiButton onClick={handleEdit}>
                             <img src={edit} alt="not found"></img>
                           </MuiButton>
-                          <MuiButton>
+                          <MuiButton onClick={() => handleDelete(index)}>
                             <img src={deleted} alt="not found"></img>
                           </MuiButton>
                         </div>

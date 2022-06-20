@@ -114,6 +114,13 @@ const InsuranceSlice = createSlice({
       );
       state.dataStep.step2.additional.splice(removeId, 1);
     },
+    handleRemovePersonFromGroup(state, action) {
+      const index = action.payload;
+      //   const removeId = state.dataStep.step1.listPerson.findIndex(
+      //     (item) => item._id === action.payload
+      //   );
+      state.dataStep.step1.listPerson.splice(index, 1);
+    },
     handleCurrentStep(state, action) {
       console.log("handleCurrentStep::", action);
       state.currentStep = action.payload.currentStep;
@@ -151,5 +158,6 @@ export const {
   handleRemoveAdditional,
   resetAdditionalState,
   handleAddPerson,
+  handleRemovePersonFromGroup,
 } = InsuranceSlice.actions;
 export default InsuranceSlice.reducer;
