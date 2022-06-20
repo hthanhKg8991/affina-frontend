@@ -3,20 +3,6 @@ import configDefault from "../Config/app";
 import { persistor } from "../Store";
 
 export function checkAge(birthday) {
-<<<<<<< Updated upstream
-    let isFormatBirthday = moment(birthday, 'DD/MM/YYYY').format('DD/MM/YYYY');
-    let currentMoment = moment();
-    let oldMoment = moment(isFormatBirthday, 'DD/MM/YYYY');
-    let minDays = currentMoment.diff(oldMoment, 'days');
-    let maxYear = currentMoment.diff(oldMoment, 'Year');
-    console.log('minDays>>>', isFormatBirthday, minDays);
-    console.log('maxYear>>>', maxYear);
-    if (minDays >= 30 && maxYear <= 65) {
-        return true;
-    } else {
-        return false;
-    }
-=======
   let isFormatBirthday = moment(birthday, "DD/MM/YYYY").format("DD/MM/YYYY");
   console.log(typeof isFormatBirthday);
   let currentMoment = moment();
@@ -30,7 +16,6 @@ export function checkAge(birthday) {
   } else {
     return false;
   }
->>>>>>> Stashed changes
 }
 export function viewTextAge(birthday) {
   let isFormatBirthday = moment(birthday).format("DD/MM/YYYY");
