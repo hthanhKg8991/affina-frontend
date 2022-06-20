@@ -3,7 +3,7 @@ import configDefault from '../Config/app';
 
 import { persistor } from '../Store';
 export function checkAge(birthday) {
-    let isFormatBirthday = moment(birthday).format('DD/MM/YYYY');
+    let isFormatBirthday = moment(birthday, 'DD/MM/YYYY').format('DD/MM/YYYY');
     let currentMoment = moment();
     let oldMoment = moment(isFormatBirthday, 'DD/MM/YYYY');
     let minDays = currentMoment.diff(oldMoment, 'days');
