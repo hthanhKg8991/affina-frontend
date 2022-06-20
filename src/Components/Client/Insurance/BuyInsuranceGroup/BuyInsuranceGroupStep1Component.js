@@ -10,6 +10,7 @@ import {
   Table,
   FormLabel,
 } from "react-bootstrap";
+import { Button as MuiButton } from "@mui/material";
 import {
   formatIOSToDate,
   genderByText,
@@ -24,6 +25,9 @@ import CommonComboBox from "../../../Common/CommonComboBox";
 import { handleAddPerson } from "../../../../Reducers/Insurance/StepRedux";
 import { useDispatch, useSelector } from "react-redux";
 import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.png";
+import TemplateImportDataGruop from "../../../../Assets/FileExcelMau/TemplateImportDataGruop.xlsx";
+import edit from "../../../../Assets/Images/public/icons/edit.webp";
+import deleted from "../../../../Assets/Images/public/icons/delete.png";
 
 const BuyInsuranceGroupStep1Component = (props) => {
   const dispatch = useDispatch();
@@ -76,56 +80,74 @@ const BuyInsuranceGroupStep1Component = (props) => {
     console.log("listperson", file);
   };
 
+  const handleEdit = () => {
+    console.log("edit ok");
+  };
+
   return (
     <div className="insurance-group-step1-content">
       <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
       <Container>
-        {/* <Row>
-                    <Col md={10} sm={10} xs={12} className='m-auto'>
-                        <Table responsive="sm" className="text-left">
-                            <thead>
-                                <tr>
-                                    <th>Tên</th>
-                                    <th>Năm sinh</th>
-                                    <th>Giới tính</th>
-                                    <th>Điều kiện</th>
-                                    <th>Ghi chú</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    listPerson.map((item, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                <td>{item.name}</td>
-                                                <td>{item.birthday}</td>
-                                                <td>{genderByText(item.gender)}</td>
-                                                <td>{item.isEligible}</td>
-                                                <td>Table cell</td>
-                                            </tr>
-                                        )
-
-                                    })
-                                }
-
-
-                            </tbody>
-                        </Table>
-
-
-                    </Col>
-                </Row> */}
+        <Row>
+          <Col md={10} sm={10} xs={12} className="m-auto">
+            <Table responsive="sm" className="text-left">
+              <thead>
+                <tr>
+                  <th>Tên</th>
+                  <th>Năm sinh</th>
+                  <th>Giới tính</th>
+                  <th>Điều kiện</th>
+                  <th>Ghi chú</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listPerson.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{item.name}</td>
+                      <td>{item.birthday}</td>
+                      <td>{genderByText(item.gender)}</td>
+                      <td>{item.isEligible}</td>
+                      <td>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                          }}
+                        >
+                          <MuiButton onClick={handleEdit}>
+                            <img src={edit} alt="not found"></img>
+                          </MuiButton>
+                          <MuiButton>
+                            <img src={deleted} alt="not found"></img>
+                          </MuiButton>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
         <Row>
           <Col md={8} sm={8} xs={12}>
             <Stack
               direction="horizontal"
               className="box-upload justify-content-around"
             >
-              <img
-                src={upLoad}
-                alt="not found"
-                style={{ marginBottom: "16px" }}
-              ></img>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <a href={TemplateImportDataGruop} download>
+                  <img
+                    src={upLoad}
+                    alt="not found"
+                    style={{ marginBottom: "16px" }}
+                  ></img>
+                </a>
+                <a href={TemplateImportDataGruop} download>
+                  <small> Tải file mẫu </small>
+                </a>
+              </div>
               <div className="text-content-upload">
                 <span>Chọn file tải lên hoặc kéo thả để upload file </span>
                 <br />
@@ -138,7 +160,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
                 name="uploadfile"
                 id="listperson"
                 hidden
-                onChange={(e) => handleFile(e)}
+                // onChange={(e) => handleFile(e)}
               />{" "}
               <label for="listperson" className="button-load-file">
                 <label for="listperson" className="Chn-file">
