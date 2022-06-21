@@ -25,6 +25,7 @@ import CommonComboBox from "../../../Common/CommonComboBox";
 import {
   handleAddPerson,
   handleRemovePersonFromGroup,
+  handleUpdatePerson,
 } from "../../../../Reducers/Insurance/StepRedux";
 import { useDispatch, useSelector } from "react-redux";
 import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.png";
@@ -40,6 +41,8 @@ const BuyInsuranceGroupStep1Component = (props) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState(0);
   const [birthday, setBirthday] = useState(formatIOSToDate());
+  const [isEdit, setIsEdit] = useState(false);
+  const [indexDefaul, setIndexDefaul] = useState(-1);
 
   const resetInputState = () => {
     setName("");
@@ -68,6 +71,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
     );
     resetInputState();
   };
+
   const handleGoBack = () => {
     props.handleButtonGoBack && props.handleButtonGoBack();
   };
@@ -83,23 +87,36 @@ const BuyInsuranceGroupStep1Component = (props) => {
     console.log("listperson", file);
   };
 
-  const handleEdit = () => {
-    console.log(listPerson);
+  const handleEdit = (index) => {
+    setIndexDefaul(index);
+    setIsEdit(true);
   };
 
+  const handleUpdate = (index) => {
+    dispatch(
+      handleUpdatePerson({
+        index: index,
+        name: name,
+        gender: gender.key,
+        birthday: moment(birthday).format("DD/MM/YYYY"),
+      })
+    );
+    setIsEdit(false);
+    resetInputState();
+  };
   const handleDelete = (index) => {
     dispatch(handleRemovePersonFromGroup(index));
   };
   return (
     <div className="insurance-group-step1-content">
       {listPerson.length > 0 ? (
-        ""
+        <h4>Độ tuổi tham gia bảo hiểm từ 30 ngày tuổi đến 60 tuổi</h4>
       ) : (
         <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
       )}
       <Container>
         <Row>
-          <Col md={10} sm={10} xs={12} className="m-auto">
+          <Col md={12} sm={12} xs={12} className="m-auto">
             <Table responsive="sm" className="text-left">
               <thead>
                 <tr>
@@ -107,17 +124,86 @@ const BuyInsuranceGroupStep1Component = (props) => {
                   <th>Năm sinh</th>
                   <th>Giới tính</th>
                   <th>Điều kiện</th>
-                  <th>Ghi chú</th>
+                  <th>Ghi Chú</th>
                 </tr>
               </thead>
               <tbody>
                 {listPerson.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td>{item.name}</td>
-                      <td>{item.birthday}</td>
-                      <td>{genderByText(item.gender)}</td>
-                      <td>{item.isEligible}</td>
+                      <td style={{ paddingLeft: "0", paddingRight: "0" }}>
+                        {isEdit && indexDefaul === index ? (
+                          <CommonInput
+                            require={true}
+                            // label="Họ và tên"
+                            hint={item.name}
+                            defaultValue={name}
+                            value={name}
+                            onChange={(e) => handleName(e)}
+                          />
+                        ) : (
+                          item.name
+                        )}
+                      </td>
+                      <td style={{ paddingLeft: "0", paddingRight: "0" }}>
+                        {isEdit && indexDefaul === index ? (
+                          <div className="box-input box-input-active">
+                            {/* <FormLabel>
+                              <small className="text-danger">*</small>Ngày sinh
+                            </FormLabel> */}
+                            <DatePicker
+                              className="form-control"
+                              selected={birthday}
+                              onChange={(date) => onChangeBirthday(date)}
+                              placeholderText={item.birthday}
+                              dateFormat="dd/MM/yyyy"
+                              // minDate={new Date()}
+                              customInput={<MaskedInput mask="99/99/9999" />}
+                            />
+                          </div>
+                        ) : (
+                          item.birthday
+                        )}
+                      </td>
+                      <td style={{ paddingLeft: "0", paddingRight: "0" }}>
+                        {isEdit && indexDefaul === index ? (
+                          <CommonComboBox
+                            isSearch={false}
+                            require={true}
+                            data={[
+                              {
+                                key: "1",
+                                value: "Nam",
+                              },
+                              {
+                                key: "0",
+                                value: "Nữ",
+                              },
+                            ]}
+                            readOnly={false}
+                            viewValue="value"
+                            value={gender.value}
+                            defaultValue={gender.value}
+                            // label="Giới tính"
+                            hint={genderByText(item.gender)}
+                            onChange={(e) => onChangeGender(e)}
+                          />
+                        ) : (
+                          genderByText(item.gender)
+                        )}
+                      </td>
+                      <td>
+                        <div
+                          style={{
+                            color:
+                              item.isEligible === "Đủ điều kiện"
+                                ? "black"
+                                : "red",
+                          }}
+                        >
+                          {item.isEligible}
+                        </div>
+                      </td>
                       <td>
                         <div
                           style={{
@@ -125,12 +211,29 @@ const BuyInsuranceGroupStep1Component = (props) => {
                             justifyContent: "space-around",
                           }}
                         >
-                          <MuiButton onClick={handleEdit}>
-                            <img src={edit} alt="not found"></img>
-                          </MuiButton>
-                          <MuiButton onClick={() => handleDelete(index)}>
-                            <img src={deleted} alt="not found"></img>
-                          </MuiButton>
+                          {isEdit && indexDefaul === index ? (
+                            <>
+                              <MuiButton
+                                variant="outlined"
+                                disabled={validate([name, gender, birthday])}
+                                onClick={() => handleUpdate(index)}
+                              >
+                                <div style={{ fontWeight: "600" }}>Update</div>
+                              </MuiButton>
+                              <MuiButton onClick={() => handleDelete(index)}>
+                                <img src={deleted} alt="not found"></img>
+                              </MuiButton>
+                            </>
+                          ) : (
+                            <>
+                              <MuiButton onClick={() => handleEdit(index)}>
+                                <img src={edit} alt="not found"></img>
+                              </MuiButton>
+                              <MuiButton onClick={() => handleDelete(index)}>
+                                <img src={deleted} alt="not found"></img>
+                              </MuiButton>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
