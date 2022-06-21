@@ -123,7 +123,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
   return (
     <div className="insurance-group-step1-content">
       {listPerson.length > 0 ? (
-        <h4>Độ tuổi tham gia bảo hiểm từ 30 ngày tuổi đến 60 tuổi</h4>
+        <h4>Kiểm tra thông tin</h4>
       ) : (
         <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
       )}
