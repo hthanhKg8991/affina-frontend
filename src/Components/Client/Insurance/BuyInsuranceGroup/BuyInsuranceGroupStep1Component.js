@@ -22,7 +22,11 @@ import CommonButtonInsurance from "../CommonButtonInsurance";
 import DatePicker from "react-datepicker";
 import MaskedInput from "react-input-mask";
 import CommonComboBox from "../../../Common/CommonComboBox";
-import { handleAddPerson, handleUpdatePerson, handleRemovePersonFromGroup } from "../../../../Reducers/Insurance/GroupStepRedux";
+import {
+  handleAddPerson,
+  handleUpdatePerson,
+  handleRemovePersonFromGroup,
+} from "../../../../Reducers/Insurance/GroupStepRedux";
 import { useDispatch, useSelector } from "react-redux";
 import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.png";
 import TemplateImportDataGruop from "../../../../Assets/FileExcelMau/TemplateImportDataGruop.xlsx";
@@ -60,7 +64,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
   const handleAdd = () => {
     dispatch(
       handleAddPerson({
-        id: listPerson.length +1,
+        id: listPerson.length + 1,
         name: name,
         gender: gender.key,
         birthday: moment(birthday).format("DD/MM/YYYY"),
@@ -116,6 +120,17 @@ const BuyInsuranceGroupStep1Component = (props) => {
   };
   const handleDelete = (index) => {
     dispatch(handleRemovePersonFromGroup(index));
+  };
+
+  const checkCondition = () => {
+    const isCondition = listPerson.find(
+      (person) => person.isEligible === "Không đủ điều kiện"
+    );
+    if (isCondition) {
+      return false;
+    } else {
+      return true;
+    }
   };
   return (
     <div className="insurance-group-step1-content">
@@ -381,7 +396,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
       <CommonButtonInsurance
         textButtonGoBack="QUAY VỀ TRANG CHỦ"
         textButtonContinue="TIẾP TỤC"
-        validate={validate([listPerson.length > 0])}
+        validate={validate([listPerson.length > 0, checkCondition() === true])}
         handleButtonGoBack={handleGoBack}
         handleButtonContinue={handleContinue}
         // paidAmount={step2.paidAmount}
