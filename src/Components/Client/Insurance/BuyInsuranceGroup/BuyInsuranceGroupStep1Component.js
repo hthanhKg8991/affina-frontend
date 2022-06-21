@@ -22,10 +22,7 @@ import CommonButtonInsurance from "../CommonButtonInsurance";
 import DatePicker from "react-datepicker";
 import MaskedInput from "react-input-mask";
 import CommonComboBox from "../../../Common/CommonComboBox";
-import {
-  handleRemovePersonFromGroup,
-} from "../../../../Reducers/Insurance/StepRedux";
-import { handleAddPerson, handleUpdatePerson } from "../../../../Reducers/Insurance/GroupStepRedux";
+import { handleAddPerson, handleUpdatePerson, handleRemovePersonFromGroup } from "../../../../Reducers/Insurance/GroupStepRedux";
 import { useDispatch, useSelector } from "react-redux";
 import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.png";
 import TemplateImportDataGruop from "../../../../Assets/FileExcelMau/TemplateImportDataGruop.xlsx";

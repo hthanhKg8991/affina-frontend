@@ -26,8 +26,8 @@ const InsuranceSlice = createSlice({
         resetState: () => initialState,
         handleAddPerson: (state, action) => {
             const { dataStep = {} } = state;
-            const { step1 = {}, gender = "", birthday } = dataStep;
-            const { listPerson = [] } = step1;
+            const { groupStep1 = {} } = dataStep;
+            const { listPerson = [] } = groupStep1;
             var verifyItem = {};
             var dataPayload = action.payload;
             console.log("birthday", dataPayload.birthday);
@@ -43,8 +43,8 @@ const InsuranceSlice = createSlice({
 
         handleUpdatePerson: (state, action) => {
             const { dataStep = {} } = state;
-            const { step1 = {}, gender = "", birthday } = dataStep;
-            const { listPerson = [] } = step1;
+            const { groupStep1 = {} } = dataStep;
+            const { listPerson = [] } = groupStep1;
             var verifyItem = {};
             var dataPayload = action.payload;
             const ConditionAge = checkAge(dataPayload.birthday);
@@ -56,6 +56,13 @@ const InsuranceSlice = createSlice({
             state.dataStep.groupStep1.listPerson[dataPayload.index] = dataPayload;
             // state.dataStep.step1.listPerson = [...listPerson, dataPayload];
             console.log("action.payload>>>", action.payload, listPerson);
+        },
+        handleRemovePersonFromGroup(state, action) {
+            const index = action.payload;
+            //   const removeId = state.dataStep.step1.listPerson.findIndex(
+            //     (item) => item._id === action.payload
+            //   );
+            state.dataStep.groupStep1.listPerson.splice(index, 1);
         },
         handleSelectItem: (state, action) => {
             state.dataStep.groupStep1.personDetail = state.dataStep.groupStep1.listPerson.find(element => element.id === action.payload)
@@ -84,6 +91,7 @@ export const {
     handleGroupStep1,
     handleAddPerson,
     handleUpdatePerson,
+    handleRemovePersonFromGroup,
     handleSelectItem,
     pushItem,
     pushAdditionalItem,
