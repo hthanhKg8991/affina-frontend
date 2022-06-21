@@ -129,38 +129,8 @@ const InsuranceSlice = createSlice({
     resetAdditionalState: (state) => {
       state.dataStep.step2.additional = [];
     },
-    handleAddPerson: (state, action) => {
-      const { dataStep = {} } = state;
-      const { step1 = {}, gender = "", birthday } = dataStep;
-      const { listPerson = [] } = step1;
-      var verifyItem = {};
-      var dataPayload = action.payload;
-      console.log("birthday", dataPayload.birthday);
-      const ConditionAge = checkAge(dataPayload.birthday);
-      if (ConditionAge) {
-        dataPayload.isEligible = "Đủ điều kiện";
-      } else {
-        dataPayload.isEligible = "Không đủ điều kiện";
-      }
-      state.dataStep.step1.listPerson = [...listPerson, dataPayload];
-      console.log("action.payload>>>", action.payload, listPerson);
-    },
-    handleUpdatePerson: (state, action) => {
-      const { dataStep = {} } = state;
-      const { step1 = {}, gender = "", birthday } = dataStep;
-      const { listPerson = [] } = step1;
-      var verifyItem = {};
-      var dataPayload = action.payload;
-      const ConditionAge = checkAge(dataPayload.birthday);
-      if (ConditionAge) {
-        dataPayload.isEligible = "Đủ điều kiện";
-      } else {
-        dataPayload.isEligible = "Không đủ điều kiện";
-      }
-      state.dataStep.step1.listPerson[dataPayload.index] = dataPayload;
-      // state.dataStep.step1.listPerson = [...listPerson, dataPayload];
-      console.log("action.payload>>>", action.payload, listPerson);
-    },
+    
+    
 
     resetState: () => initialState,
   },
@@ -174,7 +144,6 @@ export const {
   handleCurrentStep,
   handleRemoveAdditional,
   resetAdditionalState,
-  handleAddPerson,
   handleRemovePersonFromGroup,
   handleUpdatePerson,
 } = InsuranceSlice.actions;

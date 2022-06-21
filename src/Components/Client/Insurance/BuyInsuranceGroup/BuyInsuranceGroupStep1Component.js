@@ -23,10 +23,9 @@ import DatePicker from "react-datepicker";
 import MaskedInput from "react-input-mask";
 import CommonComboBox from "../../../Common/CommonComboBox";
 import {
-  handleAddPerson,
   handleRemovePersonFromGroup,
-  handleUpdatePerson,
 } from "../../../../Reducers/Insurance/StepRedux";
+import { handleAddPerson, handleUpdatePerson } from "../../../../Reducers/Insurance/GroupStepRedux";
 import { useDispatch, useSelector } from "react-redux";
 import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.png";
 import TemplateImportDataGruop from "../../../../Assets/FileExcelMau/TemplateImportDataGruop.xlsx";
@@ -35,9 +34,9 @@ import deleted from "../../../../Assets/Images/public/icons/delete.png";
 
 const BuyInsuranceGroupStep1Component = (props) => {
   const dispatch = useDispatch();
-  const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
-  const { step1 } = dataStep;
-  const { listPerson = [] } = step1;
+  const { dataStep } = useSelector((state) => state.InsuranceGroup) || [];
+  const { groupStep1 } = dataStep;
+  const { listPerson = [] } = groupStep1;
   const [name, setName] = useState("");
   const [gender, setGender] = useState(0);
   const [birthday, setBirthday] = useState(formatIOSToDate());
@@ -64,9 +63,23 @@ const BuyInsuranceGroupStep1Component = (props) => {
   const handleAdd = () => {
     dispatch(
       handleAddPerson({
+        id: listPerson.length +1,
         name: name,
         gender: gender.key,
         birthday: moment(birthday).format("DD/MM/YYYY"),
+        identity: "",
+        phone: "",
+        email: "",
+        duration: "",
+        createdate: "",
+        province: "",
+        district: "",
+        ward: "",
+        address: "",
+        isBilling: false,
+        companyname: "",
+        taxnumber: "",
+        companyaddress: "",
       })
     );
     resetInputState();

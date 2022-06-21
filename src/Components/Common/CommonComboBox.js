@@ -75,7 +75,7 @@ const CommonComboBox = (props) => {
                         >
                             <div className='select-hint' onClick={() => handleIsDrop(true)} >
                                 <Stack direction="horizontal">
-                                    {props.hint}
+                                    <small className="textOverflow">{props.hint}</small>
                                     {
                                         isDrop ?
                                             <i className="mdi mdi-chevron-up ms-auto"></i>

@@ -59,12 +59,12 @@ const BuyInsuranceGroupComponent = () => {
           />
         );
       default:
-        return (
-          <BuyInsuranceGroupStep1Component
-            handleButtonGoBack={handleButtonGoBack}
-            handleButtonContinue={handleButtonContinue}
-          />
-        );
+        // return (
+        //   <BuyInsuranceGroupStep1Component
+        //     handleButtonGoBack={handleButtonGoBack}
+        //     handleButtonContinue={handleButtonContinue}
+        //   />
+        // );
     }
   };
   return (

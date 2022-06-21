@@ -204,7 +204,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Số CMND / CCCD / Passport</p>
-                                    <strong>{isCheckContractNum(step3.identity, 'identity')}</strong>
+                                    <strong>{isCheckContractNum(step3.identity, 'id_card')}</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2' />
                             </Row>

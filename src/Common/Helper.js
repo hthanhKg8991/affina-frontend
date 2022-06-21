@@ -3,19 +3,19 @@ import configDefault from "../Config/app";
 import { persistor } from "../Store";
 
 export function checkAge(birthday) {
-  let isFormatBirthday = moment(birthday, "DD/MM/YYYY").format("DD/MM/YYYY");
-  console.log(typeof isFormatBirthday);
-  let currentMoment = moment();
-  let oldMoment = moment(isFormatBirthday, "DD/MM/YYYY");
-  let minDays = currentMoment.diff(oldMoment, "days");
-  let maxYear = currentMoment.diff(oldMoment, "Year");
-  console.log("minDays>>>", isFormatBirthday, minDays);
-  console.log("maxYear>>>", maxYear);
-  if (minDays >= 30 && maxYear <= 60) {
-    return true;
-  } else {
-    return false;
-  }
+    let isFormatBirthday = moment(birthday, 'DD/MM/YYYY').format('DD/MM/YYYY');
+    let currentMoment = moment();
+    let oldMoment = moment(isFormatBirthday, 'DD/MM/YYYY');
+    let minDays = currentMoment.diff(oldMoment, 'days');
+    let maxYear = currentMoment.diff(oldMoment, 'Year');
+    console.log('birthday>>>', birthday);
+    console.log('minDays>>>', isFormatBirthday, minDays);
+    console.log('maxYear>>>', maxYear);
+    if (minDays >= 30 && maxYear <= 65) {
+        return true;
+    } else {
+        return false;
+    }
 }
 export function viewTextAge(birthday) {
   let isFormatBirthday = moment(birthday).format("DD/MM/YYYY");
@@ -268,4 +268,50 @@ export function matchRound(amount) {
     // return Math.ceil(amount)
     return roundUp(amount, -3);
   }
+}
+
+export function getSuplierName(array) {
+    if (!Array.isArray(array)) return true;
+    let listSuplierName = [];
+    array.forEach((item, index) => {
+        if (item.packacge) {
+            let suplierName = item.packacge && item.packacge.supplier && item.packacge.supplier.name;
+            listSuplierName = [...listSuplierName, suplierName]
+        }
+    });
+    return listSuplierName.join(", ");
+}
+export function getPackageDetail(array) {
+    if (!Array.isArray(array)) return true;
+    let occurrences = {};
+    let listPackage = {};
+    let listPackageAray = [];
+    let count = 1;
+    var totalFee = 0;
+    array.forEach((item, index) => {
+        if (item.packacge) {
+            listPackage = {
+                name: item.packacge && item.packacge.name,
+                price: item.packacge && item.packacge.price,
+            }
+            return listPackageAray.push(listPackage);
+        }
+    });
+    var packageDetail = listPackageAray.filter((x) => {
+        if (occurrences[x.name]) {
+            count++;
+            occurrences[x.name].price += x.price;
+            occurrences[x.name].count = count;
+            totalFee += x.price;
+            return false;
+        }
+        occurrences[x.name] = x;
+        occurrences[x.name].count = 1
+        totalFee += x.price
+        return true;
+    });
+    // listPackageAray.some()
+    // console.log('listPackageAray>>', listPackageAray);
+    // console.log('listPackageAray>>demo', packageData);
+    return { packageDetail, totalFee };
 }

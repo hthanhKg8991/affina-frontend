@@ -8,13 +8,13 @@ import logger from "redux-logger";
 import rootReducers from "../Reducers/index";
 import rootSaga from "../Saga/index";
 const sagaMiddleware = createSagaMiddleware();
-function noop() {}
+// function noop() {}
 // console.log = noop;
-console.warn = noop;
-console.error = noop;
-const middleware = [sagaMiddleware];
+// console.warn = noop;
+// console.error = noop;
+// const middleware = [sagaMiddleware];
 
-// const middleware = [sagaMiddleware, logger];
+const middleware = [sagaMiddleware, logger];
 // const middleware = [sagaMiddleware];
 
 var secretKey = "Affina@123#-^+=";

@@ -484,3 +484,20 @@ button,
   margin-left: 0.625rem;
   cursor: pointer;
 }
+.textOverflow{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-package-list{
+  li{
+    display: flex;
+    align-items: center;
+    position: relative;
+    i{
+      font-size: 1.875rem;
+      position: absolute;
+      left: -1.5625rem
+    }
+  }
+}
