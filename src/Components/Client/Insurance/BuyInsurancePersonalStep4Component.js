@@ -359,7 +359,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([paymentPort, checkAge(step1.birthday)])}
+                validate={validate([paymentPort, checkAge(step1.birthday.format("DD/MM/YYYY"))])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
                 paidAmount={step2.paidAmount}
