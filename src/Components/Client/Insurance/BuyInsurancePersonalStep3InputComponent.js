@@ -155,12 +155,14 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 "quantily": "",
                 "fee_primary_package": step2.fee,
                 "additional": JSON.stringify(step2.additional),
+                "package_main": JSON.stringify(step2.packageMain),
                 "fee_additional_package_5": "",
                 "fee_additional_package_6": "",
                 "fee_additional_package_7": "",
                 "fee_additional_package_8": "",
                 "total_additional_fee": step2.totalAdditionalFee,
                 "total_insurance_fee": step2.intoMoney,
+                "amount_insured": step2.intoMoneyAmount,
                 "total_group_insurance_fee": ""
             },
             "contract_detail": {

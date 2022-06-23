@@ -270,34 +270,34 @@ export function matchRound(amount) {
   }
 }
 
-export function getSuplierName(array) {
+export function getSupplierName(array) {
     if (!Array.isArray(array)) return true;
-    let listSuplierName = [];
+    let listSupplierName = [];
     array.forEach((item, index) => {
-        if (item.packacge) {
-            let suplierName = item.packacge && item.packacge.supplier && item.packacge.supplier.name;
-            listSuplierName = [...listSuplierName, suplierName]
+        if (item.package) {
+            let supplierName = item.package && item.package.supplier && item.package.supplier.name;
+            listSupplierName = [...listSupplierName, supplierName]
         }
     });
-    return listSuplierName.join(", ");
+    return listSupplierName.join(", ");
 }
 export function getPackageDetail(array) {
     if (!Array.isArray(array)) return true;
     let occurrences = {};
     let listPackage = {};
-    let listPackageAray = [];
+    let listPackageArray = [];
     let count = 1;
     var totalFee = 0;
     array.forEach((item, index) => {
-        if (item.packacge) {
+        if (item.package) {
             listPackage = {
-                name: item.packacge && item.packacge.name,
-                price: item.packacge && item.packacge.price,
+                name: item.package && item.package.name,
+                price: item.package && item.package.price,
             }
-            return listPackageAray.push(listPackage);
+            return listPackageArray.push(listPackage);
         }
     });
-    var packageDetail = listPackageAray.filter((x) => {
+    var packageDetail = listPackageArray.filter((x) => {
         if (occurrences[x.name]) {
             count++;
             occurrences[x.name].price += x.price;
@@ -310,8 +310,8 @@ export function getPackageDetail(array) {
         totalFee += x.price
         return true;
     });
-    // listPackageAray.some()
-    // console.log('listPackageAray>>', listPackageAray);
-    // console.log('listPackageAray>>demo', packageData);
+    // listPackageArray.some()
+    // console.log('listPackageArray>>', listPackageArray);
+    // console.log('listPackageArray>>demo', packageData);
     return { packageDetail, totalFee };
 }

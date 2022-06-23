@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react'
 import { Form, Nav, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatPrepaidAmount, getPackageDetail, getSuplierName, isEmptyArray, matchRound, percentage, tabByText } from '../../../Common/Helper';
+import { formatPrepaidAmount, getPackageDetail, getSupplierName, isEmptyArray, matchRound, percentage, tabByText } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { handleRemoveAdditional } from '../../../Reducers/Insurance/StepRedux';
 
@@ -57,7 +57,7 @@ const BriefComponent = (props) => {
 
                 <Nav className='justify-content-between'>
                     <Nav.Item>Nhà bảo hiểm:</Nav.Item>
-                    <Nav.Item>{getSuplierName(listPerson)}</Nav.Item>
+                    <Nav.Item>{getSupplierName(listPerson)}</Nav.Item>
                 </Nav>
                 <Nav className='justify-content-between d-block'>
                     <Nav.Item>Tên gói: </Nav.Item>

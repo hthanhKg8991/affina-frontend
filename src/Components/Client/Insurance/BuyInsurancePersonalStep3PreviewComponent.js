@@ -4,7 +4,7 @@ import { Col, Container, Image, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty, matchRound } from '../../../Common/Helper';
+import { formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty, matchRound, validate } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createOrder, getOrderDetail } from '../../../Reducers/Insurance/PackagesRedux';
 import { handleStep1, handleStep2, handleStep3 } from '../../../Reducers/Insurance/StepRedux';
@@ -63,12 +63,14 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 "quantily": "",
                 "fee_primary_package": step2.fee,
                 "additional": JSON.stringify(step2.additional),
+                "package_main": JSON.stringify(step2.packageMain),
                 "fee_additional_package_5": "",
                 "fee_additional_package_6": "",
                 "fee_additional_package_7": "",
                 "fee_additional_package_8": "",
                 "total_additional_fee": step2.totalAdditionalFee,
                 "total_insurance_fee": step2.intoMoney,
+                "amount_insured": step2.intoMoneyAmount,
                 "total_group_insurance_fee": ""
             },
             "contract_detail": {
@@ -137,58 +139,78 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
         )
     }, [dispatch])
 
-    useMemo(() => {
-        const condition = orderDataDetail.insured_info || {};
-        const conditionBuyer = orderDataDetail.insurance_buyer || {};
-        const conditionContractDetail = orderDataDetail.contract_detail || {};
-        const conditionPackage = orderDataDetail.product_package || {};
-        if (!isStringNullOrEmpty(paramsSearch.get('contract_num'))) {
-            dispatch(
-                handleStep1({
-                    gender: condition.gender,
-                    birthday: moment(condition.birthday).format('DD/MM/YYYY'),
-                })
-            )
-            console.log('moment(conditionContractDetail.create_date).format()', moment(conditionContractDetail.create_date).format('DD/MM/YYYY'));
-            dispatch(
-                handleStep3({
-                    name: condition.fullname,
-                    identity: condition.id_card,
-                    address: condition.address,
-                    province: condition.province,
-                    district: condition.district,
-                    ward: condition.ward,
-                    email: conditionBuyer.email,
-                    phone: condition.phone,
-                    startDay: moment(conditionContractDetail.create_date),
-                    timeExpire: moment(conditionContractDetail.duration),
-                    companyName: condition.company_name,
-                    companyAddress: condition.company_address,
-                    taxNumber: condition.tax_number,
-                }),
-            );
-            dispatch(handleStep2({
-                // packageName: item.name,
-                // packageCode: item.package_code,
-                // price: item.price,
-                fee: conditionPackage.fee_primary_package,
-                // discount: item.discount,
-                // supplier: item.supplier,
-                additional: conditionPackage.additional,
-                // packageMain: item.package_main,
-                packageId: conditionPackage.package_id,
-            }))
-        }
-    }, []);
+    // useMemo(() => {
+    //     const condition = orderDataDetail.insured_info || {};
+    //     const conditionBuyer = orderDataDetail.insurance_buyer || {};
+    //     const conditionContractDetail = orderDataDetail.contract_detail || {};
+    //     const conditionPackage = orderDataDetail.product_package || {};
+    //     if (!isStringNullOrEmpty(paramsSearch.get('contract_num'))) {
+    //         dispatch(
+    //             handleStep1({
+    //                 gender: condition.gender,
+    //                 birthday: moment(condition.birthday).format('DD/MM/YYYY'),
+    //             })
+    //         )
+    //         console.log('moment(conditionContractDetail.create_date).format()', moment(conditionContractDetail.create_date).format('DD/MM/YYYY'));
+    //         dispatch(
+    //             handleStep3({
+    //                 name: condition.fullname,
+    //                 identity: condition.id_card,
+    //                 address: condition.address,
+    //                 province: condition.province,
+    //                 district: condition.district,
+    //                 ward: condition.ward,
+    //                 email: conditionBuyer.email,
+    //                 phone: condition.phone,
+    //                 startDay: moment(conditionContractDetail.create_date),
+    //                 timeExpire: moment(conditionContractDetail.duration),
+    //                 companyName: condition.company_name,
+    //                 companyAddress: condition.company_address,
+    //                 taxNumber: condition.tax_number,
+    //             }),
+    //         );
+    //         dispatch(handleStep2({
+    //             // packageName: item.name,
+    //             // packageCode: item.package_code,
+    //             // price: item.price,
+    //             fee: conditionPackage.fee_primary_package,
+    //             // discount: item.discount,
+    //             // supplier: item.supplier,
+    //             additional: conditionPackage.additional,
+    //             // packageMain: item.package_main,
+    //             packageId: conditionPackage.package_id,
+    //         }))
+    //     }
+    // }, []);
+
+    const isHasDataApi = ()=>{
+        return !isStringNullOrEmpty(paramsSearch.get('contract_num'))
+    }
 
     const isCheckContractNum = (value, isView) => {
-        if (!isStringNullOrEmpty(paramsSearch.get('contract_num'))) {
+        if (isHasDataApi()) {
             return orderDataDetail.insured_info && orderDataDetail.insured_info[isView]
         } else {
             return value;
         }
-
     }
+
+    const isCheckPackage = (value, isView) => {
+        if (isHasDataApi()) {
+            return orderDataDetail.product_package && orderDataDetail.product_package[isView]
+        } else {
+            return value;
+        }
+    }
+
+    const isCheckContractDetail = (value, isView) => {
+        if (isHasDataApi()) {
+            return orderDataDetail.contract_detail && orderDataDetail.contract_detail[isView]
+        } else {
+            return value;
+        }
+    }
+   
     return (
         <div className='insurance-content-step3-preview'>
             <h5>Kiểm tra lại thông tin </h5>
@@ -220,7 +242,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                             ${accessStyle.images.icons.edit3x} 3x
                                         `}
                                         className="cursor-pointer"
-                                        onClick={() => handleEditStep()}
+                                        onClick={() => isHasDataApi() ? {} : handleEditStep()}
                                         alt="icon edit"
                                         width={19}
                                         height={22}
@@ -236,16 +258,16 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Họ và tên</p>
-                                    <strong>{step3.name}</strong>
+                                    <strong>{isCheckContractNum(step3.name, 'fullname')}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Giới tính</p>
-                                    <strong>{genderByText(step1.gender)}</strong>
+                                    <strong>{genderByText(isCheckContractNum(step1.gender, 'gender'))}</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Ngày sinh</p>
-                                    <strong>{moment(step1.birthday).format('DD/MM/YYYY')}</strong>
+                                    <strong>{moment(isCheckContractNum(step1.birthday, 'birthday')).format('DD/MM/YYYY')}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Số CMND / CCCD / Passport</p>
@@ -280,12 +302,12 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <Col md={3} xs={12}>
                                     <p className='title-info'>Số điện thoại</p>
-                                    <strong>{step3.phone}</strong>
+                                    <strong>{isCheckContractNum(step3.phone, 'phone')}</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
                                 <Col md={3} xs={12}>
                                     <p className='title-info'>Email</p>
-                                    <strong>{step3.email}</strong>
+                                    <strong>{isCheckContractNum(step3.email, 'email')}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                 </Col>
@@ -325,7 +347,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                             ${accessStyle.images.icons.edit2x} 2x, 
                                             ${accessStyle.images.icons.edit3x} 3x
                                         `}
-                                        onClick={() => handleEditStep(2)}
+                                        onClick={() => isHasDataApi() ? {} : handleEditStep(2)}
                                         // onClick={() => props.handleButtonGoBack(2)}
                                         alt="icon edit"
                                         className="cursor-pointer"
@@ -362,11 +384,16 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Ngày bắt đầu bảo hiểm</p>
-                                    <strong>{moment(step3.startDay).add(1, 'days').format('DD/MM/YYYY')}</strong>
+                                    <strong>{moment(isCheckContractDetail(step3.startDay, 'create_date')).format('DD/MM/YYYY')}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Ngày hết hạn bảo hiểm</p>
-                                    <strong>{moment(step3.startDay).add(1, 'Year').format('DD/MM/YYYY')}</strong>
+                                    {
+                                        (!isStringNullOrEmpty(paramsSearch.get('contract_num'))) ?
+                                            <strong>{moment(isCheckContractDetail(step3.timeExpire.value, 'duration')).format('DD/MM/YYYY')}</strong>
+                                            :
+                                            <strong>{step3.timeExpire.value}</strong>
+                                    }
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
                                 <Col md={3} xs={6}>
@@ -396,9 +423,8 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                 <Col md={6} xs={12}>
                                     <p className='title-info'>Quyền lợi bổ sung </p>
                                     {
-                                        (!isEmptyArray(step2.additional)) &&
-                                        step2.additional.map((itemSecondary, index) => {
-                                            // amountSecondary += !isStringNullOrEmpty(itemSecondary.amount) ? parseInt((itemSecondary.amount * itemSecondary.rate) / 100) : 0
+                                        (!isEmptyArray(isCheckPackage(step2.additional, 'additional'))) &&
+                                        isCheckPackage(step2.additional, 'additional').map((itemSecondary, index) => {
                                             amountSecondary += itemSecondary.fee;
                                             return (
                                                 <div className='sub-info-insure' key={itemSecondary._id}>
@@ -415,17 +441,17 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Phí gói chính</p>
-                                    <strong>{formatPrepaidAmount(matchRound(step2.fee))}VNĐ</strong>
+                                    <strong>{formatPrepaidAmount(matchRound(isCheckPackage(step2.fee, 'fee_primary_package')))}VNĐ</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Tổng phí gói phụ</p>
                                     {/* <strong>{formatPrepaidAmount(matchRound(amountSecondary))}VNĐ</strong> */}
-                                    <strong>{formatPrepaidAmount(matchRound(step2.totalAdditionalFee))}VNĐ</strong>
+                                    <strong>{formatPrepaidAmount(matchRound(isCheckPackage(step2.totalAdditionalFee, 'total_additional_fee')))}VNĐ</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
                                 <Col md={3} xs={6}></Col>
                                 <Col md={3} xs={12} className="d-flex justify-content-end">
-                                    <div className='total'>TỔNG: <strong>{formatPrepaidAmount(matchRound(step2.paidAmount || 0))}VNĐ</strong></div>
+                                    <div className='total'>TỔNG: <strong>{formatPrepaidAmount(matchRound(isCheckPackage(step2.paidAmount || 0, 'total_insurance_fee')))}VNĐ</strong></div>
 
                                 </Col>
                             </Row>
@@ -439,6 +465,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 textButtonContinue='TIẾP TỤC'
                 // validate={validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward])}
                 validate={false}
+                validateGoBack={(!isStringNullOrEmpty(paramsSearch.get('contract_num'))) ? true : false}
                 handleButtonGoBack={handleGoBackButton}
                 handleButtonContinue={handleContinue}
             />

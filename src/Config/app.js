@@ -10,8 +10,8 @@ var configDefault = {
     FAILED: '10',
     MY_TRANSFER_QR: '11',
     configTab: {
-        single: 'tab-single',
-        group: 'tab-group',
+        single: 'single',
+        group: 'group',
     }
 }
 
