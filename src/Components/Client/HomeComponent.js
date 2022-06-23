@@ -218,11 +218,11 @@ const HomeComponent = () => {
           <Row>
             <Col md={6} sm={12} xs={12} data-aos="fade-right">
               <h3 className="protection-header-text text-gradient">
-                Đa đạng đối tượng tham gia, quyền lợi bảo vệ tối đa
+                Đa dạng đối tượng tham gia, quyền lợi bảo vệ tối đa
               </h3>
               <div className="protection-describe">
                 <p>
-                  - Đa đạng đối tượng tham gia, quyền lợi bảo vệ tối đa: Đặc
+                  - Đa dạng đối tượng tham gia, quyền lợi bảo vệ tối đa: Đặc
                   biệt với Benefits One - sản phẩm bảo hiểm toàn diện với 7
                   quyền lợi, bạn có thể tự thiết kế gói bảo hiểm theo nhu cầu
                   với mức phí linh hoạt dành cho mình, gia đình và những người
@@ -230,7 +230,7 @@ const HomeComponent = () => {
                 </p>
                 <p>
                   - Hãy chia sẻ với chúng tôi nhu cầu, tình trạng sức khỏe & tài
-                  chính của bạn, chắc chắn chung tôi sẽ tư vấn gói bảo hiểm
+                  chính của bạn, chắc chắn chúng tôi sẽ tư vấn gói bảo hiểm
                   Benefits One phù hợp nhất cho chính bạn, gia đình, người thân.
                 </p>
               </div>

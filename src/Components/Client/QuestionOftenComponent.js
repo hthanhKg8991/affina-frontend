@@ -64,7 +64,7 @@ function QuestionOftenComponent() {
                         <Accordion.Body>
                             <p>Trả lời:</p>
                             <ul>
-                                <li>Có, bạn có thể chọn một chương trình bảo hiểm cho các bệnh đã mắc từ trước của bố mẹ. Tùy thuộc vào thời gian chờ theo chương trình mà bạn đã chọn. Bạn nên chọn một chương trình bảo hiểm y tế có thời gian chờ đợi tối thiểu.
+                                <li>Có, bạn có thể chọn một chương trình bảo hiểm cho các bệnh đã mắc từ trước của bố mẹ. Tùy thuộc vào thời gian chờ theo chương trình mà bạn đã chọn. Bạn nên chọn một chương trình bảo hiểm sức khỏe có thời gian chờ đợi tối thiểu.
                                 </li>
                             </ul>
                         </Accordion.Body>
@@ -104,8 +104,8 @@ function QuestionOftenComponent() {
                                 <li>Khách hàng sẽ được cam kết được tham gia tái tục trong những năm tiếp theo</li>
                                 <li>Bệnh ung thư không bị loại trừ, bảo hiểm cho các bệnh hiểm nghèo</li>
                                 <li>Trẻ em được tham gia độc lập mà không cần đi kèm cha mẹ</li>
-                                <li>Bảo hiểm cho tất cả cơ sở y tế có giấy phép hợp pháp và cung cấp được chứng từ hợp.</li>
-                                <li>Bảo lãnh viện phí nhanh chóng trong vòng 30 phút với bảo lãnh ngoại trú và 24h với bảo lãnh nội trú với mạng lưới hơn 120 cơ sở y tế liên kết trên cả nước.</li>
+                                <li>Bảo hiểm cho tất cả cơ sở y tế có giấy phép hợp pháp và cung cấp được chứng từ hợp lệ.</li>
+                                <li>Bảo lãnh viện phí nhanh chóng trong vòng 30 phút với bảo lãnh ngoại trú và 24h với bảo lãnh nội trú với mạng lưới hơn 150 cơ sở y tế liên kết phủ rộng trên toàn quốc</li>
                                 <li>Mở rộng phạm vi địa lý toàn cầu để bạn tự do lựa chọn nơi điều trị phù hợp nhất</li>
                                 <li>Khách hàng hoàn toàn yên tâm rằng, Benefits one bảo vệ chúng ta trước những nguy cơ tiềm tàng như Covid-19, Biến chứng sau khi tiêm Vaccine</li>
                                 <li>Chương trình đa dạng về quyền lợi, mức phí nên bạn có nhiều sự lựa chọn</li>
