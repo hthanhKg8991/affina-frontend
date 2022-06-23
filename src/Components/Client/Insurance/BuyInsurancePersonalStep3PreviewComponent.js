@@ -362,11 +362,11 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Ngày bắt đầu bảo hiểm</p>
-                                    <strong>{moment(step3.startDay).format('DD/MM/YYYY')}</strong>
+                                    <strong>{moment(step3.startDay).add(1, 'days').format('DD/MM/YYYY')}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Ngày hết hạn bảo hiểm</p>
-                                    <strong>{step3.timeExpire.value}</strong>
+                                    <strong>{moment(step3.startDay).add(1, 'Year').format('DD/MM/YYYY')}</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
                                 <Col md={3} xs={6}>

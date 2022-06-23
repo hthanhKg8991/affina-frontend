@@ -94,9 +94,9 @@ function Footer() {
                     <Col lg md sm={12} xs={6}>
                         <h5 className="text-gradient">Hỗ trợ khách hàng</h5>
                         <Nav className="flex-column">
-                            <Nav.Item>
+                            {/* <Nav.Item>
                                 <Link to={SEND_REQUEST}>Trung tâm trợ giúp</Link>
-                            </Nav.Item>
+                            </Nav.Item> */}
                             <Nav.Item>
                                 <Link to={OFTEN_QUESTIONS}>Câu hỏi thường gặp</Link>
                             </Nav.Item>
@@ -120,9 +120,9 @@ function Footer() {
                             <Nav.Item>
                                 <Link to={PAYMENT_POLICY}>Chính sách thanh toán</Link>
                             </Nav.Item>
-                            <Nav.Item>
+                            {/* <Nav.Item>
                                 <Link to={REFUND_POLICY}>Chính sách hoán đổi</Link>
-                            </Nav.Item>
+                            </Nav.Item> */}
                         </Nav>
                     </Col>
                 </Row>

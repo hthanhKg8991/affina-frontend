@@ -106,13 +106,15 @@ const BuyInsuranceGroupStep1Component = (props) => {
     setIsEdit(true);
   };
 
-  const handleUpdate = (index) => {
+  const handleUpdate = (index, person) => {
+    console.log("person.birthday", typeof person.birthday);
+    const personBirthday = moment(birthday).format("DD/MM/YYYY") === "Invalid date" ? moment(person.birthday).format("DD/MM/YYYY") : moment(birthday).format("DD/MM/YYYY");
     dispatch(
       handleUpdatePerson({
         index: index,
-        name: name,
-        gender: gender.key,
-        birthday: moment(birthday).format("DD/MM/YYYY"),
+        name: name || person.name,
+        gender: gender.key || person.gender,
+        birthday: personBirthday,
       })
     );
     setIsEdit(false);
@@ -135,7 +137,17 @@ const BuyInsuranceGroupStep1Component = (props) => {
   return (
     <div className="insurance-group-step1-content">
       {listPerson.length > 0 ? (
-        <h4>Kiểm tra thông tin</h4>
+        <>
+          <h4>Kiểm tra thông tin</h4>
+          <div
+            style={{
+              color:  "red", fontWeight: 500, fontSize: "16px", fontFamily: "Manrope"
+            }}
+          >
+            Độ tuổi khách hàng không đủ điều kiện tham gia (30 ngày tuổi - 65
+            tuổi). Vui lòng nhập đúng ngày sinh hoặc bỏ khách hàng ra khỏi danh sách
+          </div>
+        </>
       ) : (
         <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
       )}
@@ -187,7 +199,17 @@ const BuyInsuranceGroupStep1Component = (props) => {
                             />
                           </div>
                         ) : (
-                          item.birthday
+                          <div
+                            style={{
+                              color:
+                                item.isEligible === "Đủ điều kiện"
+                                  ? "black"
+                                  : "red",
+                            }}
+                          >
+                            {" "}
+                            {item.birthday}
+                          </div>
                         )}
                       </td>
                       <td style={{ paddingLeft: "0", paddingRight: "0" }}>
@@ -240,10 +262,10 @@ const BuyInsuranceGroupStep1Component = (props) => {
                             <>
                               <MuiButton
                                 variant="outlined"
-                                disabled={validate([name, gender, birthday])}
-                                onClick={() => handleUpdate(index)}
+                                // disabled={validate([name, gender, birthday])}
+                                onClick={() => handleUpdate(index, item)}
                               >
-                                <div style={{ fontWeight: "600" }}>Update</div>
+                                <div style={{ fontWeight: "600" }}>Hủy</div>
                               </MuiButton>
                               <MuiButton onClick={() => handleDelete(index)}>
                                 <img src={deleted} alt="not found"></img>

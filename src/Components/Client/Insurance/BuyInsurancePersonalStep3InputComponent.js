@@ -350,7 +350,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
 
                                 </Col>
                                 <Col md={6} sm={6} xs={12}>
-                                    <CommonComboBox
+                                    {/* <CommonComboBox
                                         require={true}
                                         data={[
                                             {
@@ -373,6 +373,13 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                         label='Thời gian hiệu lực'
                                         hint='Chọn thời gian hiệu lực'
                                         onChange={(e) => handleTimeExp(e)}
+                                    /> */}
+                                     <CommonInput
+                                        require={true}
+                                        label='Thời gian hiệu lực'
+                                        defaultValue= "1 năm"
+                                        value= "1 năm"
+                                        readOnly={true}
                                     />
                                 </Col>
                             </Row>
