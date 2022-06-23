@@ -19,6 +19,13 @@ import HomeContainer from "../Containers/Client/HomeContainer";
 import LandingPageContainer from "../Containers/Client/LandingPageContainer";
 import PrivacyPolicyContainer from "../Containers/Client/PrivacyPolicyContainer";
 import TermConditionsContainer from "../Containers/Client/TermConditionsContainer";
+import NewsContainer from "../Containers/Client/NewsContainer";
+import RecruitContainer from "../Containers/Client/RecruitContainer";
+import ContactContainer from "../Containers/Client/ContactContainer";
+import OftenQuestionsContainer from "../Containers/Client/OftenQuestionsContainer";
+import ShoppingGuideContainer from "../Containers/Client/ShoppingGuideContainer";
+import PaymentPolicyContainer from "../Containers/Client/PaymentPolicyContainer";
+import RefundPolicyContainer from "../Containers/Client/RefundPolicyContainer";
 import {
   ABOUT,
   BUY_NOW,
@@ -29,6 +36,13 @@ import {
   SEND_REQUEST,
   STORY_AFFINA,
   TERM_CONDITIONS,
+  NEWS,
+  RECRUIT,
+  CONTACT,
+  OFTEN_QUESTIONS,
+  SHOPPING_GUIDE,
+  PAYMENT_POLICY,
+  REFUND_POLICY,
 } from "./RoutePath";
 import SendRequestContainer from "../Containers/Client/SendRequestContainer";
 import ListSentRequestComponent from "../Components/Client/LinkExample/ListSentRequestComponent";
@@ -56,6 +70,13 @@ const AdminRouter = (props) => {
               path={LIST_SEND_REQUEST}
               element={<ListSentRequestComponent />}
             />
+            <Route path={NEWS} element={<NewsContainer />} />
+            <Route path={RECRUIT} element={<RecruitContainer />} />
+            <Route path={CONTACT} element={<ContactContainer />} />
+            <Route path={OFTEN_QUESTIONS} element={<OftenQuestionsContainer />} />
+            <Route path={SHOPPING_GUIDE} element={<ShoppingGuideContainer />} />
+            <Route path={PAYMENT_POLICY} element={<PaymentPolicyContainer />} />
+            <Route path={REFUND_POLICY} element={<RefundPolicyContainer />} />
             <Route path="demo" element={<LayoutMail />} />
           </>
         ) : (

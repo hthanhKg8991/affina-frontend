@@ -12,9 +12,9 @@ export default function NeedInsurance() {
     const [buyInsurance, setBuyInsurance] = useState(0);
     const [costBuyInsurance, setCostBuyInsurance] = useState(0);
     const arrayOdometer1 = [0, 0, 0];
-    const arrayOdometer2 = [3180000, 2280000, 2280000];
-    const arrayOdometer3 = [176000000, 4700000, 25000000];
-    const arrayOdometer4 = [4000000, 0, 5000000];
+    const arrayOdometer2 = [2571000, 1366000, 3371000];
+    const arrayOdometer3 = [176000000, 1500000, 75000000];
+    const arrayOdometer4 = [450000000, 6000000, 150000000];
     let count = 0;
     const odometerSlide = () => {
         setPrice(arrayOdometer1[count]);
@@ -72,7 +72,7 @@ export default function NeedInsurance() {
                                     value={price}
                                 />đ
                             </div>
-                            <div className='text-muted-white'>Tổng chi phí y tế</div>
+                            <div className='text-muted-white'>Chi phí thực tế phát sinh</div>
                             <div className='text-muted-white-price'>
                                 <Odometer
                                     format="(.ddd)"
@@ -102,7 +102,7 @@ export default function NeedInsurance() {
                                     duration={500}
                                     value={buyInsurance}
                                 />đ</div>
-                            <div className='text-muted-white'>Chi phí ý tế (đã trừ bảo hiểm)</div>
+                            <div className='text-muted-white'>Số tiền được bảo hiểm</div>
                             <div className='text-muted-white-price'>
                                 <Odometer
                                     format="(.ddd)"

@@ -65,7 +65,7 @@ const TrustedByLeadingPartner = () => {
         },
     ]
     return (
-        <Container className='trusted-by-top-leading text-center'>
+        <Container className='trusted-by-top-leading text-center' style={{marginLeft: "auto", marginRight: "auto"}}>
             <h6 className='header-text'>Đối tác trực tiếp của Affina</h6>
             <Slider {...settings} >
                 {

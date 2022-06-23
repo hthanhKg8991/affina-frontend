@@ -1,7 +1,23 @@
 import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Line from "../../Common/Line";
-import { HOME_PAGE, BUY_NOW, PRIVACY_POLICY, SEND_REQUEST, SOCIAL_FACEBOOK, STORY_AFFINA, TERM_CONDITIONS, ABOUT } from "../../Routers/RoutePath";
+import {
+  HOME_PAGE,
+  BUY_NOW,
+  PRIVACY_POLICY,
+  SEND_REQUEST,
+  SOCIAL_FACEBOOK,
+  STORY_AFFINA,
+  TERM_CONDITIONS,
+  ABOUT,
+  NEWS,
+  RECRUIT,
+  CONTACT,
+  OFTEN_QUESTIONS,
+  SHOPPING_GUIDE,
+  PAYMENT_POLICY,
+  REFUND_POLICY,
+} from "../../Routers/RoutePath";
 
 function Footer() {
     const navigate = useNavigate();
@@ -26,7 +42,7 @@ function Footer() {
                         </Link>
                         <Nav className="flex-column footer-info">
                             <Navbar.Text>info@affina.com.vn</Navbar.Text>
-                            <Navbar.Text>1900-2525-99 <span className="line-vertical">|</span> 02877722999</Navbar.Text>
+                            <Navbar.Text>1900252599 <span className="line-vertical">|</span> 02877722999</Navbar.Text>
                             <Navbar>
                                 <Navbar.Collapse className="social-media">
                                     <Nav.Item>
@@ -48,7 +64,7 @@ function Footer() {
                         </Nav>
                     </Col>
                     <Col lg md sm={12} xs={6}>
-                        <h5 className="text-gradient">Affina Vietnam</h5>
+                        <h5 className="text-gradient">Affina Việt Nam</h5>
                         <Nav className="flex-column">
                             <Nav.Item>
                                 <Link to={ABOUT}>Về Affina</Link>
@@ -57,13 +73,13 @@ function Footer() {
                                 <Link to={STORY_AFFINA}>Câu chuyện thương hiệu</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to='/'>Tin tức</Link>
+                                <Link to={NEWS}>Tin tức</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/">Tuyển dụng</Link>
+                                <Link to={RECRUIT}>Tuyển dụng</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/">Liên hệ</Link>
+                                <Link to={CONTACT}>Liên hệ</Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
@@ -82,10 +98,10 @@ function Footer() {
                                 <Link to={SEND_REQUEST}>Trung tâm trợ giúp</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/">Câu hỏi thường gặp</Link>
+                                <Link to={OFTEN_QUESTIONS}>Câu hỏi thường gặp</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to="/">Hướng dẫn mua bảo hiểm</Link>
+                                <Link to={SHOPPING_GUIDE}>Hướng dẫn mua bảo hiểm</Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link to={SEND_REQUEST}>Yêu cầu hỗ trợ</Link>
@@ -102,10 +118,10 @@ function Footer() {
                                 <Link to={TERM_CONDITIONS}>Điều khoản và điều kiện</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to={'/'}>Chính sách thanh toán</Link>
+                                <Link to={PAYMENT_POLICY}>Chính sách thanh toán</Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link to={'/'}>Chính sách hoán đổi</Link>
+                                <Link to={REFUND_POLICY}>Chính sách hoán đổi</Link>
                             </Nav.Item>
                         </Nav>
                     </Col>

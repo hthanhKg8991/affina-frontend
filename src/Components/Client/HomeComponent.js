@@ -103,6 +103,11 @@ const HomeComponent = () => {
               nhân, quốc tế
             </h3>
             <hr className="line-gradient" />
+            <h3 className="header-text text-gradient">
+              Quyền lợi bảo hiểm cho điều trị COVID-19 và biến chứng do tiêm
+              vaccine
+            </h3>
+            <hr className="line-gradient" />
             <p>
               Giải pháp công nghệ từ Affina - 1 chạm để được bảo hiểm, 1 phút để
               gửi yêu cầu bồi thường
@@ -246,7 +251,11 @@ const HomeComponent = () => {
                   </a>
                 </div>
                 <div className="display-block">
-                  <Link to="/download-brochure" className="btn btn-protection">
+                  <Link
+                    to="/download-brochure"
+                    className="btn btn-protection"
+                    hidden
+                  >
                     <i className="mdi mdi-tray-arrow-down"></i>
                     Tải bản quyền lợi
                   </Link>

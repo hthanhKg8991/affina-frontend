@@ -15,6 +15,16 @@ export const BUY_NOW = '/tham-gia-bao-hiem-BOne';
 export const PRIVACY_POLICY = '/chinh-sach-bao-mat';
 export const TERM_CONDITIONS = '/dieu-khoan-kieu-kien';
 export const STORY_AFFINA = '/cau-chuyen-thuong-hieu';
+export const NEWS = "/tin-tuc";
+export const RECRUIT = "/tuyen-dung";
+export const CONTACT = "/lien-he";
+export const OFTEN_QUESTIONS = "/cau-hoi-thuong-gap";
+export const SHOPPING_GUIDE = "/huong-dan-mua-bao-hiem";
+export const PAYMENT_POLICY = "/chinh-sach-thanh-toan";
+export const REFUND_POLICY = "/chinh-sach-hoan-doi";
+
+
 // 
 export const LIST_SEND_REQUEST = '/danh-sach-gui-yeu-cau';
 //================= END PATH CLIENT =====================//
+
