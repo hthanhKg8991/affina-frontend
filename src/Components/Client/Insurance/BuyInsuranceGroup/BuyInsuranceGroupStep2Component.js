@@ -134,7 +134,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
             pushItem(
                 {
                     id: buyer.id,
-                    packacge: item
+                    package: item
                 }
             )
         )
@@ -145,9 +145,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
         dispatch(pushAdditionalItem({
             buyerId: buyer.id,
             packageCode: packageSelect,
-            item
+            item: item
         }))
-        //     setIsSelectAdditional(item)
+        setIsSelectAdditional(item)
         // }
     }
 
@@ -267,7 +267,8 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const _renderListPackage = (buyer = {}) => {
-        let buyerPackage = buyer.packacge && buyer.packacge.package_code;
+        console.log('buyer>>>', buyer);
+        let buyerPackage = buyer.package && buyer.package.package_code;
         let _templateListPackage;
         _templateListPackage = [].concat(data)
             .sort(dynamicSort('price_fee', isSwap))

@@ -177,6 +177,10 @@ const accessStyle = {
             pti: require('./Images/public/partner/pti.png'),
             pti2x: require('./Images/public/partner/pti@2x.png'),
             pti3x: require('./Images/public/partner/pti@3x.png'),
+            // 
+            pvi: require('./Images/public/partner/logo-pvi.jpeg'),
+            pvi2x: require('./Images/public/partner/logo-pvi.jpeg'),
+            pvi3x: require('./Images/public/partner/logo-pvi.jpeg'),
         }
     }
 }

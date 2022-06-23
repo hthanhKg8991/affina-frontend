@@ -41,7 +41,7 @@ const CommonButtonInsurance = (props) => {
             <Navbar >
                 <Navbar.Collapse className='justify-content-center'>
                     <Nav.Item>
-                        <Button variant="outline-primary btn-outline-blue btn-md text-uppercase" onClick={props.handleButtonGoBack}>
+                        <Button disabled={props.validateGoBack} variant="outline-primary btn-outline-blue btn-md text-uppercase" onClick={props.handleButtonGoBack}>
                             {props.textButtonGoBack}
                         </Button>
                     </Nav.Item>
@@ -76,11 +76,13 @@ CommonButtonInsurance.propTypes = {
     onChange: PropTypes.func.isRequired,
     isViewStep: PropTypes.bool,
     isErrorAgeing: PropTypes.bool,
+    validateGoBack: PropTypes.bool,
 };
 CommonButtonInsurance.defaultProps = {
     textButtonGoBack: 'Quay về trang chủ',
     textButtonContinue: 'TIẾP TỤC',
     onChange: () => { },
+    validateGoBack: false,
     isViewStep: false,
     isErrorAgeing: false,
 };

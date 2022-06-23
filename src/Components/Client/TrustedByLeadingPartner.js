@@ -59,6 +59,11 @@ const TrustedByLeadingPartner = () => {
             image3x: accessStyle.images.partner.logoBSH3x,
         },
         {
+            image: accessStyle.images.partner.pvi,
+            image2x: accessStyle.images.partner.pvi2x,
+            image3x: accessStyle.images.partner.pvi3x,
+        },
+        {
             image: accessStyle.images.partner.pti,
             image2x: accessStyle.images.partner.pti2x,
             image3x: accessStyle.images.partner.pti3x,

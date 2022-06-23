@@ -59,8 +59,8 @@ const BuyInsurancePersonalComponent = () => {
   );
   const [isShowPayment, setIsShowPayment] = useState(isShowPaymentSuccess);
   const [textCopy, setTextCopy] = useState("");
-  const [tab, setTab] = useState(isPackage);
-
+  const [tab, setTab] = useState(paramsSearch.get('tab') || configDefault.configTab.single);
+  console.log('paramsSearch>>>', tab, paramsSearch.get('tab'));
   const handleButtonContinue = () => {
     if (buyInsuranceStep < 4) {
       if (standStep < 4 && buyInsuranceStep === 3) {
