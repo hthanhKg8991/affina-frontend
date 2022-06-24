@@ -25,12 +25,12 @@ const BuyInsurancePersonalStep4Component = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
-    const { orderData = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { orderData = {}, orderDataDetail = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { paymentData = {} } = useSelector((state) => state.PaymentRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
     console.log('step2:::', step2, "step3::", step3, paymentData);
-    console.log('dataAuth:::', dataAuth);
+    console.log('dataAuth:::', orderDataDetail);
     // 
     const [paymentPort, setPaymentPort] = useState('')
     const [isShowPopup, setIsShowPopup] = useState(false)
@@ -39,6 +39,28 @@ const BuyInsurancePersonalStep4Component = (props) => {
     const handleSelectPaymentPort = (portPayment) => {
         setPaymentPort(portPayment)
     }
+
+    const isHasDataApi = () => {
+        return !isStringNullOrEmpty(orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num)
+    }
+
+    const isCheckContractNum = (value, isView) => {
+        if (isHasDataApi()) {
+            console.log('isHasDataApi()>>>', moment(orderDataDetail.insured_info.birthday).format('DD/MM/YYYY'));
+            return orderDataDetail.insured_info && orderDataDetail.insured_info[isView]
+        } else {
+            return value;
+        }
+    }
+
+    const isCheckPackage = (value, isView) => {
+        if (isHasDataApi()) {
+            return orderDataDetail.product_package && orderDataDetail.product_package[isView]
+        } else {
+            return value;
+        }
+    }
+
     const handleContinue = () => {
         if (paymentPort === paymentMethod.myQR) {
             props.handleButtonGoBack && props.handleButtonGoBack(configDefault.MY_TRANSFER_QR)
@@ -47,14 +69,14 @@ const BuyInsurancePersonalStep4Component = (props) => {
                 // "order_no": "ORDER4" + moment().format('HH:mm:ss'),
                 "user": dataAuth.data && dataAuth.data._id,
                 "order_no": orderData.data && orderData.data.order_code,
-                "order_cash_amount": Math.ceil(step2.paidAmount),
+                "order_cash_amount": Math.ceil(isCheckPackage(step2.paidAmount, 'total_insurance_fee')),
                 "order_ship_date": moment().format('DD/MM/YYYY'),
                 "order_ship_days": 1,
                 "validity_time": moment().add(2, 'days').format('YYYYMMDDhhmmss'),
-                "name": step3.name,
-                "phone": step3.phone,
-                "address": step3.address,
-                "email": step3.email,
+                "name": isCheckContractNum(step3.name, 'fullname'),
+                "phone": isCheckContractNum(step3.phone, 'phone'),
+                "address": isCheckContractNum(step3.address, 'address'),
+                "email": isCheckContractNum(step3.email, 'email'),
                 "payment_method": paymentPort,
                 "sale": {
                     partner: dataAuth.data && dataAuth.data.partner || '',
@@ -157,8 +179,8 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                     <p>Chi nhánh: <strong>Bình Tây</strong>
                                         <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard('Bình Tây')}></i>
                                     </p>
-                                    <p>Nội dung chuyển Khoản:: <strong>{vnConvert(step3.name).split(' ').join('')} {step3.phone} {orderData.data && orderData.data.order_code}</strong>
-                                        <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard(vnConvert(step3.name).split(' ').join('') + ' ' + step3.phone + ' ' + (orderData.data && orderData.data.order_code))}></i>
+                                    <p>Nội dung chuyển Khoản:: <strong>{vnConvert(isCheckContractNum(step3.name, 'fullname')).split(' ').join('')} {isCheckContractNum(step3.phone, 'phone')} {isHasDataApi() ? orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num : orderData.data && orderData.data.order_code}</strong>
+                                        <i className='cursor-pointer mdi mdi-content-copy ms-2' onClick={() => handleCopyClipBoard(vnConvert(isCheckContractNum(step3.name, 'fullname')).split(' ').join('') + ' ' + isCheckContractNum(step3.phone, 'phone') + ' ' + (isHasDataApi() ? orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num : orderData.data && orderData.data.order_code))}></i>
                                     </p>
                                 </div>
                             </div>
@@ -280,6 +302,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
         )
     }
 
+    console.log('moment(isCheckContractNum(step1.birthday))', isCheckContractNum(step1.birthday, 'birthday'));
     return (
         <Container>
             <Container className='insurance-content-step4'>
@@ -300,7 +323,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             // demo && demo.detail.map((item, index) => {
                                             switch (item) {
                                                 case paymentMethod.QRCode:
-                                                return _renderQR();
+                                                    return _renderQR();
                                                 case paymentMethod.bank_account:
                                                     return _renderBankAccount();
                                                 case paymentMethod.cc:
@@ -359,7 +382,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([paymentPort, checkAge(step1.birthday)])}
+                validate={validate([paymentPort, checkAge(moment(isCheckContractNum(step1.birthday, 'birthday')).format('DD/MM/YYYY'))])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
                 paidAmount={step2.paidAmount}

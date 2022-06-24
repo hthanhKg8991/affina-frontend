@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react'
 import { Form, Nav, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatPrepaidAmount, isEmptyArray, matchRound, percentage, tabByText } from '../../../Common/Helper';
+import { formatPrepaidAmount, isEmptyArray, isStringNullOrEmpty, matchRound, percentage, tabByText } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { handleRemoveAdditional } from '../../../Reducers/Insurance/StepRedux';
 
@@ -12,15 +12,35 @@ const BriefComponent = (props) => {
     var amountFeeSecondary = 0;
     var amountTotal = 0;
     let amountFee = 0;
-    const { isPackage } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { isPackage, orderDataDetail = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
 
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2 } = dataStep;
     const { listPerson = [] } = step1;
     const { additional = [] } = step2;
     const { selectAdditional = [] } = props;
+    const isHasDataApi = () => {
+        return !isStringNullOrEmpty(orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num)
+    }
 
-    additional.forEach((item, index) => {
+    const isCheckContractNum = (value, isView) => {
+        if (isHasDataApi()) {
+            console.log('isHasDataApi()>>>', moment(orderDataDetail.insured_info.birthday).format('DD/MM/YYYY'));
+            return orderDataDetail.insured_info && orderDataDetail.insured_info[isView]
+        } else {
+            return value;
+        }
+    }
+
+    const isCheckPackage = (value, isView) => {
+        if (isHasDataApi()) {
+            return orderDataDetail.product_package && orderDataDetail.product_package[isView]
+        } else {
+            return value;
+        }
+    }
+
+    isCheckPackage(additional, 'additional').forEach((item, index) => {
         amountTotal += parseInt(item.amount);
     })
 
@@ -29,8 +49,8 @@ const BriefComponent = (props) => {
     }
     const renderAdditional = () => {
         let templateAdditional = [];
-        if (!isEmptyArray(additional)) {
-            additional.forEach((item, index) => {
+        if (!isEmptyArray(isCheckPackage(additional, 'additional'))) {
+            isCheckPackage(additional, 'additional').forEach((item, index) => {
                 // amountFee = (item.amount * item.rate) / 100;
                 amountFeeSecondary += item.fee;
                 templateAdditional.push(
@@ -68,7 +88,7 @@ const BriefComponent = (props) => {
                     !props.isFlowPackage && (
                         <Nav className='justify-content-between'>
                             <Nav.Item>Ngày sinh:</Nav.Item>
-                            <Nav.Item>{moment(step1.birthday).format('DD/MM/YYYY')}</Nav.Item>
+                            <Nav.Item>{moment(isCheckContractNum(step1.birthday, 'birthday')).format('DD/MM/YYYY')}</Nav.Item>
                         </Nav>
                     )
                 }
@@ -94,7 +114,7 @@ const BriefComponent = (props) => {
             <div className='main-package-fee'>
                 <Nav className='justify-content-between'>
                     <Nav.Item><strong>Phí gói chính:</strong></Nav.Item>
-                    <Nav.Item>{formatPrepaidAmount(matchRound(step2.fee))}</Nav.Item>
+                    <Nav.Item>{formatPrepaidAmount(matchRound(isCheckPackage(step2.fee, 'fee_primary_package')))}</Nav.Item>
                 </Nav>
             </div>
             <Line type='dotted' />
@@ -124,7 +144,12 @@ const BriefComponent = (props) => {
                 <Stack direction='horizontal'>
                     <label>TỔNG TIỀN: </label>
                     {/* <label className='ms-auto'>{formatPrepaidAmount((step2.fee + amountFeeSecondary) - (100 - step2.dis) )}</label> */}
-                    <label className='ms-auto'>{formatPrepaidAmount(matchRound(percentage((step2.fee + amountFeeSecondary), -step2.discount)))}</label>
+                    {
+                        isHasDataApi()?
+                        <label className='ms-auto'>{formatPrepaidAmount(matchRound(isCheckPackage(0,'total_insurance_fee')))}</label>
+                        :
+                        <label className='ms-auto'>{formatPrepaidAmount(matchRound(percentage((step2.fee + amountFeeSecondary), -step2.discount)))}</label>
+                    }
                     {/* <label className='ms-auto'>{formatPrepaidAmount( step2.totalAmount )}</label> */}
                     {/* {amountSecondary+ step2.price} */}
                 </Stack>
