@@ -7,7 +7,7 @@ import Line from '../../../Common/Line';
 import { handleRemoveAdditional } from '../../../Reducers/Insurance/StepRedux';
 
 
-const BriefComponent = (props) => {
+const BriefGroupComponent = (props) => {
     const dispatch = useDispatch();
     var amountFeeSecondary = 0;
     var amountTotal = 0;
@@ -15,9 +15,13 @@ const BriefComponent = (props) => {
     const { isPackage } = useSelector((state) => state.insurancePackagesRedux) || [];
 
     const { dataStep } = useSelector((state) => state.InsuranceGroup) || [];
-    const { groupStep1 } = dataStep;
+    const { groupStep1, groupStep2 } = dataStep;
     const { listPerson = [] } = groupStep1;
+    const { selectAdditional = [] } = props;
 
+    console.log("listPerson group", typeof listPerson[0].package.price_fee);
+    let totalFeeMain;
+    if (listPerson.length > 0 ? (totalFeeMain = listPerson.reduce((totalFeeMain, person) => (totalFeeMain += person.package.price_fee), 0)) : totalFeeMain = 0);
     const renderAdditional = () => {
         // let templateAdditional = [];
         // if (!isEmptyArray(additional)) {
@@ -40,7 +44,6 @@ const BriefComponent = (props) => {
     }
     var dataPackageList = getPackageDetail(listPerson).packageDetail;
     var totalFee = getPackageDetail(listPerson).totalFee;
-    console.log('totalFee', totalFee);
     return (
         <div className='insurance-sidebar bg-white sidebar-right-content my-sticky-top'>
             <Form.Label className='justify-content-start d-flex'>Tóm tắt đơn bảo hiểm</Form.Label>
@@ -81,7 +84,7 @@ const BriefComponent = (props) => {
                 </Nav>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Tổng số tiền được bảo hiểm:</Nav.Item>
-                    <Nav.Item className='ms-auto'></Nav.Item>
+                    <Nav.Item className='ms-auto'>{formatPrepaidAmount(totalFee)}</Nav.Item>
                 </Nav>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Thời hạn bảo hiểm:</Nav.Item>
@@ -92,7 +95,7 @@ const BriefComponent = (props) => {
             <div className='main-package-fee'>
                 <Nav className='justify-content-between'>
                     <Nav.Item><strong>Phí gói chính:</strong></Nav.Item>
-                    <Nav.Item>{formatPrepaidAmount(totalFee)}</Nav.Item>
+                    <Nav.Item>{formatPrepaidAmount(totalFeeMain)}</Nav.Item>
                 </Nav>
             </div>
             <Line type='dotted' />
@@ -131,4 +134,4 @@ const BriefComponent = (props) => {
 }
 
 
-export default BriefComponent
+export default BriefGroupComponent;

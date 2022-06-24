@@ -292,13 +292,12 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                             <CommonInput
                                 require={true}
                                 label='Số CMND / CCCD / Passport '
-                                txtSmall='Nhập CMND/ Mã Định Danh của Cha/Mẹ nếu trẻ chưa có.'
+                                txtSmall='Nhập thông tin Cha/Mẹ theo cấu trúc: [CMND]-[Số thứ tự trẻ tham gia BH]. Ví dụ: 123456789-01'
                                 hint='Nhập CMND / CCCD / Passport'
                                 defaultValue={identity}
                                 value={identity}
                                 onChange={(e) => handleIdentity(e)}
                             />
-
                         </Col>
                         <Col md={6}>
                             <Row>

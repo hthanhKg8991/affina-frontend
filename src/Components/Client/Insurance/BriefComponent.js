@@ -87,7 +87,7 @@ const BriefComponent = (props) => {
                 </Nav>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Thời hạn bảo hiểm:</Nav.Item>
-                    <Nav.Item></Nav.Item>
+                    <Nav.Item>1 năm</Nav.Item>
                 </Nav>
             </div>
             <Line type='dotted' />

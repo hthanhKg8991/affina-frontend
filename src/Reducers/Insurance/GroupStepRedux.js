@@ -10,6 +10,7 @@ const initialState = {
             personDetail: {},
         },
         groupStep2: {
+            additional: [],
         },
         groupStep3: {
         },

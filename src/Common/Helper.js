@@ -288,6 +288,7 @@ export function getPackageDetail(array) {
     let listPackageArray = [];
     let count = 1;
     var totalFee = 0;
+    let totalFeeMain =0;
     array.forEach((item, index) => {
         if (item.package) {
             listPackage = {
@@ -303,15 +304,17 @@ export function getPackageDetail(array) {
             occurrences[x.name].price += x.price;
             occurrences[x.name].count = count;
             totalFee += x.price;
+          
             return false;
         }
         occurrences[x.name] = x;
         occurrences[x.name].count = 1
         totalFee += x.price
+    
         return true;
     });
     // listPackageArray.some()
     // console.log('listPackageArray>>', listPackageArray);
     // console.log('listPackageArray>>demo', packageData);
-    return { packageDetail, totalFee };
+    return { packageDetail, totalFee, totalFeeMain };
 }
