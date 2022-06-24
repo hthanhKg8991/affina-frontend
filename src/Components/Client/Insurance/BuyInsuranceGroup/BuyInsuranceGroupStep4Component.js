@@ -25,7 +25,7 @@ const BuyInsuranceGroupStep4Component = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { dataAuth = {} } = useSelector((state) => state.AuthRedux) || {};
-    const { orderData = {} } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { orderData = {}, orderDataDetail={} } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { paymentData = {} } = useSelector((state) => state.PaymentRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
@@ -35,6 +35,27 @@ const BuyInsuranceGroupStep4Component = (props) => {
     const [paymentPort, setPaymentPort] = useState('')
     const [isShowPopup, setIsShowPopup] = useState(false)
     const [textCopy, setTextCopy] = useState('')
+
+    const isHasDataApi = () => {
+        return !isStringNullOrEmpty(orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num)
+    }
+
+    const isCheckContractNum = (value, isView) => {
+        if (isHasDataApi()) {
+            console.log('isHasDataApi()>>>', moment(orderDataDetail.insured_info.birthday).format('DD/MM/YYYY'));
+            return orderDataDetail.insured_info && orderDataDetail.insured_info[isView]
+        } else {
+            return value;
+        }
+    }
+
+    const isCheckPackage = (value, isView) => {
+        if (isHasDataApi()) {
+            return orderDataDetail.product_package && orderDataDetail.product_package[isView]
+        } else {
+            return value;
+        }
+    }
 
     const handleSelectPaymentPort = (portPayment) => {
         setPaymentPort(portPayment)

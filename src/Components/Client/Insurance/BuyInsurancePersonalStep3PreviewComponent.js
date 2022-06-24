@@ -151,35 +151,6 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
     //                 birthday: moment(condition.birthday).format('DD/MM/YYYY'),
     //             })
     //         )
-    //         console.log('moment(conditionContractDetail.create_date).format()', moment(conditionContractDetail.create_date).format('DD/MM/YYYY'));
-    //         dispatch(
-    //             handleStep3({
-    //                 name: condition.fullname,
-    //                 identity: condition.id_card,
-    //                 address: condition.address,
-    //                 province: condition.province,
-    //                 district: condition.district,
-    //                 ward: condition.ward,
-    //                 email: conditionBuyer.email,
-    //                 phone: condition.phone,
-    //                 startDay: moment(conditionContractDetail.create_date),
-    //                 timeExpire: moment(conditionContractDetail.duration),
-    //                 companyName: condition.company_name,
-    //                 companyAddress: condition.company_address,
-    //                 taxNumber: condition.tax_number,
-    //             }),
-    //         );
-    //         dispatch(handleStep2({
-    //             // packageName: item.name,
-    //             // packageCode: item.package_code,
-    //             // price: item.price,
-    //             fee: conditionPackage.fee_primary_package,
-    //             // discount: item.discount,
-    //             // supplier: item.supplier,
-    //             additional: conditionPackage.additional,
-    //             // packageMain: item.package_main,
-    //             packageId: conditionPackage.package_id,
-    //         }))
     //     }
     // }, []);
 
