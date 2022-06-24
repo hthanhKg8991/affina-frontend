@@ -139,14 +139,19 @@ const BuyInsuranceGroupStep1Component = (props) => {
       {listPerson.length > 0 ? (
         <>
           <h4>Kiểm tra thông tin</h4>
-          <div
+          {listPerson.some((person)=>person.isEligible === "Không đủ điều kiện") ? (<><div
             style={{
-              color:  "red", fontWeight: 500, fontSize: "16px", fontFamily: "Manrope"
+              color:  "red", fontWeight: 500, fontSize: "20px", fontFamily: "Manrope", marginTop: "-20px", marginBottom: "5px"
             }}
           >
-            Độ tuổi khách hàng không đủ điều kiện tham gia (30 ngày tuổi - 65
-            tuổi). Vui lòng nhập đúng ngày sinh hoặc bỏ khách hàng ra khỏi danh sách
+            Có {listPerson.filter((person)=>person.isEligible === "Không đủ điều kiện").length} khách hàng không đủ điều kiện tham gia (30 ngày tuổi - 65
+            tuổi)
           </div>
+          <div  style={{
+              color:  "red", fontWeight: 500, fontSize: "20px", fontFamily: "Manrope", marginBottom: "30px"
+            }}>Vui lòng nhập đúng ngày sinh hoặc bỏ khách hàng ra khỏi danh sách</div></>
+          ) : ""}
+          
         </>
       ) : (
         <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
@@ -265,7 +270,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
                                 // disabled={validate([name, gender, birthday])}
                                 onClick={() => handleUpdate(index, item)}
                               >
-                                <div style={{ fontWeight: "600" }}>Hủy</div>
+                                <div style={{ fontWeight: "600" }}>Update</div>
                               </MuiButton>
                               <MuiButton onClick={() => handleDelete(index)}>
                                 <img src={deleted} alt="not found"></img>

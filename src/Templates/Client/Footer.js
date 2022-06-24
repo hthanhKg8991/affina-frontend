@@ -17,6 +17,7 @@ import {
   SHOPPING_GUIDE,
   PAYMENT_POLICY,
   REFUND_POLICY,
+  SOCIAL_LINKEDIN,
 } from "../../Routers/RoutePath";
 
 function Footer() {
@@ -57,7 +58,9 @@ function Footer() {
                                         <i className="mdi mdi-youtube"></i>
                                     </Nav.Item>
                                     <Nav.Item>
-                                        <i className="mdi mdi-linkedin"></i>
+                                        <a target="_blank" href={SOCIAL_LINKEDIN}>
+                                            <i className="mdi mdi-linkedin"></i>
+                                        </a>
                                     </Nav.Item>
                                 </Navbar.Collapse>
                             </Navbar>

@@ -108,10 +108,7 @@ const HomeComponent = () => {
               vaccine
             </h3>
             <hr className="line-gradient" />
-            <p>
-              Giải pháp công nghệ từ Affina - 1 chạm để được bảo hiểm, 1 phút để
-              gửi yêu cầu bồi thường
-            </p>
+           
             <Link to={BUY_NOW} className="btn btn-lg xs-hidden">
               Mua ngay
             </Link>
@@ -227,8 +224,7 @@ const HomeComponent = () => {
               </h3>
               <div className="protection-describe">
                 <p>
-                  - Đa dạng đối tượng tham gia, quyền lợi bảo vệ tối đa: Đặc
-                  biệt với Benefits One - sản phẩm bảo hiểm toàn diện với 7
+                  - Đặc biệt với Benefits One - sản phẩm bảo hiểm toàn diện với 7
                   quyền lợi, bạn có thể tự thiết kế gói bảo hiểm theo nhu cầu
                   với mức phí linh hoạt dành cho mình, gia đình và những người
                   thân yêu.
