@@ -28,6 +28,10 @@ const initialState = {
       totalAdditionalFee: 0,
     },
     step3: {
+      // Age < 14
+      relationshipName: "",
+      relationship: "",
+
       name: "",
       identity: "",
       address: "",

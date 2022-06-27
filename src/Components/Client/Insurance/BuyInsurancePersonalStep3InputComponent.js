@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, FormLabel, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, resetStore, validate } from '../../../Common/Helper';
+import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, resetStore, validate, checkAgeHadIdentity } from '../../../Common/Helper';
 import configDefault from '../../../Config/app';
 import District from '../../../Config/districts';
 import ProvinceData from '../../../Config/provinces';
@@ -47,6 +47,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const [companyName, setCompanyName] = useState(step3.companyName);
     const [taxNumber, setTaxNumber] = useState(step3.taxNumber);
     const [companyAddress, setCompanyAddress] = useState(step3.companyAddress);
+    const [relationshipName, steRelationshipName] = useState(step3.relationshipName);
+    const [relationship, steRelationship] = useState(step3.relationship);
     const DistrictData = District.filter(element => element.province_code === province.code);
     const WardData = Ward.filter(element => element.district_code === district.code);
 
@@ -66,6 +68,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         setCompanyAddress('');
         setStartTimeInsure('');
         setTimeExp('');
+        steRelationshipName('');
+        steRelationship('');
     }
     var datePlusOne = new Date();
     const handleCheckBilling = () => {
@@ -116,6 +120,14 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     }
     const handleTimeExp = (e) => {
         setTimeExp(e);
+    }
+
+    const handleRelationshipName =(e)=>{
+        steRelationshipName(e.target.value)
+    }
+
+    const handleRelationship =(e)=>{
+        steRelationship(e)
     }
 
     const handleGoBackButton = () => {
@@ -186,6 +198,9 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 "ward": ward.name || step3.ward.name,
                 "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",
+                // age  < 14
+                "relationshipName": step3.relationshipName,
+                "relationship": step3.relationship &&  step3.relationship.value,
                 // Require billing
                 "is_billing": step3.isBilling,
                 "company_name": companyName || step3.companyName,
@@ -227,6 +242,10 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const handleContinue = () => {
         dispatch(
             handleStep3({
+                // Age < 14
+                relationshipName: relationshipName,
+                relationship: relationship,
+                // 
                 name: name,
                 identity: identity,
                 address: address,
@@ -273,12 +292,58 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         }
 
         // dispatch(getOrderDetail())
-    }, [orderData])
+    }, [orderData]);
+
     return (
         <div className='insurance-content-step3-input'>
             <Container className='text-left'>
                 <h5 className='text-center'>Vui lòng điền thông tin </h5>
                 <Container>
+                    {
+                        checkAgeHadIdentity(step1.birthday) &&
+                        <Row>
+                            <Col md={6} sm={6} xs={12}>
+                                <CommonInput
+                                    require={true}
+                                    label='Họ và tên người yêu cầu bảo hiểm'
+                                    hint='Nhập họ và tên người yêu cầu bảo hiểm'
+                                    defaultValue={relationshipName}
+                                    value={relationshipName}
+                                    onChange={(e) => handleRelationshipName(e)}
+                                />
+                            </Col>
+                            <Col md={6} sm={6} xs={12}>
+                                <CommonComboBox
+                                    require={true}
+                                    data={[
+                                        {
+                                            key: 'cha',
+                                            value: 'Cha',
+                                        },
+                                        {
+                                            key: 'me',
+                                            value: 'Mẹ',
+                                        },
+                                        {
+                                            key: 'anh_chi_em',
+                                            value: 'Anh/Chị/Em',
+                                        },
+                                        {
+                                            key: 'nguoi_than',
+                                            value: 'Người thân',
+                                        },
+                                    ]}
+                                    readOnly={true}
+                                    viewValue="value"
+                                    value={relationship && relationship.value}
+                                    defaultValue={relationship && relationship.value}
+                                    label='Mối quan hệ với người được bảo hiểm'
+                                    hint='Chọn mối quan hệ'
+                                    onChange={(e) => handleRelationship(e)}
+                                />
+                            </Col>
+                        </Row>
+                    }
                     <Row>
                         <Col md={6}>
                             <CommonInput
