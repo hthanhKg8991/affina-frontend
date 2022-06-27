@@ -19,9 +19,12 @@ const BriefGroupComponent = (props) => {
     const { listPerson = [] } = groupStep1;
     const { selectAdditional = [] } = props;
 
-    console.log("listPerson group", typeof listPerson[0].package.price_fee);
+    console.log("listPerson group", listPerson);
     let totalFeeMain;
-    if (listPerson.length > 0 ? (totalFeeMain = listPerson.reduce((totalFeeMain, person) => (totalFeeMain += person.package.price_fee), 0)) : totalFeeMain = 0);
+    if (listPerson.some((person) => person.package !== undefined)) {
+        let personGroup = listPerson.filter((person) => person.package !== undefined);
+        totalFeeMain = personGroup.reduce((totalFeeMain, person) => (totalFeeMain += person.package.price_fee), 0);
+    }
     const renderAdditional = () => {
         // let templateAdditional = [];
         // if (!isEmptyArray(additional)) {
