@@ -27,6 +27,8 @@ const BriefGroupComponent = (props) => {
     }
     const renderAdditional = () => {
         // let templateAdditional = [];
+        // // let additional = listPerson[1].selectAdditional;
+        // console.log("additional", additional);
         // if (!isEmptyArray(additional)) {
         //     additional.forEach((item, index) => {
         //         // amountFee = (item.amount * item.rate) / 100;
