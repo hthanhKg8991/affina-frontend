@@ -76,22 +76,36 @@ const InsuranceSlice = createSlice({
                 }
             })
         },
+        // pushAdditionalItem: (state, action) => {
+        //     // const removeId = state.dataStep.step2.additional.findIndex(item => item._id === action.payload._id);
+        //     const condition = action.payload;
+        //     var conditionAddition = [];
+        //     var conditionSelectAddition = {};
+        //     conditionAddition.push(action.payload.item);
+        //     state.dataStep.groupStep1.listPerson.find((item, index) => {
+        //         if (item.id === condition.buyerId && item.package.package_code === condition.packageCode) {
+        //             conditionSelectAddition = item.package && item.package.selectAddition
+        //             if(conditionSelectAddition === undefined){
+        //                 item.package.selectAddition = [...conditionAddition, ]
+        //             }else{
+        //                 item.package.selectAddition = [...conditionSelectAddition, ...conditionAddition, ]
+        //             }
+        //         }
+        //     })
+        // },
         pushAdditionalItem: (state, action) => {
-            // const removeId = state.dataStep.step2.additional.findIndex(item => item._id === action.payload._id);
             const condition = action.payload;
-            var conditionAddition = [];
-            var conditionSelectAddition = {};
-            conditionAddition.push(action.payload.item);
-            state.dataStep.groupStep1.listPerson.find((item, index) => {
-                if (item.id === condition.buyerId && item.package.package_code === condition.packageCode) {
-                    conditionSelectAddition = item.package && item.package.selectAddition
-                    if(conditionSelectAddition === undefined){
-                        item.package.selectAddition = [...conditionAddition, ]
-                    }else{
-                        item.package.selectAddition = [...conditionSelectAddition, ...conditionAddition, ]
-                    }
-                }
-            })
+            let conditionAddition = [];
+            let selectPerson = state.dataStep.groupStep1.listPerson.find((person) => person.id === condition.buyerId);
+            if (selectPerson.selectAddition === undefined) {
+                selectPerson.selectAddition = conditionAddition;
+                selectPerson.selectAddition.push(condition.item)
+            } else {
+                if (selectPerson.selectAddition.some((addition) => addition._id === condition.item._id)) {
+                    let index = selectPerson.selectAddition.findIndex((addition) => addition._id === condition.item._id);
+                    selectPerson.selectAddition.splice(index, 1);
+                } else { selectPerson.selectAddition.push(action.payload.item) }
+            }
         }
     }
 });

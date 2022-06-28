@@ -20,7 +20,7 @@ const BriefGroupComponent = (props) => {
     const { selectAdditional = [] } = props;
 
     console.log("listPerson group", listPerson);
-    let totalFeeMain;
+    let totalFeeMain = 0;
     if (listPerson.some((person) => person.package !== undefined)) {
         let personGroup = listPerson.filter((person) => person.package !== undefined);
         totalFeeMain = personGroup.reduce((totalFeeMain, person) => (totalFeeMain += person.package.price_fee), 0);
