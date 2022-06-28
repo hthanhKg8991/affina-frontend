@@ -30,7 +30,7 @@ const initialState = {
     step3: {
       // Age < 14
       relationshipName: "",
-      relationship: "",
+      relationship: {},
 
       name: "",
       identity: "",
@@ -66,7 +66,7 @@ const InsuranceSlice = createSlice({
       let amount = 0;
       let amountFee = 0;
       state.dataStep.step2 = action.payload;
-      state.dataStep.step2.additional.forEach((item) => {
+      [].concat(state.dataStep.step2.additional).forEach((item) => {
         amount += parseInt(item.amount);
         amountFee += item.fee; //parseInt(item.amount * item.rate) / 100;
       });

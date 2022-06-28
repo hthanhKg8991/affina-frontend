@@ -4,7 +4,7 @@ import { Col, Container, Image, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import accessStyle from '../../../Assets';
-import { formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty, matchRound, validate } from '../../../Common/Helper';
+import { checkAgeHadIdentity, formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty, matchRound, validate } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
 import { createOrder, getOrderDetail } from '../../../Reducers/Insurance/PackagesRedux';
 import { handleStep1, handleStep2, handleStep3 } from '../../../Reducers/Insurance/StepRedux';
@@ -154,7 +154,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
     //     }
     // }, []);
 
-    const isHasDataApi = ()=>{
+    const isHasDataApi = () => {
         return !isStringNullOrEmpty(paramsSearch.get('contract_num'))
     }
 
@@ -181,7 +181,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
             return value;
         }
     }
-   
+
     return (
         <div className='insurance-content-step3-preview'>
             <h5>Kiểm tra lại thông tin </h5>
@@ -280,10 +280,20 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                     <p className='title-info'>Email</p>
                                     <strong>{isCheckContractNum(step3.email, 'email')}</strong>
                                 </Col>
-                                <Col md={3} xs={6}>
-                                </Col>
-                                <Col md={3} xs={6}>
-                                </Col>
+                                {
+                                    checkAgeHadIdentity(step1.birthday) &&
+                                    <Col md={3} xs={6}>
+                                        <p className='title-info'>Tên người yêu cầu bảo hiểm</p>
+                                        <strong>{isCheckContractNum(step3.relationshipName, 'relationshipName')}</strong>
+                                    </Col>
+                                }
+                                {
+                                    checkAgeHadIdentity(step1.birthday) &&
+                                    <Col md={3} xs={6}>
+                                        <p className='title-info'>Mối quán hệ</p>
+                                        <strong>{isCheckContractNum(step3.relationship && step3.relationship.value, 'relationship')}</strong>
+                                    </Col>
+                                }
                             </Row>
                             <Line type="solid" />
                             <div className='table-footer'>Yêu cầu xuất hoá đơn đỏ: <strong>{isBillingByText(step3.requireBilling)}</strong></div>

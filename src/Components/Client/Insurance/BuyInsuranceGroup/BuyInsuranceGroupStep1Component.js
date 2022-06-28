@@ -327,8 +327,8 @@ const BuyInsuranceGroupStep1Component = (props) => {
                 hidden
                 // onChange={(e) => handleFile(e)}
               />{" "}
-              <label for="listperson" className="button-load-file">
-                <label for="listperson" className="Chn-file">
+              <label htmlFor="listperson" className="button-load-file">
+                <label htmlFor="listperson" className="Chn-file">
                   Chọn file
                 </label>
               </label>

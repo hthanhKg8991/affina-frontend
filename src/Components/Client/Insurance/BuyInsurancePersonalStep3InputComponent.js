@@ -122,11 +122,11 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         setTimeExp(e);
     }
 
-    const handleRelationshipName =(e)=>{
+    const handleRelationshipName = (e) => {
         steRelationshipName(e.target.value)
     }
 
-    const handleRelationship =(e)=>{
+    const handleRelationship = (e) => {
         steRelationship(e)
     }
 
@@ -136,9 +136,17 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const handleValidateButton = () => {
         // resetState();
         if (isBilling === false) {
-            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, checkAge(step1.birthday)])
+            if (checkAgeHadIdentity(step1.birthday)) {
+                return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, checkAge(step1.birthday), relationshipName, relationship])
+            } else {
+                return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, checkAge(step1.birthday)])
+            }
         } else {
-            return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, companyName, taxNumber, companyAddress, checkAge(step1.birthday)])
+            if (checkAgeHadIdentity(step1.birthday)) {
+                return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, checkAge(step1.birthday), relationshipName, relationship])
+            } else {
+                return validate([name, identity, gender, birthday, startTimeInsure, timeExp, address, province, district, ward, email, isValidateEmail(email), phone, isValidatePhone(phone), isConfirm, companyName, taxNumber, companyAddress, checkAge(step1.birthday)])
+            }
         }
     }
     console.log('handleValidateButton', handleValidateButton());
@@ -199,8 +207,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",
                 // age  < 14
-                "relationshipName": step3.relationshipName,
-                "relationship": step3.relationship &&  step3.relationship.value,
+                "relationshipName": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
+                "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.value : '',
                 // Require billing
                 "is_billing": step3.isBilling,
                 "company_name": companyName || step3.companyName,
@@ -243,8 +251,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         dispatch(
             handleStep3({
                 // Age < 14
-                relationshipName: relationshipName,
-                relationship: relationship,
+                relationshipName: checkAgeHadIdentity(step1.birthday) ? relationshipName : '',
+                relationship: checkAgeHadIdentity(step1.birthday) ? relationship : '',
                 // 
                 name: name,
                 identity: identity,
@@ -357,7 +365,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                             <CommonInput
                                 require={true}
                                 label='Số CMND / CCCD / Passport '
-                                txtSmall='Nhập thông tin Cha/Mẹ theo cấu trúc: [CMND]-[Số thứ tự trẻ tham gia BH]. Ví dụ: 123456789-01'
+                                txtSmall='Nhập thông tin Cha/Mẹ'
                                 hint='Nhập CMND / CCCD / Passport'
                                 defaultValue={identity}
                                 value={identity}
@@ -390,19 +398,19 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                             </Row>
                             <Row>
                                 <Col md={6} sm={6} xs={12}>
-                                <div className="box-input box-input-active">
-                                                <FormLabel><small className="text-danger">*</small>Ngày bắt đầu bảo hiểm</FormLabel>
-                                                <DatePicker className="form-control"
-                                                    selected={startTimeInsure}
-                                                    onChange={(date) => handleTimeInsure(date)}
-                                                    placeholderText="Nhập ngày/tháng/năm sinh*"
-                                                    dateFormat="dd/MM/yyyy"
-                                                    minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
-                                                    customInput={
-                                                        <MaskedInput mask="99/99/9999" />
-                                                    }
-                                                />
-                                            </div>
+                                    <div className="box-input box-input-active">
+                                        <FormLabel><small className="text-danger">*</small>Ngày bắt đầu bảo hiểm</FormLabel>
+                                        <DatePicker className="form-control"
+                                            selected={startTimeInsure}
+                                            onChange={(date) => handleTimeInsure(date)}
+                                            placeholderText="Nhập ngày/tháng/năm sinh*"
+                                            dateFormat="dd/MM/yyyy"
+                                            minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
+                                            customInput={
+                                                <MaskedInput mask="99/99/9999" />
+                                            }
+                                        />
+                                    </div>
                                     {/* <CommonInput
                                         inputType='date'
                                         require={true}
@@ -440,11 +448,11 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                         hint='Chọn thời gian hiệu lực'
                                         onChange={(e) => handleTimeExp(e)}
                                     /> */}
-                                     <CommonInput
+                                    <CommonInput
                                         require={true}
                                         label='Thời gian hiệu lực'
-                                        defaultValue= "1 năm"
-                                        value= "1 năm"
+                                        defaultValue="1 năm"
+                                        value="1 năm"
                                         readOnly={true}
                                     />
                                 </Col>

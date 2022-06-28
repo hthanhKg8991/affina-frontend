@@ -361,7 +361,7 @@ const BuyInsurancePersonalComponent = () => {
     dispatch(resetStateInsurance());
     dispatch(resetState());
     // resetStore();
-    // window.location.reload();
+    window.location.reload();
     navigate(BUY_NOW);
   };
 
