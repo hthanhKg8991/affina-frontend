@@ -106,7 +106,13 @@ const InsuranceSlice = createSlice({
                     selectPerson.selectAddition.splice(index, 1);
                 } else { selectPerson.selectAddition.push(action.payload.item) }
             }
-        }
+        },
+        handleRemoveAdditional(state, action) {
+            const data = action.payload;
+            const selectPerson = state.dataStep.groupStep1.listPerson.find((person) => person.id === data.personId);
+            let removeId = selectPerson.selectAddition.findIndex((addition) => addition._id === data.additionId);
+            selectPerson.selectAddition.splice(removeId, 1);
+    },
     }
 });
 export const {
@@ -118,5 +124,6 @@ export const {
     handleSelectItem,
     pushItem,
     pushAdditionalItem,
+    handleRemoveAdditional
 } = InsuranceSlice.actions;
 export default InsuranceSlice.reducer

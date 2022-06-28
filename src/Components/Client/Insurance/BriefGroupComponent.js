@@ -4,7 +4,7 @@ import { Form, Nav, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatPrepaidAmount, getPackageDetail, getSupplierName, isEmptyArray, matchRound, percentage, tabByText } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
-import { handleRemoveAdditional } from '../../../Reducers/Insurance/StepRedux';
+import { handleRemoveAdditional } from '../../../Reducers/Insurance/GroupStepRedux';
 
 
 const BriefGroupComponent = (props) => {
@@ -19,6 +19,10 @@ const BriefGroupComponent = (props) => {
     const { listPerson = [] } = groupStep1;
     const { selectAdditional = [] } = props;
 
+        const onRemoveAdditional = (personId, additionId) => {
+        dispatch(handleRemoveAdditional(personId, additionId));
+    }
+
     console.log("listPerson group", listPerson);
     let totalFeeMain = 0;
     if (listPerson.some((person) => person.package !== undefined)) {
@@ -26,26 +30,29 @@ const BriefGroupComponent = (props) => {
         totalFeeMain = personGroup.reduce((totalFeeMain, person) => (totalFeeMain += person.package.price_fee), 0);
     }
     const renderAdditional = () => {
-        // let templateAdditional = [];
-        // // let additional = listPerson[1].selectAdditional;
-        // console.log("additional", additional);
-        // if (!isEmptyArray(additional)) {
-        //     additional.forEach((item, index) => {
-        //         // amountFee = (item.amount * item.rate) / 100;
-        //         amountFeeSecondary += item.fee;
-        //         templateAdditional.push(
-        //             <Stack key={item._id} direction='horizontal' className='align-items-start justify-content-between ms3'>
-        //                 <Nav.Item>{item.name}</Nav.Item>
-        //                 <Nav.Item className='ms-auto'>{formatPrepaidAmount(matchRound(item.fee))}</Nav.Item>
-        //                 <div className='wrap-box-delete' onClick={() => onRemoveAdditional(item._id)}>
-        //                     <i className='mdi mdi-trash-can-outline'></i>
-        //                 </div>
-        //             </Stack>
-        //         );
-        //     });
-        // }
-
-        // return templateAdditional;
+        let templateAdditional = [];
+        let additional;
+        listPerson.forEach((person) => {
+            additional = person.selectAddition;
+            console.log("additional", additional);
+        if (!isEmptyArray(additional)) {
+            additional.forEach((item, index) => {
+                // amountFee = (item.amount * item.rate) / 100;
+                amountFeeSecondary += item.fee;
+                console.log("amountFeeSecondary", amountFeeSecondary)
+                templateAdditional.push(
+                    <Stack key={item._id} direction='horizontal' className='align-items-start justify-content-between ms3'>
+                        <Nav.Item>{item.name}</Nav.Item>
+                        <Nav.Item className='ms-auto'>{formatPrepaidAmount(matchRound(item.fee))}</Nav.Item>
+                        <div className='wrap-box-delete' onClick={() => onRemoveAdditional({ personId: person.id, additionId: item._id })}>
+                            <i className='mdi mdi-trash-can-outline'></i>
+                        </div>
+                    </Stack>
+                );
+            });
+        }
+        })
+        return templateAdditional;
     }
     var dataPackageList = getPackageDetail(listPerson).packageDetail;
     var totalFee = getPackageDetail(listPerson).totalFee;
@@ -119,7 +126,7 @@ const BriefGroupComponent = (props) => {
             <div className='into-money'>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Thành tiền:</Nav.Item>
-                    <Nav.Item></Nav.Item>
+                    <Nav.Item>{formatPrepaidAmount(totalFeeMain+amountFeeSecondary)}</Nav.Item>
                 </Nav>
             </div>
             <div className='promotion'>
@@ -130,7 +137,7 @@ const BriefGroupComponent = (props) => {
                 <Stack direction='horizontal'>
                     <label>TỔNG TIỀN: </label>
                     {/* <label className='ms-auto'>{formatPrepaidAmount(matchRound(percentage((step2.fee + amountFeeSecondary), -step2.discount)))}</label> */}
-                    <label className='ms-auto'></label>
+                    <label className='ms-auto'>{formatPrepaidAmount(totalFeeMain+amountFeeSecondary)}</label>
                 </Stack>
             </div>
         </div>
