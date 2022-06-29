@@ -68,7 +68,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
             let params = {
                 // "order_no": "ORDER4" + moment().format('HH:mm:ss'),
                 "user": dataAuth.data && dataAuth.data._id,
-                "order_no": orderData.data && orderData.data.order_code,
+                "order_no": isHasDataApi() ? orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num : orderData.data && orderData.data.order_code,
                 "order_cash_amount": Math.ceil(isCheckPackage(step2.paidAmount, 'total_insurance_fee')),
                 "order_ship_date": moment().format('DD/MM/YYYY'),
                 "order_ship_days": 1,
