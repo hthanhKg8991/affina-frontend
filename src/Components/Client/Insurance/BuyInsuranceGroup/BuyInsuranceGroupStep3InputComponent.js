@@ -49,7 +49,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
         props.handleButtonGoBack && props.handleButtonGoBack()
     }
     const handleValidateButton = () => {
-        return listPerson.find((item, index) => {
+       const findPersonNotEnoughInfor = listPerson.find((item, index) => {
             console.log('item.address>>', item.province);
             if(item.isbilling){
                 if (
@@ -61,7 +61,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     && isValidatePhone(item.phone)
                     && !isStringNullOrEmpty(item.email)
                     && isValidateEmail(item.email)
-                    && !isStringNullOrEmpty(item.timeexp)
+                    // && !isStringNullOrEmpty(item.timeexp)
                     && !isStringNullOrEmpty(item.starttimeinsure)
                     && !isStringNullOrEmpty(item.province)
                     && !isStringNullOrEmpty(item.district)
@@ -87,7 +87,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     && isValidatePhone(item.phone)
                     && !isStringNullOrEmpty(item.email)
                     && isValidateEmail(item.email)
-                    && !isStringNullOrEmpty(item.timeexp)
+                    // && !isStringNullOrEmpty(item.timeexp)
                     && !isStringNullOrEmpty(item.starttimeinsure)
                     && !isStringNullOrEmpty(item.province)
                     && !isStringNullOrEmpty(item.district)
@@ -99,8 +99,9 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     return true;
                 }
             }
-            
-        });
+       
+       });
+        if (findPersonNotEnoughInfor === undefined) { return true } else { return false };
     }
 
     const handleCreateOrder = () => {
@@ -282,32 +283,37 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                                             </div>
                                         </Col>
                                         <Col md={6} sm={6} xs={12}>
-                                            <CommonComboBox
+                                            <CommonInput
+                                                // require={true}
+                                                // data={[
+                                                //     {
+                                                //         key: '1',
+                                                //         value: '1 năm',
+                                                //     },
+                                                //     // {
+                                                //     //     key: '2',
+                                                //     //     value: '2 năm',
+                                                //     // },
+                                                //     // {
+                                                //     //     key: '3',
+                                                //     //     value: '3 năm',
+                                                //     // },
+                                                // ]}
+                                                // readOnly={true}
+                                                // viewValue="value"
+                                                // // value={timeExp.value}
+                                                // // defaultValue={timeExp.value}
+                                                // label='Thời gian hiệu lực'
+                                                // hint='Chọn thời gian hiệu lực'
+                                                // // onChange={(e) => handleTimeExp(e)}
+                                                // defaultValue={state[personDetail.id + 'TimeExp'] && state[personDetail.id + 'TimeExp'].value}
+                                                // value={state[personDetail.id + 'TimeExp'] && state[personDetail.id + 'TimeExp'].value}
+                                                // onChange={(e) => onsetStateDropdown(personDetail.id + 'TimeExp', e)}
                                                 require={true}
-                                                data={[
-                                                    {
-                                                        key: '1',
-                                                        value: '1 năm',
-                                                    },
-                                                    // {
-                                                    //     key: '2',
-                                                    //     value: '2 năm',
-                                                    // },
-                                                    // {
-                                                    //     key: '3',
-                                                    //     value: '3 năm',
-                                                    // },
-                                                ]}
+                                                label='Thời gian hiệu lực'
+                                                defaultValue="1 năm"
+                                                value="1 năm"
                                                 readOnly={true}
-                                                viewValue="value"
-                                                // value={timeExp.value}
-                                                // defaultValue={timeExp.value}
-                                                label='Thời gian hiệu lực'
-                                                hint='Chọn thời gian hiệu lực'
-                                                // onChange={(e) => handleTimeExp(e)}
-                                                defaultValue={state[personDetail.id + 'TimeExp'] && state[personDetail.id + 'TimeExp'].value}
-                                                value={state[personDetail.id + 'TimeExp'] && state[personDetail.id + 'TimeExp'].value}
-                                                onChange={(e) => onsetStateDropdown(personDetail.id + 'TimeExp', e)}
                                             />
                                         </Col>
                                     </Row>
@@ -444,7 +450,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
-                validate={!isConfirm || handleValidateButton()}
+                validate={validate([isConfirm, handleValidateButton()])}
                 // validate={false}
                 handleButtonGoBack={handleGoBackButton}
                 handleButtonContinue={handleContinue}
