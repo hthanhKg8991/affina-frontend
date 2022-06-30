@@ -70,7 +70,13 @@ const InsuranceSlice = createSlice({
         },
 
         pushItem: (state, action) => {
-           let listPerson = state.dataStep.groupStep1.listPerson.map((person) => person.selectAddition = []);
+            let person = state.dataStep.groupStep1.listPerson.find((person) => person.id === action.payload.id);
+            // console.log("listperson group1 ", JSON.parse(JSON.stringify(person.package._id)));
+            // console.log("listperson group1 ", JSON.parse(JSON.stringify(action.payload.package._id)));
+            if (person.package._id === action.payload.package._id) {
+            } else {
+                person.selectAddition = []
+            };
             state.dataStep.groupStep1.listPerson.find((item, index) => {
                 if (item.id === action.payload.id) {
                     return Object.assign(item, action.payload)

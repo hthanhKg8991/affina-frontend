@@ -217,7 +217,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const _renderAdditional = (buyer, item) => {
-        console.log("buỷe", buyer, item);
+        // console.log("buỷe", buyer, item);
         let _templateAdditional;
         _templateAdditional = (isAdditional === item._id) && (
             (!isEmptyArray(item.additional)) &&
