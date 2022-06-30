@@ -206,9 +206,6 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 "ward": ward.name || step3.ward.name,
                 "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",
-                // age  < 14
-                "relationshipName": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
-                "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.value : '',
                 // Require billing
                 "is_billing": step3.isBilling,
                 "company_name": companyName || step3.companyName,
@@ -216,10 +213,11 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                 "company_address": companyAddress || step3.companyAddress,
             },
             "insurance_buyer": {
-                "fullname": "",
-                "relationship": "",
-                "id_card": "",
-                "phone": "",
+                // age  < 14
+                "fullname": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
+                "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.key : '',
+                "id_card": identity || step3.identity,
+                "phone": phone || step3.phone,
                 "email": email || step3.email,
                 "phone_consultant": "",
                 "note": ""
@@ -325,20 +323,24 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                     require={true}
                                     data={[
                                         {
-                                            key: 'cha',
-                                            value: 'Cha',
+                                            key: 'BM',
+                                            value: 'Bố/Mẹ',
                                         },
                                         {
-                                            key: 'me',
-                                            value: 'Mẹ',
+                                            key: 'BT',
+                                            value: 'Bản thân',
                                         },
                                         {
-                                            key: 'anh_chi_em',
-                                            value: 'Anh/Chị/Em',
+                                            key: 'CON',
+                                            value: 'Con',
                                         },
                                         {
-                                            key: 'nguoi_than',
-                                            value: 'Người thân',
+                                            key: 'DN',
+                                            value: 'Doanh Nghiệp',
+                                        },
+                                        {
+                                            key: 'VC',
+                                            value: 'Vợ/Chồng',
                                         },
                                     ]}
                                     readOnly={true}
