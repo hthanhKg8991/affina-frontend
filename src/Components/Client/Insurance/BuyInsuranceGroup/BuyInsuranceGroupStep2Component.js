@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Accordion, Col, Container, Form, Image, Nav, PageItem, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import accessStyle from '../../../../Assets';
-import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, genderByText, viewTextAge } from '../../../../Common/Helper';
+import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver60YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
 import Line from '../../../../Common/Line';
 import configDefault from '../../../../Config/app';
 import { pushAdditionalItem, pushItem } from '../../../../Reducers/Insurance/GroupStepRedux';
@@ -358,12 +358,21 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const _renderListPerson = () => {
         return listPerson.map((item, index) => {
             return (
-                <Accordion flush defaultActiveKey="0" className='group-insurance active'>
+                <Accordion flush defaultActiveKey="0" className='group-insurance active' style={{borderBottom: "1px dashed rgba(146, 67, 153, 0.25)"}}>
                     <Accordion.Item eventKey={index}>
                         <Accordion.Header>
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
-                                <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small>
+                                <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br/>
+
+                                {checkAge30daysTo6YearsOld(item.birthday) ? (
+                                    <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trẻ em dưới 6 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
+                                ) :
+                                    ""}
+                                {checkAgeOver60YearsOld(item.birthday) ? (
+                                    <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trên 60 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
+                                ) :
+                                    ""}
                             </div>
 
                         </Accordion.Header>

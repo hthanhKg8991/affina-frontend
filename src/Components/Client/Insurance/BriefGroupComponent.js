@@ -56,6 +56,7 @@ const BriefGroupComponent = (props) => {
     }
     var dataPackageList = getPackageDetail(listPerson).packageDetail;
     var totalFee = getPackageDetail(listPerson).totalFee;
+    console.log("dataPackageList", dataPackageList);
     return (
         <div className='insurance-sidebar bg-white sidebar-right-content my-sticky-top'>
             <Form.Label className='justify-content-start d-flex'>Tóm tắt đơn bảo hiểm</Form.Label>
@@ -68,6 +69,11 @@ const BriefGroupComponent = (props) => {
                 <Nav className='justify-content-between'>
                     <Nav.Item>Đối tượng bảo hiểm:</Nav.Item>
                     <Nav.Item>{tabByText(isPackage)}</Nav.Item>
+                </Nav>
+
+                <Nav className='justify-content-between'>
+                    <Nav.Item>Số gói đã chọn:</Nav.Item>
+                    <Nav.Item>{dataPackageList.length}</Nav.Item>
                 </Nav>
 
                 <Nav className='justify-content-between'>
