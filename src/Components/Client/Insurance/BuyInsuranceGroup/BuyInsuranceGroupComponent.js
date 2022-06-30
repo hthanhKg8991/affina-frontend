@@ -1,30 +1,35 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import ProgressBarStep from "../../../Common/ProgressBarStep";
 import BuyInsuranceGroupStep1Component from "./BuyInsuranceGroupStep1Component";
 import BuyInsuranceGroupStep2Component from "./BuyInsuranceGroupStep2Component";
-import BuyInsuranceGroupStep3InputComponent from "./BuyInsuranceGroupStep3InputComponent";
+import BuyInsuranceGroupStep3Component from "./BuyInsuranceGroupStep3Component";
 import BuyInsuranceGroupStep4Component from "./BuyInsuranceGroupStep4Component";
 
 const BuyInsuranceGroupComponent = () => {
   const navigate = useNavigate();
-  const [buyStep, setStep] = useState(1);
+  const params = useParams();
+  const locationRoute = useLocation();
+  const paramsSearch = new URLSearchParams(locationRoute.search);
+  const [buyStep, setBuyStep] = useState(1);
+  const [standStep, setStandStep] = useState(parseInt(paramsSearch.get("standStep")) || 3);
 
-  const handleButtonGoBack = (step) => {
+ const handleButtonGoBack = (step) => {
     if (buyStep <= 1) {
       navigate("/");
-    } else {
-      setStep(buyStep - 1);
-    }
+    } else if (standStep ===4 && buyStep === 3) {
+      setStandStep(standStep - 1);
+    } else {setBuyStep(buyStep-1);}
   };
 
   const handleButtonContinue = () => {
     console.log("buyStep>>>", buyStep);
-    if (buyStep < 4) {
-      setStep(buyStep + 1);
+    if (standStep < 4 && buyStep === 3) {
+      setBuyStep(3);
+      setStandStep(standStep + 1);
     } else {
-      setStep(1);
-      navigate("/");
+      setBuyStep(buyStep + 1);
+      // navigate("/");
     }
   };
 
@@ -46,7 +51,8 @@ const BuyInsuranceGroupComponent = () => {
         );
       case 3:
         return (
-          <BuyInsuranceGroupStep3InputComponent
+          <BuyInsuranceGroupStep3Component
+            step={standStep}
             handleButtonGoBack={handleButtonGoBack}
             handleButtonContinue={handleButtonContinue}
           />

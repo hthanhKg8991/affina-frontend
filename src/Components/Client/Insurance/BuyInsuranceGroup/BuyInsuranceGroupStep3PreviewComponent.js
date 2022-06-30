@@ -228,6 +228,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                         defaultValue={state[personDetail.id + 'Name']}
                                         value={state[personDetail.id + 'Name']}
                                         onChange={(e) => onsetStateInput(personDetail.id + 'Name', e)}
+                                        readOnly={true}
                                     />
                                     <CommonInput
                                         require={true}
@@ -237,6 +238,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                         defaultValue={state[personDetail.id + 'Identity']}
                                         value={state[personDetail.id + 'Identity']}
                                         onChange={(e) => onsetStateInput(personDetail.id + 'Identity', e)}
+                                        readOnly={true}
                                     />
 
                                 </Col>
