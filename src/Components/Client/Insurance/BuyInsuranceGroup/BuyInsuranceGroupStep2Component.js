@@ -7,7 +7,7 @@ import accessStyle from '../../../../Assets';
 import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver60YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
 import Line from '../../../../Common/Line';
 import configDefault from '../../../../Config/app';
-import { pushAdditionalItem, pushItem } from '../../../../Reducers/Insurance/GroupStepRedux';
+import { pushAdditionalItem, pushItem, resetAdditional } from '../../../../Reducers/Insurance/GroupStepRedux';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../../Reducers/Insurance/PackagesRedux';
 import { handleSelectAdditional, handleStep2, resetAdditionalState } from '../../../../Reducers/Insurance/StepRedux';
 import CommonModal from '../../../Common/CommonModal';
@@ -138,6 +138,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
                 }
             )
         )
+        if (buyer.package.package_code !== item.package_code) {
+            dispatch(resetAdditional({buyerId : buyer.id}));
+        }
     }
 
     const onSelectAdditional = (buyer, item, packageSelect) => {

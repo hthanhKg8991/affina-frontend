@@ -70,18 +70,22 @@ const InsuranceSlice = createSlice({
         },
 
         pushItem: (state, action) => {
-            let person = state.dataStep.groupStep1.listPerson.find((person) => person.id === action.payload.id);
-            // console.log("listperson group1 ", JSON.parse(JSON.stringify(person.package._id)));
-            // console.log("listperson group1 ", JSON.parse(JSON.stringify(action.payload.package._id)));
-            if (person.package._id === action.payload.package._id) {
-            } else {
-                person.selectAddition = []
-            };
+            // let person = state.dataStep.groupStep1.listPerson.find((person) => person.id === action.payload.id);
+            // console.log("listperson group1", JSON.parse(JSON.stringify(person)));
+            // console.log("listperson group1", JSON.parse(JSON.stringify(action.payload)));
+            // if (person.package._id !== action.payload.package._id) {
+            //   person.selectAddition = [];
+            // }
             state.dataStep.groupStep1.listPerson.find((item, index) => {
                 if (item.id === action.payload.id) {
                     return Object.assign(item, action.payload)
                 }
             })
+        },
+        resetAdditional: (state, action) => {
+            let person = state.dataStep.groupStep1.listPerson.find((person) => person.id === action.payload.buyerId);
+            console.log("listperson group1", JSON.parse(JSON.stringify(person)));
+            person.selectAddition = [];
         },
         // pushAdditionalItem: (state, action) => {
         //     // const removeId = state.dataStep.step2.additional.findIndex(item => item._id === action.payload._id);
@@ -130,6 +134,7 @@ export const {
     handleRemovePersonFromGroup,
     handleSelectItem,
     pushItem,
+    resetAdditional,
     pushAdditionalItem,
     handleRemoveAdditional
 } = InsuranceSlice.actions;
