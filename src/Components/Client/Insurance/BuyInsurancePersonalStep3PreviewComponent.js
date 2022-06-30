@@ -94,6 +94,10 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 "ward": step3.ward.name,
                 "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",
+                // age  < 14
+                "relationshipName": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
+                "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.value : '',
+                
                 // Require billing
                 "is_billing": step3.isBilling,
                 "company_name": step3.companyName,
@@ -101,12 +105,11 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 "company_address": step3.companyAddress,
             },
             "insurance_buyer": {
-                "fullname": "",
-                "relationship": "",
-                "id_card": "",
-                "phone": "",
-                "email": step3.email,
-                "phone_consultant": "",
+                "fullname": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
+                "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.key : '',
+                "id_card": isCheckContractNum(step3.identity, 'email'),
+                "phone": isCheckContractNum(step3.phone, 'email'),
+                "email": isCheckContractNum(step3.email, 'email'),
                 "note": ""
             },
             "insurance_fee": {
@@ -169,6 +172,13 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
     const isCheckPackage = (value, isView) => {
         if (isHasDataApi()) {
             return orderDataDetail.product_package && orderDataDetail.product_package[isView]
+        } else {
+            return value;
+        }
+    }
+    const insuranceBuyer = (value, isView) => {
+        if (isHasDataApi()) {
+            return orderDataDetail.insurance_buyer && orderDataDetail.insurance_buyer[isView]
         } else {
             return value;
         }
@@ -284,14 +294,14 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                     checkAgeHadIdentity(step1.birthday) &&
                                     <Col md={3} xs={6}>
                                         <p className='title-info'>Tên người yêu cầu bảo hiểm</p>
-                                        <strong>{isCheckContractNum(step3.relationshipName, 'relationshipName')}</strong>
+                                        <strong>{insuranceBuyer(step3.relationshipName, 'fullname')}</strong>
                                     </Col>
                                 }
                                 {
                                     checkAgeHadIdentity(step1.birthday) &&
                                     <Col md={3} xs={6}>
                                         <p className='title-info'>Mối quán hệ</p>
-                                        <strong>{isCheckContractNum(step3.relationship && step3.relationship.value, 'relationship')}</strong>
+                                        <strong>{insuranceBuyer(step3.relationship && step3.relationship.value, 'relationship')}</strong>
                                     </Col>
                                 }
                             </Row>
