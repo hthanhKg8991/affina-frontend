@@ -170,13 +170,14 @@ const BuyInsuranceGroupStep2Component = (props) => {
         setSelectSort([id])
     }
 
-    const handleCheckAdditional = (id) => {
-        // if (!isEmptyArray(step2.additional)) {
-        //     return step2.additional.some(el => el._id === id);
-        // }
-        // else {
-        //     return false;
-        // }
+    const handleCheckAdditional = (id, buyerId) => {
+        let person = listPerson.find((person) => person.id === buyerId)
+        let selectAdditionPerson = person.selectAddition
+        if (!isEmptyArray(selectAdditionPerson)) {
+          return selectAdditionPerson.some((el) => el._id === id);
+        } else {
+          return false;
+        }
     }
     const handleGoBack = () => {
         props.handleButtonGoBack && props.handleButtonGoBack()
@@ -216,10 +217,12 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const _renderAdditional = (buyer, item) => {
+        console.log("buỷe", buyer, item);
         let _templateAdditional;
         _templateAdditional = (isAdditional === item._id) && (
             (!isEmptyArray(item.additional)) &&
             item.additional.map((additionalItem, index) => {
+                console.log("additionalItem", additionalItem);
                 return (
                     <div className='sub-item' key={additionalItem._id}>
                         <div className='package-additional-preview '>
@@ -230,7 +233,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
                                         <Stack className='justify-content-center'>
                                             <Stack direction="horizontal" gap={3} className="align-items-start">
                                                 <input className="form-check-input" type="checkbox" id={additionalItem._id}
-                                                    checked={handleCheckAdditional(additionalItem._id, item.additional)}
+                                                    checked={handleCheckAdditional(additionalItem._id, buyer.id)}
                                                     // checked={additionalItem.isChecked}
                                                     onChange={() => onSelectAdditional(buyer, additionalItem, item.package_code)} />
                                                 <label htmlFor={additionalItem._id} className='insure-package' >{additionalItem.name}</label>
