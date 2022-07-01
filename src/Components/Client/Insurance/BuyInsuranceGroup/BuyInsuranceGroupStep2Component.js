@@ -129,7 +129,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
 
     const handleSelectPackage = (buyer, item) => {
         console.log('item:::', buyer, item);
-        handleAdditional(item._id);
+        // handleAdditional(item._id);
         dispatch(
             pushItem(
                 {
@@ -198,14 +198,19 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const handleViewBenefitMainMobile = () => {
         setIsBenefitMainMobile(!isBenefitMainMobile)
     }
-
+    
+    const checkPerson = (buyer, id) => {
+        
+    }
+    
     const _renderTextViewAdditional = (buyer, item) => {
         let _isTitleAdditional;
         _isTitleAdditional = (!isEmptyArray(item.additional)) &&
             <p className='additional-benefits'
                 onClick={() => {
-                    handleSelectPackage(buyer, item);
-                    handleAdditional(item._id);
+                    // handleSelectPackage(buyer, item);
+                    // checkPerson(buyer, item._id);
+                    // handleAdditional(item._id);
                 }}
             >
                 Quyền lợi bổ sung
@@ -220,12 +225,10 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const _renderAdditional = (buyer, item) => {
-        // console.log("buỷe", buyer, item);
         let _templateAdditional;
         _templateAdditional = (isAdditional === item._id) && (
             (!isEmptyArray(item.additional)) &&
             item.additional.map((additionalItem, index) => {
-                console.log("additionalItem", additionalItem);
                 return (
                     <div className='sub-item' key={additionalItem._id}>
                         <div className='package-additional-preview '>
