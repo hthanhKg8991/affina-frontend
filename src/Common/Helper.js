@@ -27,14 +27,14 @@ export function checkAge30daysTo6YearsOld(birthday) {
   console.log("birthday>>>", birthday);
   console.log("minDays>>>", isFormatBirthday, minDays);
   console.log("maxYear>>>", maxYear);
-  if (minDays >= 30 && maxYear <= 6) {
+  if (minDays >= 30 && maxYear < 6) {
     return true;
   } else {
     return false;
   }
 }
 
-export function checkAgeOver60YearsOld(birthday) {
+export function checkAgeOver51YearsOld(birthday) {
   let isFormatBirthday = moment(birthday, "DD/MM/YYYY").format("DD/MM/YYYY");
   let currentMoment = moment();
   let oldMoment = moment(isFormatBirthday, "DD/MM/YYYY");
@@ -43,7 +43,7 @@ export function checkAgeOver60YearsOld(birthday) {
   console.log("birthday>>>", birthday);
   console.log("minDays>>>", isFormatBirthday, minDays);
   console.log("maxYear>>>", maxYear);
-  if (maxYear > 60) {
+  if (maxYear >= 51) {
     return true;
   } else {
     return false;
@@ -58,9 +58,9 @@ export function viewTextAge(birthday) {
   let maxYear = currentMoment.diff(oldMoment, "Year");
   if (minDays >= 30 && maxYear <= 6) {
     return "1 tháng - 6 tuổi";
-  } else if (maxYear > 6 && maxYear <= 60) {
-    return "6 tuổi - 60 tuổi";
-  } else { return "60 tuổi - 65 tuổi"}
+  } else if (maxYear > 6 && maxYear < 51) {
+    return "6 tuổi - 51 tuổi";
+  } else { return "51 tuổi - 65 tuổi"}
 }
 
 export function checkDays(oldDay) {

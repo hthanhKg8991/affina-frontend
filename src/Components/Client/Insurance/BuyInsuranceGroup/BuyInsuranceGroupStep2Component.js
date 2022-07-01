@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Accordion, Col, Container, Form, Image, Nav, PageItem, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import accessStyle from '../../../../Assets';
-import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver60YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
+import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver51YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
 import Line from '../../../../Common/Line';
 import configDefault from '../../../../Config/app';
 import { pushAdditionalItem, pushItem, resetAdditional } from '../../../../Reducers/Insurance/GroupStepRedux';
@@ -361,28 +361,112 @@ const BuyInsuranceGroupStep2Component = (props) => {
 
     }
 
+    const _renderChoosePackage = (buyer, item) => {
+        return (
+            <Row className='group-item group-item-active cursor-pointer' key={item._id + '' + item.name}>
+                        <Col md={3} xs={3} sm={3} className='reset-padding-right '
+                            onClick={() => handleSelectPackage(buyer, item)}
+                        >
+                            <div className="box-left text-center">
+                                <div className='wrap-image'>
+                                    <Image
+                                        src={item.supplier && configDefault.URL_IMG + item.supplier.image}
+                                        srcSet={`
+                                            ${item.supplier && configDefault.URL_IMG + item.supplier.image} 2x, 
+                                            ${item.supplier && configDefault.URL_IMG + item.supplier.image} 3x
+                                        `}
+                                        className="cursor-pointer"
+                                        alt="logo gic"
+                                        width={'100%'}
+                                        height={'auto'}
+                                    />
+                                </div>
+                                <strong className='insure-package-name'
+                                >{item.supplier && item.supplier.name}</strong>
+                                <Nav className='justify-content-center wrap-star'>
+                                    {rateStart(item.rate)}
+                                </Nav>
+                            </div>
+                        </Col>
+                        <Col md={9} xs={9} sm={9} className="box-right">
+                            <Stack direction="horizontal" className="align-items-start"
+                                onClick={() => handleSelectPackage(buyer, item)}
+                            >
+                                <Stack className='align-items-start'>
+                                    <Stack direction="horizontal" gap={3} className="align-items-start">
+                                        <h6 className='insure-package'>{item.name}</h6>
+                                        {
+                                            (item.discount > 0 && !isStringNullOrEmpty(item.discount)) ?
+                                                <span className='discount-price'>-{item.discount}%</span>
+                                                : ''
+                                        }
+                                    </Stack>
+                                    <i className="package-detail" onClick={() => handleViewDetail(item)}>Chi tiết gói &raquo;</i>
+                                </Stack>
+                                <div className="text-right ms-auto">
+                                    <p className='package-price'>{formatPrepaidAmount(item.price)}VNĐ</p>
+                                    <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p>
+                                </div>
+                            </Stack>
+                            <Line type="dashed" color='e6e6e6' />
+                            <Stack direction='horizontal'>
+                                <div className='procedure-text text-left'
+                                    onClick={() => handleSelectPackage(buyer, item)}
+                                >
+                                    <i>{item.description}</i>
+                                </div>
+                            </Stack>
+                            <Line type="dashed" />
+                            <Stack direction="horizontal" gap={3} className="align-items-start">
+                                {_renderTextViewAdditional(buyer, item)}
+                                <div className="text-right ms-auto">
+                                    {
+                                        (!isEmptyArray(packageRemain)) &&
+                                        <p className='preview-package' onClick={(code, supplier) => handlePackageRemain(item.package_code, item.supplier)}>
+                                            Xem 7 gói bảo hiểm còn lại
+                                            {
+                                                (isPackageRemain === item.package_code) ?
+                                                    <i className='mdi mdi-chevron-up'></i>
+                                                    :
+                                                    <i className='mdi mdi-chevron-down'></i>
+                                            }
+                                        </p>
+                                    }
+                                </div>
+                            </Stack>
+                        </Col>
+                        {_renderPackageRemain(item)}
+                        {_renderAdditional(buyer, item)}
+                    </Row>
+        )
+    }
+
     const _renderListPerson = () => {
         return listPerson.map((item, index) => {
             return (
                 <Accordion flush defaultActiveKey="0" className='group-insurance active' style={{marginBottom: "20px", borderRadius: "20px", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
                     <Accordion.Item eventKey={index}>
-                        <Accordion.Header style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver60YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
+                        <Accordion.Header style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
                                 <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br />
                             </div>
 
                         </Accordion.Header>
-                            <div style={{textAlign: "start", padding: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver60YearsOld(item.birthday) ? "16px" : ""}}>
+                            <div style={{textAlign: "start", padding: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "16px" : ""}}>
                                  {checkAge30daysTo6YearsOld(item.birthday) ? (
                                     <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trẻ em dưới 6 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
                                 ) :
                                     ""}
-                                {checkAgeOver60YearsOld(item.birthday) ? (
-                                    <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trên 60 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
+                                {checkAgeOver51YearsOld(item.birthday) ? (
+                                    <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>51 tuổi - 65 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
                                 ) :
                                     ""}
-                            </div>
+                        <div style={{paddingLeft: "20px", paddingRight: "20px"}}>
+                        {item.package ? _renderChoosePackage(item, item.package) : ""}
+                        </div>
+                        </div>
+                            
                         <Accordion.Body>
                             {_renderListPackage(item)}
                         </Accordion.Body>
