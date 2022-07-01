@@ -370,19 +370,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
                                 <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br />
-
-                                {/* {checkAge30daysTo6YearsOld(item.birthday) ? (
-                                    <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trẻ em dưới 6 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
-                                ) :
-                                    ""}
-                                {checkAgeOver60YearsOld(item.birthday) ? (
-                                    <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trên 60 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
-                                ) :
-                                    ""} */}
                             </div>
 
                         </Accordion.Header>
-                        {/* <br/> */}
                             <div style={{textAlign: "start", padding: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver60YearsOld(item.birthday) ? "16px" : ""}}>
                                  {checkAge30daysTo6YearsOld(item.birthday) ? (
                                     <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trẻ em dưới 6 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>

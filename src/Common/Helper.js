@@ -324,8 +324,9 @@ export function getPackageDetail(array) {
     var totalFee = 0;
     let totalFeeMain =0;
     array.forEach((item, index) => {
-        if (item.package) {
-            listPackage = {
+      if (item.package) {
+          listPackage = {
+                id: index + 1,
                 name: item.package && item.package.name,
                 price: item.package && item.package.price,
             }

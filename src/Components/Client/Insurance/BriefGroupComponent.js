@@ -18,6 +18,7 @@ const BriefGroupComponent = (props) => {
     const { groupStep1, groupStep2 } = dataStep;
     const { listPerson = [] } = groupStep1;
     const { selectAdditional = [] } = props;
+    let packageNumberChoose = listPerson.filter((person) => person.package);
 
         const onRemoveAdditional = (personId, additionId) => {
         dispatch(handleRemoveAdditional(personId, additionId));
@@ -73,7 +74,7 @@ const BriefGroupComponent = (props) => {
 
                 <Nav className='justify-content-between'>
                     <Nav.Item>Số gói đã chọn:</Nav.Item>
-                    <Nav.Item>{dataPackageList.length}</Nav.Item>
+                    <Nav.Item>{ packageNumberChoose.length}</Nav.Item>
                 </Nav>
 
                 <Nav className='justify-content-between'>
