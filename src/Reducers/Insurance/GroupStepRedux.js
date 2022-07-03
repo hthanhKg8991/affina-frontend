@@ -123,7 +123,17 @@ const InsuranceSlice = createSlice({
             const selectPerson = state.dataStep.groupStep1.listPerson.find((person) => person.id === data.personId);
             let removeId = selectPerson.selectAddition.findIndex((addition) => addition._id === data.additionId);
             selectPerson.selectAddition.splice(removeId, 1);
-    },
+        },
+        handleSelectPerson(state, action) {
+            const selectPerson = action.payload;
+            state.dataStep.groupStep1.listPerson.forEach((person) => {
+                if (person.id === selectPerson.id) {
+                    return person.selectPerson = true
+                } else { 
+                    return person.selectPerson = false
+                }
+            })
+        },
     }
 });
 export const {
@@ -136,6 +146,7 @@ export const {
     pushItem,
     resetAdditional,
     pushAdditionalItem,
-    handleRemoveAdditional
+    handleRemoveAdditional,
+    handleSelectPerson
 } = InsuranceSlice.actions;
 export default InsuranceSlice.reducer

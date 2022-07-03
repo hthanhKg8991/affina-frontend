@@ -7,7 +7,7 @@ import accessStyle from '../../../../Assets';
 import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver51YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
 import Line from '../../../../Common/Line';
 import configDefault from '../../../../Config/app';
-import { pushAdditionalItem, pushItem, resetAdditional } from '../../../../Reducers/Insurance/GroupStepRedux';
+import { pushAdditionalItem, pushItem, resetAdditional, handleSelectPerson } from '../../../../Reducers/Insurance/GroupStepRedux';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../../Reducers/Insurance/PackagesRedux';
 import { handleSelectAdditional, handleStep2, resetAdditionalState } from '../../../../Reducers/Insurance/StepRedux';
 import CommonModal from '../../../Common/CommonModal';
@@ -28,7 +28,6 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const { listPerson = [] } = groupStep1;
     console.log('dataAdditional::', listPerson);
     const [isSwap, setIsSwap] = useState(false);
-
     // handle api
     // const [amountSecondary, setAmountSecondary] = useState(0)
     const [isAdditional, setIsAdditional] = useState(false);
@@ -199,8 +198,8 @@ const BuyInsuranceGroupStep2Component = (props) => {
         setIsBenefitMainMobile(!isBenefitMainMobile)
     }
     
-    const checkPerson = (buyer, id) => {
-        
+    const checkPerson = (buyerSelect) => {
+        dispatch(handleSelectPerson(buyerSelect));
     }
     
     const _renderTextViewAdditional = (buyer, item) => {
@@ -208,9 +207,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
         _isTitleAdditional = (!isEmptyArray(item.additional)) &&
             <p className='additional-benefits'
                 onClick={() => {
-                    // handleSelectPackage(buyer, item);
-                    // checkPerson(buyer, item._id);
-                    // handleAdditional(item._id);
+                handleSelectPackage(buyer, item);
+                checkPerson(buyer);
+                handleAdditional(item._id);
                 }}
             >
                 Quyền lợi bổ sung
@@ -226,7 +225,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
 
     const _renderAdditional = (buyer, item) => {
         let _templateAdditional;
-        _templateAdditional = (isAdditional === item._id) && (
+        _templateAdditional = (buyer.selectPerson) && (isAdditional === item._id) && (
             (!isEmptyArray(item.additional)) &&
             item.additional.map((additionalItem, index) => {
                 return (
