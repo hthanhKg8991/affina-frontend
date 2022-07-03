@@ -469,7 +469,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
                                 ) :
                                     ""}
                         <div style={{paddingLeft: "20px", paddingRight: "20px"}}>
-                        {!item.Accordion ? _renderChoosePackage(item, item.package) : ""}
+                        {!item.Accordion && item.package ? _renderChoosePackage(item, item.package) : ""}
                         </div>
                         </div>
                             
