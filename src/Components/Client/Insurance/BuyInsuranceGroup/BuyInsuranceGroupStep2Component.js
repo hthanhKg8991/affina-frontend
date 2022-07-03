@@ -7,7 +7,7 @@ import accessStyle from '../../../../Assets';
 import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver51YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
 import Line from '../../../../Common/Line';
 import configDefault from '../../../../Config/app';
-import { pushAdditionalItem, pushItem, resetAdditional, handleSelectPerson } from '../../../../Reducers/Insurance/GroupStepRedux';
+import { pushAdditionalItem, pushItem, resetAdditional, handleSelectPerson, handleClickAccordion } from '../../../../Reducers/Insurance/GroupStepRedux';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../../Reducers/Insurance/PackagesRedux';
 import { handleSelectAdditional, handleStep2, resetAdditionalState } from '../../../../Reducers/Insurance/StepRedux';
 import CommonModal from '../../../Common/CommonModal';
@@ -200,6 +200,10 @@ const BuyInsuranceGroupStep2Component = (props) => {
     
     const checkPerson = (buyerSelect) => {
         dispatch(handleSelectPerson(buyerSelect));
+    }
+
+    const handleAccordion = (buyerSelect) => {
+        dispatch(handleClickAccordion(buyerSelect));
     }
     
     const _renderTextViewAdditional = (buyer, item) => {
@@ -446,9 +450,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const _renderListPerson = () => {
         return listPerson.map((item, index) => {
             return (
-                <Accordion flush defaultActiveKey="0" className='group-insurance active' style={{marginBottom: "20px", borderRadius: "20px", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
+                <Accordion  flush defaultActiveKey="0" className='group-insurance active' style={{marginBottom: "20px", borderRadius: "20px", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
                     <Accordion.Item eventKey={index}>
-                        <Accordion.Header style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
+                        <Accordion.Header onClick={()=>handleAccordion(item)} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
                                 <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br />
@@ -465,7 +469,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
                                 ) :
                                     ""}
                         <div style={{paddingLeft: "20px", paddingRight: "20px"}}>
-                        {item.package ? _renderChoosePackage(item, item.package) : ""}
+                        {!item.Accordion ? _renderChoosePackage(item, item.package) : ""}
                         </div>
                         </div>
                             

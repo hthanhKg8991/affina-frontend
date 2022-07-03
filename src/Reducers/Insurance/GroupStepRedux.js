@@ -134,6 +134,16 @@ const InsuranceSlice = createSlice({
                 }
             })
         },
+        handleClickAccordion(state, action) {
+            const selectPerson = action.payload;
+            state.dataStep.groupStep1.listPerson.forEach((person) => {
+                if (person.id === selectPerson.id) {
+                    if(person.Accordion === true) {return person.Accordion= false } else {return person.Accordion = true}
+                } else {
+                    return person.Accordion = false;
+                }
+            })
+        },
     }
 });
 export const {
@@ -147,6 +157,7 @@ export const {
     resetAdditional,
     pushAdditionalItem,
     handleRemoveAdditional,
-    handleSelectPerson
+    handleSelectPerson,
+    handleClickAccordion
 } = InsuranceSlice.actions;
 export default InsuranceSlice.reducer
