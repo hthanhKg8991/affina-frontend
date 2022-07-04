@@ -218,7 +218,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                     <Col sm={9} md={9}>
                         <div className="group-info">
                             <div className="header">
-                                <Container>
+                                <Container style={{padding: "0px"}}>
                                     <Container>
                                         <Stack direction="horizontal">
                                             <div className="icon-header">
@@ -254,7 +254,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                     </Container>
                                 </Container>
                             </div>
-                            <Container className="insurance-info text-left">
+                            <Container className="insurance-info text-left" style={{padding: "0px"}}>
                                 <Container>
                                     <section className="list-info">
                                         <Row>
@@ -323,7 +323,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                         </div>
                         <div className="group-info">
                             <div className="header">
-                                <Container>
+                                <Container style={{padding: "0px"}}>
                                     <Container>
                                         <Stack direction="horizontal">
                                             <div className="icon-header">
@@ -358,7 +358,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                     </Container>
                                 </Container>
                             </div>
-                            <Container className="insurance-info text-left">
+                            <Container className="insurance-info text-left" style={{padding: "0px"}}>
                                 <Container>
                                     <section className="list-info">
                                         <Row>
