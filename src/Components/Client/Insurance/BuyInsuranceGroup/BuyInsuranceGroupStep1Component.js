@@ -32,6 +32,7 @@ import upLoad from "../../../../Assets/Images/public/icons/feather_upload-cloud.
 import TemplateImportDataGruop from "../../../../Assets/FileExcelMau/TemplateImportDataGruop.xlsx";
 import edit from "../../../../Assets/Images/public/icons/edit.webp";
 import deleted from "../../../../Assets/Images/public/icons/delete.png";
+import { uploadFile } from "../../../../Reducers/Upload/UploadFileRedux";
 
 const BuyInsuranceGroupStep1Component = (props) => {
   const dispatch = useDispatch();
@@ -99,6 +100,9 @@ const BuyInsuranceGroupStep1Component = (props) => {
     console.log("ok");
     let file = event.target.files[0];
     console.log("listperson", file);
+    dispatch(
+      uploadFile(file)
+    )
   };
 
   const handleEdit = (index) => {

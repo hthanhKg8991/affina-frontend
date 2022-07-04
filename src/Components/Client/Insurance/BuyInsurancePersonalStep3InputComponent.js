@@ -214,8 +214,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
             },
             "insurance_buyer": {
                 // age  < 14
-                "fullname": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
-                "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.key : '',
+                "fullname": checkAgeHadIdentity(step1.birthday) ? relationshipName || step3.relationshipName : '',
+                "relationship": checkAgeHadIdentity(step1.birthday) ? relationship && relationship.key || step3.relationship && step3.relationship.key : '',
                 "id_card": identity || step3.identity,
                 "phone": phone || step3.phone,
                 "email": email || step3.email,

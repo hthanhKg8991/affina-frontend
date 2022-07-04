@@ -325,12 +325,12 @@ const BuyInsurancePersonalComponent = () => {
               Link:{" "}
               <a
                 href={
-                  "https://affina.com.vn/tham-gia-bao-hiem-BOne?step=3&standStep=4&contract_num=" +
+                  "https://affina.com.vn/tham-gia-bao-hiem-BOne?tab="+tab+"&step=3&standStep=4&contract_num=" +
                   data.order_code
                 }
                 target="_blank"
               >
-                https://affina.com.vn/tham-gia-bao-hiem-BOne?step=3&standStep=4&contract_num=
+                https://affina.com.vn/tham-gia-bao-hiem-BOne?tab={tab}&step=3&standStep=4&contract_num=
                 {orderData.data && orderData.data.order_code}
               </a>{" "}
             </p>

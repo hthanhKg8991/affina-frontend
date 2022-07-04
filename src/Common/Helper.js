@@ -64,7 +64,7 @@ export function viewTextAge(birthday) {
 }
 
 export function checkDays(oldDay) {
-  let _oldDay = moment(oldDay);
+  let _oldDay = moment(oldDay, 'DD/MM/YYYY');
   let currentMoment = moment();
   if (currentMoment.diff(_oldDay, "days") >= 1) return true;
   return false;
@@ -177,7 +177,7 @@ export function isValidateEmail(email) {
 
 export function formatIOSToDate(date) {
   let result = "";
-  if (!isStringNullOrEmpty(date)) {
+  if (!isStringNullOrEmpty(date)) { 
     result = moment(date).toDate();
   }
   return result;

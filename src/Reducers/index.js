@@ -7,6 +7,7 @@ import PaymentRedux from './Insurance/PaymentRedux';
 import sendRequestRedux from './SentRequest/SendRequestRedux';
 import AuthenticationRedux from './Auth/AuthenticationRedux';
 import AuthRedux from './Auth/AuthRedux';
+import UploadFileRedux from './Upload/UploadFileRedux';
 
 const rootReducer = combineReducers({
     categoriesRedux,
@@ -17,5 +18,6 @@ const rootReducer = combineReducers({
     AuthenticationRedux,
     AuthRedux,
     PaymentRedux,
+    UploadFileRedux,
 });
 export default rootReducer;

@@ -16,7 +16,6 @@ const BriefComponent = (props) => {
 
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2 } = dataStep;
-    const { listPerson = [] } = step1;
     const { additional = [] } = step2;
     const { selectAdditional = [] } = props;
     const isHasDataApi = () => {
@@ -73,10 +72,6 @@ const BriefComponent = (props) => {
             <Form.Label className='justify-content-start d-flex'>Tóm tắt đơn bảo hiểm</Form.Label>
             <Nav className='justify-content-between'>
                 <label className='unit'> *Đơn vị: VNĐ</label>
-                {
-                    props.isFlowPackage &&
-                    <label className='unit ms-auto'> Số lượng: {listPerson.length}</label>
-                }
             </Nav>
             <Line type='dotted' />
             <div className='brief-info'>

@@ -8,6 +8,7 @@ import { categoriesGetAll, categoriesGetDetail, categoriesGetType } from '../Sag
 import { getOrderDetail, createOrder, createPayment, getAllSuppliers, packageGetAll, packageGetBySupplier, packageGetDetail, postPackageBySupplier, postProductGetByPackage } from '../Saga/Client/PackageSaga';
 import { rootAuthentication } from './Client/AuthenticationSaga';
 import { createSendRequest, getAll, getDetail } from './Client/SendRequestSaga';
+import { rootUploadFile } from './Client/UploadFile';
 
 export default function* rootSaga() {
     yield all([
@@ -31,6 +32,8 @@ export default function* rootSaga() {
         takeLatest(SendRequestRedux.getDetail.type, getDetail),
         takeLatest(SendRequestRedux.createSendRequest.type, createSendRequest),
         // Authentication
-        rootAuthentication()
+        rootAuthentication(),
+        // rootUploadFile
+        rootUploadFile(),
     ])
 }

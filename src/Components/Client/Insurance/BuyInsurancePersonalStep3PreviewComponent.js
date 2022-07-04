@@ -94,10 +94,6 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                 "ward": step3.ward.name,
                 "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
                 "note": "",
-                // age  < 14
-                "relationshipName": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
-                "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.value : '',
-                
                 // Require billing
                 "is_billing": step3.isBilling,
                 "company_name": step3.companyName,
@@ -171,7 +167,11 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
 
     const isCheckPackage = (value, isView) => {
         if (isHasDataApi()) {
-            return orderDataDetail.product_package && orderDataDetail.product_package[isView]
+            if (isView === 'package_main') {
+                return orderDataDetail.product_package && JSON.parse(orderDataDetail.product_package[isView]);
+            } else {
+                return orderDataDetail.product_package && orderDataDetail.product_package[isView];
+            }
         } else {
             return value;
         }
@@ -187,6 +187,13 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
     const isCheckContractDetail = (value, isView) => {
         if (isHasDataApi()) {
             return orderDataDetail.contract_detail && orderDataDetail.contract_detail[isView]
+        } else {
+            return value;
+        }
+    }
+    const isCheckSupplier = (value, isView) => {
+        if (isHasDataApi()) {
+            return orderDataDetail.supplier && orderDataDetail.supplier[isView]
         } else {
             return value;
         }
@@ -291,14 +298,14 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                     <strong>{isCheckContractNum(step3.email, 'email')}</strong>
                                 </Col>
                                 {
-                                    checkAgeHadIdentity(step1.birthday) &&
+                                    checkAgeHadIdentity(isCheckContractNum(step1.birthday, 'birthday')) &&
                                     <Col md={3} xs={6}>
                                         <p className='title-info'>Tên người yêu cầu bảo hiểm</p>
                                         <strong>{insuranceBuyer(step3.relationshipName, 'fullname')}</strong>
                                     </Col>
                                 }
                                 {
-                                    checkAgeHadIdentity(step1.birthday) &&
+                                    checkAgeHadIdentity(isCheckContractNum(step1.birthday, 'birthday')) &&
                                     <Col md={3} xs={6}>
                                         <p className='title-info'>Mối quan hệ</p>
                                         <strong>{insuranceBuyer(step3.relationship && step3.relationship.value, 'relationship')}</strong>
@@ -356,16 +363,16 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Nhà bảo hiểm</p>
-                                    <strong>{step2.supplier && step2.supplier.name}</strong>
+                                    <strong>{isCheckSupplier(step2.supplier.name, 'name')}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Tên gói</p>
-                                    <strong>{step2.packageName}</strong>
+                                    <strong>{isCheckPackage(step2.packageName, 'package')}</strong>
                                 </Col>
                                 <Line type="solid" className='xs-visibility mt-2 mb-2' />
                                 <Col md={3} xs={12}>
                                     <p className='title-info'>Số tiền được bảo hiểm</p>
-                                    <strong>{formatPrepaidAmount(matchRound(step2.intoMoneyAmount))}VNĐ</strong>
+                                    <strong>{formatPrepaidAmount(matchRound(isCheckPackage(step2.intoMoneyAmount, 'amount_insured')))}VNĐ</strong>
                                     {/* <strong>{formatPrepaidAmount(matchRound(step2.price))}VNĐ</strong> */}
                                 </Col>
                                 <Col className="col"></Col>
@@ -396,8 +403,8 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                 <Col md={6} xs={12}>
                                     <p className='title-info'>Quyền lợi chính</p>
                                     {
-                                        (!isEmptyArray(step2.packageMain)) &&
-                                        step2.packageMain.map((itemMain, index) => {
+                                        (!isEmptyArray(isCheckPackage(step2.packageMain, 'package_main'))) &&
+                                        isCheckPackage(step2.packageMain, 'package_main').map((itemMain, index) => {
                                             return (
                                                 <div className='sub-info-insure' key={itemMain._id}>
                                                     <strong className='benefits-title'>{itemMain.name}</strong>

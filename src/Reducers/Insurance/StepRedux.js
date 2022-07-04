@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 import { percentage } from "../../Common/Helper";
-import { checkAge } from "../../Common/Helper";
 const initialState = {
   currentStep: 1,
   holdStep: 2,
@@ -9,7 +8,6 @@ const initialState = {
     step1: {
       gender: "",
       birthday: "",
-      listPerson: [],
     },
     step2: {
       packageId: "",
@@ -60,7 +58,9 @@ const InsuranceSlice = createSlice({
   initialState,
   reducers: {
     handleStep1(state, action) {
-      state.dataStep.step1 = action.payload;
+      // console.log('action.payload>>>', JSON.parse(JSON.stringify(action.payload)));
+      state.dataStep.step1.gender = '1';
+      state.dataStep.step1.birthday = action.payload.birthday;
     },
     handleStep2(state, action) {
       let amount = 0;

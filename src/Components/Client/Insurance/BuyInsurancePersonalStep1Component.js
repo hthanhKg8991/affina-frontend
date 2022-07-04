@@ -42,7 +42,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
     // useEffect(()=>{
     //     checkAge
     // })
-    checkAge(birthday)
+    // checkAge(birthday)
     return (
         <div className='insurance-content-step1'>
             <h4>Cho Affina biết chút thông tin về người được bảo hiểm bạn nhé!</h4>

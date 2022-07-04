@@ -17,7 +17,7 @@ const initialState = {
     }
 };
 
-const InsuranceSlice = createSlice({
+const InsuranceGroupSlice = createSlice({
     name: 'InsuranceGroup',
     initialState,
     reducers: {
@@ -156,8 +156,8 @@ export const {
     pushItem,
     resetAdditional,
     pushAdditionalItem,
-    handleRemoveAdditional,
     handleSelectPerson,
-    handleClickAccordion
-} = InsuranceSlice.actions;
-export default InsuranceSlice.reducer
+    handleClickAccordion,
+    handleRemoveAdditional
+} = InsuranceGroupSlice.actions;
+export default InsuranceGroupSlice.reducer
