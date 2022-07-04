@@ -33,7 +33,13 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
     const WardData = Ward.filter(element => element.district_code === stateDistrict);
 
     let total_additional_fee = 0;
-    personDetail.selectAddition.forEach((addtion) => total_additional_fee += addtion.fee);
+    let total_extra_package = 0;
+    personDetail.selectAddition.forEach((addition) =>
+        {
+            total_additional_fee += addition.fee;
+            total_extra_package += parseInt(addition.amount);
+        }
+    );
 
     var datePlusOne = new Date();
     const handleCheckBilling = (key, value) => {
@@ -416,7 +422,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                           />
                           <Col md={3} xs={6}>
                             <p className="title-info">Số tiền được bảo hiểm</p>
-                            <strong>{formatPrepaidAmount(matchRound(personDetail.package.price))}VNĐ</strong>
+                            <strong>{formatPrepaidAmount(matchRound(personDetail.package.price + total_extra_package))}VNĐ</strong>
                           </Col>
                           <Col className="col"> </Col>
                           <Line type="solid" className="xs-visibility mt-2" />

@@ -23,7 +23,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
     // 
     const { dataStep } = useSelector((state) => state.insuranceRedux) || [];
     const { step1, step2, step3 } = dataStep;
-    console.log('BuyInsurancePersonalStep3PreviewComponent:', orderDataDetail);
+    console.log('BuyInsurancePersonalStep3PreviewComponent:', step2);
     // const [amountSecondary, setAmountSecondary] = useState(0);
     var amountSecondary = 0;
     var amountMain = 0;
@@ -356,7 +356,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                             <Row>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Nhà bảo hiểm</p>
-                                    <strong>{step2.supplier && step2.supplier.name}</strong>
+                                    <strong>{step2.supplier.name}</strong>
                                 </Col>
                                 <Col md={3} xs={6}>
                                     <p className='title-info'>Tên gói</p>
