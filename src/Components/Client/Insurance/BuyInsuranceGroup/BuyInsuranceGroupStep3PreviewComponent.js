@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, validate } from '../../../../Common/Helper';
+import { checkAge, formatIOSToDate, formatPrepaidAmount, genderByText, isEmptyArray, isStringNullOrEmpty, isValidateEmail, isValidatePhone, matchRound, validate } from '../../../../Common/Helper';
 import District from '../../../../Config/districts';
 import ProvinceData from '../../../../Config/provinces';
 import Ward from '../../../../Config/wards';
@@ -31,6 +31,9 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
     const stateDistrict = state[personDetail.id + 'District'] && state[personDetail.id + 'District'].code || '';
     const DistrictData = District.filter(element => element.province_code === stateProvince);
     const WardData = Ward.filter(element => element.district_code === stateDistrict);
+
+    let total_additional_fee = 0;
+    personDetail.selectAddition.forEach((addtion) => total_additional_fee += addtion.fee);
 
     var datePlusOne = new Date();
     const handleCheckBilling = (key, value) => {
@@ -192,252 +195,326 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
     }, [personDetail])
     console.log('onsetStateInput>>>', handleValidateButton());
     return (
-        <div className="insurance-group-step3-input">
+      <div className="insurance-group-step3-input">
         <Container className="text-left">
-            <h5 className="text-center">Vui lòng kiểm tra lại thông tin </h5>
-            <Container>
-                <Row>
-                    <Col sm={12} md={3}>
-                        <ListGroup variant="flush">
-                            <ListGroup.Item className="title"> Danh sách người được bảo hiểm
-                            </ListGroup.Item>
-                            {
-                                listPerson.map((item, index) => {
-                                    return (
-                                        <ListGroup.Item style={{fontWeight: item.id === personDetail.id ? "Bold" : ""}} key={index} onClick={() => onSelectDetail(item)}>
-                                            {index + 1}. {item.name}
-                                            {item.id === personDetail.id && (
-                                                <i className="mdi mdi-check-bold ms-auto is-select"></i>
-                                            )}
-                                        </ListGroup.Item>
-                                    )
-                                })
-                            }
-                          </ListGroup>
-                    </Col>
-                    <Col sm={9} md={9}>
-                        <div className="group-info">
-                            <div className="header">
-                                <Container style={{padding: "0px"}}>
-                                    <Container>
-                                        <Stack direction="horizontal">
-                                            <div className="icon-header">
-                                                <Image
-                                                    src={accessStyle.images.icons.user}
-                                                    srcSet={`
+          <h5 className="text-center">Vui lòng kiểm tra lại thông tin </h5>
+          <Container>
+            <Row>
+              <Col sm={12} md={3}>
+                <ListGroup variant="flush">
+                  <ListGroup.Item className="title">
+                    {" "}
+                    Danh sách người được bảo hiểm
+                  </ListGroup.Item>
+                  {listPerson.map((item, index) => {
+                    return (
+                      <ListGroup.Item
+                        style={{
+                          fontWeight: item.id === personDetail.id ? "Bold" : "",
+                        }}
+                        key={index}
+                        onClick={() => onSelectDetail(item)}
+                      >
+                        {index + 1}. {item.name}
+                        {item.id === personDetail.id && (
+                          <i className="mdi mdi-check-bold ms-auto is-select"></i>
+                        )}
+                      </ListGroup.Item>
+                    );
+                  })}
+                </ListGroup>
+              </Col>
+              <Col sm={9} md={9}>
+                <div className="group-info">
+                  <div className="header">
+                    <Container style={{ padding: "0px" }}>
+                      <Container>
+                        <Stack direction="horizontal">
+                          <div className="icon-header">
+                            <Image
+                              src={accessStyle.images.icons.user}
+                              srcSet={`
                                                         ${accessStyle.images.icons.user2x} 2x,
                                                         ${accessStyle.images.icons.user3x} 3x
                                                         `}
-                                                    alt="icon user"
-                                                    width={19}
-                                                    height={22}
-                                                />
-                                            </div>
-                                            <div className="title-header">
-                                                <h3>THÔNG TIN NGƯỜI ĐƯỢC BẢO HIỂM</h3>
-                                            </div>
-                                            <div className="ms-auto">
-                                                <Image
-                                                    src={accessStyle.images.icons.edit}
-                                                    srcSet={`
+                              alt="icon user"
+                              width={19}
+                              height={22}
+                            />
+                          </div>
+                          <div className="title-header">
+                            <h3>THÔNG TIN NGƯỜI ĐƯỢC BẢO HIỂM</h3>
+                          </div>
+                          <div className="ms-auto">
+                            <Image
+                              src={accessStyle.images.icons.edit}
+                              srcSet={`
+                                    ${accessStyle.images.icons.edit2x} 2x,
+                                    ${accessStyle.images.icons.edit3x} 3x
+                                                    `}
+                              className="cursor-pointer"
+                              // onClick={() => isHasDataApi() ? {} : handleEditStep()}
+                              alt="icon edit"
+                              width={19}
+                              height={22}
+                            />
+                          </div>
+                        </Stack>
+                      </Container>
+                    </Container>
+                  </div>
+                  <Container
+                    className="insurance-info text-left"
+                    style={{ padding: "0px" }}
+                  >
+                    <Container>
+                      <section className="list-info">
+                        <Row>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Họ và tên</p>
+                            <strong>{personDetail.name}</strong>
+                          </Col>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Giới tính</p>
+                            <strong>{genderByText(personDetail.gender)}</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mt-2 mb-2"
+                          />
+                          <Col md={2} xs={6}>
+                            <p className="title-info">Ngày sinh</p>
+                            <strong>{moment(personDetail.birthday).format('DD/MM/YYYY')}</strong>
+                          </Col>
+                          <Col md={4} xs={6}>
+                            <p className="title-info">
+                              Số CMND / CCCD / Passport
+                            </p>
+                            <strong>{personDetail.identity}</strong>
+                          </Col>
+                          <Line type="solid" className="xs-visibility mt-2" />
+                        </Row>
+                        <Line type="solid" className="xs-hidden" />
+                        <Row>
+                          <Col md={3} xs={12}>
+                            <p className="title-info">Địa chỉ</p>
+                            <strong>{personDetail.address}</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mt-2 mb-2"
+                          />
+                          <Col md={3} xs={12}>
+                            <p className="title-info">Phường</p>
+                            <strong>{personDetail.ward.name}</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mt-2 mb-2"
+                          />
+                          <Col md={3} xs={12}>
+                            <p className="title-info">Quận/huyện</p>
+                            <strong>{personDetail.district.name}</strong>
+                          </Col>
+                          <Col md={3} xs={12}>
+                            <p className="title-info">Thành phố</p>
+                            <strong>{personDetail.province.name}</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mb-2 mb-2"
+                          />
+                        </Row>
+                        <Line type="solid" className="xs-hidden" />
+                        <Row>
+                          <Col md={3} xs={12}>
+                            <p className="title-info">Số điện thoại</p>
+                            <strong>{personDetail.phone}</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mt-2 mb-2"
+                          />
+                          <Col md={3} xs={12}>
+                            <p className="title-info">Email</p>
+                            <strong>{personDetail.email}</strong>
+                          </Col>
+                          {/* <Col md={4} xs={6}>
+                            <p className="title-info">
+                              Tên người yêu cầu bảo hiểm{" "}
+                            </p>
+                            <strong></strong>
+                          </Col>
+                          <Col md={2} xs={6}>
+                            <p className="title-info">Mối quan hệ</p>
+                            <strong></strong>
+                          </Col> */}
+                        </Row>
+                        <Line type="solid" />
+                        <div className="table-footer">
+                          Yêu cầu xuất hoá đơn đỏ: <strong></strong>
+                        </div>
+                      </section>
+                    </Container>
+                  </Container>
+                </div>
+                <div className="group-info">
+                  <div className="header">
+                    <Container style={{ padding: "0px" }}>
+                      <Container>
+                        <Stack direction="horizontal">
+                          <div className="icon-header">
+                            <Image
+                              src={accessStyle.images.icons.security}
+                              srcSet={`
+                                    ${accessStyle.images.icons.security2x} 2x,
+                                    ${accessStyle.images.icons.security3x} 3x
+                               `}
+                              alt="Logo Affina"
+                              width={19}
+                              height={22}
+                            />
+                          </div>
+                          <div className="title-header">
+                            <h3>THÔNG TIN GÓI BẢO HIỂM</h3>
+                          </div>
+                          <div className="ms-auto">
+                            <Image
+                              src={accessStyle.images.icons.edit}
+                              srcSet={`
                                                         ${accessStyle.images.icons.edit2x} 2x,
                                                         ${accessStyle.images.icons.edit3x} 3x
                                                     `}
-                                                        className="cursor-pointer"
-                                                     // onClick={() => isHasDataApi() ? {} : handleEditStep()}
-                                                        alt="icon edit"
-                                                        width={19}
-                                                        height={22}
-                                                />
-                                            </div>
-                                        </Stack>
-                                    </Container>
-                                </Container>
+                              // onClick={() => isHasDataApi() ? {} : handleEditStep()}
+                              alt="icon edit"
+                              width={19}
+                              height={22}
+                            />
+                          </div>
+                        </Stack>
+                      </Container>
+                    </Container>
+                  </div>
+                  <Container
+                    className="insurance-info text-left"
+                    style={{ padding: "0px" }}
+                  >
+                    <Container>
+                      <section className="list-info">
+                        <Row>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Nhà bảo hiểm</p>
+                            <strong>{personDetail.package.supplier.name}</strong>
+                          </Col>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Tên gói</p>
+                            <strong>{personDetail.package.name}</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mt-2 mb-2"
+                          />
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Số tiền được bảo hiểm</p>
+                            <strong>{formatPrepaidAmount(matchRound(personDetail.package.price))}VNĐ</strong>
+                          </Col>
+                          <Col className="col"> </Col>
+                          <Line type="solid" className="xs-visibility mt-2" />
+                        </Row>
+                        <Line type="solid" className="xs-hidden" />
+                        <Row>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Ngày bắt đầu bảo hiểm</p>
+                            <strong>{moment(personDetail.starttimeinsure).format('DD/MM/YYYY')}</strong>
+                          </Col>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Ngày hết hạn bảo hiểm</p>
+                            <strong>{moment(personDetail.starttimeinsure).add(364, 'days').format('DD/MM/YYYY')}</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mt-2 mb-2"
+                          />
+                          <Col md={3} xs={6}></Col>
+                          <Col md={3} xs={6}></Col>
+                        </Row>
+                        <Line type="solid" className="xs-hidden" />
+                        <Row>
+                          <Col md={6} xs={12}>
+                            <p className="title-info">Quyền lợi chính</p>
+                                    {
+                                        (!isEmptyArray(personDetail.package.package_main)) &&
+                                        personDetail.package.package_main.map((itemMain, index) => {
+                                            return (
+                                                <div className='sub-info-insure' key={itemMain._id}>
+                                                    <strong className='benefits-title'>{itemMain.name}</strong>
+                                                    <p className='benefits-price d-flex justify-content-md-start justify-content-between'>
+                                                        <span>Số tiền được bảo hiểm:</span>
+                                                        <span>{formatPrepaidAmount(matchRound(itemMain.amount))}VNĐ</span>
+                                                    </p>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                          </Col>
+                          <Col md={6} xs={12}>
+                            <p className="title-info">Quyền lợi bổ sung </p>
+                                    {
+                                        (!isEmptyArray(personDetail.selectAddition)) &&
+                                        personDetail.selectAddition.map((itemMain, index) => {
+                                            return (
+                                                <div className='sub-info-insure' key={itemMain._id}>
+                                                    <strong className='benefits-title'>{itemMain.name}</strong>
+                                                    <p className='benefits-price d-flex justify-content-md-start justify-content-between'>
+                                                        <span>Số tiền được bảo hiểm:</span>
+                                                        <span>{formatPrepaidAmount(matchRound(itemMain.amount))}VNĐ</span>
+                                                    </p>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                          </Col>
+                          <Line type="solid" className="xs-visibility mt-2" />
+                        </Row>
+                        <Line type="solid" className="xs-hidden" />
+                        <Row>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Phí gói chính</p>
+                            <strong>{formatPrepaidAmount(matchRound(personDetail.package.price_fee))}VNĐ</strong>
+                          </Col>
+                          <Col md={3} xs={6}>
+                            <p className="title-info">Tổng phí gói phụ</p>
+                            <strong>{formatPrepaidAmount(matchRound(total_additional_fee))}VNĐ</strong>
+                          </Col>
+                          <Line
+                            type="solid"
+                            className="xs-visibility mt-2 mb-2"
+                          />
+                          <Col md={3} xs={6}></Col>
+                          <Col
+                            md={3}
+                            xs={12}
+                            className="d-flex justify-content-end"
+                          >
+                            <div className="total">
+                              {" "}
+                              TỔNG: <strong>VNĐ</strong>{" "}
                             </div>
-                            <Container className="insurance-info text-left" style={{padding: "0px"}}>
-                                <Container>
-                                    <section className="list-info">
-                                        <Row>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Họ và tên</p>
-                                                <strong>Nguyễn Hoàng Tấn</strong>
-                                            </Col>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Giới tính</p>
-                                                <strong>Name</strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={2} xs={6}>
-                                                <p className="title-info">Ngày sinh</p>
-                                                <strong>15/08/1995</strong>
-                                            </Col>
-                                            <Col md={4} xs={6}>
-                                                <p className="title-info">Số CMND / CCCD / Passport</p>
-                                                <strong>264465727</strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2" />
-                                        </Row>
-                                        <Line type="solid" className="xs-hidden" />
-                                        <Row>
-                                            <Col md={3} xs={12}>
-                                                <p className="title-info">Địa chỉ</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={3} xs={12}>
-                                                <p className="title-info">Phường</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={3} xs={12}>
-                                                <p className="title-info">Quận/huyện</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col md={3} xs={12}>
-                                                <p className="title-info">Thành phố</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mb-2 mb-2"/>
-                                        </Row>
-                                        <Line type="solid" className="xs-hidden" />
-                                        <Row>
-                                            <Col md={3} xs={12}>
-                                                <p className="title-info">Số điện thoại</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={3} xs={12}>
-                                                <p className="title-info">Email</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col md={4} xs={6}>
-                                                <p className="title-info">Tên người yêu cầu bảo hiểm </p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col md={2} xs={6}>
-                                                <p className="title-info">Mối quan hệ</p>
-                                                <strong></strong>
-                                            </Col>
-                                        </Row>
-                                        <Line type="solid" />
-                                        <div className="table-footer">Yêu cầu xuất hoá đơn đỏ: <strong></strong></div>
-                                    </section>
-                                </Container>
-                            </Container>
-                        </div>
-                        <div className="group-info">
-                            <div className="header">
-                                <Container style={{padding: "0px"}}>
-                                    <Container>
-                                        <Stack direction="horizontal">
-                                            <div className="icon-header">
-                                                <Image
-                                                    src={accessStyle.images.icons.security}
-                                                    srcSet={`
-                                                        ${accessStyle.images.icons.security2x} 2x,
-                                                        ${accessStyle.images.icons.security3x} 3x
-                                                    `}
-                                                    alt="Logo Affina"
-                                                    width={19}
-                                                    height={22}
-                                                />
-                                            </div>
-                                            <div className="title-header">
-                                                <h3>THÔNG TIN GÓI BẢO HIỂM</h3>
-                                            </div>
-                                            <div className="ms-auto">
-                                                <Image
-                                                    src={accessStyle.images.icons.edit}
-                                                    srcSet={`
-                                                        ${accessStyle.images.icons.edit2x} 2x,
-                                                        ${accessStyle.images.icons.edit3x} 3x
-                                                    `}
-                                                    // onClick={() => isHasDataApi() ? {} : handleEditStep()}
-                                                    alt="icon edit"
-                                                    width={19}
-                                                    height={22}
-                                                />
-                                            </div>
-                                        </Stack>
-                                    </Container>
-                                </Container>
-                            </div>
-                            <Container className="insurance-info text-left" style={{padding: "0px"}}>
-                                <Container>
-                                    <section className="list-info">
-                                        <Row>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Nhà bảo hiểm</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Tên gói</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Số tiền được bảo hiểm</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col className="col"> </Col>
-                                            <Line type="solid" className="xs-visibility mt-2" />
-                                        </Row>
-                                        <Line type="solid" className="xs-hidden" />
-                                        <Row>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Ngày bắt đầu bảo hiểm</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Ngày hết hạn bảo hiểm</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={3} xs={6}></Col>
-                                            <Col md={3} xs={6}></Col>
-                                        </Row>
-                                        <Line type="solid" className="xs-hidden" />
-                                        <Row>
-                                            <Col md={6} xs={12}>
-                                                <p className="title-info">Quyền lợi chính</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col md={6} xs={12}>
-                                                <p className="title-info">Quyền lợi bổ sung </p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2" />
-                                        </Row>
-                                        <Line type="solid" className="xs-hidden" />
-                                        <Row>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Phí gói chính</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Col md={3} xs={6}>
-                                                <p className="title-info">Tổng phí gói phụ</p>
-                                                <strong></strong>
-                                            </Col>
-                                            <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={3} xs={6}></Col>
-                                            <Col md={3} xs={12} className="d-flex justify-content-end">
-                                                <div className="total"> TỔNG: <strong>VNĐ</strong> </div>
-                                            </Col>
-                                            <Line type="solid" className="xs-hidden" />
-                                        </Row>
-                                    </section>
-                                </Container>
-                            </Container>
-                        </div>
-               
-                    </Col>
-                </Row>
-            </Container>
+                          </Col>
+                          <Line type="solid" className="xs-hidden" />
+                        </Row>
+                      </section>
+                    </Container>
+                  </Container>
+                </div>
+              </Col>
+            </Row>
+          </Container>
         </Container>
         <CommonButtonInsurance
           textButtonGoBack="QUAY LẠI"
           textButtonContinue="TIẾP TỤC"
-        //   validate={validate([isConfirm, handleValidateButton()])}
+          //   validate={validate([isConfirm, handleValidateButton()])}
           // validate={false}
           handleButtonGoBack={handleGoBackButton}
           handleButtonContinue={handleContinue}

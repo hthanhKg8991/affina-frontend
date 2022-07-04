@@ -300,7 +300,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                 {
                                     checkAgeHadIdentity(step1.birthday) &&
                                     <Col md={3} xs={6}>
-                                        <p className='title-info'>Mối quán hệ</p>
+                                        <p className='title-info'>Mối quan hệ</p>
                                         <strong>{insuranceBuyer(step3.relationship && step3.relationship.value, 'relationship')}</strong>
                                     </Col>
                                 }
