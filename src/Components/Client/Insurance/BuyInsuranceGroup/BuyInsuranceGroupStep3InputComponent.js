@@ -202,8 +202,8 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                                 {
                                     listPerson.map((item, index) => {
                                         return (
-                                            <ListGroup.Item key={index} onClick={() => onSelectDetail(item)}>
-                                                {item.name}
+                                            <ListGroup.Item style={{fontWeight: (item.id === personDetail.id) ? "Bold": ""}} key={index} onClick={() => onSelectDetail(item)}>
+                                               {index + 1}. {item.name}
                                                 {
                                                     (item.id === personDetail.id) &&
                                                     <i className='mdi mdi-check-bold ms-auto is-select'></i>

@@ -194,7 +194,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
 
     return (
         <div className='insurance-content-step3-preview'>
-            <h5>Kiểm tra lại thông tin </h5>
+            <h5>Vui lòng kiểm tra lại thông tin </h5>
             <div className='group-info'>
                 <div className='header'>
                     <Container>
