@@ -405,7 +405,7 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
                                         <DatePicker className="form-control"
                                             selected={startTimeInsure}
                                             onChange={(date) => handleTimeInsure(date)}
-                                            placeholderText="Nhập ngày/tháng/năm sinh*"
+                                            placeholderText="Nhập ngày/tháng/năm*"
                                             dateFormat="dd/MM/yyyy"
                                             minDate={datePlusOne.setDate(datePlusOne.getDate() + 1)}
                                             customInput={
