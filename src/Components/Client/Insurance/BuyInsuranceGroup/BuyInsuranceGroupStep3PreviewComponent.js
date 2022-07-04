@@ -260,20 +260,20 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                         <Row>
                                             <Col md={3} xs={6}>
                                                 <p className="title-info">Họ và tên</p>
-                                                <strong></strong>
+                                                <strong>Nguyễn Hoàng Tấn</strong>
                                             </Col>
                                             <Col md={3} xs={6}>
                                                 <p className="title-info">Giới tính</p>
-                                                <strong></strong>
+                                                <strong>Name</strong>
                                             </Col>
                                             <Line type="solid" className="xs-visibility mt-2 mb-2"/>
-                                            <Col md={3} xs={6}>
+                                            <Col md={2} xs={6}>
                                                 <p className="title-info">Ngày sinh</p>
-                                                <strong></strong>
+                                                <strong>15/08/1995</strong>
                                             </Col>
-                                            <Col md={3} xs={6}>
+                                            <Col md={4} xs={6}>
                                                 <p className="title-info">Số CMND / CCCD / Passport</p>
-                                                <strong></strong>
+                                                <strong>264465727</strong>
                                             </Col>
                                             <Line type="solid" className="xs-visibility mt-2" />
                                         </Row>
@@ -289,6 +289,10 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                                 <strong></strong>
                                             </Col>
                                             <Line type="solid" className="xs-visibility mt-2 mb-2"/>
+                                            <Col md={3} xs={12}>
+                                                <p className="title-info">Quận/huyện</p>
+                                                <strong></strong>
+                                            </Col>
                                             <Col md={3} xs={12}>
                                                 <p className="title-info">Thành phố</p>
                                                 <strong></strong>
@@ -306,11 +310,11 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                                 <p className="title-info">Email</p>
                                                 <strong></strong>
                                             </Col>
-                                            <Col md={3} xs={6}>
+                                            <Col md={4} xs={6}>
                                                 <p className="title-info">Tên người yêu cầu bảo hiểm </p>
                                                 <strong></strong>
                                             </Col>
-                                            <Col md={3} xs={6}>
+                                            <Col md={2} xs={6}>
                                                 <p className="title-info">Mối quan hệ</p>
                                                 <strong></strong>
                                             </Col>
@@ -433,7 +437,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
         <CommonButtonInsurance
           textButtonGoBack="QUAY LẠI"
           textButtonContinue="TIẾP TỤC"
-          validate={validate([isConfirm, handleValidateButton()])}
+        //   validate={validate([isConfirm, handleValidateButton()])}
           // validate={false}
           handleButtonGoBack={handleGoBackButton}
           handleButtonContinue={handleContinue}
