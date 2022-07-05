@@ -129,7 +129,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
 
     const handleSelectPackage = (buyer, item) => {
         console.log('item:::', buyer, item);
-        // handleAdditional(item._id);
+        handleAdditional(item._id);
         dispatch(
             pushItem(
                 {
