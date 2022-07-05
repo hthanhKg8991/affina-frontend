@@ -34,7 +34,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
 
   let total_additional_fee = 0;
   let total_extra_package = 0;
-  personDetail.selectAddition.forEach((addition) => {
+  personDetail.selectAddition && personDetail.selectAddition.forEach((addition) => {
     total_additional_fee += addition.fee;
     total_extra_package += parseInt(addition.amount);
   }
