@@ -144,6 +144,9 @@ const InsuranceGroupSlice = createSlice({
                 }
             })
         },
+        handleAllAccordion(state, action) {
+            state.dataStep.groupStep1.listPerson.forEach((person) => { return person.Accordion = false });
+        },
     }
 });
 export const {
@@ -158,6 +161,7 @@ export const {
     pushAdditionalItem,
     handleSelectPerson,
     handleClickAccordion,
+    handleAllAccordion,
     handleRemoveAdditional
 } = InsuranceGroupSlice.actions;
 export default InsuranceGroupSlice.reducer

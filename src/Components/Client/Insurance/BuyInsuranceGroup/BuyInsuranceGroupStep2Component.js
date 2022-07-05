@@ -7,7 +7,7 @@ import accessStyle from '../../../../Assets';
 import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver51YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
 import Line from '../../../../Common/Line';
 import configDefault from '../../../../Config/app';
-import { pushAdditionalItem, pushItem, resetAdditional, handleSelectPerson, handleClickAccordion } from '../../../../Reducers/Insurance/GroupStepRedux';
+import { pushAdditionalItem, pushItem, resetAdditional, handleSelectPerson, handleClickAccordion, handleAllAccordion } from '../../../../Reducers/Insurance/GroupStepRedux';
 import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../../Reducers/Insurance/PackagesRedux';
 import { handleSelectAdditional, handleStep2, resetAdditionalState } from '../../../../Reducers/Insurance/StepRedux';
 import CommonModal from '../../../Common/CommonModal';
@@ -27,6 +27,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const { groupStep1 } = dataStep;
     const { listPerson = [] } = groupStep1;
     console.log('dataAdditional::', listPerson);
+    console.log("personrender", listPerson);
     const [isSwap, setIsSwap] = useState(false);
     // handle api
     // const [amountSecondary, setAmountSecondary] = useState(0)
@@ -182,6 +183,8 @@ const BuyInsuranceGroupStep2Component = (props) => {
         }
     }
     const handleGoBack = () => {
+        console.log("personrender");
+        dispatch(handleAllAccordion());
         props.handleButtonGoBack && props.handleButtonGoBack()
     }
 
@@ -205,7 +208,12 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const handleAccordion = (buyerSelect) => {
         dispatch(handleClickAccordion(buyerSelect));
     }
-    
+    const handleValidateButton = () => {
+        let personNotPackage = listPerson.find((person) => 
+            person.package === undefined
+        )
+        if (personNotPackage) {return false} else {return true}
+    }
     const _renderTextViewAdditional = (buyer, item) => {
         let _isTitleAdditional;
         _isTitleAdditional = (!isEmptyArray(item.additional)) &&
@@ -449,10 +457,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
 
     const _renderListPerson = () => {
         return listPerson.map((item, index) => {
+            
             return (
                 <Accordion  flush defaultActiveKey="0" className='group-insurance active' style={{marginBottom: "20px", borderRadius: "20px", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
                     <Accordion.Item eventKey={index}>
-                        <Accordion.Header onClick={()=>handleAccordion(item)} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
+                        <Accordion.Header onClick={() => { handleAccordion(item)}} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
                                 <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br />
@@ -677,6 +686,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
                 // validate={validate([isPackage.package_code])}
+                validate={validate([handleValidateButton()])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
                 // paidAmount={step2.paidAmount}
