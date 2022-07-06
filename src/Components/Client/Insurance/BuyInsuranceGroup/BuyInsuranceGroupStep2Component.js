@@ -350,7 +350,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
                             <Line type="dashed" color='e6e6e6' />
                             <Stack direction='horizontal'>
                                 <div className='procedure-text text-left'
-                                    onClick={() => handleSelectPackage(buyer, item)}
+                                    onClick={() => {
+                                        handleAdditional(item._id);
+                                        handleSelectPackage(buyer, item);
+                                        checkPerson(buyer);
+                                    }}
                                 >
                                     <i>{item.description}</i>
                                 </div>
@@ -387,7 +391,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
         return (
             <Row className='group-item group-item-active cursor-pointer' key={item._id + '' + item.name}>
                         <Col md={3} xs={3} sm={3} className='reset-padding-right '
-                            onClick={() => handleSelectPackage(buyer, item)}
+                            onClick={() => {
+                                handleAdditional(item._id);
+                                handleSelectPackage(buyer, item);
+                                checkPerson(buyer);
+                            }}
                         >
                             <div className="box-left text-center">
                                 <div className='wrap-image'>
@@ -412,7 +420,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
                         </Col>
                         <Col md={9} xs={9} sm={9} className="box-right">
                             <Stack direction="horizontal" className="align-items-start"
-                                onClick={() => handleSelectPackage(buyer, item)}
+                                onClick={() => {
+                                    handleAdditional(item._id);
+                                    handleSelectPackage(buyer, item);
+                                    checkPerson(buyer);
+                                }}
                             >
                                 <Stack className='align-items-start'>
                                     <Stack direction="horizontal" gap={3} className="align-items-start">
@@ -433,7 +445,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
                             <Line type="dashed" color='e6e6e6' />
                             <Stack direction='horizontal'>
                                 <div className='procedure-text text-left'
-                                    onClick={() => handleSelectPackage(buyer, item)}
+                                    onClick={() => {
+                                        handleAdditional(item._id);
+                                        handleSelectPackage(buyer, item);
+                                        checkPerson(buyer);
+                                    }}
                                 >
                                     <i>{item.description}</i>
                                 </div>
