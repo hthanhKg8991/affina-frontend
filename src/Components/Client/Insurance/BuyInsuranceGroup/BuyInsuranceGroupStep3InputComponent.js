@@ -104,6 +104,57 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
         if (findPersonNotEnoughInfor === undefined) { return true } else { return false };
     }
 
+        const handleValidateInforPerson = (item) => {
+            if(item.isbilling){
+                if (
+                    !isStringNullOrEmpty(item.name)
+                    && !isStringNullOrEmpty(item.gender)
+                    && !isStringNullOrEmpty(item.identity)
+                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.phone)
+                    && isValidatePhone(item.phone)
+                    && !isStringNullOrEmpty(item.email)
+                    && isValidateEmail(item.email)
+                    // && !isStringNullOrEmpty(item.timeexp)
+                    && !isStringNullOrEmpty(item.starttimeinsure)
+                    && !isStringNullOrEmpty(item.province)
+                    && !isStringNullOrEmpty(item.district)
+                    && !isStringNullOrEmpty(item.ward)
+                    && !isStringNullOrEmpty(item.address)
+                    // is billing
+                    && !isStringNullOrEmpty(item.taxnumber)
+                    && !isStringNullOrEmpty(item.companyaddress)
+                    && !isStringNullOrEmpty(item.companyname)
+    
+                ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }else{
+                if (
+                    !isStringNullOrEmpty(item.name)
+                    && !isStringNullOrEmpty(item.gender)
+                    && !isStringNullOrEmpty(item.identity)
+                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.phone)
+                    && isValidatePhone(item.phone)
+                    && !isStringNullOrEmpty(item.email)
+                    && isValidateEmail(item.email)
+                    // && !isStringNullOrEmpty(item.timeexp)
+                    && !isStringNullOrEmpty(item.starttimeinsure)
+                    && !isStringNullOrEmpty(item.province)
+                    && !isStringNullOrEmpty(item.district)
+                    && !isStringNullOrEmpty(item.ward)
+                    && !isStringNullOrEmpty(item.address)
+                ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
     const handleCreateOrder = () => {
 
     }
@@ -203,7 +254,9 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                                     listPerson.map((item, index) => {
                                         return (
                                             <ListGroup.Item style={{fontWeight: (item.id === personDetail.id) ? "Bold": ""}} key={index} onClick={() => onSelectDetail(item)}>
-                                               {index + 1}. {item.name}
+                                                <div style={{color: handleValidateInforPerson(item) ? "red" : ""}}>
+                                                {index + 1}. {item.name}
+                                                </div>
                                                 {
                                                     (item.id === personDetail.id) &&
                                                     <i className='mdi mdi-check-bold ms-auto is-select'></i>
