@@ -45,6 +45,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const [selectSort, setSelectSort] = useState([]);
     const [isFilterMobile, setFilterMobile] = useState(false);
     const [isBenefitMainMobile, setIsBenefitMainMobile] = useState(false);
+    const [isRemainingPack, setIsRemainingPack] = useState(false);
     const handleSwap = () => {
         setIsSwap(!isSwap)
     }
@@ -214,6 +215,10 @@ const BuyInsuranceGroupStep2Component = (props) => {
         )
         if (personNotPackage) {return false} else {return true}
     }
+    const handleSetRemainingPack = () => {
+        setIsRemainingPack(!isRemainingPack);
+    }
+    
     const _renderTextViewAdditional = (buyer, item) => {
         let _isTitleAdditional;
         _isTitleAdditional = (!isEmptyArray(item.additional)) &&
@@ -387,6 +392,93 @@ const BuyInsuranceGroupStep2Component = (props) => {
 
     }
 
+     const _renderListRemainPackage = (buyer = {}) => {
+        console.log('buyer>>>', buyer);
+        let buyerPackage = buyer.package && buyer.package.package_code;
+        let _templateListRemainPackage;
+        _templateListRemainPackage = [].concat(data)
+            .sort(dynamicSort('price_fee', isSwap))
+            .map((item, index) => {
+                return (
+                    <Row className={(item.package_code === buyerPackage) ? 'group-item group-item-active cursor-pointer' : 'group-item cursor-pointer'} key={item._id + '' + item.name}>
+                        <Col md={3} xs={3} sm={3} className='reset-padding-right '
+                            onClick={() => {
+                                handleSelectPackage(buyer, item);
+                                handleAdditional(item._id);
+                                checkPerson(buyer);
+                            }}
+                        >
+                            <div className="box-left text-center">
+                                <div className='wrap-image'>
+                                    <Image
+                                        src={item.supplier && configDefault.URL_IMG + item.supplier.image}
+                                        srcSet={`
+                                            ${item.supplier && configDefault.URL_IMG + item.supplier.image} 2x, 
+                                            ${item.supplier && configDefault.URL_IMG + item.supplier.image} 3x
+                                        `}
+                                        className="cursor-pointer"
+                                        alt="logo gic"
+                                        width={'100%'}
+                                        height={'auto'}
+                                    />
+                                </div>
+                                <strong className='insure-package-name'
+                                >{item.supplier && item.supplier.name}</strong>
+                                <Nav className='justify-content-center wrap-star'>
+                                    {rateStart(item.rate)}
+                                </Nav>
+                            </div>
+                        </Col>
+                        <Col md={9} xs={9} sm={9} className="box-right">
+                            <Stack direction="horizontal" className="align-items-start"
+                                onClick={() => {
+                                    handleSelectPackage(buyer, item);
+                                    handleAdditional(item._id);
+                                    checkPerson(buyer);
+                                }}
+                            >
+                                <Stack className='align-items-start'>
+                                    <Stack direction="horizontal" gap={3} className="align-items-start">
+                                        <h6 className='insure-package'>{item.name}</h6>
+                                        {
+                                            (item.discount > 0 && !isStringNullOrEmpty(item.discount)) ?
+                                                <span className='discount-price'>-{item.discount}%</span>
+                                                : ''
+                                        }
+                                    </Stack>
+                                    <i className="package-detail" onClick={() => handleViewDetail(item)}>Chi tiết gói &raquo;</i>
+                                </Stack>
+                                <div className="text-right ms-auto">
+                                    <p className='package-price'>{formatPrepaidAmount(item.price)}VNĐ</p>
+                                    <p className='package-fee'>Phí: {formatPrepaidAmount(item.price_fee)}VNĐ/năm</p>
+                                </div>
+                            </Stack>
+                            <Line type="dashed" color='e6e6e6' />
+                            <Stack direction='horizontal'>
+                                <div className='procedure-text text-left'
+                                    onClick={() => {
+                                        handleAdditional(item._id);
+                                        handleSelectPackage(buyer, item);
+                                        checkPerson(buyer);
+                                    }}
+                                >
+                                    <i>{item.description}</i>
+                                </div>
+                            </Stack>
+                            <Line type="dashed" />
+                            <Stack direction="horizontal" gap={3} className="align-items-start">
+                                {_renderTextViewAdditional(buyer, item)}
+                            </Stack>
+                        </Col>
+                        {_renderPackageRemain(item)}
+                        {_renderAdditional(buyer, item)}
+                    </Row>
+                )
+            })
+        return _templateListRemainPackage;
+
+    }
+
     const _renderChoosePackage = (buyer, item) => {
         return (
             <Row className='group-item group-item-active cursor-pointer' key={item._id + '' + item.name}>
@@ -459,14 +551,17 @@ const BuyInsuranceGroupStep2Component = (props) => {
                                 {_renderTextViewAdditional(buyer, item)}
                                 <div className="text-right ms-auto">
                                     {
-                                        (!isEmptyArray(packageRemain)) &&
-                                        <p className='preview-package' onClick={(code, supplier) => handlePackageRemain(item.package_code, item.supplier)}>
-                                            Xem 7 gói bảo hiểm còn lại
+                                        // (!isEmptyArray(packageRemain)) &&
+                                        <p className='preview-package'
+                                            // onClick={(code, supplier) => handlePackageRemain(item.package_code, item.supplier)}
+                                    onClick={() => {
+                                        handleSetRemainingPack();
+                                        checkPerson(buyer);
+                                    }}
+                                         >
+                                            Xem {data.length - 1} gói bảo hiểm còn lại
                                             {
-                                                (isPackageRemain === item.package_code) ?
-                                                    <i className='mdi mdi-chevron-up'></i>
-                                                    :
-                                                    <i className='mdi mdi-chevron-down'></i>
+                                                isRemainingPack ? <i className='mdi mdi-chevron-up'></i> : <i className='mdi mdi-chevron-down'></i>
                                             }
                                         </p>
                                     }
@@ -504,6 +599,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
                         <div style={{paddingLeft: "20px", paddingRight: "20px"}}>
                         {!item.Accordion && item.package ? _renderChoosePackage(item, item.package) : ""}
                         </div>
+                            {item.selectPerson && isRemainingPack ? <div>{_renderListRemainPackage(item)}</div> : ""}
                         </div>
                             
                         <Accordion.Body>
