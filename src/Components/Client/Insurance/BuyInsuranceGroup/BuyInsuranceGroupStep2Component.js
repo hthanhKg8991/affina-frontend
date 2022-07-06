@@ -218,7 +218,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const handleSetRemainingPack = () => {
         setIsRemainingPack(!isRemainingPack);
     }
-    
+    const handleResetRemainingPack = () => {
+        setIsRemainingPack(false);
+    }
     const _renderTextViewAdditional = (buyer, item) => {
         let _isTitleAdditional;
         _isTitleAdditional = (!isEmptyArray(item.additional)) &&
@@ -580,7 +582,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
             return (
                 <Accordion  flush defaultActiveKey="0" className='group-insurance active' style={{marginBottom: "20px", borderRadius: "20px", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
                     <Accordion.Item eventKey={index}>
-                        <Accordion.Header onClick={() => { handleAccordion(item); checkPerson(item);}} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
+                        <Accordion.Header onClick={() => { handleAccordion(item); checkPerson(item); handleResetRemainingPack();}} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
                                 <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br />
@@ -597,9 +599,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
                                 ) :
                                     ""}
                         <div style={{paddingLeft: "20px", paddingRight: "20px"}}>
-                        {!item.Accordion && item.package ? _renderChoosePackage(item, item.package) : ""}
+                            {!item.Accordion && item.package ? _renderChoosePackage(item, item.package) : ""}
                         </div>
-                            {item.selectPerson && isRemainingPack ? <div>{_renderListRemainPackage(item)}</div> : ""}
+                        <div style={{paddingLeft: "20px", paddingRight: "20px"}}>
+                            {item.selectPerson && isRemainingPack ? _renderListRemainPackage(item) : ""}
+                        </div>
                         </div>
                             
                         <Accordion.Body>
