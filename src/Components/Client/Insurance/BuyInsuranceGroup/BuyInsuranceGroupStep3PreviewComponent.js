@@ -5,9 +5,9 @@ import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAge, formatIOSToDate, formatPrepaidAmount, genderByText, isBillingByText, isEmptyArray, isStringNullOrEmpty, isValidateEmail, isValidatePhone, matchRound, validate } from '../../../../Common/Helper';
+import { checkAge, formatIOSToDate, formatPrepaidAmount, genderByText, isBillingByText, isbillingByText, isEmptyArray, isStringNullOrEmpty, isValidateEmail, isValidatePhone, matchRound, validate } from '../../../../Common/Helper';
 import District from '../../../../Config/districts';
-import ProvinceData from '../../../../Config/provinces';
+import ProvinceData from '../../../../Config/provinces'; 
 import Ward from '../../../../Config/wards';
 import { handleSelectItem, pushItem } from '../../../../Reducers/Insurance/GroupStepRedux';
 import CommonComboBox from '../../../Common/CommonComboBox';
@@ -357,7 +357,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                       </Row>
                       <Line type="solid" />
                       <div className="table-footer">
-                        Yêu cầu xuất hoá đơn đỏ: <strong>{isBillingByText(personDetail.isbilling)}</strong>
+                        Yêu cầu xuất hoá đơn đỏ: <strong>{isbillingByText(personDetail.isbilling)}</strong>
                       </div>
                     </section>
                   </Container>

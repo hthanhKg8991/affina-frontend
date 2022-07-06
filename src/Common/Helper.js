@@ -230,6 +230,14 @@ export function isBillingByText(variable) {
   }
 }
 
+export function isbillingByText(variable) {
+  if (variable === true) {
+    return "Có"
+  } else {
+    return "Không"
+  }
+}
+
 export function dynamicSort(property, orderBy) {
   var sortOrder = 1;
   if (property[0] === "-") {
