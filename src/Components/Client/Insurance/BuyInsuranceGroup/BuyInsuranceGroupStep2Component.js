@@ -219,9 +219,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
         _isTitleAdditional = (!isEmptyArray(item.additional)) &&
             <p className='additional-benefits'
                 onClick={() => {
+                handleAdditional(item._id);
                 handleSelectPackage(buyer, item);
                 checkPerson(buyer);
-                handleAdditional(item._id);
                 }}
             >
                 Quyền lợi bổ sung
@@ -296,7 +296,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
                 return (
                     <Row className={(item.package_code === buyerPackage) ? 'group-item group-item-active cursor-pointer' : 'group-item cursor-pointer'} key={item._id + '' + item.name}>
                         <Col md={3} xs={3} sm={3} className='reset-padding-right '
-                            onClick={() => handleSelectPackage(buyer, item)}
+                            onClick={() => {
+                                handleSelectPackage(buyer, item);
+                                handleAdditional(item._id);
+                                checkPerson(buyer);
+                            }}
                         >
                             <div className="box-left text-center">
                                 <div className='wrap-image'>
@@ -321,7 +325,11 @@ const BuyInsuranceGroupStep2Component = (props) => {
                         </Col>
                         <Col md={9} xs={9} sm={9} className="box-right">
                             <Stack direction="horizontal" className="align-items-start"
-                                onClick={() => handleSelectPackage(buyer, item)}
+                                onClick={() => {
+                                    handleSelectPackage(buyer, item);
+                                    handleAdditional(item._id);
+                                    checkPerson(buyer);
+                                }}
                             >
                                 <Stack className='align-items-start'>
                                     <Stack direction="horizontal" gap={3} className="align-items-start">
@@ -461,7 +469,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
             return (
                 <Accordion  flush defaultActiveKey="0" className='group-insurance active' style={{marginBottom: "20px", borderRadius: "20px", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
                     <Accordion.Item eventKey={index}>
-                        <Accordion.Header onClick={() => { handleAccordion(item)}} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
+                        <Accordion.Header onClick={() => { handleAccordion(item); checkPerson(item);}} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
                                 <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br />

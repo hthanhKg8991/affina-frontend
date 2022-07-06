@@ -258,7 +258,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                     ${accessStyle.images.icons.edit3x} 3x
                                                     `}
                             className="cursor-pointer"
-                            onClick={handleGoBackButton}
+                            // onClick={handleGoBackButton}
                             alt="icon edit"
                             width={19}
                             height={22}
@@ -390,7 +390,7 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                                                         ${accessStyle.images.icons.edit2x} 2x,
                                                         ${accessStyle.images.icons.edit3x} 3x
                                                     `}
-                            onClick={handleGoBackButton}
+                            // onClick={handleGoBackButton}
                             alt="icon edit"
                             width={19}
                             height={22}
