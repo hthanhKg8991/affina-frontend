@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, validate } from '../../../../Common/Helper';
+import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidateEmail, isValidatePhone, validate, checkAgeHadIdentity } from '../../../../Common/Helper';
 import District from '../../../../Config/districts';
 import ProvinceData from '../../../../Config/provinces';
 import Ward from '../../../../Config/wards';
@@ -105,7 +105,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
     }
 
         const handleValidateInforPerson = (item) => {
-            if(item.isbilling){
+            if(item.isbilling && checkAgeHadIdentity(item.birthday)){
                 if (
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
@@ -125,13 +125,62 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     && !isStringNullOrEmpty(item.taxnumber)
                     && !isStringNullOrEmpty(item.companyaddress)
                     && !isStringNullOrEmpty(item.companyname)
+                    && !isStringNullOrEmpty(item.relationshipname)
+                    && !isStringNullOrEmpty(item.relationship)
     
                 ) {
                     return false;
                 } else {
                     return true;
                 }
-            }else{
+            }else if (item.isbilling && !checkAgeHadIdentity(item.birthday)){
+                if (
+                    !isStringNullOrEmpty(item.name)
+                    && !isStringNullOrEmpty(item.gender)
+                    && !isStringNullOrEmpty(item.identity)
+                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.phone)
+                    && isValidatePhone(item.phone)
+                    && !isStringNullOrEmpty(item.email)
+                    && isValidateEmail(item.email)
+                    // && !isStringNullOrEmpty(item.timeexp)
+                    && !isStringNullOrEmpty(item.starttimeinsure)
+                    && !isStringNullOrEmpty(item.province)
+                    && !isStringNullOrEmpty(item.district)
+                    && !isStringNullOrEmpty(item.ward)
+                    && !isStringNullOrEmpty(item.address)
+                    && !isStringNullOrEmpty(item.taxnumber)
+                    && !isStringNullOrEmpty(item.companyaddress)
+                    && !isStringNullOrEmpty(item.companyname)
+                ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if (!item.isbilling && checkAgeHadIdentity(item.birthday)) {
+                if (
+                    !isStringNullOrEmpty(item.name)
+                    && !isStringNullOrEmpty(item.gender)
+                    && !isStringNullOrEmpty(item.identity)
+                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.phone)
+                    && isValidatePhone(item.phone)
+                    && !isStringNullOrEmpty(item.email)
+                    && isValidateEmail(item.email)
+                    // && !isStringNullOrEmpty(item.timeexp)
+                    && !isStringNullOrEmpty(item.starttimeinsure)
+                    && !isStringNullOrEmpty(item.province)
+                    && !isStringNullOrEmpty(item.district)
+                    && !isStringNullOrEmpty(item.ward)
+                    && !isStringNullOrEmpty(item.address)
+                    && !isStringNullOrEmpty(item.relationshipname)
+                    && !isStringNullOrEmpty(item.relationship)
+                ) {
+                    return false;
+                } else {
+                    return true;
+                }  
+            } else if (!item.isbilling && !checkAgeHadIdentity(item.birthday)) {
                 if (
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
@@ -151,8 +200,8 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     return false;
                 } else {
                     return true;
-                }
-            }
+                }  
+            } else {}
         }
 
     const handleCreateOrder = () => {
@@ -236,6 +285,9 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
             [personDetail.id + 'CompanyName']: personDetail.companymame,
             [personDetail.id + 'TaxNumber']: personDetail.taxnumber,
             [personDetail.id + 'CompanyAddress']: personDetail.companyaddress,
+            [personDetail.id + 'RelationshipName']: personDetail.relationshipmame,
+            [personDetail.id + 'Relationship']: personDetail.relationship,
+
         }
         Object.assign(state, initState);
     }, [personDetail])
@@ -272,6 +324,55 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                             </ListGroup>
                         </Col>
                         <Col sm={9} md={9}>
+                            {
+                                checkAgeHadIdentity(personDetail.birthday) &&
+                                    <Row>
+                                        <Col md={6} sm={6} xs={12}>
+                                            <CommonInput
+                                                require={true}
+                                                label='Họ và tên người yêu cầu bảo hiểm'
+                                                hint='Nhập họ và tên người yêu cầu bảo hiểm'
+                                                defaultValue={state[personDetail.id + 'RelationshipName']}
+                                                value={state[personDetail.id + 'RelationshipName']}
+                                                onChange={(e) => onsetStateInput(personDetail.id + 'RelationshipName', e)}
+                                            />
+                                        </Col>
+                                        <Col md={6} sm={6} xs={12}>
+                                            <CommonComboBox
+                                                require={true}
+                                                data={[
+                                                    {
+                                                        key: 'BM',
+                                                        value: 'Bố/Mẹ',
+                                                    },
+                                                    {
+                                                        key: 'BT',
+                                                        value: 'Bản thân',
+                                                    },
+                                                    {
+                                                        key: 'CON',
+                                                        value: 'Con',
+                                                    },
+                                                    {
+                                                        key: 'DN',
+                                                        value: 'Doanh Nghiệp',
+                                                    },
+                                                    {
+                                                        key: 'VC',
+                                                        value: 'Vợ/Chồng',
+                                                    },
+                                                ]}
+                                                readOnly={true}
+                                                viewValue="value"
+                                                value={state[personDetail.id + 'Relationship']}
+                                                defaultValue={state[personDetail.id + 'Relationship']}
+                                                label='Mối quan hệ với người được bảo hiểm'
+                                                hint='Chọn mối quan hệ'
+                                                onChange={(e) => onsetStateDropdown(personDetail.id + 'Relationship', e.value)}
+                                            />
+                                        </Col>
+                                    </Row>
+                            }
                             <Row>
                                 <Col md={6}>
                                     <CommonInput

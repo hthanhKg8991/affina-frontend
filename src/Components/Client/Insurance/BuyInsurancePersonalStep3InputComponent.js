@@ -47,8 +47,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     const [companyName, setCompanyName] = useState(step3.companyName);
     const [taxNumber, setTaxNumber] = useState(step3.taxNumber);
     const [companyAddress, setCompanyAddress] = useState(step3.companyAddress);
-    const [relationshipName, steRelationshipName] = useState(step3.relationshipName);
-    const [relationship, steRelationship] = useState(step3.relationship);
+    const [relationshipName, setRelationshipName] = useState(step3.relationshipName);
+    const [relationship, setRelationship] = useState(step3.relationship);
     const DistrictData = District.filter(element => element.province_code === province.code);
     const WardData = Ward.filter(element => element.district_code === district.code);
 
@@ -68,8 +68,8 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         setCompanyAddress('');
         setStartTimeInsure('');
         setTimeExp('');
-        steRelationshipName('');
-        steRelationship('');
+        setRelationshipName('');
+        setRelationship('');
     }
     var datePlusOne = new Date();
     const handleCheckBilling = () => {
@@ -123,11 +123,11 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
     }
 
     const handleRelationshipName = (e) => {
-        steRelationshipName(e.target.value)
+        setRelationshipName(e.target.value)
     }
 
     const handleRelationship = (e) => {
-        steRelationship(e)
+        setRelationship(e)
     }
 
     const handleGoBackButton = () => {

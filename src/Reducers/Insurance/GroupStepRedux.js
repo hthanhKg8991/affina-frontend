@@ -138,9 +138,9 @@ const InsuranceGroupSlice = createSlice({
             const selectPerson = action.payload;
             state.dataStep.groupStep1.listPerson.forEach((person) => {
                 if (person.id === selectPerson.id) {
-                    if(person.Accordion === true) {return person.Accordion= false } else {return person.Accordion = true}
+                    if(person.Accordion === undefined) {return person.Accordion= true } else {return (person.Accordion = !person.Accordion)}
                 } else {
-                    return person.Accordion = false;
+                    // return person.Accordion = false;
                 }
             })
         },
