@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import MaskedInput from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkAge, formatIOSToDate, formatPrepaidAmount, genderByText, isBillingByText, isbillingByText, isEmptyArray, isStringNullOrEmpty, isValidateEmail, isValidatePhone, matchRound, validate } from '../../../../Common/Helper';
+import { checkAge, checkAgeHadIdentity, formatIOSToDate, formatPrepaidAmount, genderByText, isBillingByText, isbillingByText, isEmptyArray, isStringNullOrEmpty, isValidateEmail, isValidatePhone, matchRound, validate } from '../../../../Common/Helper';
 import District from '../../../../Config/districts';
 import ProvinceData from '../../../../Config/provinces'; 
 import Ward from '../../../../Config/wards';
@@ -344,16 +344,20 @@ const BuyInsuranceGroupStep3PreviewComponent = (props) => {
                           <p className="title-info">Email</p>
                           <strong>{personDetail.email}</strong>
                         </Col>
-                        {/* <Col md={4} xs={6}>
+                        {checkAgeHadIdentity(personDetail.birthday) && 
+                        <>
+                        <Col md={4} xs={6}>
                             <p className="title-info">
                               Tên người yêu cầu bảo hiểm{" "}
                             </p>
-                            <strong></strong>
+                            <strong>{personDetail.relationshipname}</strong>
                           </Col>
                           <Col md={2} xs={6}>
                             <p className="title-info">Mối quan hệ</p>
-                            <strong></strong>
-                          </Col> */}
+                            <strong>{personDetail.relationship}</strong>
+                          </Col>
+                        </>
+                        }
                       </Row>
                       <Line type="solid" />
                       <div className="table-footer">
