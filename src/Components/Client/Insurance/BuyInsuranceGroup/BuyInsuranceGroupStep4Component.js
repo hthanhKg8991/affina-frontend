@@ -12,6 +12,7 @@ import { resetState } from '../../../../Reducers/Insurance/StepRedux';
 import BriefComponent from '../BriefComponent';
 import CommonButtonInsurance from '../CommonButtonInsurance';
 import configDefault from '../../../../Config/app';
+import BriefGroupComponent from '../BriefGroupComponent';
 const paymentMethod = {
     bank_account: 'Bank-account',
     payoo_account: 'Payoo-account',
@@ -370,10 +371,11 @@ const BuyInsuranceGroupStep4Component = (props) => {
                         </div>
                     </Col>
                     <Col md={3}>
-                        {
+                         <BriefGroupComponent />
+                        {/* {
                             !isViewMobile() &&
                             <BriefComponent />
-                        }
+                        } */}
                     </Col>
                 </Row>
             </Container>

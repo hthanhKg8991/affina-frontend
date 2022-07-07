@@ -35,6 +35,7 @@ const BuyInsurancePersonalStep4Component = (props) => {
     const [paymentPort, setPaymentPort] = useState('')
     const [isShowPopup, setIsShowPopup] = useState(false)
     const [textCopy, setTextCopy] = useState('')
+    console.log("paymentPort", paymentPort);
 
     const handleSelectPaymentPort = (portPayment) => {
         setPaymentPort(portPayment)
