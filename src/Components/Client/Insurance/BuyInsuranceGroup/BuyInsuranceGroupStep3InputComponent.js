@@ -285,7 +285,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
             [personDetail.id + 'CompanyName']: personDetail.companymame,
             [personDetail.id + 'TaxNumber']: personDetail.taxnumber,
             [personDetail.id + 'CompanyAddress']: personDetail.companyaddress,
-            [personDetail.id + 'RelationshipName']: personDetail.relationshipmame,
+            [personDetail.id + 'RelationshipName']: personDetail.relationshipname,
             [personDetail.id + 'Relationship']: personDetail.relationship,
 
         }
