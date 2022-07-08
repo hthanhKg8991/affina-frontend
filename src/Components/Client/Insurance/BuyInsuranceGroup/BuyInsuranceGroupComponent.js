@@ -82,7 +82,7 @@ const BuyInsuranceGroupComponent = () => {
             <Image
               // src={accessStyle.images.response.success}
               // srcSet={`
-              //               ${accessStyle.images.response.success2x} 2x, 
+              //               ${accessStyle.images.response.success2x} 2x,
               //               ${accessStyle.images.response.success3x} 3x
               //           `}
               className="width-auto"
@@ -173,7 +173,50 @@ const BuyInsuranceGroupComponent = () => {
             </Stack>
           </div>
         );
-      default: 
+      case configDefault.BANK_TRANSFER_SUCCESS:
+        return (
+          <div className="response-data response-success bg-white">
+            <Image
+              // src={accessStyle.images.response.success}
+              // srcSet={`
+              //               ${accessStyle.images.response.success2x} 2x, 
+              //               ${accessStyle.images.response.success3x} 3x
+              //           `}
+              alt="Logo Affina"
+              width={"auto"}
+              height={"auto"}
+            />
+            <h4>Tạo hồ sơ bảo hiểm thành công!</h4>
+            <p>Thông tin hợp đồng đã được gửi về email của quý khách.</p>
+            <p>
+              Quý khách vui lòng thanh toán để kích hoạt hiệu lực bảo hiểm trong
+              thời gian sớm nhất theo thông tin sau:{" "}
+            </p>
+          </div>
+        );
+      case configDefault.FAILED:
+        return (
+          <div className="response-data response-fail bg-white">
+            <Image
+              // src={accessStyle.images.response.fail}
+              // srcSet={`
+              //                   ${accessStyle.images.response.fail2x} 2x, 
+              //                   ${accessStyle.images.response.fail3x} 3x
+              //               `}
+              alt="Logo Affina"
+              width={"auto"}
+              height={"auto"}
+            />
+            <h4>THANH TOÁN Thất bại!</h4>
+            <p>
+              Rất tiếc giao dịch của bạn không thành công! Vui lòng thực hiện
+              lại giao dịch
+            </p>
+          </div>
+        );
+      default:
+        // textButtonGoBack = "Quay về trang chủ";
+        return <BuyInsuranceGroupStep1Component />;
     }
   };
   return (

@@ -36,7 +36,8 @@ const BuyInsuranceGroupStep4Component = (props) => {
     const [paymentPort, setPaymentPort] = useState('');
     const [isShowPopup, setIsShowPopup] = useState(false);
     const [textCopy, setTextCopy] = useState('');
-
+    console.log("paymentPort", paymentPort);
+    
     const isHasDataApi = () => {
         return !isStringNullOrEmpty(orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num)
     }
@@ -91,7 +92,7 @@ const BuyInsuranceGroupStep4Component = (props) => {
             console.log('params>>>createPayment', params);
             console.log('params>>>paymentData', paymentData);
 
-            // props.handleButtonContinue && props.handleButtonContinue()
+            props.handleButtonContinue && props.handleButtonContinue()
         }
     }
 
