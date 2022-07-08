@@ -33,9 +33,9 @@ const BuyInsuranceGroupStep4Component = (props) => {
     console.log('step2:::', step2, "step3::", step3, paymentData);
     console.log('dataAuth:::', dataAuth);
     // 
-    const [paymentPort, setPaymentPort] = useState('')
-    const [isShowPopup, setIsShowPopup] = useState(false)
-    const [textCopy, setTextCopy] = useState('')
+    const [paymentPort, setPaymentPort] = useState('');
+    const [isShowPopup, setIsShowPopup] = useState(false);
+    const [textCopy, setTextCopy] = useState('');
 
     const isHasDataApi = () => {
         return !isStringNullOrEmpty(orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num)
@@ -63,7 +63,7 @@ const BuyInsuranceGroupStep4Component = (props) => {
     }
     const handleContinue = () => {
         if (paymentPort === paymentMethod.myQR) {
-            props.handleButtonGoBack && props.handleButtonGoBack(configDefault.MY_TRANSFER_QR)
+            props.handleButtonGoBack && props.handleButtonContinue(configDefault.MY_TRANSFER_QR)
         } else {
             let params = {
                 // "order_no": "ORDER4" + moment().format('HH:mm:ss'),
@@ -382,7 +382,7 @@ const BuyInsuranceGroupStep4Component = (props) => {
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'
                 textButtonContinue='TIẾP TỤC'
-                validate={validate([paymentPort, checkAge(step1.birthday)])}
+                validate={validate([paymentPort])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
                 paidAmount={step2.paidAmount}
