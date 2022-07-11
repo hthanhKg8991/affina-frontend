@@ -105,7 +105,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
     }
 
         const handleValidateInforPerson = (item) => {
-            if(item.isbilling && checkAgeHadIdentity(item.birthday)){
+            if(item.isbilling){
                 if (
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
@@ -133,31 +133,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                 } else {
                     return true;
                 }
-            }else if (item.isbilling && !checkAgeHadIdentity(item.birthday)){
-                if (
-                    !isStringNullOrEmpty(item.name)
-                    && !isStringNullOrEmpty(item.gender)
-                    && !isStringNullOrEmpty(item.identity)
-                    && !isStringNullOrEmpty(item.birthday)
-                    && !isStringNullOrEmpty(item.phone)
-                    && isValidatePhone(item.phone)
-                    && !isStringNullOrEmpty(item.email)
-                    && isValidateEmail(item.email)
-                    // && !isStringNullOrEmpty(item.timeexp)
-                    && !isStringNullOrEmpty(item.starttimeinsure)
-                    && !isStringNullOrEmpty(item.province)
-                    && !isStringNullOrEmpty(item.district)
-                    && !isStringNullOrEmpty(item.ward)
-                    && !isStringNullOrEmpty(item.address)
-                    && !isStringNullOrEmpty(item.taxnumber)
-                    && !isStringNullOrEmpty(item.companyaddress)
-                    && !isStringNullOrEmpty(item.companyname)
-                ) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else if (!item.isbilling && checkAgeHadIdentity(item.birthday)) {
+            } else if (!item.isbilling ) {
                 if (
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
@@ -180,28 +156,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                 } else {
                     return true;
                 }  
-            } else if (!item.isbilling && !checkAgeHadIdentity(item.birthday)) {
-                if (
-                    !isStringNullOrEmpty(item.name)
-                    && !isStringNullOrEmpty(item.gender)
-                    && !isStringNullOrEmpty(item.identity)
-                    && !isStringNullOrEmpty(item.birthday)
-                    && !isStringNullOrEmpty(item.phone)
-                    && isValidatePhone(item.phone)
-                    && !isStringNullOrEmpty(item.email)
-                    && isValidateEmail(item.email)
-                    // && !isStringNullOrEmpty(item.timeexp)
-                    && !isStringNullOrEmpty(item.starttimeinsure)
-                    && !isStringNullOrEmpty(item.province)
-                    && !isStringNullOrEmpty(item.district)
-                    && !isStringNullOrEmpty(item.ward)
-                    && !isStringNullOrEmpty(item.address)
-                ) {
-                    return false;
-                } else {
-                    return true;
-                }  
-            } else {}
+            }  else {}
         }
 
     const handleCreateOrder = () => {
@@ -324,8 +279,6 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                             </ListGroup>
                         </Col>
                         <Col sm={9} md={9}>
-                            {
-                                checkAgeHadIdentity(personDetail.birthday) &&
                                     <Row>
                                         <Col md={6} sm={6} xs={12}>
                                             <CommonInput
@@ -372,7 +325,6 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                                             />
                                         </Col>
                                     </Row>
-                            }
                             <Row>
                                 <Col md={6}>
                                     <CommonInput
