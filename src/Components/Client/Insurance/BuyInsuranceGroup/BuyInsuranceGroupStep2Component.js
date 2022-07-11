@@ -23,7 +23,7 @@ var amountSecondary = 0;
 const BuyInsuranceGroupStep2Component = (props) => {
     const dispatch = useDispatch();
     const { data = [], dataAdditional = [], supplier = [], dataBySupplier = [], isLoading, countDataSupplier } = useSelector((state) => state.insurancePackagesRedux) || [];
-    const { dataStep } = useSelector((state) => state.InsuranceGroup) || [];
+    const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
     const { groupStep1 } = dataStep;
     const { listPerson = [] } = groupStep1;
     console.log('dataAdditional::', listPerson);

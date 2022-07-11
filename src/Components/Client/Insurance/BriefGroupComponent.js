@@ -12,24 +12,55 @@ const BriefGroupComponent = (props) => {
     var amountFeeSecondary = 0;
     var amountTotal = 0;
     let amountFee = 0;
+    let discount = 0;
     const { isPackage } = useSelector((state) => state.insurancePackagesRedux) || [];
-
-    const { dataStep } = useSelector((state) => state.InsuranceGroup) || [];
+    
+    const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
     const { groupStep1, groupStep2 } = dataStep;
     const { listPerson = [] } = groupStep1;
     const { selectAdditional = [] } = props;
     let packageNumberChoose = listPerson.filter((person) => person.package);
-
-        const onRemoveAdditional = (personId, additionId) => {
+    
+    const onRemoveAdditional = (personId, additionId) => {
         dispatch(handleRemoveAdditional(personId, additionId));
     }
-
+    
     console.log("listPerson group", listPerson);
     let totalFeeMain = 0;
     if (listPerson.some((person) => person.package !== undefined)) {
         let personGroup = listPerson.filter((person) => person.package !== undefined);
         totalFeeMain = personGroup.reduce((totalFeeMain, person) => (totalFeeMain += person.package.price_fee), 0);
+
     }
+    let total_extra_package = 0;
+    listPerson.forEach((person) => {
+        person.selectAddition && person.selectAddition.forEach((addition) => {
+        total_extra_package += parseInt(addition.amount);
+        })
+      }
+    )
+
+    let total_fee_package = 0;
+    listPerson.forEach((person) => {
+        person.selectAddition && person.selectAddition.forEach((addition) => {
+        total_fee_package += parseInt(addition.fee);
+        })
+      }
+    )
+    console.log("totalFeeMain + amountFeeSecondary",totalFeeMain + total_fee_package);
+    if (totalFeeMain + total_fee_package >= 20000000 && totalFeeMain + total_fee_package < 30000000) {
+        discount = 3
+    } else if (totalFeeMain + total_fee_package >= 30000000 && totalFeeMain + total_fee_package < 50000000) {
+        discount = 5
+    } else if (totalFeeMain + total_fee_package >= 50000000 && totalFeeMain + total_fee_package < 100000000) {
+        discount = 7
+    } else if (totalFeeMain + total_fee_package >= 100000000) {
+        discount = 10
+    } else {
+        discount = 0;
+    };
+
+
     const renderAdditional = () => {
         let templateAdditional = [];
         let additional;
@@ -103,7 +134,7 @@ const BriefGroupComponent = (props) => {
                 </Nav>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Tổng số tiền được bảo hiểm:</Nav.Item>
-                    <Nav.Item className='ms-auto'>{formatPrepaidAmount(totalFee)}</Nav.Item>
+                    <Nav.Item className='ms-auto'>{formatPrepaidAmount(totalFee + total_extra_package)}</Nav.Item>
                 </Nav>
                 <Nav className='justify-content-between'>
                     <Nav.Item>Thời hạn bảo hiểm:</Nav.Item>
@@ -135,6 +166,14 @@ const BriefGroupComponent = (props) => {
                     <Nav.Item>Thành tiền:</Nav.Item>
                     <Nav.Item>{formatPrepaidAmount(totalFeeMain+amountFeeSecondary)}</Nav.Item>
                 </Nav>
+                <Nav className='justify-content-between'>
+                    <Nav.Item>Giảm giá {discount} %:</Nav.Item>
+                    <Nav.Item>{formatPrepaidAmount((totalFeeMain+amountFeeSecondary) * discount/100)}</Nav.Item>
+                </Nav>
+                <br/>
+                {/* <Nav className='justify-content-between' style={{color: "red"}}>
+                    <Nav.Item>Quý khách chỉ còn thiếu {formatPrepaidAmount(20000000)} nữa sẽ được giảm giá 10%:</Nav.Item>
+                </Nav> */}
             </div>
             <div className='promotion'>
                 <input defaultValue="" placeholder='Nhập mã khuyến mãi' />
@@ -144,7 +183,7 @@ const BriefGroupComponent = (props) => {
                 <Stack direction='horizontal'>
                     <label>TỔNG TIỀN: </label>
                     {/* <label className='ms-auto'>{formatPrepaidAmount(matchRound(percentage((step2.fee + amountFeeSecondary), -step2.discount)))}</label> */}
-                    <label className='ms-auto'>{formatPrepaidAmount(totalFeeMain+amountFeeSecondary)}</label>
+                    <label className='ms-auto'>{formatPrepaidAmount(totalFeeMain+amountFeeSecondary - (totalFeeMain+amountFeeSecondary) * discount/100)}</label>
                 </Stack>
             </div>
         </div>

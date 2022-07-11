@@ -36,7 +36,7 @@ import { uploadFile } from "../../../../Reducers/Upload/UploadFileRedux";
 
 const BuyInsuranceGroupStep1Component = (props) => {
   const dispatch = useDispatch();
-  const { dataStep } = useSelector((state) => state.InsuranceGroup) || [];
+  const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
   const { groupStep1 } = dataStep;
   const { listPerson = [] } = groupStep1;
   const [name, setName] = useState("");

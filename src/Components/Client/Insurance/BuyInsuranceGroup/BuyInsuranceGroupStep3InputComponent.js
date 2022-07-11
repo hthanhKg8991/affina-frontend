@@ -18,7 +18,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { dataStep } = useSelector((state) => state.InsuranceGroup) || [];
+    const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
     const { groupStep1 } = dataStep;
     const { listPerson = [], personDetail = {} } = groupStep1;
     console.log('personDetail>>>', personDetail);
