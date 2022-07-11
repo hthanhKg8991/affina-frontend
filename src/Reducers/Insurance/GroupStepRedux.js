@@ -18,7 +18,7 @@ const initialState = {
 };
 
 const InsuranceGroupSlice = createSlice({
-    name: 'InsuranceGroup',
+    name: 'insuranceGroup',
     initialState,
     reducers: {
         handleGroupStep1(state, action) {

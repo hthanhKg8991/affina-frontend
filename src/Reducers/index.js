@@ -1,7 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import categoriesRedux from './Categories/CategoriesRedux';
 import insuranceRedux from './Insurance/StepRedux';
-import InsuranceGroup from './Insurance/GroupStepRedux';
+import insuranceGroup from './Insurance/GroupStepRedux';
 import insurancePackagesRedux from './Insurance/PackagesRedux';
 import PaymentRedux from './Insurance/PaymentRedux';
 import sendRequestRedux from './SentRequest/SendRequestRedux';
@@ -12,7 +12,7 @@ import UploadFileRedux from './Upload/UploadFileRedux';
 const rootReducer = combineReducers({
     categoriesRedux,
     insuranceRedux,
-    InsuranceGroup,
+    insuranceGroup,
     insurancePackagesRedux,
     sendRequestRedux,
     AuthenticationRedux,
