@@ -59,8 +59,7 @@ const InsuranceSlice = createSlice({
   reducers: {
     handleStep1(state, action) {
       // console.log('action.payload>>>', JSON.parse(JSON.stringify(action.payload)));
-      state.dataStep.step1.gender = '1';
-      state.dataStep.step1.birthday = action.payload.birthday;
+      state.dataStep.step1 = action.payload;
     },
     handleStep2(state, action) {
       let amount = 0;

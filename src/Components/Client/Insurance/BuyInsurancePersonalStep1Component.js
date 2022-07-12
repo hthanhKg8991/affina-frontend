@@ -31,10 +31,12 @@ const BuyInsurancePersonalStep1Component = (props) => {
     }
 
     const handleContinue = () => {
-        dispatch(handleStep1({
-            gender: gender,
+        let params = {
+            gender: gender.toString(),
             birthday: birthday,
-        }))
+        }
+        dispatch(handleStep1(params))
+        console.log('params>>>', params);
         dispatch(resetStateInsurance());
         props.handleButtonContinue && props.handleButtonContinue()
     }
@@ -53,7 +55,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
                     <Col md={9}>
                         <Navbar.Collapse className='justify-content-center'>
                             <Nav.Item className='width-auto'>
-                                <Button className='width-auto' variant={gender === 1 ? 'outline-blue btn-sm outline-blue-active' : 'outline-blue btn-sm '} onClick={() => handleChangeGender(1)}>
+                                <Button className='width-auto' variant={(gender === 1 || gender === '1') ? 'outline-blue btn-sm outline-blue-active' : 'outline-blue btn-sm '} onClick={() => handleChangeGender(1)}>
                                     Nam
                                 </Button>
                             </Nav.Item>
@@ -61,7 +63,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
                                 <span className='sort-line'></span>hoặc <span className='sort-line'></span>
                             </Nav.Item>
                             <Nav.Item className='width-auto'>
-                                <Button className='width-auto' variant={gender === 0 ? 'outline-pink btn-sm outline-pink-active' : "outline-pink btn-sm"} onClick={() => handleChangeGender(0)}>
+                                <Button className='width-auto' variant={(gender === 0 || gender === '0') ? 'outline-pink btn-sm outline-pink-active' : "outline-pink btn-sm"} onClick={() => handleChangeGender(0)}>
                                     Nữ
                                 </Button>
                             </Nav.Item>

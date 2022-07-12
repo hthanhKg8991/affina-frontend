@@ -181,6 +181,10 @@ const accessStyle = {
             pvi: require('./Images/public/partner/logo-pvi.jpeg'),
             pvi2x: require('./Images/public/partner/logo-pvi.jpeg'),
             pvi3x: require('./Images/public/partner/logo-pvi.jpeg'),
+            // 
+            pjico: require('./Images/public/partner/logo-pjico.png'),
+            pjico2x: require('./Images/public/partner/logo-pjico.png'),
+            pjico3x: require('./Images/public/partner/logo-pjico.png'),
         }
     }
 }

@@ -336,6 +336,22 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             }
                                         })
                                         :
+                                        isHasDataApi()?
+                                        orderDataDetail.paymentPermission && orderDataDetail.paymentPermission.detail.map((item, index)=>{
+                                            switch (item) {
+                                                case paymentMethod.QRCode:
+                                                    return _renderQR();
+                                                case paymentMethod.bank_account:
+                                                    return _renderBankAccount();
+                                                case paymentMethod.cc:
+                                                    return _renderCC();
+                                                case paymentMethod.installment:
+                                                    return _renderInstallment();
+                                                default:
+                                                    return null;
+                                            }
+                                        })
+                                        :
                                         <div>
                                             {_renderMyQR()}
                                             {_renderBankAccount()}
@@ -386,8 +402,8 @@ const BuyInsurancePersonalStep4Component = (props) => {
                 validate={validate([paymentPort, checkAge(moment(isCheckContractNum(step1.birthday, 'birthday')).format('DD/MM/YYYY'))])}
                 handleButtonGoBack={handleGoBack}
                 handleButtonContinue={handleContinue}
-                paidAmount={step2.paidAmount}
-                intoMoney={step2.intoMoney}
+                paidAmount={isCheckPackage(step2.paidAmount, 'total_insurance_fee')}
+                intoMoney={isCheckPackage(step2.intoMoney, 'amount_insured')}
                 isViewStep={true}
             />
             <Modal

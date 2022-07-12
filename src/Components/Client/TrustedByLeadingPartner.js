@@ -68,6 +68,11 @@ const TrustedByLeadingPartner = () => {
             image2x: accessStyle.images.partner.pti2x,
             image3x: accessStyle.images.partner.pti3x,
         },
+        {
+            image: accessStyle.images.partner.pjico,
+            image2x: accessStyle.images.partner.pjico2x,
+            image3x: accessStyle.images.partner.pjico3x,
+        },
     ]
     return (
         <Container className='trusted-by-top-leading text-center' style={{marginLeft: "auto", marginRight: "auto"}}>
