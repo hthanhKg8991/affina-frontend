@@ -19,10 +19,9 @@ const STEP = 500000;
 const MIN = 0;
 const MAX = 75000000;
 
-var amountSecondary = 0;
 const BuyInsuranceGroupStep2Component = (props) => {
     const dispatch = useDispatch();
-    const { data = [], dataAdditional = [], supplier = [], dataBySupplier = [], isLoading, countDataSupplier } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { data = [], supplier = [], dataBySupplier = [] } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
     const { groupStep1 } = dataStep;
     const { listPerson = [] } = groupStep1;
@@ -50,32 +49,31 @@ const BuyInsuranceGroupStep2Component = (props) => {
         setIsSwap(!isSwap)
     }
     const handleSearch = (keywords) => {
-
         console.log('keywords:::', keywords);
         if (keywords === '') {
             return data;
         }
         const regex = new RegExp(`${keywords.trim()}`, 'i');
-        // const data =  arrayData.filter(item => vnConvert(item.name).search(regex) >= 0);
         return data.filter(item => (item.name.search(regex) >= 0));
 
     }
 
-    const handleFilter = () => {
-        let params = {
-            // age: moment().format('YYYY') - moment(step1.birthday).format('YYYY'),
-            // age: moment(step1.birthday).format('YYYY/MM/DD'),
-            // gender: step1.gender,
-            fee_min: min,
-            fee_max: max,
-            supplier: selectSupplier,
-            sort: selectSort,
-        }
-        console.log('params>>>', params);
-        dispatch(postPackageBySupplier(params))
+    const handleFilter = (itemPerson) => {
+        // let params = {
+        //     age: moment(itemPerson.birthday).format('YYYY/MM/DD'),
+        //     gender: itemPerson.gender,
+        //     fee_min: min,
+        //     fee_max: max,
+        //     supplier: selectSupplier,
+        //     sort: selectSort,
+        // }
+        // let params = []
+        console.log('params>>>', listPerson);
+        dispatch(postPackageBySupplier(listPerson))
     }
+
     useEffect(() => {
-        handleFilter();
+        // handleFilter();
     }, [min, max, selectSupplier, selectSort])
     const callAPI = () => {
         // dispatch(packagesGetAll());
@@ -159,6 +157,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
         setMin(min)
         setMax(max)
     }
+
     const handleSetSupplier = (value) => {
         const removeId = selectSupplier.findIndex(item => item === value);
         if (removeId >= 0) {
@@ -192,6 +191,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const handleContinue = () => {
         props.handleButtonContinue && props.handleButtonContinue()
     }
+
     let dataSearch = handleSearch('');
 
     const handleViewFilterMobile = () => {
@@ -207,7 +207,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const handleAccordion = (buyerSelect) => {
+        console.log('okokok', buyerSelect);
         dispatch(handleClickAccordion(buyerSelect));
+        handleFilter(buyerSelect,)
     }
     const handleValidateButton = () => {
         let personNotPackage = listPerson.find((person) => 
@@ -297,7 +299,9 @@ const BuyInsuranceGroupStep2Component = (props) => {
         console.log('buyer>>>', buyer);
         let buyerPackage = buyer.package && buyer.package.package_code;
         let _templateListPackage;
-        _templateListPackage = [].concat(data)
+        if(isEmptyArray(buyer.packageList)) return null
+        _templateListPackage = [].concat(buyer.packageList)
+        // _templateListPackage = [].concat(data)
             .sort(dynamicSort('price_fee', isSwap))
             .map((item, index) => {
                 return (
