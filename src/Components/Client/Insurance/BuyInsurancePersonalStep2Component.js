@@ -62,7 +62,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
     const handleFilter = () => {
         let params = {
             // age: moment().format('YYYY') - moment(step1.birthday).format('YYYY'),
-            age: moment(step1.birthday).format('YYYY/MM/DD'),
+            age: moment(step1.birthday).format('DD/MM/YYYY'),
             gender: step1.gender,
             fee_min: min,
             fee_max: max,
@@ -339,7 +339,7 @@ const BuyInsurancePersonalStep2Component = (props) => {
                             (!isEmptyArray(data)) ?
                                 [].concat(data)
                                     .sort(dynamicSort('price_fee', isSwap))
-                                    .map((item, index) => {
+                                    .map((item) => {
                                         return (
                                             <Row className={(item.package_code === isPackage.package_code || item.package_code === step2.packageCode) ? 'group-item group-item-active cursor-pointer' : 'group-item cursor-pointer'} key={item._id + '' + item.name}>
                                                 {/* <Stack direction='horizontal' className='align-items-start'> */}

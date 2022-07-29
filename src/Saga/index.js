@@ -5,7 +5,7 @@ import * as PaymentRedux from '../Reducers/Insurance/PaymentRedux';
 // Send request
 import * as SendRequestRedux from '../Reducers/SentRequest/SendRequestRedux';
 import { categoriesGetAll, categoriesGetDetail, categoriesGetType } from '../Saga/Admin/CategoriesSaga';
-import { getOrderDetail, createOrder, createPayment, getAllSuppliers, packageGetAll, packageGetBySupplier, packageGetDetail, postPackageBySupplier, postProductGetByPackage } from '../Saga/Client/PackageSaga';
+import { getOrderDetail, createOrder, createPayment, getAllSuppliers, packageGetAll, packageGetBySupplier, packageGetDetail, postPackageBySupplier, postProductGetByPackage, rootGroups } from '../Saga/Client/PackageSaga';
 import { rootAuthentication } from './Client/AuthenticationSaga';
 import { createSendRequest, getAll, getDetail } from './Client/SendRequestSaga';
 import { rootUploadFile } from './Client/UploadFile';
@@ -35,5 +35,6 @@ export default function* rootSaga() {
         rootAuthentication(),
         // rootUploadFile
         rootUploadFile(),
+        rootGroups(),
     ])
 }

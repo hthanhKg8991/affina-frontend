@@ -336,29 +336,29 @@ const BuyInsurancePersonalStep4Component = (props) => {
                                             }
                                         })
                                         :
-                                        isHasDataApi()?
-                                        orderDataDetail.paymentPermission && orderDataDetail.paymentPermission.detail.map((item, index)=>{
-                                            switch (item) {
-                                                case paymentMethod.QRCode:
-                                                    return _renderQR();
-                                                case paymentMethod.bank_account:
-                                                    return _renderBankAccount();
-                                                case paymentMethod.cc:
-                                                    return _renderCC();
-                                                case paymentMethod.installment:
-                                                    return _renderInstallment();
-                                                default:
-                                                    return null;
-                                            }
-                                        })
-                                        :
-                                        <div>
-                                            {_renderMyQR()}
-                                            {_renderBankAccount()}
-                                            {_renderCC()}
-                                            {_renderInstallment()}
-                                            {_renderQR()}
-                                        </div>
+                                        isHasDataApi() ?
+                                            orderDataDetail.paymentPermission && orderDataDetail.paymentPermission.detail.map((item, index) => {
+                                                switch (item) {
+                                                    case paymentMethod.QRCode:
+                                                        return _renderQR();
+                                                    case paymentMethod.bank_account:
+                                                        return _renderBankAccount();
+                                                    case paymentMethod.cc:
+                                                        return _renderCC();
+                                                    case paymentMethod.installment:
+                                                        return _renderInstallment();
+                                                    default:
+                                                        return null;
+                                                }
+                                            })
+                                            :
+                                            <div>
+                                                {/* {_renderMyQR()} */}
+                                                {_renderBankAccount()}
+                                                {_renderCC()}
+                                                {_renderInstallment()}
+                                                {_renderQR()}
+                                            </div>
                                 }
 
                                 {/* <Col md={12} xs={12} className='payment-group'>

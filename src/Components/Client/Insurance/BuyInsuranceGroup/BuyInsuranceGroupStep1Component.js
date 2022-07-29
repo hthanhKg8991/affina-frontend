@@ -14,6 +14,7 @@ import { Button as MuiButton } from "@mui/material";
 import {
   formatIOSToDate,
   genderByText,
+  isStringNullOrEmpty,
   isValidateEmail,
   validate,
 } from "../../../../Common/Helper";
@@ -41,7 +42,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
   const { listPerson = [] } = groupStep1;
   const [name, setName] = useState("");
   const [gender, setGender] = useState(0);
-  const [birthday, setBirthday] = useState(formatIOSToDate());
+  const [age, setBirthday] = useState(formatIOSToDate());
   const [isEdit, setIsEdit] = useState(false);
   const [indexDefaul, setIndexDefaul] = useState(-1);
 
@@ -68,7 +69,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
         id: listPerson.length + 1,
         name: name,
         gender: gender.key,
-        birthday: moment(birthday).format("DD/MM/YYYY"),
+        age: moment(age).format("DD/MM/YYYY"),
         identity: "",
         phone: "",
         email: "",
@@ -111,14 +112,13 @@ const BuyInsuranceGroupStep1Component = (props) => {
   };
 
   const handleUpdate = (index, person) => {
-    console.log("person.birthday", typeof person.birthday);
-    const personBirthday = moment(birthday).format("DD/MM/YYYY") === "Invalid date" ? moment(person.birthday).format("DD/MM/YYYY") : moment(birthday).format("DD/MM/YYYY");
+    const personBirthday = !isStringNullOrEmpty(age) ? moment(age).format("DD/MM/YYYY") : moment(person.age).format("DD/MM/YYYY");
     dispatch(
       handleUpdatePerson({
         index: index,
         name: name || person.name,
         gender: gender.key || person.gender,
-        birthday: personBirthday,
+        age: personBirthday,
       })
     );
     setIsEdit(false);
@@ -143,19 +143,19 @@ const BuyInsuranceGroupStep1Component = (props) => {
       {listPerson.length > 0 ? (
         <>
           <h4>Kiểm tra thông tin</h4>
-          {listPerson.some((person)=>person.isEligible === "Không đủ điều kiện") ? (<><div
+          {listPerson.some((person) => person.isEligible === "Không đủ điều kiện") ? (<><div
             style={{
-              color:  "red", fontWeight: 500, fontSize: "20px", fontFamily: "Manrope", marginTop: "-20px", marginBottom: "5px"
+              color: "red", fontWeight: 500, fontSize: "20px", fontFamily: "Manrope", marginTop: "-20px", marginBottom: "5px"
             }}
           >
-            Có {listPerson.filter((person)=>person.isEligible === "Không đủ điều kiện").length} khách hàng không đủ điều kiện tham gia (30 ngày tuổi - 65
+            Có {listPerson.filter((person) => person.isEligible === "Không đủ điều kiện").length} khách hàng không đủ điều kiện tham gia (30 ngày tuổi - 65
             tuổi)
           </div>
-          <div  style={{
-              color:  "red", fontWeight: 500, fontSize: "20px", fontFamily: "Manrope", marginBottom: "30px"
+            <div style={{
+              color: "red", fontWeight: 500, fontSize: "20px", fontFamily: "Manrope", marginBottom: "30px"
             }}>Vui lòng nhập đúng ngày sinh hoặc bỏ khách hàng ra khỏi danh sách</div></>
           ) : ""}
-          
+
         </>
       ) : (
         <h4>Bạn chưa có thành viên nào tham gia bảo hiểm</h4>
@@ -199,9 +199,9 @@ const BuyInsuranceGroupStep1Component = (props) => {
                             </FormLabel> */}
                             <DatePicker
                               className="form-control"
-                              selected={birthday}
+                              selected={age}
                               onChange={(date) => onChangeBirthday(date)}
-                              placeholderText={item.birthday}
+                              placeholderText={item.age}
                               dateFormat="dd/MM/yyyy"
                               // minDate={new Date()}
                               customInput={<MaskedInput mask="99/99/9999" />}
@@ -217,7 +217,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
                             }}
                           >
                             {" "}
-                            {item.birthday}
+                            {item.age}
                           </div>
                         )}
                       </td>
@@ -271,7 +271,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
                             <>
                               <MuiButton
                                 variant="outlined"
-                                // disabled={validate([name, gender, birthday])}
+                                // disabled={validate([name, gender, age])}
                                 onClick={() => handleUpdate(index, item)}
                               >
                                 <div style={{ fontWeight: "600" }}>Update</div>
@@ -329,7 +329,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
                 name="uploadfile"
                 id="listperson"
                 hidden
-                // onChange={(e) => handleFile(e)}
+              // onChange={(e) => handleFile(e)}
               />{" "}
               <label htmlFor="listperson" className="button-load-file">
                 <label htmlFor="listperson" className="Chn-file">
@@ -403,7 +403,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
                   </FormLabel>
                   <DatePicker
                     className="form-control"
-                    selected={birthday}
+                    selected={age}
                     onChange={(date) => onChangeBirthday(date)}
                     placeholderText="Nhập ngày/tháng/năm sinh*"
                     dateFormat="dd/MM/yyyy"
@@ -416,7 +416,7 @@ const BuyInsuranceGroupStep1Component = (props) => {
             <Button
               variant={"pink btn-md text-uppercase"}
               className="btn-add-person"
-              disabled={validate([name, gender, birthday])}
+              disabled={validate([name, gender, age])}
               onClick={handleAdd}
             >
               <span className="text-plus">+</span> Thêm người vào nhóm
@@ -430,9 +430,9 @@ const BuyInsuranceGroupStep1Component = (props) => {
         validate={validate([listPerson.length > 0, checkCondition() === true])}
         handleButtonGoBack={handleGoBack}
         handleButtonContinue={handleContinue}
-        // paidAmount={step2.paidAmount}
-        // intoMoney={step2.intoMoney}
-        // isViewStep={true}
+      // paidAmount={step2.paidAmount}
+      // intoMoney={step2.intoMoney}
+      // isViewStep={true}
       />
     </div>
   );

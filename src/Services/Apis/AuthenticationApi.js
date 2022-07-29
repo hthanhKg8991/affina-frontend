@@ -1,12 +1,12 @@
-import axiosClient from "../ApiClient";
+import GeneralAPI from "./generalApi";
 
-const AuthenticationApi = {
+class AuthenticationApi extends GeneralAPI {
     login(params) {
         const url = 'users/login';
         return {
-            send: () => axiosClient.post(url, params)
+            send: () => this.methodPost(url, params)
         }
-    },
+    }
 }
-
-export default AuthenticationApi;
+const authenticationInstance = new AuthenticationApi();
+export default authenticationInstance;

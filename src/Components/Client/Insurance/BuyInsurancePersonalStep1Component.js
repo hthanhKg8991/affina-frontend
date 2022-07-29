@@ -6,7 +6,7 @@ import MaskedInput from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAge, formatIOSToDate, isStringNullOrEmpty, validate } from '../../../Common/Helper';
 import { resetStateInsurance } from '../../../Reducers/Insurance/PackagesRedux';
-import { handleStep1 } from '../../../Reducers/Insurance/StepRedux';
+import { handleStep1, resetState } from '../../../Reducers/Insurance/StepRedux';
 import CommonButtonInsurance from './CommonButtonInsurance';
 
 const BuyInsurancePersonalStep1Component = (props) => {
@@ -31,6 +31,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
     }
 
     const handleContinue = () => {
+        dispatch(resetState());
         let params = {
             gender: gender.toString(),
             birthday: birthday,
@@ -38,6 +39,7 @@ const BuyInsurancePersonalStep1Component = (props) => {
         dispatch(handleStep1(params))
         console.log('params>>>', params);
         dispatch(resetStateInsurance());
+        
         props.handleButtonContinue && props.handleButtonContinue()
     }
 

@@ -272,7 +272,6 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         console.log('dataAuth>>>', dataAuth);
         resetStore()
         if (dataAuth.data && dataAuth.data._id) {
-
             handleCreateOrder();
             resetInputState();
             // resetStore()
@@ -285,18 +284,20 @@ const BuyInsurancePersonalStep3InputComponent = (props) => {
         }
     }
     useEffect(() => {
-        console.log('paymentData>>>>', paymentData);
+        console.log('paymentData>>>>', orderData, order_code);
+
         if (!isStringNullOrEmpty(order_code)) {
             dispatch(createPaymentResponse({
                 status: 0,
             }));
 
         } else {
-            dispatch(createPaymentResponse({
-                status: configDefault.FAILED,
-            }))
+            if (orderData.hasOwnProperty('errMessage')) {
+                dispatch(createPaymentResponse({
+                    status: configDefault.FAILED,
+                }))
+            }
         }
-
         // dispatch(getOrderDetail())
     }, [orderData]);
 

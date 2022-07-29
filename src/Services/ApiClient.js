@@ -1,6 +1,8 @@
+import moment from 'moment';
 import axios from 'axios';
 import configDefault from '../Config/app';
-
+// const timeStamp = moment().valueOf();
+const timeStamp = new Date().getTime();
 const axiosClient = axios.create({
     baseURL: configDefault.API_URL_API,
     headers: {
@@ -8,7 +10,7 @@ const axiosClient = axios.create({
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
         'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
-        'Access-Control-Allow-Credentials': true
+        'Access-Control-Allow-Credentials': true,
     },
 });
 

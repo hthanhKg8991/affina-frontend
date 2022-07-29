@@ -1,14 +1,13 @@
 import htmlParserCode from 'html-react-parser';
 import moment from 'moment';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Accordion, Col, Container, Form, Image, Nav, PageItem, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import accessStyle from '../../../../Assets';
 import { dynamicSort, formatPrepaidAmount, isEmptyArray, matchRound, numFormatter, validate, isStringNullOrEmpty, checkAge, checkAgeOver51YearsOld, checkAge30daysTo6YearsOld, genderByText, viewTextAge } from '../../../../Common/Helper';
 import Line from '../../../../Common/Line';
 import configDefault from '../../../../Config/app';
-import { pushAdditionalItem, pushItem, resetAdditional, handleSelectPerson, handleClickAccordion, handleAllAccordion } from '../../../../Reducers/Insurance/GroupStepRedux';
-import { getAllSuppliers, packagesGetAll, packagesGetBySupplier, postPackageBySupplier } from '../../../../Reducers/Insurance/PackagesRedux';
+import { getAllSuppliers, handleAllAccordion, handleClickAccordion, handleSelectPerson, packagesGetAll, packagesGetBySupplier, postGroupsPackageBySupplier, pushAdditionalItem, pushItem, resetAdditional } from '../../../../Reducers/Insurance/PackagesRedux';
 import { handleSelectAdditional, handleStep2, resetAdditionalState } from '../../../../Reducers/Insurance/StepRedux';
 import CommonModal from '../../../Common/CommonModal';
 import MultiRangeSlider from '../../../Common/MultiRangeSlider';
@@ -21,15 +20,14 @@ const MAX = 75000000;
 
 const BuyInsuranceGroupStep2Component = (props) => {
     const dispatch = useDispatch();
-    const { data = [], supplier = [], dataBySupplier = [] } = useSelector((state) => state.insurancePackagesRedux) || [];
+    const { groupData = [], supplier = [] } = useSelector((state) => state.insurancePackagesRedux) || [];
     const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
     const { groupStep1 } = dataStep;
     const { listPerson = [] } = groupStep1;
-    console.log('dataAdditional::', listPerson);
-    console.log("personrender", listPerson);
+    console.log('dataAdditional::', groupData);
+    // console.log("personrender", listPerson);
     const [isSwap, setIsSwap] = useState(false);
     // handle api
-    // const [amountSecondary, setAmountSecondary] = useState(0)
     const [isAdditional, setIsAdditional] = useState(false);
     const [isSelectAdditional, setIsSelectAdditional] = useState('');
     const [selectAdditional, setSelectAdditional] = useState();
@@ -51,29 +49,19 @@ const BuyInsuranceGroupStep2Component = (props) => {
     const handleSearch = (keywords) => {
         console.log('keywords:::', keywords);
         if (keywords === '') {
-            return data;
+            return groupData;
         }
         const regex = new RegExp(`${keywords.trim()}`, 'i');
-        return data.filter(item => (item.name.search(regex) >= 0));
+        return groupData.filter(item => (item.name.search(regex) >= 0));
 
     }
 
-    const handleFilter = (itemPerson) => {
-        // let params = {
-        //     age: moment(itemPerson.birthday).format('YYYY/MM/DD'),
-        //     gender: itemPerson.gender,
-        //     fee_min: min,
-        //     fee_max: max,
-        //     supplier: selectSupplier,
-        //     sort: selectSort,
-        // }
-        // let params = []
-        console.log('params>>>', listPerson);
-        dispatch(postPackageBySupplier(listPerson))
+    const handleFilter = () => {
+        dispatch(postGroupsPackageBySupplier(listPerson))
     }
 
     useEffect(() => {
-        // handleFilter();
+        handleFilter();
     }, [min, max, selectSupplier, selectSort])
     const callAPI = () => {
         // dispatch(packagesGetAll());
@@ -127,7 +115,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const handleSelectPackage = (buyer, item) => {
-        console.log('item:::', buyer, item);
+        console.log('item:::', item);
         handleAdditional(item._id);
         dispatch(
             pushItem(
@@ -174,7 +162,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const handleCheckAdditional = (id, buyerId) => {
-        let person = listPerson.find((person) => person.id === buyerId)
+        let person = groupData.find((person) => person.id === buyerId)
         let selectAdditionPerson = person.selectAddition
         if (!isEmptyArray(selectAdditionPerson)) {
           return selectAdditionPerson.some((el) => el._id === id);
@@ -182,6 +170,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
           return false;
         }
     }
+    
     const handleGoBack = () => {
         console.log("personrender");
         dispatch(handleAllAccordion());
@@ -207,12 +196,10 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const handleAccordion = (buyerSelect) => {
-        console.log('okokok', buyerSelect);
         dispatch(handleClickAccordion(buyerSelect));
-        handleFilter(buyerSelect,)
     }
     const handleValidateButton = () => {
-        let personNotPackage = listPerson.find((person) => 
+        let personNotPackage = groupData.find((person) => 
             person.package === undefined
         )
         if (personNotPackage) {return false} else {return true}
@@ -224,6 +211,8 @@ const BuyInsuranceGroupStep2Component = (props) => {
         setIsRemainingPack(false);
     }
     const _renderTextViewAdditional = (buyer, item) => {
+        console.log('_renderTextViewAdditional>>>', buyer);
+        console.log('_renderTextViewAdditional>>>item', item);
         let _isTitleAdditional;
         _isTitleAdditional = (!isEmptyArray(item.additional)) &&
             <p className='additional-benefits'
@@ -248,7 +237,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
         let _templateAdditional;
         _templateAdditional = (buyer.selectPerson) && (isAdditional === item._id) && (
             (!isEmptyArray(item.additional)) &&
-            item.additional.map((additionalItem, index) => {
+            item.additional.map((additionalItem) => {
                 return (
                     <div className='sub-item' key={additionalItem._id}>
                         <div className='package-additional-preview '>
@@ -301,9 +290,8 @@ const BuyInsuranceGroupStep2Component = (props) => {
         let _templateListPackage;
         if(isEmptyArray(buyer.packageList)) return null
         _templateListPackage = [].concat(buyer.packageList)
-        // _templateListPackage = [].concat(data)
             .sort(dynamicSort('price_fee', isSwap))
-            .map((item, index) => {
+            .map((item) => {
                 return (
                     <Row className={(item.package_code === buyerPackage) ? 'group-item group-item-active cursor-pointer' : 'group-item cursor-pointer'} key={item._id + '' + item.name}>
                         <Col md={3} xs={3} sm={3} className='reset-padding-right '
@@ -402,7 +390,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
         console.log('buyer>>>', buyer);
         let buyerPackage = buyer.package && buyer.package.package_code;
         let _templateListRemainPackage;
-        _templateListRemainPackage = [].concat(data)
+        _templateListRemainPackage = [].concat(groupData)
             .sort(dynamicSort('price_fee', isSwap))
             .map((item, index) => {
                 return (
@@ -565,7 +553,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
                                         checkPerson(buyer);
                                     }}
                                          >
-                                            Xem {data.length - 1} gói bảo hiểm còn lại
+                                            Xem {groupData.length - 1} gói bảo hiểm còn lại
                                             {
                                                 isRemainingPack ? <i className='mdi mdi-chevron-up'></i> : <i className='mdi mdi-chevron-down'></i>
                                             }
@@ -581,24 +569,24 @@ const BuyInsuranceGroupStep2Component = (props) => {
     }
 
     const _renderListPerson = () => {
-        return listPerson.map((item, index) => {
-            
+        return [].concat(groupData).map((item, index) => {
+            console.log('item.age>>>>', item.age);
             return (
                 <Accordion  flush defaultActiveKey="0" className='group-insurance active' style={{marginBottom: "20px", borderRadius: "20px", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
                     <Accordion.Item eventKey={index}>
-                        <Accordion.Header onClick={() => { handleAccordion(item); checkPerson(item); handleResetRemainingPack();}} style={{borderBottom: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
+                        <Accordion.Header onClick={() => { handleAccordion(item); checkPerson(item); handleResetRemainingPack();}} style={{borderBottom: checkAge30daysTo6YearsOld(item.age) || checkAgeOver51YearsOld(item.age) ? "1px dashed rgba(146, 67, 153, 0.25)" : ""}}>
                             <div className='text-header'>
                                 <label className='text-uppercase'>{item.name} - <span>({genderByText(item.gender)})</span></label> <br />
-                                <small className=''>Độ tuổi: {viewTextAge(item.birthday)}</small> <br />
+                                <small className=''>Độ tuổi: {viewTextAge(item.age)}</small> <br />
                             </div>
 
                         </Accordion.Header>
-                            <div style={{textAlign: "start", padding: checkAge30daysTo6YearsOld(item.birthday) || checkAgeOver51YearsOld(item.birthday) ? "16px" : ""}}>
-                                 {checkAge30daysTo6YearsOld(item.birthday) ? (
+                            <div style={{textAlign: "start", padding: checkAge30daysTo6YearsOld(item.age) || checkAgeOver51YearsOld(item.age) ? "16px" : ""}}>
+                                 {checkAge30daysTo6YearsOld(item.age) ? (
                                     <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>Trẻ em dưới 6 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
                                 ) :
                                     ""}
-                                {checkAgeOver51YearsOld(item.birthday) ? (
+                                {checkAgeOver51YearsOld(item.age) ? (
                                     <small style={{ fontSize: "14px", fontStyle: "italic", color: "#924399" }} className=''>51 tuổi - 65 tuổi phí bảo hiểm sẽ tăng 30% so với phí bảo hiểm gốc</small>
                                 ) :
                                     ""}
@@ -789,7 +777,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
 
                     <Col md={6} className='insurance-center'>
                         {
-                            // (!isEmptyArray(data)) ?
+                            // (!isEmptyArray(groupData)) ?
                             //     _renderListPackage()
                             //     :
                             //     <div className='empty-data'>
@@ -808,7 +796,7 @@ const BuyInsuranceGroupStep2Component = (props) => {
                         {/* quyen loi chinh */}
                     </Col>
                 </Row>
-            </Container >
+            </Container>
 
             <CommonButtonInsurance
                 textButtonGoBack='QUAY LẠI'

@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 import { checkAge, percentage } from '../../Common/Helper';
+// const { groupData = [] } = useSelector((state) => state.insurancePackagesRedux) || [];
 const initialState = {
     currentStep: 1,
     holdStep: 2,
@@ -29,10 +31,9 @@ const InsuranceGroupSlice = createSlice({
             const { dataStep = {} } = state;
             const { groupStep1 = {} } = dataStep;
             const { listPerson = [] } = groupStep1;
-            var verifyItem = {};
-            var dataPayload = action.payload;
-            console.log("birthday", dataPayload.birthday);
-            const ConditionAge = checkAge(dataPayload.birthday);
+            let dataPayload = action.payload;
+            console.log("age", dataPayload.age);
+            const ConditionAge = checkAge(dataPayload.age);
             if (ConditionAge) {
                 dataPayload.isEligible = "Đủ điều kiện";
             } else {
@@ -46,46 +47,19 @@ const InsuranceGroupSlice = createSlice({
             const { dataStep = {} } = state;
             const { groupStep1 = {} } = dataStep;
             const { listPerson = [] } = groupStep1;
-            var verifyItem = {};
-            var dataPayload = action.payload;
-            const ConditionAge = checkAge(dataPayload.birthday);
+            let dataPayload = action.payload;
+            const ConditionAge = checkAge(dataPayload.age);
             if (ConditionAge) {
                 dataPayload.isEligible = "Đủ điều kiện";
             } else {
                 dataPayload.isEligible = "Không đủ điều kiện";
             }
             state.dataStep.groupStep1.listPerson[dataPayload.index] = dataPayload;
-            // state.dataStep.step1.listPerson = [...listPerson, dataPayload];
             console.log("action.payload>>>", action.payload, listPerson);
         },
         handleRemovePersonFromGroup(state, action) {
             const index = action.payload;
-            //   const removeId = state.dataStep.step1.listPerson.findIndex(
-            //     (item) => item._id === action.payload
-            //   );
             state.dataStep.groupStep1.listPerson.splice(index, 1);
-        },
-        handleSelectItem: (state, action) => {
-            state.dataStep.groupStep1.personDetail = state.dataStep.groupStep1.listPerson.find(element => element.id === action.payload)
-        },
-
-        pushItem: (state, action) => {
-            // let person = state.dataStep.groupStep1.listPerson.find((person) => person.id === action.payload.id);
-            // console.log("listperson group1", JSON.parse(JSON.stringify(person)));
-            // console.log("listperson group1", JSON.parse(JSON.stringify(action.payload)));
-            // if (person.package._id !== action.payload.package._id) {
-            //   person.selectAddition = [];
-            // }
-            state.dataStep.groupStep1.listPerson.find((item, index) => {
-                if (item.id === action.payload.id) {
-                    return Object.assign(item, action.payload)
-                }
-            })
-        },
-        resetAdditional: (state, action) => {
-            let person = state.dataStep.groupStep1.listPerson.find((person) => person.id === action.payload.buyerId);
-            console.log("listperson group1", JSON.parse(JSON.stringify(person)));
-            person.selectAddition = [];
         },
         // pushAdditionalItem: (state, action) => {
         //     // const removeId = state.dataStep.step2.additional.findIndex(item => item._id === action.payload._id);
@@ -104,49 +78,6 @@ const InsuranceGroupSlice = createSlice({
         //         }
         //     })
         // },
-        pushAdditionalItem: (state, action) => {
-            const condition = action.payload;
-            let conditionAddition = [];
-            let selectPerson = state.dataStep.groupStep1.listPerson.find((person) => person.id === condition.buyerId);
-            if (selectPerson.selectAddition === undefined) {
-                selectPerson.selectAddition = conditionAddition;
-                selectPerson.selectAddition.push(condition.item)
-            } else {
-                if (selectPerson.selectAddition.some((addition) => addition._id === condition.item._id)) {
-                    let index = selectPerson.selectAddition.findIndex((addition) => addition._id === condition.item._id);
-                    selectPerson.selectAddition.splice(index, 1);
-                } else { selectPerson.selectAddition.push(action.payload.item) }
-            }
-        },
-        handleRemoveAdditional(state, action) {
-            const data = action.payload;
-            const selectPerson = state.dataStep.groupStep1.listPerson.find((person) => person.id === data.personId);
-            let removeId = selectPerson.selectAddition.findIndex((addition) => addition._id === data.additionId);
-            selectPerson.selectAddition.splice(removeId, 1);
-        },
-        handleSelectPerson(state, action) {
-            const selectPerson = action.payload;
-            state.dataStep.groupStep1.listPerson.forEach((person) => {
-                if (person.id === selectPerson.id) {
-                    return person.selectPerson = true
-                } else { 
-                    return person.selectPerson = false
-                }
-            })
-        },
-        handleClickAccordion(state, action) {
-            const selectPerson = action.payload;
-            state.dataStep.groupStep1.listPerson.forEach((person) => {
-                if (person.id === selectPerson.id) {
-                    if(person.Accordion === undefined) {return person.Accordion= true } else {return (person.Accordion = !person.Accordion)}
-                } else {
-                    // return person.Accordion = false;
-                }
-            })
-        },
-        handleAllAccordion(state, action) {
-            state.dataStep.groupStep1.listPerson.forEach((person) => { return person.Accordion = false });
-        },
     }
 });
 export const {
@@ -155,13 +86,5 @@ export const {
     handleAddPerson,
     handleUpdatePerson,
     handleRemovePersonFromGroup,
-    handleSelectItem,
-    pushItem,
-    resetAdditional,
-    pushAdditionalItem,
-    handleSelectPerson,
-    handleClickAccordion,
-    handleAllAccordion,
-    handleRemoveAdditional
 } = InsuranceGroupSlice.actions;
 export default InsuranceGroupSlice.reducer

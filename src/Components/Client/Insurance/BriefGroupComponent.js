@@ -4,7 +4,7 @@ import { Form, Nav, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatPrepaidAmount, getPackageDetail, getSupplierName, isEmptyArray, matchRound, percentage, tabByText } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
-import { handleRemoveAdditional } from '../../../Reducers/Insurance/GroupStepRedux';
+import { handleRemoveAdditional } from '../../../Reducers/Insurance/PackagesRedux';
 
 
 const BriefGroupComponent = (props) => {
@@ -13,27 +13,27 @@ const BriefGroupComponent = (props) => {
     var amountTotal = 0;
     let amountFee = 0;
     let discount = 0;
-    const { isPackage } = useSelector((state) => state.insurancePackagesRedux) || [];
-    
+    const { isPackage, groupData = [] } = useSelector((state) => state.insurancePackagesRedux) || [];
+
     const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
     const { groupStep1, groupStep2 } = dataStep;
     const { listPerson = [] } = groupStep1;
     const { selectAdditional = [] } = props;
-    let packageNumberChoose = listPerson.filter((person) => person.package);
+    let packageNumberChoose = groupData.filter((person) => person.package);
     
     const onRemoveAdditional = (personId, additionId) => {
         dispatch(handleRemoveAdditional(personId, additionId));
     }
     
-    console.log("listPerson group", listPerson);
+    console.log("groupData group", groupData);
     let totalFeeMain = 0;
-    if (listPerson.some((person) => person.package !== undefined)) {
-        let personGroup = listPerson.filter((person) => person.package !== undefined);
+    if (groupData.some((person) => person.package !== undefined)) {
+        let personGroup = groupData.filter((person) => person.package !== undefined);
         totalFeeMain = personGroup.reduce((totalFeeMain, person) => (totalFeeMain += person.package.price_fee), 0);
 
     }
     let total_extra_package = 0;
-    listPerson.forEach((person) => {
+    groupData.forEach((person) => {
         person.selectAddition && person.selectAddition.forEach((addition) => {
         total_extra_package += parseInt(addition.amount);
         })
@@ -41,7 +41,7 @@ const BriefGroupComponent = (props) => {
     )
 
     let total_fee_package = 0;
-    listPerson.forEach((person) => {
+    groupData.forEach((person) => {
         person.selectAddition && person.selectAddition.forEach((addition) => {
         total_fee_package += parseInt(addition.fee);
         })
@@ -64,7 +64,7 @@ const BriefGroupComponent = (props) => {
     const renderAdditional = () => {
         let templateAdditional = [];
         let additional;
-        listPerson.forEach((person) => {
+        groupData.forEach((person) => {
             additional = person.selectAddition;
             console.log("additional", additional);
         if (!isEmptyArray(additional)) {
@@ -86,15 +86,15 @@ const BriefGroupComponent = (props) => {
         })
         return templateAdditional;
     }
-    var dataPackageList = getPackageDetail(listPerson).packageDetail;
-    var totalFee = getPackageDetail(listPerson).totalFee;
+    var dataPackageList = getPackageDetail(groupData).packageDetail;
+    var totalFee = getPackageDetail(groupData).totalFee;
     console.log("dataPackageList", dataPackageList);
     return (
         <div className='insurance-sidebar bg-white sidebar-right-content my-sticky-top'>
             <Form.Label className='justify-content-start d-flex'>Tóm tắt đơn bảo hiểm</Form.Label>
             <Nav className='justify-content-between'>
                 <label className='unit'> *Đơn vị: VNĐ</label>
-                <label className='unit ms-auto'> Số lượng: {listPerson.length}</label>
+                <label className='unit ms-auto'> Số lượng: {groupData.length}</label>
             </Nav>
             <Line type='dotted' />
             <div className='brief-info'>
@@ -110,7 +110,7 @@ const BriefGroupComponent = (props) => {
 
                 <Nav className='justify-content-between'>
                     <Nav.Item>Nhà bảo hiểm:</Nav.Item>
-                    <Nav.Item>{getSupplierName(listPerson)}</Nav.Item>
+                    <Nav.Item>{getSupplierName(groupData)}</Nav.Item>
                 </Nav>
                 <Nav className='justify-content-between d-block'>
                     <Nav.Item>Tên gói: </Nav.Item>
@@ -152,7 +152,6 @@ const BriefGroupComponent = (props) => {
             <div className='package-additional'>
                 <Nav className='justify-content-between'>
                     <Nav.Item className='topic'><strong>Gói bổ sung:</strong></Nav.Item>
-
                 </Nav>
                 <div className='additional-package brief-info'>
                     {

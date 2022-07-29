@@ -9,7 +9,7 @@ import { checkAge, formatIOSToDate, genderByText, isStringNullOrEmpty, isValidat
 import District from '../../../../Config/districts';
 import ProvinceData from '../../../../Config/provinces';
 import Ward from '../../../../Config/wards';
-import { handleSelectItem, pushItem } from '../../../../Reducers/Insurance/GroupStepRedux';
+import { handleSelectItem, pushItem } from '../../../../Reducers/Insurance/PackagesRedux';
 import CommonComboBox from '../../../Common/CommonComboBox';
 import CommonInput from '../../../Common/CommonInput';
 import CommonButtonInsurance from '../CommonButtonInsurance';
@@ -17,10 +17,10 @@ import CommonButtonInsurance from '../CommonButtonInsurance';
 const BuyInsuranceGroupStep3InputComponent = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { groupData = [], personDetail={} } = useSelector((state) => state.insurancePackagesRedux) || [];
 
     const { dataStep } = useSelector((state) => state.insuranceGroup) || [];
     const { groupStep1 } = dataStep;
-    const { listPerson = [], personDetail = {} } = groupStep1;
     console.log('personDetail>>>', personDetail);
     // 
     const [state, setState] = useState({});
@@ -49,14 +49,14 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
         props.handleButtonGoBack && props.handleButtonGoBack()
     }
     const handleValidateButton = () => {
-       const findPersonNotEnoughInfor = listPerson.find((item, index) => {
+       const findPersonNotEnoughInfor = groupData.find((item, index) => {
             console.log('item.address>>', item.province);
             if(item.isbilling){
                 if (
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
                     && !isStringNullOrEmpty(item.identity)
-                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.age)
                     && !isStringNullOrEmpty(item.phone)
                     && isValidatePhone(item.phone)
                     && !isStringNullOrEmpty(item.email)
@@ -82,7 +82,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
                     && !isStringNullOrEmpty(item.identity)
-                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.age)
                     && !isStringNullOrEmpty(item.phone)
                     && isValidatePhone(item.phone)
                     && !isStringNullOrEmpty(item.email)
@@ -110,7 +110,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
                     && !isStringNullOrEmpty(item.identity)
-                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.age)
                     && !isStringNullOrEmpty(item.phone)
                     && isValidatePhone(item.phone)
                     && !isStringNullOrEmpty(item.email)
@@ -138,7 +138,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                     !isStringNullOrEmpty(item.name)
                     && !isStringNullOrEmpty(item.gender)
                     && !isStringNullOrEmpty(item.identity)
-                    && !isStringNullOrEmpty(item.birthday)
+                    && !isStringNullOrEmpty(item.age)
                     && !isStringNullOrEmpty(item.phone)
                     && isValidatePhone(item.phone)
                     && !isStringNullOrEmpty(item.email)
@@ -258,7 +258,7 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                                 <ListGroup.Item className='title'>Danh sách người được bảo hiểm
                                 </ListGroup.Item>
                                 {
-                                    listPerson.map((item, index) => {
+                                    groupData.map((item, index) => {
                                         return (
                                             <ListGroup.Item style={{fontWeight: (item.id === personDetail.id) ? "Bold": ""}} key={index} onClick={() => onSelectDetail(item)}>
                                                 <div style={{color: handleValidateInforPerson(item) ? "red" : ""}}>
@@ -314,6 +314,10 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                                                         key: 'VC',
                                                         value: 'Vợ/Chồng',
                                                     },
+                                                    {
+                                                        key: 'ACE',
+                                                        value: 'Anh Chị EM ruột; Người có quan hệ nuôi dưỡng và cấp dưỡng',
+                                                    },
                                                 ]}
                                                 readOnly={true}
                                                 viewValue="value"
@@ -364,8 +368,8 @@ const BuyInsuranceGroupStep3InputComponent = (props) => {
                                                 require={true}
                                                 label='Ngày sinh'
                                                 hint='Nhập ngày/tháng/năm'
-                                                defaultValue={personDetail.birthday}
-                                                value={moment(personDetail.birthday).format('DD/MM/YYYY')}
+                                                defaultValue={personDetail.age}
+                                                value={moment(personDetail.age).format('DD/MM/YYYY')}
                                                 readOnly={true}
                                             />
                                         </Col>

@@ -106,9 +106,11 @@ const BuyInsurancePersonalComponent = () => {
   };
 
   let textButtonGoBack = "QUAY LẠI";
-  const renderStep = () => {
+  const renderStep = (status) => {
     // var templateStep =
-    switch (buyInsuranceStep) {
+    console.log('buyInsuranceStep>>', buyInsuranceStep);
+    let isCheckCurrunStep = !isStringNullOrEmpty(status) ? status : buyInsuranceStep;
+    switch (isCheckCurrunStep) {
       case 1:
         textButtonGoBack = "Quay về trang chủ";
         return (
@@ -223,10 +225,10 @@ const BuyInsurancePersonalComponent = () => {
                       onClick={() =>
                         handleCopyClipBoard(
                           vnConvert(step3.name).split(" ").join("") +
-                            " " +
-                            step3.phone +
-                            " " +
-                            (orderData.data && orderData.data.order_code)
+                          " " +
+                          step3.phone +
+                          " " +
+                          (orderData.data && orderData.data.order_code)
                         )
                       }
                     ></i>
@@ -271,10 +273,15 @@ const BuyInsurancePersonalComponent = () => {
               height={"auto"}
             />
             <h4>THANH TOÁN Thất bại!</h4>
-            <p>
-              Rất tiếc giao dịch của bạn không thành công! Vui lòng thực hiện
-              lại giao dịch
-            </p>
+            {
+              (orderData.hasOwnProperty('errMessage')) ?
+                <p>{orderData.errMessage}</p>
+                : <p>
+                  Rất tiếc giao dịch của bạn không thành công! Vui lòng thực hiện
+                  lại giao dịch
+                </p>
+            }
+
           </div>
         );
       default:
@@ -325,7 +332,7 @@ const BuyInsurancePersonalComponent = () => {
               Link:{" "}
               <a
                 href={
-                  "https://affina.com.vn/tham-gia-bao-hiem-BOne?tab="+tab+"&step=3&standStep=4&contract_num=" +
+                  "https://affina.com.vn/tham-gia-bao-hiem-BOne?tab=" + tab + "&step=3&standStep=4&contract_num=" +
                   data.order_code
                 }
                 target="_blank"
@@ -350,7 +357,7 @@ const BuyInsurancePersonalComponent = () => {
                 "Thanh toán",
               ]}
             />
-            {renderStep()}
+            {renderStep(status)}
           </>
         );
     }
@@ -367,6 +374,7 @@ const BuyInsurancePersonalComponent = () => {
 
   const renderButton = (status) => {
     console.log("renderButton>>>", status);
+    let isCheckStatus = !isStringNullOrEmpty(paymentData.status) ? paymentData.status : status;
     switch (status) {
       case "1":
       case configDefault.BANK_TRANSFER_SUCCESS:

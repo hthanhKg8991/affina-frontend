@@ -1,6 +1,8 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import PackagesApi from '../../Services/Apis/PackagesApi';
-import { createOrderResponse, getAllSuppliersResponse, getOrderResponse, packagesGetAllResponse, packagesGetBySupplierResponse, packagesGetDetailResponse, postPackageBySupplierResponse, productGetByPackageResponse } from '../../Reducers/Insurance/PackagesRedux';
+import { createOrderResponse, getAllSuppliersResponse, getOrderResponse, packagesGetAllResponse, packagesGetBySupplierResponse, packagesGetDetailResponse, postPackageBySupplierResponse, productGetByPackageResponse, createOrdersGroupResponse, postGroupsPackageBySupplierResponse } from '../../Reducers/Insurance/PackagesRedux';
+import * as PackagesRedux from '../../Reducers/Insurance/PackagesRedux';
+
 import {  createPaymentResponse } from '../../Reducers/Insurance/PaymentRedux';
 
 export function* getAllSuppliers() {
@@ -83,4 +85,31 @@ export function* createPayment(action) {
     } catch (error) {
         yield put(createPaymentResponse(error));
     }
+}
+// Groups
+export function* createOrdersGroup(action) {
+    console.log('createOrdersGroup:type', action);
+    // orders/company/create
+    try {
+        const response = yield call(PackagesApi.createOrdersGroup(action.payload).send);
+        yield put(createOrdersGroupResponse(response));
+    } catch (error) {
+        yield put(createOrdersGroupResponse(error));
+    }
+}
+export function* postGroupsPackageBySupplier(action) {
+    console.log('postGroupsPackageBySupplier:type', action);
+    try {
+        const response = yield call(PackagesApi.postGroupsPackageBySupplier(action.payload).send);
+        console.log('postGroupsPackageBySupplier:response', response);
+        yield put(postGroupsPackageBySupplierResponse(response));
+    } catch (error) {
+        yield put(postGroupsPackageBySupplierResponse(error));
+    }
+}
+
+export function* rootGroups() {
+    yield takeLatest(PackagesRedux.createOrdersGroup.type, createOrdersGroup);
+    yield takeLatest(PackagesRedux.postGroupsPackageBySupplier.type, postGroupsPackageBySupplier);
+    // yield takeLatest('Authentication/login', login)
 }

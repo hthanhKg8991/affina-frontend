@@ -7,6 +7,14 @@ const Provinces = [
         "phone_code": 24,
     },
     {
+        "name": "Thành phố Hồ Chí Minh",
+        "code": 79,
+        "division_type": "thành phố trung ương",
+        "codename": "thanh_pho_ho_chi_minh",
+        "phone_code": 28,
+
+    },
+    {
         "name": "Tỉnh Hà Giang",
         "code": 2,
         "division_type": "tỉnh",
@@ -387,14 +395,6 @@ const Provinces = [
         "division_type": "tỉnh",
         "codename": "tinh_ba_ria_vung_tau",
         "phone_code": 254,
-
-    },
-    {
-        "name": "Thành phố Hồ Chí Minh",
-        "code": 79,
-        "division_type": "thành phố trung ương",
-        "codename": "thanh_pho_ho_chi_minh",
-        "phone_code": 28,
 
     },
     {
