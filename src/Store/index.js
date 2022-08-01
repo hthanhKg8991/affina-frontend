@@ -3,18 +3,25 @@ import { persistStore, persistReducer, createTransform } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import CryptoJS from "crypto-js";
 
+import configApp from '../Config/app';
 import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import rootReducers from "../Reducers/index";
 import rootSaga from "../Saga/index";
 const sagaMiddleware = createSagaMiddleware();
-// function noop() {}
-// console.log = noop;
-// console.warn = noop;
-// console.error = noop;
-// const middleware = [sagaMiddleware];
 
-const middleware = [sagaMiddleware, logger];
+
+let middleware = null;
+if (configApp.evn !== 'product') {
+  function noop() { }
+  console.log = noop;
+  console.warn = noop;
+  console.error = noop;
+  middleware = [sagaMiddleware];
+} else {
+  middleware = [sagaMiddleware, logger];
+}
+
 // const middleware = [sagaMiddleware];
 
 var secretKey = "Affina@123#-^+=";
