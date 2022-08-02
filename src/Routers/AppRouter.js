@@ -48,6 +48,7 @@ import SendRequestContainer from "../Containers/Client/SendRequestContainer";
 import ListSentRequestComponent from "../Components/Client/LinkExample/ListSentRequestComponent";
 import LayoutMail from "../Common/LayoutMail";
 import BillContainer from "../Containers/Admin/BillContainer";
+import SaleContainer from "../Containers/Admin/SaleContainer";
 
 const AdminRouter = (props) => {
   return (
@@ -99,6 +100,7 @@ const AdminRouter = (props) => {
             />
             <Route path="/customer" element={<CustomerContainer />} />
             <Route path="/bill" element={<BillContainer />} />
+            <Route path="/sale" element={<SaleContainer />} />
             <Route path="/products" element={<GetAllProductContainer />} />
             <Route
               path="/products/create"

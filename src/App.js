@@ -59,11 +59,13 @@ const App = (props) => {
   var position = -1;
   const onRouteChange = useCallback(() => {
     const layoutAdmin = [' ', '/admin/login', '/dashboard', '/category/*', '/customer', '/products', '/products/create'];
-    position = layoutAdmin.findIndex((element) => locationRoute.pathname.startsWith(element));
+    console.log(locationRoute);
+    position = 2;
     console.log('locationRoute.pathname', locationRoute.pathname.startsWith('/login'), locationRoute.pathname);
     if (position > 0) {
       setLocation(layoutAdmin[position]);
       setIsAdmin(true)
+      setIsLogin(true)
       if (isLogin !== 0) {
         navigate('/login');
       } else {

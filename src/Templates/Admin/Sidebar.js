@@ -113,8 +113,14 @@ const Sidebar = (props) => {
             <i className="mdi mdi-home menu-icon"></i>
           </Link>
         </li> */}
+        <li className={isPathActive('/sale') ? 'nav-item active' : 'nav-item'}>
+          <Link className="nav-link" to="/sale">
+            <span className="menu-title">Nhân viên</span>
+            <i className="mdi mdi-home menu-icon"></i>
+          </Link>
+        </li>
         <li className={isPathActive('/bill') ? 'nav-item active' : 'nav-item'}>
-          <Link className="nav-link" to="/customer">
+          <Link className="nav-link" to="/bill">
             <span className="menu-title">Hóa đơn</span>
             <i className="mdi mdi-home menu-icon"></i>
           </Link>
