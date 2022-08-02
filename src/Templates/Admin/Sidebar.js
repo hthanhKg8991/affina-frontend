@@ -107,19 +107,19 @@ const Sidebar = (props) => {
             <i className="mdi mdi-home menu-icon"></i>
           </Link>
         </li>
-        <li className={isPathActive('/category') ? 'nav-item active' : 'nav-item'}>
+        {/* <li className={isPathActive('/category') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/category">
             <span className="menu-title">Categories</span>
             <i className="mdi mdi-home menu-icon"></i>
           </Link>
-        </li>
-        <li className={isPathActive('/customer') ? 'nav-item active' : 'nav-item'}>
+        </li> */}
+        <li className={isPathActive('/bill') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/customer">
-            <span className="menu-title">Customer</span>
+            <span className="menu-title">Hóa đơn</span>
             <i className="mdi mdi-home menu-icon"></i>
           </Link>
         </li>
-        <li className={isPathActive('/products') ? 'nav-item active' : 'nav-item'}>
+        {/* <li className={isPathActive('/products') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/products">
             <span className="menu-title">Products</span>
             <i className="mdi mdi-home menu-icon"></i>
@@ -225,7 +225,7 @@ const Sidebar = (props) => {
               <li className="nav-item"> <Link className={isPathActive('/general-pages/blank-page') ? 'nav-link active' : 'nav-link'} to="/general-pages/blank-page">Blank Page</Link></li>
             </ul>
           </Collapse>
-        </li>
+        </li> */}
         <li className="nav-item">
           <a className="nav-link" href="http://bootstrapdash.com/demo/purple-react-free/documentation/documentation.html" rel="noopener noreferrer" target="_blank">
             <span className="menu-title">Documentation</span>

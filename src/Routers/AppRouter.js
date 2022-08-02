@@ -47,6 +47,7 @@ import {
 import SendRequestContainer from "../Containers/Client/SendRequestContainer";
 import ListSentRequestComponent from "../Components/Client/LinkExample/ListSentRequestComponent";
 import LayoutMail from "../Common/LayoutMail";
+import BillContainer from "../Containers/Admin/BillContainer";
 
 const AdminRouter = (props) => {
   return (
@@ -97,6 +98,7 @@ const AdminRouter = (props) => {
               element={<CreateCategoryContainer />}
             />
             <Route path="/customer" element={<CustomerContainer />} />
+            <Route path="/bill" element={<BillContainer />} />
             <Route path="/products" element={<GetAllProductContainer />} />
             <Route
               path="/products/create"
