@@ -67,7 +67,7 @@ const HomeComponent = () => {
           <div className="position-absolute">
             <div className="merchant-benefit">
               {/* &nbsp; */}
-              <Image
+              {/* <Image
                 src={accessStyle.images.static.merchantBenefit}
                 srcSet={`
                     ${accessStyle.images.static.merchantBenefit2x} 2x, 
@@ -76,7 +76,7 @@ const HomeComponent = () => {
                 alt="Merchant marsh benefit"
                 width={"auto"}
                 height={"auto"}
-              />
+              /> */}
             </div>
             <h1>
               Món quà từ <br />

@@ -5,7 +5,7 @@ class PackagesApi extends GeneralAPI {
     getAllSuppliers() {
         const url = 'suppliers/get-all';
         return {
-            send: () => axiosClient.get(url)
+            send: () => this.methodGet(url)
         }
     }
     getAll() {
@@ -55,7 +55,7 @@ class PackagesApi extends GeneralAPI {
     getOrderDetail(params) {
         console.log('getOrderDetail::', params);
         // const url = '/orders/get-detail/' + params;
-        const url = '/orders/get-detail-by-code/' + params;
+        const url = 'orders/get-detail-by-code/' + params;
         return {
             send: () => this.methodGet(url)
         }

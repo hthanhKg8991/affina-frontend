@@ -3,6 +3,7 @@ import CryptoJS from "crypto-js";
 import axiosClient from "../ApiClient";
 import cryptoJS from "crypto-js";
 import configDefault from "../../Config/app";
+import { isStringNullOrEmpty } from "../../Common/Helper";
 const SECRET_KEY = "AffinaInsuranceAPP202205";
 var secretKey = "Affina@123#-^+=";
 const timeStamp = new Date().getTime();
@@ -24,7 +25,7 @@ export default class GeneralAPI {
         return {
             "mt-token": cryptoJS.HmacSHA256(dataQueryString, SECRET_KEY).toString(cryptoJS.enc.Hex),
             "timestamp": timeStamp,
-            "x-user-token": tokenLogin,
+            "x-user-token": !isStringNullOrEmpty(tokenLogin) ? tokenLogin : "",
         };
     }
     async methodGet(path = '', header = null) {
