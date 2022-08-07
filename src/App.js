@@ -60,7 +60,7 @@ const App = (props) => {
   const onRouteChange = useCallback(() => {
     const layoutAdmin = [' ', '/admin/login', '/dashboard', '/category/*', '/customer', '/products', '/products/create'];
     console.log(locationRoute);
-    position = 2;
+    position = 0;
     console.log('locationRoute.pathname', locationRoute.pathname.startsWith('/login'), locationRoute.pathname);
     if (position > 0) {
       setLocation(layoutAdmin[position]);
@@ -80,7 +80,7 @@ const App = (props) => {
 
 
   return (
-    (isAdmin) ?
+    (false) ?
       <Server isToken={isLogin}>
         <AppRouter isToken={isAdmin} path={location} />
       </Server>
