@@ -12,7 +12,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 
 let middleware = null;
-if (configApp.evn !== 'product') {
+if (configApp.evn === 'product') {
   function noop() { }
   console.log = noop;
   console.warn = noop;

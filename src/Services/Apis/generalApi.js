@@ -31,10 +31,7 @@ export default class GeneralAPI {
     async methodGet(path = '', header = null) {
         let isCheckSum = configDefault.API_URL_API + '/' + path;
         return axiosClient.get(path, {
-            headers: {
-                ...header,
-                ...await this.isChecksumData(isCheckSum),
-            }
+            headers: await this.isChecksumData(isCheckSum),
         })
     }
     async methodPost(path = '', params = {}, headers = null) {
