@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Container, Image, Modal, Row, Stack } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import emailjs from '@emailjs/browser';
 import accessStyle from '../../../Assets';
 import { checkAge, isStringNullOrEmpty, isViewMobile, resetStore, validate, vnConvert } from '../../../Common/Helper';
 import Line from '../../../Common/Line';
@@ -46,43 +45,6 @@ const BuyInsurancePersonalStep4Component = (props) => {
         return !isStringNullOrEmpty(orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num)
     }
 
-    const data = {
-        code: isHasDataApi() ? orderDataDetail.contract_cate && orderDataDetail.contract_cate.contract_num : orderData.data && orderData.data.order_code,
-        name: step3.name,
-        supplier_name: step2.supplier.name,
-        fee: parseInt(step2.fee).toLocaleString(),
-        start: moment(step3.startDay, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-        end: moment(step3.startDay, 'DD/MM/YYYY').add(1, 'years').format('DD/MM/YYYY'),
-        total: (parseInt(step2.fee) + step2.additional.reduce((p, n) => p + parseInt(n.fee), 0)).toLocaleString(),
-        main1: parseInt(step2.packageMain[0].amount).toLocaleString(),
-        main2: parseInt(step2.packageMain[1].amount).toLocaleString(),
-        main3: parseInt(step2.packageMain[2].amount).toLocaleString(),
-        main4: parseInt(step2.packageMain[3].amount).toLocaleString(),
-        fee_addition: step2.additional.reduce((p, n) => p + parseInt(n.fee), 0).toLocaleString(),
-        // addi_name1: step2.additional[0].hasOwnProperty('name') ? step2.additional[0].name : null,
-        // addi_name2: step2.additional[1].hasOwnProperty('name') ? step2.additional[1].name : null,
-        // addi_name3: step2.additional[2].hasOwnProperty('name') ? step2.additional[2].name : null,
-        // addi_name4: step2.additional[3].hasOwnProperty('name') ? step2.additional[3].name : null,
-        // addi1: 'amount' in step2.additional[0] ? (step2.additional[0].amount).toLocaleString() : null,
-        // addi2: 'amount' in step2.additional[1] ? (step2.additional[1].amount).toLocaleString() : null,
-        // addi3: 'amount' in step2.additional[2] ? (step2.additional[2].amount).toLocaleString() : null,
-        // addi4: 'amount' in step2.additional[3] ? (step2.additional[3].amount).toLocaleString() : null,
-        // addi1_fee: 'fee' in step2.additional[0] ? (step2.additional[0].fee).toLocaleString() : null,
-        // addi2_fee: 'fee' in step2.additional[1] ? (step2.additional[1].fee).toLocaleString() : null,
-        // addi3_fee: 'fee' in step2.additional[2] ? (step2.additional[2].fee).toLocaleString() : null,
-        // addi4_fee: 'fee' in step2.additional[3] ? (step2.additional[3].fee).toLocaleString() : null,
-    };
-
-    const sendMail = () => {
-        emailjs.init('mwSbq8qRL1Rnu19lB')
-        emailjs.send('service_upr4sni','template_9oyxgjf', data)
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-            }, function(err) {
-                console.log('FAILED...', err);
-            })
-    }
-
     const isCheckContractNum = (value, isView) => {
         if (isHasDataApi()) {
             console.log('isHasDataApi()>>>', moment(orderDataDetail.insured_info.birthday).format('DD/MM/YYYY'));
@@ -102,7 +64,6 @@ const BuyInsurancePersonalStep4Component = (props) => {
 
     const handleContinue = () => {
         if (paymentPort === paymentMethod.myQR) {
-            sendMail();
             props.handleButtonGoBack && props.handleButtonGoBack(configDefault.MY_TRANSFER_QR)
         } else {
             let params = {
