@@ -58,52 +58,52 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
             },
             "product_package": {
                 "cus_type": "Individual",
-                "package_id": step2.packageId,
-                "package": step2.packageCode,
+                "package_id": isCheckPackage(step2.packageId, 'package_id'),
+                "package": isCheckPackage(step2.packageCode, 'package'),
                 "quantily": "",
                 "fee_primary_package": step2.fee,
-                "additional": JSON.stringify(step2.additional),
-                "package_main": JSON.stringify(step2.packageMain),
+                "additional": isCheckPackage(JSON.stringify(step2.additional), 'additional'),
+                "package_main": isCheckPackage(JSON.stringify(step2.packageMain), 'package_main'),
                 "fee_additional_package_5": "",
                 "fee_additional_package_6": "",
                 "fee_additional_package_7": "",
                 "fee_additional_package_8": "",
-                "total_additional_fee": step2.totalAdditionalFee,
-                "total_insurance_fee": step2.intoMoney,
-                "amount_insured": step2.intoMoneyAmount,
+                "total_additional_fee": isCheckPackage(step2.totalAdditionalFee, 'total_additional_fee'),
+                "total_insurance_fee": isCheckPackage(step2.intoMoney, 'total_insurance_fee'),
+                "amount_insured": isCheckPackage(step2.intoMoneyAmount, 'amount_insured'),
                 "total_group_insurance_fee": ""
             },
             "contract_detail": {
                 "effective_date": "",
                 "end_date": "",
-                "duration": moment(step3.startDay, 'dd/mm/yyyy').add(364, 'days').format('DD/MM/YYYY'),// step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
-                "create_date": moment(step3.startDay).format('DD/MM/YYYY'), //Ngày bắt đầu bảo hiểm
+                "duration": moment(isCheckContractDetail(step3.timeExpire.key, 'duration')).format('DD/MM/YYYY'),// step3.timeExpire && step3.timeExpire.key,// Thời gian hợp đồng
+                "create_date": moment(isCheckContractDetail(step3.startDay, 'create_date')).format('DD/MM/YYYY'), //Ngày bắt đầu bảo hiểm
                 "update_date": "",
                 "first_date_confirm": ""
             },
             "insured_info": {
-                "fullname": step3.name,
-                "gender": step1.gender,
-                "id_card": step3.identity,
-                "phone": step3.phone,
-                "email": step3.email,
-                "address": step3.address,
-                "city": step3.province.name,
-                "province": step3.province.name,
-                "district": step3.district.name,
-                "ward": step3.ward.name,
-                "birthday": moment(step1.birthday).format('DD/MM/YYYY'),
+                "fullname": isCheckContractNum(step3.name, 'fullname'),
+                "gender": isCheckContractNum(step1.gender, 'gender'),
+                "id_card": isCheckContractNum(step3.identity, 'id_card'),
+                "phone": isCheckContractNum(step3.phone, 'phone'),
+                "email": isCheckContractNum(step3.phone, 'email'),
+                "address": isCheckContractNum(step3.address, 'address'),
+                "city": isCheckContractNum(step3.province.name, 'city'),
+                "province": isCheckContractNum(step3.province.name, 'province'),
+                "district": isCheckContractNum(step3.district.name, 'district'),
+                "ward": isCheckContractNum(step3.ward.name, 'ward'),
+                "birthday": moment(isCheckContractNum(step1.birthday, 'birthday')).format('DD/MM/YYYY'),
                 "note": "",
                 // Require billing
                 "is_billing": step3.isBilling,
-                "company_name": step3.companyName,
-                "tax_number": step3.taxNumber,
-                "company_address": step3.companyAddress,
+                "company_name": isCheckContractNum(step3.companyName, 'company_name'),
+                "tax_number": isCheckContractNum(step3.taxNumber, 'tax_number'),
+                "company_address": isCheckContractNum(step3.companyAddress, 'company_address'),
             },
             "insurance_buyer": {
                 "fullname": checkAgeHadIdentity(step1.birthday) ? step3.relationshipName : '',
                 "relationship": checkAgeHadIdentity(step1.birthday) ? step3.relationship && step3.relationship.key : '',
-                "id_card": isCheckContractNum(step3.identity, 'email'),
+                "id_card": isCheckContractNum(step3.identity, 'id_card'),
                 "phone": isCheckContractNum(step3.phone, 'email'),
                 "email": isCheckContractNum(step3.email, 'email'),
                 "note": ""
@@ -157,6 +157,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
         return !isStringNullOrEmpty(paramsSearch.get('contract_num'))
     }
 
+
     const isCheckContractNum = (value, isView) => {
         if (isHasDataApi()) {
             return orderDataDetail.insured_info && orderDataDetail.insured_info[isView]
@@ -167,7 +168,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
 
     const isCheckPackage = (value, isView) => {
         if (isHasDataApi()) {
-            if (isView === 'package_main') {
+            if (isView === 'package_main' ) {
                 return orderDataDetail.product_package && JSON.parse(orderDataDetail.product_package[isView]);
             } else {
                 return orderDataDetail.product_package && orderDataDetail.product_package[isView];
@@ -191,6 +192,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
             return value;
         }
     }
+
     const isCheckSupplier = (value, isView) => {
         if (isHasDataApi()) {
             return orderDataDetail.supplier && orderDataDetail.supplier[isView]
@@ -388,7 +390,7 @@ const BuyInsurancePersonalStep3PreviewComponent = (props) => {
                                     <p className='title-info'>Ngày hết hạn bảo hiểm</p>
                                     {
                                         (!isStringNullOrEmpty(paramsSearch.get('contract_num'))) ?
-                                            <strong>{moment(isCheckContractDetail(step3.timeExpire.value, 'duration')).format('DD/MM/YYYY')}</strong>
+                                            <strong>{moment(isCheckContractDetail(step3.timeExpire.key, 'duration')).format('DD/MM/YYYY')}</strong>
                                             :
                                             <strong>{step3.timeExpire.value}</strong>
                                     }

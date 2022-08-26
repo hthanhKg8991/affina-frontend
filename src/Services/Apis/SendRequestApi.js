@@ -27,7 +27,7 @@ class SendRequestApi extends GeneralAPI {
         console.log('createSendRequest::', params);
         const url = 'send-request/create';
         return {
-            send: () => this.methodGet(url, params)
+            send: () => this.methodPost(url, params)
         }
     }
     getDetail(id) {
